@@ -1,0 +1,571 @@
+// Schéma Prisma de Vakz-Bot.
+//
+// Base de données : SQLite (fichier local, gratuit, zéro infra).
+// Le schéma reste volontairement portable vers PostgreSQL : on évite tout type
+// spécifique SQLite et on stocke les structures (config, listes d'IDs) sous forme
+// de JSON sérialisé (champ String), (dé)sérialisé et validé par zod dans le code.
+// Migration vers Postgres = changer `provider` + régénérer ; le code métier ne bouge pas.
+
+generator client {
+  provider      = "prisma-client-js"
+  // `native` se résout en arm64 lors d'un build sur le VPS Ampere.
+  // La cible explicite garantit la portabilité de l'image Docker (Debian/OpenSSL 3.0).
+  binaryTargets = ["native", "linux-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Un serveur Discord (guild) connu du bot.
+model Guild {
+  /// Snowflake Discord du serveur.
+  id           String   @id
+  /// Langue par défaut du serveur (i18n). Ex. "fr", "en".
+  locale       String   @default("fr")
+  /// Liste JSON des rôles "staff" configurables (IDs de rôles Discord).
+  staffRoleIds String   @default("[]")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  moduleConfigs ModuleConfig[]
+}
+
+/// Configuration d'un module pour un serveur donné.
+model ModuleConfig {
+  id        String   @id @default(cuid())
+  guildId   String
+  /// Identifiant stable du module (BotModule.name), ex. "levels".
+  module    String
+  /// Le module est-il activé sur ce serveur ?
+  enabled   Boolean  @default(false)
+  /// Réglages spécifiques au module, en JSON sérialisé (validés par zod côté code).
+  config    String   @default("{}")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  guild Guild @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  @@unique([guildId, module])
+  @@index([guildId])
+}
+
+/// XP et niveau d'un membre sur un serveur (module « Niveaux »).
+model MemberLevel {
+  id        String   @id @default(cuid())
+  guildId   String
+  userId    String
+  /// XP total cumulé.
+  xp        Int      @default(0)
+  /// Niveau courant, dérivé de l'XP (stocké pour le tri et l'affichage).
+  level     Int      @default(0)
+  /// Dernier gain d'XP (pour le cooldown anti-spam).
+  lastXpAt  DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([guildId, userId])
+  @@index([guildId, xp])
+}
+
+/// Sanction de modération appliquée à un membre (module « Modération »).
+model Sanction {
+  id          String    @id @default(cuid())
+  guildId     String
+  /// Membre sanctionné.
+  userId      String
+  /// Modérateur à l'origine de la sanction.
+  moderatorId String
+  /// Type : warn | kick | ban | unban | timeout | untimeout.
+  type        String
+  reason      String?
+  /// Fin d'effet (timeout) le cas échéant.
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([guildId, userId])
+  @@index([guildId])
+}
+
+/// Compte d'économie d'un membre sur un serveur (module « Économie »).
+model MemberEconomy {
+  id          String    @id @default(cuid())
+  guildId     String
+  userId      String
+  balance     Int       @default(0)
+  /// Dernière récompense quotidienne réclamée.
+  lastDailyAt DateTime?
+  /// Dernier gain par message (cooldown anti-spam).
+  lastEarnAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([guildId, userId])
+  @@index([guildId, balance])
+}
+
+/// Date d'anniversaire d'un membre sur un serveur (module « Anniversaires »).
+model Birthday {
+  id        String   @id @default(cuid())
+  guildId   String
+  userId    String
+  day       Int
+  month     Int
+  /// Année de naissance (optionnelle, pour calculer l'âge).
+  year      Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([guildId, userId])
+  @@index([guildId, month, day])
+}
+
+/// Rappel planifié par un membre (module « Rappels »).
+model Reminder {
+  id           String    @id @default(cuid())
+  guildId      String
+  channelId    String?
+  /// Type de cible : user | role.
+  targetKind   String    @default("user")
+  targetId     String
+  message      String
+  dueAt        DateTime
+  deliverInDm  Boolean   @default(false)
+  /// Type de répétition : once | weekly.
+  repeatKind   String    @default("once")
+  /// Jour ISO (1=lundi ... 7=dimanche) si repeatKind=weekly.
+  repeatDay    Int?
+  repeatHour   Int?
+  repeatMinute Int?
+  deliveredAt  DateTime?
+  createdAt    DateTime  @default(now())
+
+  @@index([guildId, targetKind, targetId, dueAt])
+  @@index([dueAt, deliveredAt])
+}
+
+/// Acceptation du règlement d'un serveur par un membre (module « Règlement »).
+/// Une ligne par membre ; `version` permet de demander une re-validation quand
+/// le règlement évolue (membre à jour si version acceptée >= version courante).
+model RuleAcceptance {
+  id         String   @id @default(cuid())
+  guildId    String
+  userId     String
+  /// Version du règlement acceptée (voir la config du module « Règlement »).
+  version    Int      @default(1)
+  acceptedAt DateTime @default(now())
+
+  @@unique([guildId, userId])
+  @@index([guildId, version])
+}
+
+/// Suggestion soumise par un membre (module « Suggestions »).
+model Suggestion {
+  id        String           @id @default(cuid())
+  guildId   String
+  channelId String
+  messageId String?
+  authorId  String
+  content   String
+  /// Statut : pending | approved | rejected | considered.
+  status    String           @default("pending")
+  /// Modérateur ayant statué (le cas échéant).
+  decidedBy String?
+  reason    String?
+  /// Métadonnées optionnelles (ex. jeu Steam : nom, prix, image…) en JSON sérialisé.
+  metadata  String?
+  createdAt DateTime         @default(now())
+  votes     SuggestionVote[]
+
+  @@index([guildId, status])
+}
+
+/// Vote (pour/contre) d'un membre sur une suggestion.
+model SuggestionVote {
+  id           String     @id @default(cuid())
+  suggestionId String
+  userId       String
+  /// Valeur : up | down.
+  value        String
+  suggestion   Suggestion @relation(fields: [suggestionId], references: [id], onDelete: Cascade)
+
+  @@unique([suggestionId, userId])
+  @@index([suggestionId])
+}
+
+/// Message épinglé au starboard (module « Starboard »). Une ligne par message
+/// source, reliant le message d'origine à sa copie dans le salon starboard.
+model StarboardEntry {
+  id                 String   @id @default(cuid())
+  guildId            String
+  sourceChannelId    String
+  sourceMessageId    String
+  /// Message publié dans le salon starboard (null tant que pas encore posté).
+  starboardMessageId String?
+  authorId           String
+  starCount          Int      @default(0)
+  createdAt          DateTime @default(now())
+
+  @@unique([guildId, sourceMessageId])
+  @@index([guildId])
+}
+
+/// Ticket de support (module « Tickets »). Un salon privé par ticket ouvert.
+model Ticket {
+  id        String    @id @default(cuid())
+  guildId   String
+  channelId String
+  openerId  String
+  /// Identifiant du type de ticket (voir la config du module).
+  typeId    String?
+  /// Statut : open | closed.
+  status    String    @default("open")
+  closedBy  String?
+  closedAt  DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([guildId, openerId, status])
+  @@index([channelId])
+}
+
+/// Tirage au sort (module « Giveaways »).
+model Giveaway {
+  id             String          @id @default(cuid())
+  guildId        String
+  channelId      String
+  messageId      String?
+  hostId         String
+  prize          String
+  winnerCount    Int             @default(1)
+  requiredRoleId String?
+  endsAt         DateTime
+  /// Statut : active | ended.
+  status         String          @default("active")
+  /// Gagnants actuels (tableau JSON d'IDs de membres).
+  winnerIds      String          @default("[]")
+  createdAt      DateTime        @default(now())
+  entries        GiveawayEntry[]
+
+  @@index([status, endsAt])
+  @@index([guildId, status])
+}
+
+/// Participation d'un membre à un tirage au sort.
+model GiveawayEntry {
+  id         String   @id @default(cuid())
+  giveawayId String
+  userId     String
+  giveaway   Giveaway @relation(fields: [giveawayId], references: [id], onDelete: Cascade)
+
+  @@unique([giveawayId, userId])
+  @@index([giveawayId])
+}
+
+/// Snapshot utilisable depuis un bouton de log pour restaurer une suppression.
+model LogRollback {
+  id        String    @id @default(cuid())
+  guildId   String
+  /// Type : messageDelete | channelDelete | roleDelete.
+  kind      String
+  /// ID Discord de l'élément supprimé quand il existait.
+  targetId  String?
+  /// Snapshot JSON sérialisé, propre au type de rollback.
+  payload   String
+  usedBy    String?
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([guildId, kind])
+  @@index([createdAt])
+}
+
+/// Dernier état connu d'un message vu par le module Logs, utilisé si Discord
+/// envoie une suppression partielle sans contenu ni embeds.
+model LogMessageSnapshot {
+  /// Snowflake Discord du message.
+  id              String   @id
+  guildId         String
+  channelId       String
+  authorId        String?
+  authorName      String
+  authorTag       String?
+  authorAvatarUrl String?
+  content         String   @default("")
+  embeds          String   @default("[]")
+  attachments     String   @default("[]")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([guildId, channelId])
+  @@index([updatedAt])
+}
+
+/// Signalement soumis par un membre et traité par le staff.
+model Report {
+  id              String    @id @default(cuid())
+  guildId         String
+  reporterId      String
+  targetId        String
+  reason          String
+  sourceChannelId String?
+  sourceMessageId String?
+  reportChannelId String?
+  reportMessageId String?
+  /// Statut : open | taken | resolved | ignored.
+  status          String    @default("open")
+  assigneeId      String?
+  resolvedBy      String?
+  resolvedAt      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([guildId, status])
+  @@index([guildId, targetId])
+  @@index([reporterId])
+}
+
+/// Incident détecté automatiquement par le module « Auto-modération ».
+model AutomodIncident {
+  id        String   @id @default(cuid())
+  guildId   String
+  userId    String
+  channelId String
+  messageId String?
+  /// Règle : spam | invites | links | badWords | mentions | caps | honeypot.
+  rule      String
+  /// Action : delete | warn | timeout | ban | honeypot.
+  action    String
+  reason    String
+  detail    String   @default("")
+  createdAt DateTime @default(now())
+
+  @@index([guildId, userId])
+  @@index([guildId, rule])
+  @@index([createdAt])
+}
+
+/// Salon vocal temporaire créé à la volée (module « Salons vocaux temporaires »).
+/// Une ligne par salon actif : permet de retrouver le propriétaire et de
+/// nettoyer les salons vides (y compris après un redémarrage du bot).
+model TempVoiceChannel {
+  /// Snowflake Discord du salon vocal temporaire.
+  id             String   @id
+  guildId        String
+  /// Hub (salon générateur) à l'origine de ce salon.
+  hubChannelId   String
+  /// Membre propriétaire (mutable : transfert / revendication).
+  ownerId        String
+  /// Message du panneau de contrôle (pour le rafraîchir au changement de proprio).
+  panelMessageId String?
+  /// Etat runtime JSON (liste blanche/noire explicite du salon).
+  stateData      String   @default("{}")
+  createdAt      DateTime @default(now())
+
+  @@index([guildId])
+}
+
+/// Préférences enregistrées d'un membre pour ses salons vocaux temporaires
+/// (bouton « Sauvegarder »). Réappliquées à la création de son prochain salon.
+model TempVoicePreference {
+  id        String   @id @default(cuid())
+  guildId   String
+  userId    String
+  /// Réglages sérialisés en JSON (nom, limite, mode, micro/vidéo/soundboard, listes).
+  data      String   @default("{}")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([guildId, userId])
+  @@index([guildId])
+}
+
+/// État de suivi d'un flux (module « Alertes Twitch/YouTube »), pour éviter
+/// d'annoncer deux fois le même live / la même vidéo. Une ligne par
+/// (serveur, plateforme, chaîne suivie).
+model StreamAlert {
+  id          String   @id @default(cuid())
+  guildId     String
+  /// Plateforme : twitch | youtube.
+  platform    String
+  /// Identifiant suivi : login Twitch ou identifiant de chaîne YouTube (UC…).
+  identifier  String
+  /// Twitch : le flux était-il en live au dernier contrôle ?
+  live        Boolean  @default(false)
+  /// YouTube : identifiant de la dernière vidéo déjà annoncée.
+  lastVideoId String?
+  updatedAt   DateTime @updatedAt
+
+  @@unique([guildId, platform, identifier])
+  @@index([guildId])
+}
+
+/// Statistiques de jeu d'un membre pour un jeu donné (module « Jeux »). Une
+/// ligne par (serveur, membre, jeu). Sert au classement et à `/statsjeux`.
+model GameStat {
+  id        String   @id @default(cuid())
+  guildId   String
+  userId    String
+  /// Identifiant du jeu (ex. "pfc").
+  game      String
+  wins      Int      @default(0)
+  losses    Int      @default(0)
+  draws     Int      @default(0)
+  plays     Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@unique([guildId, userId, game])
+  @@index([guildId, game])
+}
+
+/// Objet du catalogue d'un serveur (module « Objets & inventaires »). Les
+/// membres en possèdent des exemplaires via InventoryItem.
+model Item {
+  id          String          @id @default(cuid())
+  guildId     String
+  name        String
+  emoji       String          @default("📦")
+  description String          @default("")
+  /// Rareté : common | rare | epic | legendary.
+  rarity      String          @default("common")
+  /// Prix d'achat en monnaie du serveur (0 = non achetable).
+  price       Int             @default(0)
+  /// Achetable en boutique par les membres.
+  buyable     Boolean         @default(true)
+  /// Échangeable entre membres (`/donner-objet`).
+  tradable    Boolean         @default(true)
+  /// Utilisable (`/utiliser`) ; consomme un exemplaire.
+  usable      Boolean         @default(false)
+  /// Rôle accordé à l'utilisation (optionnel).
+  roleReward  String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  inventory   InventoryItem[]
+
+  @@index([guildId])
+}
+
+/// Exemplaires d'un objet possédés par un membre. Une ligne par
+/// (serveur, membre, objet).
+model InventoryItem {
+  id        String   @id @default(cuid())
+  guildId   String
+  userId    String
+  itemId    String
+  quantity  Int      @default(0)
+  updatedAt DateTime @updatedAt
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@unique([guildId, userId, itemId])
+  @@index([guildId, userId])
+  @@index([itemId])
+}
+
+/// Voyageur d'un membre sur la « Route de l'Infini » (aventure solo). Une
+/// ligne par (serveur, membre).
+model Traveler {
+  id         String    @id @default(cuid())
+  guildId    String
+  userId     String
+  health     Int       @default(100)
+  maxHealth  Int       @default(100)
+  energy     Int       @default(100)
+  /// Distance parcourue (= score).
+  distance   Int       @default(0)
+  /// Total de pièces gagnées via la route.
+  coins      Int       @default(0)
+  /// Nombre d'événements vécus.
+  events     Int       @default(0)
+  /// Dernier déplacement (cooldown).
+  lastMoveAt DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([guildId, userId])
+  @@index([guildId, distance])
+}
+
+/// Partie de Bingo d'un serveur (une seule active à la fois). `drawn` = JSON
+/// des numéros tirés ; `mode` = ligne | carton.
+model BingoGame {
+  id        String      @id @default(cuid())
+  guildId   String      @unique
+  status    String      @default("open")
+  mode      String      @default("line")
+  drawn     String      @default("[]")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  cards     BingoCard[]
+}
+
+/// Carton de Bingo d'un membre. `numbers` = JSON des 25 cases (0 = case libre).
+model BingoCard {
+  id        String    @id @default(cuid())
+  gameId    String
+  guildId   String
+  userId    String
+  numbers   String
+  createdAt DateTime  @default(now())
+  game      BingoGame @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([gameId, userId])
+  @@index([gameId])
+}
+
+/// Porte du calendrier de l'Avent ouverte par un membre : une seule par jour et
+/// par membre (module « Calendrier de l'Avent »). `day` = 1 à 24.
+model AdventClaim {
+  id        String   @id @default(cuid())
+  guildId   String
+  userId    String
+  day       Int
+  claimedAt DateTime @default(now())
+
+  @@unique([guildId, userId, day])
+  @@index([guildId, userId])
+}
+
+/// Salon lié à un réseau interserveurs (module « Interserveurs »). Un message
+/// posté dans un salon lié est relayé (via webhook) vers tous les autres salons
+/// du même `network`. Le webhook est réutilisé (id + token) pour chaque relais.
+model InterserverLink {
+  id           String   @id @default(cuid())
+  guildId      String
+  channelId    String   @unique
+  /// Code de réseau partagé entre serveurs (identifiant du salon interserveur).
+  network      String
+  webhookId    String
+  webhookToken String
+  createdAt    DateTime @default(now())
+
+  @@index([network])
+  @@index([guildId])
+}
+
+/// Jeu gratuit déjà annoncé sur un serveur (module « Jeux gratuits »). Évite
+/// d'annoncer deux fois la même promo (par appid Steam).
+model FreeGameAnnouncement {
+  id          String   @id @default(cuid())
+  guildId     String
+  /// Source : "steam". Prévu pour d'autres plateformes plus tard.
+  source      String   @default("steam")
+  /// Identifiant du jeu (appid Steam).
+  gameId      String
+  announcedAt DateTime @default(now())
+
+  @@unique([guildId, source, gameId])
+  @@index([guildId])
+}
+
+/// Patchnote deja annoncee sur un serveur (module « Patch Notes »). Une ligne
+/// par (serveur, source, note) pour eviter les doublons.
+model PatchNoteAnnouncement {
+  id          String   @id @default(cuid())
+  guildId     String
+  sourceId    String
+  noteId      String
+  announcedAt DateTime @default(now())
+
+  @@unique([guildId, sourceId, noteId])
+  @@index([guildId, sourceId])
+}

@@ -1,0 +1,2337 @@
+{
+  "errors": {
+    "generic": "❌ Une erreur est survenue. Merci de réessayer plus tard.",
+    "guildOnly": "❌ Cette commande n'est utilisable que sur un serveur.",
+    "moduleDisabled": "❌ Ce module est désactivé sur ce serveur. Un administrateur peut l'activer via `/config`."
+  },
+  "modules": {
+    "core": {
+      "label": "Cœur",
+      "description": "Commandes système essentielles (ping, configuration).",
+      "ping": {
+        "description": "Affiche la latence du bot.",
+        "title": "🏓 Pong !",
+        "computing": "Calcul de la latence…",
+        "websocket": "Passerelle (WebSocket)",
+        "roundtrip": "Aller-retour",
+        "build": "Build",
+        "refresh": "Actualiser"
+      },
+      "config": {
+        "description": "Active, désactive et configure les modules du bot sur ce serveur.",
+        "title": "Configuration serveur",
+        "intro": "Pilote les modules de **{guild}** par catégorie. **{enabled}/{total}** modules actifs.",
+        "noModules": "Aucun module configurable n'est disponible pour le moment.",
+        "selectPlaceholder": "Choisis un module à configurer…",
+        "statusEnabled": "✅ Activé",
+        "statusDisabled": "⛔ Désactivé",
+        "statusInternal": "🔒 Système",
+        "enableButton": "Activer",
+        "disableButton": "Désactiver",
+        "internalModule": "🔒 Le module « {module} » est un module système : il ne peut pas être désactivé.",
+        "enabledNotice": "✅ Le module « {module} » a été activé sur ce serveur.",
+        "disabledNotice": "⛔ Le module « {module} » a été désactivé sur ce serveur.",
+        "expired": "⏳ Menu expiré. Relance la commande `/config`.",
+        "notAllowed": "❌ Tu n'as pas la permission d'utiliser ce menu.",
+        "back": "◀️ Retour",
+        "enableHint": "Active ce module pour accéder à ses réglages.",
+        "noPanel": "Ce module n'a pas de réglages supplémentaires.",
+        "footer": "Vakz-Bot · Configuration",
+        "categorySelectPlaceholder": "Choisis une catégorie de modules…",
+        "moduleSelectPlaceholder": "Choisis un module à configurer…",
+        "categoryStatus": "{indicator} `{enabled}/{total} actifs`",
+        "moreModules": "+ {count} autre(s) module(s)…",
+        "categoryTitle": "{emoji} {category}",
+        "categoryIntro": "Choisis le module à configurer sur **{guild}**.",
+        "categoryModulesField": "Modules",
+        "categoryFooter": "Page {page}/{pages}",
+        "homeButton": "Accueil",
+        "previousButton": "Précédent",
+        "nextButton": "Suivant",
+        "statusField": "Statut",
+        "categoryField": "Catégorie",
+        "nextStepField": "Suite",
+        "categories": {
+          "security": {
+            "label": "Sécurité & modération",
+            "description": "{enabled}/{total} actifs · protection, logs, vérification"
+          },
+          "community": {
+            "label": "Communauté",
+            "description": "{enabled}/{total} actifs · accueil, rôles, échanges"
+          },
+          "engagement": {
+            "label": "Engagement",
+            "description": "{enabled}/{total} actifs · XP, économie, réactions"
+          },
+          "operations": {
+            "label": "Outils serveur",
+            "description": "{enabled}/{total} actifs · rappels, stats, vocal"
+          },
+          "fun": {
+            "label": "Jeux & fun",
+            "description": "{enabled}/{total} actifs · mini-jeux et détente"
+          }
+        },
+        "disabledModules": "+ {count} module(s) désactivé(s)"
+      }
+    },
+    "welcome": {
+      "label": "Arrivées & départs",
+      "description": "Messages de bienvenue et d'au revoir personnalisables.",
+      "panel": {
+        "intro": "Configure les messages d'arrivée et de départ ci-dessous.",
+        "arrivals": "📥 Arrivées",
+        "departures": "📤 Départs",
+        "welcomeChannel": "Salon d'arrivée…",
+        "leaveChannel": "Salon de départ…",
+        "welcomeToggle": "Arrivées",
+        "leaveToggle": "Départs",
+        "embed": "Embed",
+        "message": "✏️ Message",
+        "test": "🧪 Test",
+        "modalTitleWelcome": "Message d'arrivée",
+        "modalTitleLeave": "Message de départ",
+        "modalField": "Message",
+        "modalPlaceholder": "Variables : {mention} {username} {server} {count}",
+        "modalFooterField": "Pied de page (optionnel)",
+        "modalFooterPlaceholder": "Variables : {server} {username} {count}",
+        "testNoChannel": "❌ Définis d'abord un salon pour ce message.",
+        "testSent": "✅ Aperçu envoyé dans {channel}.",
+        "card": "🖼️ Carte",
+        "modalCardField": "Image de fond de la carte (URL)",
+        "modalCardPlaceholder": "https://… (laisser vide = fond par défaut)"
+      },
+      "state": {
+        "statusLabel": "Statut",
+        "statusOn": "✅ Actif",
+        "statusOff": "⛔ En pause",
+        "embedLabel": "Embed",
+        "yes": "Oui",
+        "no": "Non",
+        "channelLabel": "Salon",
+        "channelNone": "*non défini*",
+        "messageLabel": "Message",
+        "footerLabel": "Pied de page",
+        "placeholders": "Variables : {mention} · {username} · {server} · {count}",
+        "cardLabel": "Carte",
+        "cardCustom": "✅ activée (fond perso)",
+        "cardDefault": "✅ activée (fond par défaut)"
+      },
+      "card": {
+        "welcomeTitle": "Bienvenue !",
+        "leaveTitle": "Au revoir",
+        "memberCount": "{count}ᵉ membre"
+      }
+    },
+    "levels": {
+      "label": "Niveaux",
+      "description": "Gain d'XP par message, niveaux, rôles récompense et classement.",
+      "commands": {
+        "rang": {
+          "description": "Affiche ton niveau, ton XP et ton rang.",
+          "member": "Le membre dont voir le rang (par défaut : toi).",
+          "noXp": "Ce membre n'a pas encore gagné d'XP.",
+          "title": "Niveau de {user}",
+          "level": "Niveau",
+          "rank": "Rang",
+          "xp": "XP",
+          "progress": "Progression"
+        },
+        "leaderboard": {
+          "description": "Affiche le classement des membres par XP.",
+          "empty": "Personne n'a encore gagné d'XP sur ce serveur.",
+          "title": "🏆 Classement"
+        }
+      },
+      "panel": {
+        "intro": "Règle l'XP, l'annonce de niveau et les rôles récompense.",
+        "on": "✅ Activées",
+        "off": "⛔ Désactivées",
+        "sameChannel": "salon du message",
+        "noRewards": "*aucun rôle récompense*",
+        "rewardWarning": "Le bot ne peut pas attribuer les rôles marqués ⚠️. Donne-lui la permission **Gérer les rôles** et place **son rôle au-dessus** des rôles récompense (Paramètres du serveur → Rôles).",
+        "levelWord": "Niveau",
+        "xpField": "⚙️ XP",
+        "xpValue": "{min} à {max} XP par message · cooldown {cd}s",
+        "announceField": "📢 Annonce de niveau",
+        "rewardsField": "🏅 Rôles récompense",
+        "channelPlaceholder": "Salon d'annonce (vide = salon du message)",
+        "announceToggle": "Annonces",
+        "editMessage": "✏️ Message",
+        "editXp": "⚙️ Réglages XP",
+        "addReward": "Ajouter un rôle récompense…",
+        "removeReward": "Retirer un rôle récompense…",
+        "msgModalTitle": "Message de niveau",
+        "msgModalField": "Message",
+        "msgModalPlaceholder": "Variables : {mention} {username} {server} {level}",
+        "xpModalTitle": "Réglages d'XP",
+        "xpMinField": "XP minimum par message",
+        "xpMaxField": "XP maximum par message",
+        "cooldownField": "Cooldown (secondes)",
+        "rewardModalTitle": "Rôle récompense",
+        "rewardModalField": "À partir de quel niveau ?",
+        "advanced": "⚙️ Avancé",
+        "advTitle": "⚙️ Niveaux · réglages avancés",
+        "advIntro": "XP vocal, boosters, salons/rôles ignorés, niveau max, courbe, couleur de carte et classement auto.",
+        "voiceField": "XP vocal",
+        "voiceOn": "✅ Activé · {xp} XP/min",
+        "voiceOff": "⛔ Désactivé",
+        "multiplierField": "Multiplicateur boost",
+        "maxLevelField": "Niveau max",
+        "unlimited": "illimité",
+        "curveField": "Facteur de courbe",
+        "cardColorField": "Couleur de carte",
+        "leaderboardField": "Classement auto",
+        "ignoredField": "Exclusions & boosters",
+        "ignoredChannels": "{count} salon(s) ignoré(s)",
+        "ignoredRoles": "{count} rôle(s) ignoré(s)",
+        "boosterRoles": "{count} rôle(s) boost",
+        "ignoredChannelsPlaceholder": "Salons sans gain d'XP…",
+        "ignoredRolesPlaceholder": "Rôles sans gain d'XP…",
+        "boosterRolesPlaceholder": "Rôles boost (XP ×)…",
+        "leaderboardPlaceholder": "Salon du classement auto…",
+        "voiceDisable": "Couper l'XP vocal",
+        "voiceEnable": "Activer l'XP vocal",
+        "advNumbers": "✏️ Valeurs",
+        "back": "◀ Retour",
+        "advModalTitle": "Réglages avancés",
+        "voiceXpField": "XP vocal / minute"
+      }
+    },
+    "reactionroles": {
+      "label": "Rôles-réactions",
+      "description": "Attribue des rôles quand les membres réagissent à un message. Le bot pose une réaction par rôle façon DraftBot.",
+      "feedback": {
+        "disabled": "❌ Ce module est désactivé sur ce serveur.",
+        "roleGone": "❌ Ce rôle n'existe plus.",
+        "cannotAssign": "⚠️ Je ne peux pas gérer ce rôle (permission « Gérer les rôles » manquante ou rôle au-dessus du mien).",
+        "added": "✅ Rôle {role} ajouté.",
+        "removed": "➖ Rôle {role} retiré.",
+        "error": "❌ Une erreur est survenue."
+      },
+      "panel": {
+        "intro": "Configure le message, ajoute des rôles (chacun avec un emoji), choisis le salon puis publie. Le bot posera une réaction par rôle : réagir attribue le rôle, retirer la réaction le retire.",
+        "channelField": "Salon",
+        "notSet": "*non défini*",
+        "statusField": "Statut",
+        "published": "✅ Publié",
+        "notPublished": "⛔ Non publié",
+        "rolesField": "Rôles",
+        "noRoles": "*aucun rôle*",
+        "roleWarning": "Le bot ne peut pas attribuer les rôles marqués ⚠️. Donne-lui « Gérer les rôles » et place son rôle au-dessus (Paramètres du serveur → Rôles).",
+        "channelPlaceholder": "Salon où publier le menu",
+        "addRole": "Ajouter un rôle…",
+        "removeRole": "Retirer un rôle…",
+        "editText": "✏️ Titre & description",
+        "emojisButton": "😀 Mes emojis",
+        "publish": "📤 Publier / Mettre à jour",
+        "emojiList": "**Emojis du serveur** — copie un code dans le champ Emoji :",
+        "noEmojis": "Ce serveur n'a aucun emoji personnalisé.",
+        "roleModalTitle": "Bouton de rôle",
+        "labelField": "Texte du bouton",
+        "emojiField": "Emoji (optionnel, ex. :nom:)",
+        "textModalTitle": "Titre & description",
+        "titleField": "Titre",
+        "descriptionField": "Description",
+        "tooMany": "❌ Maximum {max} rôles atteint.",
+        "publishError": {
+          "nochannel": "❌ Choisis d'abord un salon de publication.",
+          "noroles": "❌ Ajoute au moins un rôle avant de publier.",
+          "send": "❌ Impossible d'envoyer le message (vérifie mes permissions dans le salon).",
+          "permissions": "❌ Il me manque une permission dans ce salon (Voir le salon, Envoyer des messages, Intégrer des liens).",
+          "invalid": "❌ Un emoji de bouton est invalide. Utilise un emoji unicode ou un emoji de CE serveur, puis republie.",
+          "strippedEmojis": "⚠️ Le menu a été publié, mais un emoji invalide a été ignoré. Corrige-le et republie pour l'afficher.",
+          "noemoji": "❌ Ajoute au moins un rôle avec un emoji valide (les rôles-réactions fonctionnent par emoji)."
+        },
+        "emojiWarning": "Les rôles marqués ❓ n'ont pas d'emoji : ajoute-leur un emoji, sinon ils n'auront pas de réaction."
+      }
+    },
+    "interactivemessages": {
+      "label": "Messages interactifs",
+      "description": "Compose des embeds réutilisables (titre, description, couleur) publiés dans un salon, avec des boutons de rôle (clic = ajout/retrait) et des boutons lien.",
+      "feedback": {
+        "disabled": "❌ Ce module est désactivé sur ce serveur.",
+        "roleGone": "❌ Ce rôle n'existe plus.",
+        "cannotAssign": "⚠️ Je ne peux pas gérer ce rôle (permission « Gérer les rôles » manquante ou rôle au-dessus du mien).",
+        "added": "✅ Rôle {role} ajouté.",
+        "removed": "➖ Rôle {role} retiré.",
+        "error": "❌ Une erreur est survenue."
+      },
+      "panel": {
+        "intro": "Crée des messages interactifs : un embed publié dans un salon, avec des boutons de rôle (clic = ajout/retrait du rôle) et des boutons lien. Choisis un message à modifier ou crée-en un.",
+        "panelsField": "Messages",
+        "noPanels": "*Aucun message interactif. Clique sur « Créer un message ».*",
+        "notSet": "*non défini*",
+        "published": "✅ Publié",
+        "notPublished": "⛔ Non publié",
+        "buttonCount": "{count} bouton(s)",
+        "pickPlaceholder": "Modifier un message…",
+        "noContent": "*vide*",
+        "createButton": "Créer un message",
+        "editTitle": "Message : {name}",
+        "editIntro": "Configure le contenu, le salon et les boutons, puis publie. Republier met à jour le message existant.",
+        "channelField": "Salon",
+        "statusField": "Statut",
+        "colorField": "Couleur",
+        "colorDefault": "*par défaut*",
+        "contentField": "Contenu",
+        "buttonsField": "Boutons",
+        "noButtons": "*aucun bouton*",
+        "roleMissing": "*rôle manquant*",
+        "kindRole": "Rôle",
+        "kindLink": "Lien",
+        "channelPlaceholder": "Salon où publier le message",
+        "addRolePlaceholder": "Ajouter un ou des boutons de rôle…",
+        "buttonPickPlaceholder": "Gérer un bouton…",
+        "editContent": "✏️ Contenu",
+        "addLink": "🔗 Ajouter un lien",
+        "publish": "📤 Publier / Mettre à jour",
+        "deletePanel": "🗑️ Supprimer",
+        "back": "◀ Retour",
+        "buttonEditTitle": "Bouton : {label}",
+        "buttonEditIntro": "Modifie le libellé, l'emoji, le style (boutons de rôle) ou supprime ce bouton.",
+        "kindField": "Type",
+        "targetField": "Cible",
+        "emojiField": "Emoji",
+        "styleField": "Style",
+        "style_primary": "Bleu",
+        "style_secondary": "Gris",
+        "style_success": "Vert",
+        "style_danger": "Rouge",
+        "stylePlaceholder": "Choisir un style…",
+        "editButton": "✏️ Modifier",
+        "deleteButton": "🗑️ Supprimer le bouton",
+        "createTitle": "Nouveau message interactif",
+        "nameField": "Nom (interne, pour t'y retrouver)",
+        "titleField": "Titre de l'embed",
+        "descriptionField": "Description",
+        "contentTitle": "Contenu du message",
+        "colorInputField": "Couleur (hex, ex. #5865f2)",
+        "linkTitle": "Bouton lien",
+        "labelField": "Texte du bouton",
+        "urlField": "Lien (https://…)",
+        "emojiInputField": "Emoji (optionnel, ex. :nom:)",
+        "buttonModalTitle": "Modifier le bouton",
+        "tooManyPanels": "❌ Maximum {max} messages atteint.",
+        "untitled": "Message interactif",
+        "tooManyButtons": "❌ Maximum {max} boutons atteint.",
+        "badUrl": "❌ Lien invalide : il doit commencer par http:// ou https://.",
+        "panelGone": "❌ Ce message interactif est introuvable (peut-être supprimé). Reviens en arrière et réessaie.",
+        "publishError": {
+          "nochannel": "❌ Choisis d'abord un salon de publication.",
+          "empty": "❌ Ajoute un titre ou une description avant de publier.",
+          "permissions": "❌ Il me manque une permission dans ce salon (Voir le salon, Envoyer des messages, Intégrer des liens).",
+          "send": "❌ Impossible d'envoyer le message (vérifie mes permissions dans le salon)."
+        }
+      }
+    },
+    "interserver": {
+      "label": "Interserveurs",
+      "description": "Relie des salons de serveurs différents : un message posté dans un salon lié est relayé (pseudo + avatar conservés) vers les autres salons du même réseau.",
+      "panel": {
+        "intro": "Lie un salon à un « code de réseau ». Utilise le MÊME code sur un salon d'un autre serveur (où le bot est présent) pour connecter les deux : les messages seront relayés dans les deux sens.",
+        "linksField": "Salons liés",
+        "noLinks": "*Aucun salon lié. Sélectionne un salon ci-dessous pour le lier à un réseau.*",
+        "tagField": "Nom du serveur",
+        "tagOn": "✅ Affiché après le pseudo",
+        "tagOff": "⛔ Masqué",
+        "linkPlaceholder": "Lier un salon à un réseau…",
+        "unlinkPlaceholder": "Délier un salon…",
+        "disableTag": "Masquer le nom du serveur",
+        "enableTag": "Afficher le nom du serveur",
+        "linkModalTitle": "Lier le salon à un réseau",
+        "networkField": "Code de réseau (3-32 car.)",
+        "badChannel": "❌ Salon invalide (choisis un salon textuel).",
+        "linkError": {
+          "code": "❌ Code de réseau invalide (3 à 32 caractères : lettres, chiffres, tirets).",
+          "perm": "❌ Il me manque la permission « Gérer les webhooks » dans ce salon.",
+          "fail": "❌ Impossible de créer le webhook du relais. Réessaie."
+        }
+      }
+    },
+    "autoroles": {
+      "label": "Rôles automatiques",
+      "description": "Attribue des rôles à l'arrivée d'un membre, et un rôle tant qu'on est en vocal.",
+      "panel": {
+        "intro": "Choisis les rôles donnés automatiquement aux nouveaux arrivants.",
+        "humansField": "👤 Rôles des membres",
+        "botsField": "🤖 Rôles des bots",
+        "none": "*aucun*",
+        "roleWarning": "Le bot ne peut pas attribuer les rôles marqués ⚠️. Donne-lui « Gérer les rôles » et place son rôle au-dessus (Paramètres du serveur → Rôles).",
+        "humansPlaceholder": "Rôles donnés aux nouveaux membres",
+        "botsPlaceholder": "Rôles donnés aux bots",
+        "voiceField": "🎙️ Rôle en vocal",
+        "voicePlaceholder": "Rôle donné pendant la connexion en vocal…"
+      }
+    },
+    "streamer": {
+      "label": "Mode streameur",
+      "description": "Un panneau où les membres se rendent sourds (sans couper leur micro) pour streamer un jeu à des amis.",
+      "button": "Activer / Désactiver",
+      "embed": {
+        "roleField": "{role} — {count} membre(s)",
+        "noMembers": "Aucun membre"
+      },
+      "feedback": {
+        "disabled": "❌ Le mode streameur est désactivé sur ce serveur.",
+        "notConfigured": "❌ Aucun rôle Streaming n'est configuré (un admin doit le régler dans `/config`).",
+        "roleGone": "❌ Le rôle Streaming n'existe plus.",
+        "cannot": "⚠️ Je ne peux pas : il me manque « Rendre sourds les membres » ou « Gérer les rôles », ou le rôle Streaming est au-dessus du mien.",
+        "notInVoice": "❌ Rejoins d'abord un salon vocal.",
+        "enabledUser": "🎙️ **Mode streameur activé.** Tu n'entends plus Discord, mais ton micro continue de diffuser.",
+        "disabledUser": "🔊 **Mode streameur désactivé.** Tu entends de nouveau Discord.",
+        "error": "❌ Une erreur est survenue (vérifie mes permissions)."
+      },
+      "panel": {
+        "intro": "Choisis le rôle Streaming et le salon, puis publie le panneau.",
+        "roleField": "Rôle Streaming",
+        "channelField": "Salon",
+        "statusField": "Statut",
+        "notSet": "*non défini*",
+        "published": "✅ Publié",
+        "notPublished": "⛔ Non publié",
+        "warning": "Pour fonctionner : donne-moi « Rendre sourds les membres » + « Gérer les rôles », et place mon rôle au-dessus du rôle Streaming.",
+        "rolePlaceholder": "Rôle attribué aux membres en streaming",
+        "channelPlaceholder": "Salon où publier le panneau",
+        "editText": "✏️ Titre & description",
+        "publish": "📤 Publier / Mettre à jour",
+        "textModalTitle": "Titre & description",
+        "titleField": "Titre",
+        "descriptionField": "Description",
+        "publishError": {
+          "nochannel": "❌ Choisis d'abord un salon.",
+          "norole": "❌ Choisis d'abord un rôle Streaming.",
+          "send": "❌ Impossible d'envoyer le message (vérifie mes permissions dans le salon)."
+        }
+      }
+    },
+    "automod": {
+      "label": "Auto-modération",
+      "description": "Filtre automatiquement le spam, les pubs, les abus et les messages pièges.",
+      "actions": {
+        "delete": "Supprimer",
+        "warn": "Avertir",
+        "timeout": "Timeout",
+        "ban": "Ban",
+        "kick": "Expulser"
+      },
+      "rules": {
+        "spam": "Spam",
+        "invites": "Invitations",
+        "links": "Liens",
+        "badWords": "Mots interdits",
+        "mentions": "Mentions",
+        "caps": "Majuscules",
+        "honeypot": "Honeypot"
+      },
+      "reason": {
+        "spam": "Auto-modération : spam ({count} messages en {seconds}s).",
+        "invites": "Auto-modération : invitation Discord non autorisée.",
+        "links": "Auto-modération : lien non autorisé.",
+        "badWords": "Auto-modération : mot interdit.",
+        "mentions": "Auto-modération : abus de mentions.",
+        "caps": "Auto-modération : abus de majuscules."
+      },
+      "detail": {
+        "spam": "{count} messages dans la fenêtre de {seconds}s.",
+        "badWords": "Mot détecté : `{word}`",
+        "mentions": "{count} mentions dans le message.",
+        "caps": "{percent}% de lettres en majuscules."
+      },
+      "log": {
+        "title": "Auto-modération",
+        "member": "Membre",
+        "rule": "Règle",
+        "action": "Action",
+        "channel": "Salon",
+        "reason": "Raison",
+        "detail": "Détail",
+        "empty": "*contenu vide*"
+      },
+      "panel": {
+        "intro": "Active les règles automatiques et configure le salon honeypot. Les membres avec Gérer les messages / Gérer le serveur sont ignorés.",
+        "logChannel": "Salon de logs",
+        "honeypotChannel": "Salon honeypot",
+        "rulesField": "Règles actives",
+        "notSet": "*non défini*",
+        "on": "✅ Activé",
+        "off": "⛔ Désactivé",
+        "published": "publié",
+        "notPublished": "non publié",
+        "ruleLine": "• {rule} : {status} → {action}",
+        "honeypotLine": "{status} · message {message}",
+        "logPlaceholder": "Salon où envoyer les logs auto-mod",
+        "honeypotPlaceholder": "Salon texte utilisé comme piège",
+        "settings": "Réglages",
+        "settingsTitle": "Réglages auto-modération",
+        "badWordsField": "Mots interdits, séparés par virgules",
+        "allowlistField": "Domaines autorisés, séparés par virgules",
+        "spamField": "Spam : messages/secondes",
+        "limitsField": "Limites : mentions/caps longueur/caps %",
+        "timeoutsField": "Timeouts min : spam/mots/mentions",
+        "createHoneypot": "Créer salon",
+        "publishHoneypot": "Publier honeypot",
+        "createFailed": "❌ Impossible de créer le salon honeypot. Vérifie ma permission Gérer les salons.",
+        "publishFailed": "❌ Impossible de publier le honeypot. Choisis un salon texte et vérifie mes permissions.",
+        "actions": "Actions",
+        "actionsTitle": "Sanctions automatiques",
+        "actionsField": "Actions des règles",
+        "setupHoneypot": "Créer / publier",
+        "actionsPlaceholder": "delete/warn/timeout/kick/ban"
+      },
+      "honeypot": {
+        "bans": "Bans",
+        "action": "Ban honeypot",
+        "topic": "Honeypot anti-compte compromis : ne pas envoyer de message ici.",
+        "createReason": "Création du salon honeypot Vakz-Bot",
+        "embedTitle": "NE PAS ENVOYER DE MESSAGES DANS CE SALON",
+        "embedDescription": "Ce salon sert à détecter les comptes compromis. Tout message envoyé ici entraînera un bannissement immédiat.",
+        "banReason": "Honeypot déclenché",
+        "counter": "Bans : {count}"
+      }
+    },
+    "moderation": {
+      "label": "Modération",
+      "description": "Sanctions (warn, kick, ban, timeout), historique et journal.",
+      "commands": {
+        "warn": {
+          "description": "Avertit un membre."
+        },
+        "kick": {
+          "description": "Expulse un membre du serveur."
+        },
+        "ban": {
+          "description": "Bannit un membre (ou un utilisateur par son ID)."
+        },
+        "unban": {
+          "description": "Lève le bannissement d'un utilisateur."
+        },
+        "timeout": {
+          "description": "Réduit un membre au silence pour une durée (ex. 10m, 1h, 1j)."
+        },
+        "untimeout": {
+          "description": "Lève le silence d'un membre."
+        },
+        "history": {
+          "description": "Affiche le casier d'un membre."
+        }
+      },
+      "opt": {
+        "member": "Le membre concerné.",
+        "reason": "La raison de la sanction.",
+        "deleteDays": "Supprimer les messages des N derniers jours (0-7).",
+        "userId": "L'identifiant de l'utilisateur à débannir.",
+        "duration": "Durée (ex. 10m, 1h30m, 1j). Max 28 jours."
+      },
+      "types": {
+        "warn": "⚠️ Avertissement",
+        "kick": "👢 Expulsion",
+        "ban": "🔨 Bannissement",
+        "unban": "♻️ Débannissement",
+        "timeout": "🔇 Réduction au silence",
+        "untimeout": "🔊 Levée du silence"
+      },
+      "log": {
+        "user": "Membre",
+        "moderator": "Modérateur",
+        "executor": "Action faite par",
+        "reason": "Raison",
+        "noReason": "*aucune raison*",
+        "until": "Jusqu'au"
+      },
+      "dm": {
+        "warn": "⚠️ Tu as reçu un avertissement sur {guild}",
+        "kick": "👢 Tu as été expulsé de {guild}",
+        "ban": "🔨 Tu as été banni de {guild}",
+        "unban": "♻️ Ton bannissement sur {guild} a été levé",
+        "timeout": "🔇 Tu as été réduit au silence sur {guild}",
+        "untimeout": "🔊 Ton silence sur {guild} a été levé"
+      },
+      "result": {
+        "warn": "⚠️ {user} a été averti.",
+        "kick": "👢 {user} a été expulsé.",
+        "ban": "🔨 {user} a été banni.",
+        "unban": "♻️ {user} a été débanni.",
+        "timeout": "🔇 {user} a été réduit au silence pour {duration}.",
+        "untimeout": "🔊 Le silence de {user} a été levé."
+      },
+      "targetError": {
+        "self": "❌ Tu ne peux pas te sanctionner toi-même.",
+        "owner": "❌ Tu ne peux pas sanctionner le propriétaire du serveur.",
+        "bot": "❌ Je ne peux pas me sanctionner moi-même.",
+        "botHierarchy": "❌ Ce membre a un rôle supérieur ou égal au mien : je ne peux pas le sanctionner.",
+        "modHierarchy": "❌ Ce membre a un rôle supérieur ou égal au tien."
+      },
+      "notInGuild": "❌ Ce membre n'est pas sur le serveur.",
+      "botNoPerm": "❌ Il me manque la permission nécessaire pour cette action.",
+      "actionFailed": "❌ L'action a échoué (permissions ou hiérarchie).",
+      "invalidDuration": "❌ Durée invalide. Exemples : `10m`, `1h30m`, `2j`.",
+      "invalidUserId": "❌ Identifiant d'utilisateur invalide.",
+      "notBanned": "❌ Cet utilisateur n'est pas banni (ou l'ID est incorrect).",
+      "history": {
+        "empty": "✅ {user} n'a aucune sanction enregistrée.",
+        "title": "Casier de {user}"
+      },
+      "panel": {
+        "intro": "Configure le salon de journalisation et l'envoi de MP aux membres sanctionnés.",
+        "logChannel": "Salon de logs",
+        "notSet": "*non défini*",
+        "dm": "MP au membre",
+        "on": "✅ Oui",
+        "off": "⛔ Non",
+        "logPlaceholder": "Salon où journaliser les sanctions",
+        "dmToggle": "MP au membre sanctionné"
+      }
+    },
+    "economy": {
+      "label": "Économie",
+      "description": "Monnaie virtuelle, gains, classement et boutique de rôles.",
+      "opt": {
+        "member": "Le membre concerné.",
+        "amount": "Le montant."
+      },
+      "commands": {
+        "balance": {
+          "description": "Affiche le solde d'un membre.",
+          "title": "Solde de {user}",
+          "line": "Solde"
+        },
+        "daily": {
+          "description": "Réclame ta récompense quotidienne.",
+          "claimed": "🎁 Tu as reçu {amount} ! Nouveau solde : {balance}.",
+          "cooldown": "⏳ Tu as déjà réclamé ta récompense. Reviens {time}."
+        },
+        "pay": {
+          "description": "Transfère de la monnaie à un autre membre.",
+          "invalidTarget": "❌ Destinataire invalide.",
+          "insufficient": "❌ Solde insuffisant.",
+          "done": "✅ Tu as envoyé {amount} à {user}."
+        },
+        "leaderboard": {
+          "description": "Affiche le classement des plus riches.",
+          "empty": "Personne n'a encore de {currency}.",
+          "title": "💰 Les plus riches"
+        },
+        "admin": {
+          "description": "Gère les soldes des membres (admin).",
+          "give": "Ajoute de la monnaie à un membre.",
+          "take": "Retire de la monnaie à un membre.",
+          "set": "Définit le solde d'un membre.",
+          "done": "✅ Solde de {user} : {balance}."
+        },
+        "shop": {
+          "description": "Affiche la boutique de rôles."
+        }
+      },
+      "shop": {
+        "title": "🛒 Boutique de rôles",
+        "empty": "*La boutique est vide.*",
+        "disabled": "❌ Le module Économie est désactivé.",
+        "unavailable": "❌ Cet article n'est plus disponible.",
+        "alreadyOwned": "❌ Tu possèdes déjà ce rôle.",
+        "cannotAssign": "⚠️ Je ne peux pas attribuer ce rôle (permission ou hiérarchie).",
+        "tooPoor": "❌ Trop cher : {price} alors que tu as {balance}.",
+        "bought": "✅ Tu as acheté {role} pour {price}.",
+        "soldOut": "épuisé",
+        "stock": "stock : {n}",
+        "switch": "Changer de boutique…",
+        "outOfStock": "❌ Cet article est épuisé."
+      },
+      "panel": {
+        "intro": "Configure la monnaie, les gains et la boutique de rôles.",
+        "currencyField": "💱 Monnaie",
+        "earnField": "💬 Gains / message",
+        "earnValue": "{min} à {max} · cooldown {cd}s",
+        "dailyField": "🎁 Quotidien",
+        "shopField": "🛒 Boutique",
+        "shopEmpty": "*vide*",
+        "shopAdd": "Ajouter un rôle à la boutique…",
+        "shopRemove": "Retirer un rôle de la boutique…",
+        "editCurrency": "💱 Monnaie",
+        "editEarn": "💬 Gains",
+        "editDaily": "🎁 Quotidien",
+        "currencyModal": "Monnaie",
+        "nameField": "Nom de la monnaie",
+        "symbolField": "Symbole / emoji (ex. 🪙 ou :nom:)",
+        "earnModal": "Gains par message",
+        "minField": "Gain minimum",
+        "maxField": "Gain maximum",
+        "cdField": "Cooldown (secondes)",
+        "dailyModal": "Récompense quotidienne",
+        "dailyAmountField": "Montant quotidien",
+        "priceModal": "Prix du rôle",
+        "priceField": "Prix",
+        "shopFull": "❌ Maximum {max} boutiques atteint.",
+        "advanced": "⚙️ Avancé",
+        "advTitle": "⚙️ Économie · réglages avancés",
+        "advIntro": "Argent en vocal, salons/rôles ignorés et classement auto des plus riches.",
+        "voiceField": "Argent vocal",
+        "voiceOn": "✅ Activé · {amount} {symbol}/min",
+        "voiceOff": "⛔ Désactivé",
+        "leaderboardField": "Classement auto",
+        "off": "⛔ Désactivé",
+        "ignoredField": "Exclusions",
+        "ignoredChannels": "{count} salon(s) ignoré(s)",
+        "ignoredRoles": "{count} rôle(s) ignoré(s)",
+        "ignoredChannelsPlaceholder": "Salons sans gain de monnaie…",
+        "ignoredRolesPlaceholder": "Rôles sans gain de monnaie…",
+        "leaderboardPlaceholder": "Salon du classement auto…",
+        "voiceDisable": "Couper l'argent vocal",
+        "voiceEnable": "Activer l'argent vocal",
+        "voiceAmount": "Montant vocal / minute",
+        "voiceAmountField": "Monnaie par minute en vocal",
+        "back": "◀ Retour",
+        "itemCount": "{count} article(s)",
+        "shopsField": "Boutiques",
+        "createShop": "🛍️ Créer une boutique",
+        "shopPickPlaceholder": "Modifier une boutique…",
+        "shopNameField": "Nom de la boutique",
+        "shopDefault": "Boutique",
+        "shopEditTitle": "Boutique : {name}",
+        "shopEditIntro": "Ajoute des articles (rôles) avec prix et stock, règle le nom et la bannière.",
+        "bannerField": "Bannière",
+        "bannerSet": "voir l'image",
+        "bannerNone": "*aucune*",
+        "bannerFieldModal": "Bannière (URL https, vide = aucune)",
+        "itemsField": "Articles",
+        "noItems": "*aucun article*",
+        "itemAdd": "Ajouter un rôle à vendre…",
+        "itemRemove": "Retirer un article…",
+        "shopMeta": "✏️ Nom & bannière",
+        "shopDelete": "🗑️ Supprimer la boutique",
+        "stockField": "Stock (-1 = illimité)",
+        "stockUnlimited": "stock illimité",
+        "stockSoldOut": "épuisé",
+        "stockN": "stock : {n}"
+      }
+    },
+    "items": {
+      "label": "Objets & inventaires",
+      "description": "Catalogue d'objets par serveur : achat avec la monnaie, inventaire, utilisation (rôle-récompense) et échange entre membres.",
+      "opt": {
+        "item": "L'objet concerné.",
+        "quantity": "Quantité (défaut : 1).",
+        "member": "Le membre concerné (par défaut : toi)."
+      },
+      "rarity": {
+        "common": "Commun",
+        "rare": "Rare",
+        "epic": "Épique",
+        "legendary": "Légendaire"
+      },
+      "commands": {
+        "unknownItem": "❌ Cet objet n'existe pas (ou plus).",
+        "inventory": {
+          "description": "Affiche l'inventaire d'un membre.",
+          "title": "🎒 Inventaire de {user}",
+          "empty": "Cet inventaire est vide."
+        },
+        "catalog": {
+          "description": "Affiche le catalogue d'objets du serveur.",
+          "empty": "🛒 Aucun objet dans le catalogue pour le moment.",
+          "title": "🛒 Catalogue d'objets",
+          "notForSale": "non achetable",
+          "footer": "✨ = utilisable · 🔁 = échangeable · /acheter pour acheter"
+        },
+        "buy": {
+          "description": "Achète un objet avec la monnaie du serveur.",
+          "notForSale": "❌ Cet objet n'est pas en vente.",
+          "insufficient": "❌ Il te faut {cost} (tu as {balance}).",
+          "done": "🛒 Tu as acheté **{qty}× {emoji} {name}** pour {cost}. Tu en as maintenant **{total}**."
+        },
+        "use": {
+          "description": "Utilise un objet de ton inventaire.",
+          "notUsable": "❌ Cet objet ne peut pas être utilisé.",
+          "dontHave": "❌ Tu ne possèdes aucun **{emoji} {name}**.",
+          "reason": "Objet utilisé : {name}",
+          "roleGranted": "🎁 Tu reçois le rôle {role} !",
+          "title": "✨ Objet utilisé",
+          "done": "{user} utilise **{emoji} {name}**."
+        },
+        "give": {
+          "description": "Donne un objet à un autre membre.",
+          "disabled": "❌ Les échanges d'objets sont désactivés sur ce serveur.",
+          "invalidTarget": "❌ Choisis un autre membre (pas un bot, ni toi-même).",
+          "notTradable": "❌ Cet objet n'est pas échangeable.",
+          "insufficient": "❌ Tu ne possèdes pas assez de **{emoji} {name}**.",
+          "done": "🎁 {from} donne **{qty}× {emoji} {name}** à {to} !"
+        },
+        "admin": {
+          "description": "Attribue ou retire des objets (staff).",
+          "give": "Donne un objet à un membre.",
+          "take": "Retire un objet à un membre.",
+          "gave": "✅ {qty}× {emoji} {name} donné(s) à {user} (total : {total}).",
+          "took": "✅ {qty}× {emoji} {name} retiré(s) à {user}."
+        }
+      },
+      "panel": {
+        "intro": "Crée et gère les objets du serveur. Les membres les achètent, les utilisent et les échangent.",
+        "on": "✅ Activé",
+        "off": "❌ Désactivé",
+        "free": "gratuit",
+        "noItems": "Aucun objet. Ajoute-en un pour commencer.",
+        "noDescription": "*(pas de description)*",
+        "itemsField": "Objets ({count}/{max})",
+        "tradingField": "Échanges entre membres",
+        "addItem": "➕ Ajouter un objet",
+        "enableTrading": "Activer les échanges",
+        "disableTrading": "Désactiver les échanges",
+        "pickPlaceholder": "Gérer un objet…",
+        "priceField": "Prix",
+        "rarityField": "Rareté",
+        "flagsField": "Options",
+        "roleField": "Rôle-récompense",
+        "roleNone": "*(aucun)*",
+        "buyable": "Achetable",
+        "tradable": "Échangeable",
+        "usable": "Utilisable",
+        "rarityPlaceholder": "Choisir la rareté…",
+        "rolePlaceholder": "Rôle accordé à l'utilisation (optionnel)…",
+        "editFields": "✏️ Modifier",
+        "deleteItem": "🗑️ Supprimer",
+        "back": "◀ Retour",
+        "addTitle": "Nouvel objet",
+        "editTitle": "Modifier l'objet",
+        "nameField": "Nom",
+        "emojiField": "Emoji",
+        "descriptionField": "Description",
+        "tooMany": "❌ Maximum {max} objets atteint.",
+        "nameRequired": "❌ Le nom est obligatoire."
+      }
+    },
+    "birthdays": {
+      "label": "Anniversaires",
+      "description": "Souhaite les anniversaires des membres (message + rôle du jour).",
+      "command": {
+        "description": "Gère ta date d'anniversaire.",
+        "set": "Enregistre ta date d'anniversaire.",
+        "remove": "Supprime ta date d'anniversaire.",
+        "view": "Affiche l'anniversaire d'un membre.",
+        "upcoming": "Affiche les prochains anniversaires."
+      },
+      "opt": {
+        "day": "Jour (1-31).",
+        "month": "Mois (1-12).",
+        "year": "Année (optionnel, pour afficher l'âge).",
+        "member": "Le membre concerné (par défaut : toi).",
+        "targetMember": "Définir pour un autre membre (admin : Gérer le serveur)."
+      },
+      "invalidDate": "❌ Date invalide.",
+      "noPermission": "❌ Tu n'as pas la permission de gérer l'anniversaire d'un autre membre.",
+      "set": "🎂 Ton anniversaire est enregistré au {date} !",
+      "setOther": "🎂 L'anniversaire de {user} est enregistré au {date} !",
+      "removed": "🗑️ Ton anniversaire a été supprimé.",
+      "removedOther": "🗑️ L'anniversaire de {user} a été supprimé.",
+      "none": "ℹ️ {user} n'a pas enregistré d'anniversaire.",
+      "today": "aujourd'hui ! 🎉",
+      "inDays": "dans {days} jour(s)",
+      "view": {
+        "title": "🎂 Anniversaire de {user}"
+      },
+      "upcomingTitle": "🎂 Prochains anniversaires",
+      "upcomingEmpty": "Aucun anniversaire enregistré pour le moment.",
+      "panel": {
+        "intro": "Configure le salon d'annonce, le rôle du jour, l'heure et le message.",
+        "channelField": "Salon d'annonce",
+        "roleField": "Rôle du jour",
+        "hourField": "Heure d'annonce",
+        "messageField": "Message",
+        "notSet": "*non défini*",
+        "channelPlaceholder": "Salon où souhaiter les anniversaires",
+        "rolePlaceholder": "Rôle attribué le jour J (optionnel)",
+        "editMessage": "✏️ Message",
+        "editHour": "🕘 Heure",
+        "messageModal": "Message d'anniversaire",
+        "hourModal": "Heure d'annonce (HH:MM)"
+      }
+    },
+    "reminders": {
+      "label": "Rappels",
+      "description": "Planifie des rappels persistants en salon ou en message privé.",
+      "invalidDuration": "❌ Durée invalide. Indique un nombre de minutes (minimum 1 minute, maximum {days} jour(s)).",
+      "emptyText": "❌ Le texte du rappel ne peut pas être vide.",
+      "dmDisabled": "❌ Les rappels en MP sont désactivés sur ce serveur.",
+      "created": "⏰ Rappel enregistré : {duration} (prochaine exécution {time}).",
+      "delivery": "⏰ {target}, rappel : {text}",
+      "weekdays": {
+        "1": "lundi",
+        "2": "mardi",
+        "3": "mercredi",
+        "4": "jeudi",
+        "5": "vendredi",
+        "6": "samedi",
+        "7": "dimanche"
+      },
+      "panel": {
+        "intro": "Crée et configure les rappels du serveur. Choisis un membre ou un rôle, puis une destination.",
+        "dmField": "Rappels en MP",
+        "maxDelayField": "Durée maximale",
+        "maxDelayValue": "{days} jour(s)",
+        "modeField": "Mode",
+        "modeOnce": "Ponctuel",
+        "modeWeekly": "Hebdomadaire",
+        "targetField": "Cible",
+        "destinationField": "Destination",
+        "notSet": "*non défini*",
+        "on": "✅ Autorisés",
+        "off": "⛔ Désactivés",
+        "dmToggle": "MP",
+        "destinationDm": "MP",
+        "destinationChannel": "Salon",
+        "userPlaceholder": "Membre à rappeler",
+        "rolePlaceholder": "Rôle à rappeler",
+        "channelPlaceholder": "Salon où envoyer le rappel",
+        "create": "Créer un rappel",
+        "createModal": "Créer un rappel",
+        "minutesField": "Délai en minutes",
+        "weekdayButton": "Jour : {day}",
+        "timeField": "Heure (HH:MM)",
+        "textField": "Texte du rappel",
+        "notReady": "❌ Choisis une cible et une destination avant de créer le rappel.",
+        "invalidWeekly": "❌ Indique une heure valide (`18:00`).",
+        "weeklySummary": "tous les {day} à {time}",
+        "editMaxDelay": "⏱️ Durée max",
+        "maxDelayModal": "Durée maximale des rappels",
+        "invalidMaxDelay": "❌ Indique un nombre de jours entre 1 et 365."
+      }
+    },
+    "rules": {
+      "label": "Règlement",
+      "description": "Publie le règlement du serveur et attribue un rôle d'accès à l'acceptation.",
+      "embed": {
+        "version": "Version {version}"
+      },
+      "feedback": {
+        "disabled": "❌ Ce module est désactivé sur ce serveur.",
+        "roleGone": "❌ Le rôle d'accès n'existe plus. Préviens un administrateur.",
+        "cannotAssign": "⚠️ Je ne peux pas attribuer le rôle d'accès (permission « Gérer les rôles » manquante ou rôle au-dessus du mien).",
+        "error": "❌ Une erreur est survenue. Réessaie plus tard.",
+        "alreadyUpToDate": "✅ Tu as déjà accepté la version actuelle du règlement.",
+        "accepted": "✅ Merci, tu as accepté le règlement ! Ton accès est débloqué.",
+        "revalidated": "🔄 Merci d'avoir validé la nouvelle version du règlement !"
+      },
+      "log": {
+        "accepted": "📜 {user} a accepté le règlement (version {version})."
+      },
+      "panel": {
+        "intro": "Configure le règlement, choisis le rôle d'accès, puis publie-le dans un salon.",
+        "channelField": "Salon de publication",
+        "roleField": "Rôle d'accès",
+        "statusField": "Statut",
+        "versionField": "Version",
+        "versionValue": "v{version} · {count} membre(s) à jour",
+        "logField": "Salon de logs",
+        "previewField": "Aperçu du texte",
+        "notSet": "*non défini*",
+        "published": "✅ Publié",
+        "notPublished": "⛔ Non publié",
+        "roleWarning": "Je ne peux pas attribuer le rôle marqué ⚠️. Donne-moi « Gérer les rôles » et place mon rôle au-dessus du sien (Paramètres du serveur → Rôles).",
+        "channelPlaceholder": "Salon où publier le règlement",
+        "rolePlaceholder": "Rôle donné à l'acceptation",
+        "logPlaceholder": "Salon de journalisation (optionnel)",
+        "editText": "✏️ Titre & texte",
+        "editButton": "🔘 Libellé du bouton",
+        "revalidate": "🔄 Demander une re-validation",
+        "publish": "📤 Publier / Mettre à jour",
+        "textModalTitle": "Titre & texte du règlement",
+        "titleField": "Titre",
+        "contentField": "Texte du règlement",
+        "buttonModalTitle": "Libellé du bouton d'acceptation",
+        "buttonField": "Texte du bouton",
+        "publishError": {
+          "nochannel": "❌ Choisis d'abord un salon de publication.",
+          "send": "❌ Impossible d'envoyer le message (vérifie mes permissions dans le salon)."
+        }
+      }
+    },
+    "suggestions": {
+      "label": "Suggestions",
+      "description": "Les membres proposent des idées (avec lien Steam), votées 👍/👎 et arbitrées par le staff.",
+      "command": {
+        "description": "Proposer une suggestion au serveur.",
+        "textOpt": "Le texte de ta suggestion.",
+        "steamOpt": "Lien Steam du jeu à proposer (optionnel)."
+      },
+      "notConfigured": "❌ Aucun salon de suggestions n'est configuré. Un admin doit en définir dans `/config`.",
+      "channelGone": "❌ Le salon des suggestions est introuvable. Préviens un administrateur.",
+      "wrongChannel": "❌ Lance `/suggestion` dans un salon de suggestions : {channels}",
+      "invalidSteam": "❌ Lien Steam invalide. Exemple : https://store.steampowered.com/app/730",
+      "steamFetchFailed": "❌ Impossible de récupérer les infos du jeu sur Steam. Réessaie plus tard.",
+      "submitted": "✅ Ta suggestion a été publiée ! {url}",
+      "sendError": "❌ Impossible de publier la suggestion (vérifie mes permissions dans le salon).",
+      "threadName": "Suggestion {id}",
+      "status": {
+        "pending": "⏳ En attente",
+        "approved": "✅ Approuvée",
+        "rejected": "❌ Refusée",
+        "considered": "🤔 À l’étude"
+      },
+      "button": {
+        "approve": "✅ Approuver",
+        "reject": "❌ Refuser",
+        "consider": "🤔 À l’étude"
+      },
+      "modal": {
+        "approve": "Approuver la suggestion",
+        "reject": "Refuser la suggestion",
+        "consider": "Mettre à l’étude",
+        "reasonField": "Raison (optionnelle)"
+      },
+      "feedback": {
+        "disabled": "❌ Ce module est désactivé sur ce serveur.",
+        "gone": "❌ Cette suggestion n’existe plus.",
+        "staffOnly": "⛔ Seul le staff peut statuer sur les suggestions.",
+        "decided": "✅ Décision enregistrée : {status}."
+      },
+      "steam": {
+        "gameField": "🎮 Jeu",
+        "aboutField": "📝 À propos",
+        "free": "Gratuit",
+        "unknownPrice": "Prix non disponible"
+      },
+      "embed": {
+        "title": "💡 Suggestion",
+        "author": "Proposée par",
+        "status": "Statut",
+        "votes": "Votes",
+        "votesFor": "👍 Pour ({count})",
+        "votesAgainst": "👎 Contre ({count})",
+        "footer": "ID {id}",
+        "decision": "Décision du staff",
+        "decisionValue": "Par {moderator}\n{reason}",
+        "noReason": "*aucune raison fournie*"
+      },
+      "panel": {
+        "intro": "Choisis les salons de suggestions et le rôle staff autorisé à statuer.",
+        "channelField": "Salons des suggestions",
+        "notSet": "*non défini*",
+        "noChannels": "*aucun salon*",
+        "staffField": "Rôle staff",
+        "staffDefault": "*Gérer le serveur*",
+        "threadField": "Fil de discussion",
+        "on": "✅ Activé",
+        "off": "⛔ Désactivé",
+        "channelPlaceholder": "Salons où autoriser /suggestion",
+        "staffPlaceholder": "Rôle autorisé à approuver/refuser",
+        "threadToggle": "🧵 Fil de discussion auto",
+        "advanced": "⚙️ Avancé",
+        "advTitle": "⚙️ Suggestions · réglages avancés",
+        "advIntro": "Limites par membre/rôle, récompense à l'approbation et couleur dynamique des votes.",
+        "unlimited": "illimité",
+        "noRoleLimits": "*aucune limite de rôle*",
+        "rewardCoinsValue": "💰 {coins} pièces",
+        "rewardItemValue": "🎁 {item}",
+        "defaultLimitField": "Limite par défaut (en attente)",
+        "dynColorField": "Couleur dynamique",
+        "rewardField": "Récompense à l'approbation",
+        "noReward": "*aucune*",
+        "roleLimitsField": "Limites par rôle",
+        "roleLimitAdd": "Ajouter une limite de rôle…",
+        "rewardItemPlaceholder": "Objet offert à l'approbation…",
+        "roleLimitRemove": "Retirer une limite de rôle…",
+        "editDefaultLimit": "✏️ Limite par défaut",
+        "editRewardCoins": "💰 Pièces de récompense",
+        "dynColorDisable": "Couleur dynamique : off",
+        "dynColorEnable": "Couleur dynamique : on",
+        "back": "◀ Retour",
+        "roleLimitModalTitle": "Limite de rôle",
+        "roleLimitField": "Limite (0 = illimité)",
+        "rewardCoinsField": "Pièces offertes à l'auteur"
+      },
+      "limitReached": "❌ Tu as atteint ta limite de {max} suggestion(s) en attente.",
+      "reward": {
+        "coins": "💰 {coins} pièces",
+        "item": "🎁 {item}",
+        "granted": "🎉 Récompense envoyée à l'auteur : {reward}"
+      },
+      "list": {
+        "description": "Classement et recherche des suggestions.",
+        "rankingDescription": "Affiche les suggestions les mieux notées.",
+        "searchDescription": "Recherche des suggestions par mot-clé.",
+        "keywordOpt": "Mot-clé à rechercher.",
+        "empty": "Aucune suggestion pour le moment.",
+        "rankingTitle": "🏆 Suggestions les mieux notées",
+        "noMatch": "Aucune suggestion ne correspond à « {keyword} ».",
+        "searchTitle": "🔎 Résultats pour « {keyword} »"
+      }
+    },
+    "starboard": {
+      "label": "Starboard",
+      "description": "Republie dans un salon les messages qui reçoivent assez d’étoiles ⭐.",
+      "jump": "Aller au message",
+      "header": "{emoji} **{count}** · {channel}",
+      "panel": {
+        "intro": "Choisis le salon du starboard, l’emoji déclencheur et le seuil d’étoiles.",
+        "channelField": "Salon du starboard",
+        "notSet": "*non défini*",
+        "emojiField": "Emoji",
+        "thresholdField": "Seuil d’étoiles",
+        "ignoreBotsField": "Ignorer les bots",
+        "on": "✅ Activé",
+        "off": "⛔ Désactivé",
+        "channelPlaceholder": "Salon où republier les messages",
+        "editEmoji": "⭐ Emoji",
+        "editThreshold": "🔢 Seuil",
+        "ignoreBotsToggle": "🤖 Ignorer les bots",
+        "emojiModal": "Emoji déclencheur",
+        "thresholdModal": "Seuil d’étoiles"
+      }
+    },
+    "logs": {
+      "label": "Logs",
+      "description": "Journalise les actions importantes du serveur et ajoute la commande /clear.",
+      "fields": {
+        "channel": "Salon",
+        "author": "Auteur",
+        "member": "Membre",
+        "moderator": "Modérateur",
+        "executor": "Action faite par",
+        "count": "Nombre",
+        "target": "Cible",
+        "reason": "Raison",
+        "role": "Rôle",
+        "content": "Contenu",
+        "before": "Avant",
+        "after": "Après",
+        "change": "Changement",
+        "unknown": "*inconnu*",
+        "unavailable": "*indisponible*",
+        "noReason": "*aucune raison fournie*",
+        "everyone": "Tous"
+      },
+      "events": {
+        "messageDelete": {
+          "title": "Message supprimé"
+        },
+        "messageBulkDelete": {
+          "title": "Messages supprimés en masse"
+        },
+        "messageUpdate": {
+          "title": "Message modifié"
+        },
+        "memberAdd": {
+          "title": "Membre arrivé"
+        },
+        "memberRemove": {
+          "title": "Membre parti"
+        },
+        "channelCreate": {
+          "title": "Salon créé"
+        },
+        "channelDelete": {
+          "title": "Salon supprimé"
+        },
+        "channelUpdate": {
+          "title": "Salon modifié"
+        },
+        "roleCreate": {
+          "title": "Rôle créé"
+        },
+        "roleDelete": {
+          "title": "Rôle supprimé"
+        },
+        "roleUpdate": {
+          "title": "Rôle modifié"
+        },
+        "clear": {
+          "title": "Messages nettoyés"
+        }
+      },
+      "clear": {
+        "description": "Supprimer rapidement des messages dans le salon courant.",
+        "opt": {
+          "count": "Nombre de messages à supprimer (1 à 100).",
+          "member": "Limiter aux messages d’un membre.",
+          "reason": "Raison affichée dans les logs."
+        },
+        "invalidChannel": "❌ Cette commande doit être utilisée dans un salon texte du serveur.",
+        "botNoPerm": "❌ Je n’ai pas la permission « Gérer les messages » dans ce salon.",
+        "none": "Aucun message récent supprimable trouvé.",
+        "failed": "❌ Impossible de supprimer ces messages. Vérifie mes permissions.",
+        "done": "✅ {count} message(s) supprimé(s)."
+      },
+      "panel": {
+        "intro": "Choisis le salon de logs et les familles d’événements à journaliser.",
+        "channelField": "Salon de logs",
+        "enabledField": "Événements actifs",
+        "notSet": "*non défini*",
+        "on": "✅ Activé",
+        "off": "⛔ Désactivé",
+        "channelPlaceholder": "Salon où envoyer les logs",
+        "categoryLine": "• {category} : {status}",
+        "categories": {
+          "messages": "Messages",
+          "members": "Membres",
+          "channels": "Salons",
+          "roles": "Rôles",
+          "moderation": "Modération"
+        }
+      },
+      "rollback": {
+        "button": "Restaurer",
+        "done": "✅ Rollback effectué.",
+        "used": "❌ Ce rollback a déjà été utilisé.",
+        "missing": "❌ Ce rollback est introuvable ou a expiré.",
+        "notAllowed": "⛔ Tu n’as pas la permission d’utiliser ce rollback.",
+        "unsupported": "❌ Ce type de rollback n’est pas supporté.",
+        "noPermission": "❌ Je n’ai pas les permissions nécessaires pour restaurer cet élément.",
+        "failed": "❌ Impossible de restaurer cet élément. Vérifie mes permissions et la hiérarchie."
+      }
+    },
+    "tickets": {
+      "label": "Tickets",
+      "description": "Plusieurs types de tickets ; chaque type ouvre un salon privé visible par les rôles choisis.",
+      "welcomeTitle": "🎫 Ticket ouvert",
+      "welcome": "Bonjour {user}, ton ticket « {type} » est ouvert. Explique ta demande ici, l’équipe va te répondre. Clique sur « Fermer le ticket » quand c’est résolu.",
+      "opened": "✅ Ton ticket a été ouvert : {channel}",
+      "feedback": {
+        "disabled": "❌ Ce module est désactivé sur ce serveur."
+      },
+      "error": {
+        "notype": "❌ Ce type de ticket n’existe plus.",
+        "max": "❌ Tu as déjà {max} ticket(s) ouvert(s). Ferme-le avant d’en rouvrir un.",
+        "noperm": "❌ Je n’ai pas la permission « Gérer les salons » pour créer le ticket.",
+        "create": "❌ Impossible de créer le salon du ticket. Vérifie mes permissions et la catégorie."
+      },
+      "close": {
+        "button": "🔒 Fermer le ticket",
+        "confirm": "Confirmer la fermeture de ce ticket ? Le salon sera supprimé.",
+        "confirmButton": "🔒 Confirmer la fermeture",
+        "closing": "🔒 Fermeture du ticket…",
+        "closingArchive": "🔒 Archivage de la conversation puis fermeture…",
+        "notFound": "❌ Ce ticket est introuvable ou déjà fermé.",
+        "cantClose": "⛔ Seul l’auteur, le staff du type ou un admin peut le fermer."
+      },
+      "archive": {
+        "title": "📦 Archive de ticket",
+        "header": "Type : {type}\nAuteur : {opener}\nFermé par : {closedBy}\nMessages : {count}"
+      },
+      "panel": {
+        "intro": "Configure les salons, les types de tickets (et leurs rôles), puis publie le panneau.",
+        "channelField": "Salon du panneau",
+        "categoryField": "Catégorie des tickets",
+        "archiveField": "Salon d’archives",
+        "archiveOff": "*archivage désactivé*",
+        "statusField": "Statut",
+        "published": "✅ Publié",
+        "notPublished": "⛔ Non publié",
+        "maxField": "Tickets max / membre",
+        "typesField": "Types de tickets",
+        "noTypes": "*aucun type — ajoute-en un*",
+        "typeNoRoles": "*aucun rôle*",
+        "notSet": "*non défini*",
+        "channelPlaceholder": "Salon où publier le panneau",
+        "categoryPlaceholder": "Catégorie où créer les tickets",
+        "archivePlaceholder": "Salon où archiver les conversations (optionnel)",
+        "addType": "➕ Ajouter un type",
+        "manageTypes": "📝 Gérer les types",
+        "settings": "⚙️ Réglages",
+        "publish": "📤 Publier / Mettre à jour",
+        "typeListTitle": "📝 Types de tickets",
+        "typeListIntro": "Choisis un type à modifier (rôles, nom, suppression).",
+        "typePickPlaceholder": "Choisir un type…",
+        "back": "◀️ Retour",
+        "typeEditTitle": "Type : {label}",
+        "typeEditIntro": "Sélectionne les rôles autorisés à voir et prendre ce type de ticket.",
+        "typeRolesField": "Rôles autorisés",
+        "typeRolesPlaceholder": "Rôles qui peuvent voir ce type…",
+        "typeRename": "✏️ Renommer",
+        "typeDelete": "🗑️ Supprimer",
+        "typeModalTitle": "Type de ticket",
+        "typeLabelField": "Nom du bouton",
+        "typeEmojiField": "Emoji (optionnel)",
+        "typePrefixField": "Préfixe des salons",
+        "typePrefixNone": "*par défaut (type-pseudo)*",
+        "tooManyTypes": "❌ Maximum {max} types atteint.",
+        "noTypesYet": "❌ Ajoute d’abord un type avec « ➕ Ajouter un type ».",
+        "settingsTitle": "Réglages du panneau",
+        "titleField": "Titre",
+        "descField": "Message",
+        "publishError": {
+          "nochannel": "❌ Choisis d’abord un salon de publication.",
+          "notypes": "❌ Ajoute au moins un type de ticket avant de publier.",
+          "send": "❌ Impossible d’envoyer le message (vérifie mes permissions dans le salon)."
+        },
+        "modeField": "Mode",
+        "modeChannel": "📁 Salon privé (catégorie)",
+        "modeThread": "🧵 Fil privé",
+        "modeChannelBtn": "Mode : Salon",
+        "modeThreadBtn": "Mode : Fil",
+        "nameFormatField": "Format de nom"
+      }
+    },
+    "giveaways": {
+      "label": "Giveaways",
+      "description": "Des tirages au sort : lot, durée, gagnants, participation par bouton.",
+      "command": {
+        "description": "Lancer et gérer des tirages au sort.",
+        "start": "Lancer un tirage au sort.",
+        "end": "Terminer un tirage immédiatement et tirer les gagnants.",
+        "reroll": "Relancer le tirage (tous les gagnants, ou un gagnant précis).",
+        "list": "Lister les tirages en cours."
+      },
+      "opt": {
+        "prize": "Le lot à gagner.",
+        "duration": "Durée du tirage (ex. 1h, 2j, 30m).",
+        "winners": "Nombre de gagnants (défaut 1).",
+        "channel": "Salon où publier le tirage (défaut : ici).",
+        "role": "Rôle requis pour participer (optionnel).",
+        "id": "Le tirage concerné.",
+        "winner": "Le gagnant à remplacer (relance ciblée)."
+      },
+      "embed": {
+        "title": "🎉 Giveaway : {prize}",
+        "intro": "Clique sur le bouton pour participer !\n**{count}** gagnant(s) tiré(s) au sort à la fin.",
+        "endedIntro": "Tirage terminé.",
+        "footer": "ID {id}",
+        "host": "Organisé par",
+        "winners": "Gagnants",
+        "endsAt": "Fin",
+        "endedAt": "Terminé",
+        "participants": "Participants",
+        "requiredRole": "Rôle requis",
+        "result": "🏆 Gagnant(s)",
+        "noWinner": "Aucun participant 😢"
+      },
+      "joinButton": "🎉 Participer ({count})",
+      "announceWinners": "🎉 Félicitations {winners} ! Vous remportez **{prize}** !",
+      "announceNoWinner": "😢 Personne n’a participé au tirage pour **{prize}**.",
+      "announceReroll": "🔄 Nouveau tirage ! Félicitations {winners}, vous remportez **{prize}** !",
+      "announceRerollOne": "🔄 {old} est remplacé : félicitations {new}, tu remportes **{prize}** !",
+      "feedback": {
+        "disabled": "❌ Ce module est désactivé sur ce serveur.",
+        "ended": "❌ Ce tirage est terminé ou introuvable.",
+        "needRole": "⛔ Il faut le rôle {role} pour participer à ce tirage.",
+        "joined": "✅ Tu participes au tirage ! Bonne chance 🍀",
+        "left": "➖ Tu ne participes plus à ce tirage."
+      },
+      "reroll": {
+        "notWinner": "❌ Ce membre n’est pas un gagnant actuel de ce tirage.",
+        "noEligible": "❌ Plus aucun participant éligible pour remplacer ce gagnant."
+      },
+      "invalidDuration": "❌ Durée invalide. Exemples : `1h`, `2j`, `30m`, `1h30m`.",
+      "channelInvalid": "❌ Salon invalide pour publier le tirage.",
+      "sendError": "❌ Impossible de publier le tirage (vérifie mes permissions dans le salon).",
+      "launched": "✅ Tirage lancé ! {url}",
+      "notFoundActive": "❌ Aucun tirage en cours avec cet identifiant.",
+      "endedManual": "🎉 Tirage terminé ! Gagnant(s) : {winners}",
+      "endedNoWinner": "😢 Tirage terminé, mais aucun participant.",
+      "notFoundEnded": "❌ Aucun tirage terminé avec cet identifiant.",
+      "rerolledOne": "🔄 {old} remplacé par {new}.",
+      "rerolledAll": "🔄 Nouveau tirage effectué. Gagnant(s) : {winners}",
+      "listEmpty": "Aucun tirage en cours.",
+      "listTitle": "🎉 Tirages en cours",
+      "listLine": "• **{prize}** — `{id}` — fin {ends} — {channel}",
+      "panel": {
+        "intro": "Choisis un salon de logs (facultatif) et personnalise les messages d’annonce.",
+        "logField": "Salon de logs",
+        "logOff": "*logs désactivés*",
+        "winField": "Message de victoire",
+        "noWinField": "Message sans gagnant",
+        "logPlaceholder": "Salon où journaliser les gagnants (optionnel)",
+        "editWin": "✏️ Message de victoire",
+        "editNoWin": "✏️ Message sans gagnant",
+        "messageField": "Message ({winners}, {prize})",
+        "winModal": "Message de victoire",
+        "noWinModal": "Message sans gagnant"
+      },
+      "log": {
+        "title": "🎁 Tirage terminé",
+        "entry": "Lot : **{prize}**\nGagnant(s) : {winners}\nOrganisé par : {host}\nID : `{id}`"
+      }
+    },
+    "advent": {
+      "label": "Calendrier de l'Avent",
+      "description": "Du 1er au 24 décembre, chaque membre ouvre une porte par jour et gagne des pièces et/ou un objet.",
+      "announce": "🎄 La porte du **jour {day}** du calendrier de l'Avent est ouverte ! Utilise `/avent ouvrir` pour découvrir ta récompense.",
+      "command": {
+        "description": "Calendrier de l'Avent : ouvre ta porte du jour.",
+        "open": "Ouvre la porte du jour (ou d'un jour précis).",
+        "dayOption": "Jour à ouvrir (1-24). Par défaut : aujourd'hui.",
+        "calendar": "Affiche ta progression dans le calendrier."
+      },
+      "feedback": {
+        "disabled": "❌ Le calendrier de l'Avent est désactivé sur ce serveur.",
+        "closed": "🎄 Le calendrier n'est pas ouvert (uniquement du 1er au 24 décembre).",
+        "locked": "🔒 La porte du jour {day} n'est pas encore ouvrable.",
+        "already": "🎁 Tu as déjà ouvert la porte du jour {day}."
+      },
+      "calendar": {
+        "title": "🎄 Calendrier de l'Avent",
+        "footerOpen": "Jour {day} · {opened}/24 portes ouvertes",
+        "footerClosed": "Reviens du 1er au 24 décembre !"
+      },
+      "reward": {
+        "title": "🎁 Porte {day} ouverte !",
+        "coins": "💰 +{coins} pièces",
+        "item": "🎁 +{qty}× {item}",
+        "nothing": "…mais la porte était vide cette fois.",
+        "balance": "Solde : {balance} pièces"
+      },
+      "panel": {
+        "intro": "Configure le calendrier : salon d'annonce, pièces par défaut, et la récompense de chaque jour (pièces + objet + message). Choisis un jour pour l'éditer.",
+        "announceField": "Salon d'annonce",
+        "notSet": "*non défini*",
+        "testField": "Mode test",
+        "testOn": "✅ Activé (toutes les portes ouvrables)",
+        "testOff": "⛔ Désactivé (décembre uniquement)",
+        "defaultCoinsField": "Pièces par défaut",
+        "daysField": "Récompenses par jour",
+        "allDefault": "Tous les jours : {coins} pièces (par défaut).",
+        "coinsShort": "{coins} pièces",
+        "dayN": "Jour {day}",
+        "dayPickPlaceholder": "Éditer un jour…",
+        "announcePlaceholder": "Salon d'annonce quotidienne (optionnel)",
+        "disableTest": "Désactiver le mode test",
+        "enableTest": "Activer le mode test",
+        "editDefaultCoins": "Pièces par défaut",
+        "noItem": "*aucun objet*",
+        "itemMissing": "*objet supprimé*",
+        "dayEditTitle": "Jour {day}",
+        "dayEditIntro": "Récompense spécifique à ce jour.",
+        "dayEditDefault": "Ce jour utilise la récompense par défaut. Modifie-le pour la personnaliser.",
+        "coinsField": "Pièces",
+        "itemField": "Objet",
+        "messageField": "Message",
+        "noMessage": "*aucun*",
+        "itemPickPlaceholder": "Objet à offrir ce jour…",
+        "editReward": "✏️ Modifier la récompense",
+        "clearItem": "Retirer l'objet",
+        "back": "◀ Retour",
+        "rewardModalTitle": "Récompense — jour {day}",
+        "itemQtyField": "Quantité d'objet"
+      }
+    },
+    "reports": {
+      "label": "Signalements",
+      "description": "Permet aux membres de signaler un comportement au staff.",
+      "command": {
+        "description": "Signaler un membre au staff.",
+        "member": "Le membre à signaler.",
+        "reason": "La raison du signalement.",
+        "message": "Lien Discord vers le message concerné (optionnel)."
+      },
+      "status": {
+        "open": "Ouvert",
+        "taken": "Pris en charge",
+        "resolved": "Résolu",
+        "ignored": "Ignoré"
+      },
+      "button": {
+        "take": "Prendre",
+        "resolve": "Résolu",
+        "ignore": "Ignorer"
+      },
+      "embed": {
+        "title": "Signalement",
+        "target": "Membre signalé",
+        "reporter": "Signalé par",
+        "status": "Statut",
+        "source": "Source",
+        "assignee": "Pris par",
+        "resolvedBy": "Traité par",
+        "jump": "Voir le message",
+        "none": "*non renseignée*",
+        "footer": "Signalement {id}"
+      },
+      "panel": {
+        "intro": "Configure le salon privé staff où arrivent les signalements. Le membre qui signale aura uniquement accès au fil privé créé pour son signalement.",
+        "channelField": "Salon des signalements",
+        "staffField": "Rôle staff",
+        "notSet": "*non défini*",
+        "staffDefault": "*Gérer le serveur*",
+        "channelPlaceholder": "Salon texte staff où envoyer les signalements",
+        "staffPlaceholder": "Rôle autorisé à traiter les signalements"
+      },
+      "feedback": {
+        "staffOnly": "⛔ Seul le staff peut traiter ce signalement.",
+        "gone": "❌ Ce signalement est introuvable.",
+        "closed": "ℹ️ Ce signalement est déjà fermé."
+      },
+      "notConfigured": "❌ Aucun salon de signalements n’est configuré. Un admin doit le définir dans `/config`.",
+      "channelGone": "❌ Le salon de signalements est introuvable. Préviens un administrateur.",
+      "selfReport": "❌ Tu ne peux pas te signaler toi-même.",
+      "submitted": "✅ Signalement envoyé au staff.",
+      "sendError": "❌ Impossible d’envoyer le signalement. Vérifie mes permissions dans le salon configuré (Voir le salon, Envoyer des messages, Créer des fils privés, Gérer les fils).",
+      "threadName": "Signalement {id}",
+      "invalidMessageLink": "❌ Le lien du message est invalide ou ne vient pas de ce serveur.",
+      "submittedWithThread": "✅ Signalement envoyé au staff. Tu as accès au fil privé {thread}.",
+      "threadIntro": "{reporter}, ton signalement concernant {target} est ouvert ici. Seul le staff autorisé peut suivre ce fil avec toi.",
+      "staffThreadLine": "Fil privé reporter/staff : {thread}"
+    },
+    "tempvoice": {
+      "label": "Salons vocaux temporaires",
+      "description": "Rejoindre un salon générateur crée un salon vocal perso, supprimé quand il se vide.",
+      "createReason": "Salon vocal temporaire de {user}",
+      "autoTransfer": "👑 {user} devient le nouveau propriétaire du salon.",
+      "command": {
+        "description": "Gérer ton salon vocal temporaire.",
+        "panel": "Réafficher le panneau de contrôle dans ton salon.",
+        "claim": "Devenir propriétaire du salon si l'actuel est parti.",
+        "transfer": "Transférer la propriété à un membre.",
+        "transferMember": "Le membre qui recevra la propriété.",
+        "rename": "Renommer ton salon.",
+        "renameValue": "Le nouveau nom du salon.",
+        "limit": "Définir la limite de membres.",
+        "limitValue": "Limite (0 = illimité).",
+        "notInVoice": "❌ Tu dois être dans un salon vocal.",
+        "notTemp": "❌ Ce salon n'est pas un salon temporaire.",
+        "claimed": "👑 Tu es maintenant propriétaire du salon.",
+        "panelPosted": "✅ Panneau de contrôle publié.",
+        "transferred": "👑 Propriété transférée.",
+        "renamed": "✏️ Salon renommé.",
+        "limitSet": "👥 Limite mise à jour."
+      },
+      "panel": {
+        "intro": "Configure un ou plusieurs salons générateurs (« hubs »). Quand un membre en rejoint un, le bot lui crée un salon vocal personnel et l'y déplace.",
+        "hubsField": "Salons générateurs",
+        "noHubs": "*Aucun hub. Sélectionne un salon vocal ci-dessous pour en ajouter un.*",
+        "limitShort": "limite {limit}",
+        "unlimited": "illimitée",
+        "controlField": "Panneau de contrôle",
+        "controlOn": "✅ Publié dans le salon créé",
+        "controlOff": "⛔ Désactivé",
+        "addHubPlaceholder": "Ajouter un salon générateur (vocal)",
+        "manageHubs": "Gérer les hubs",
+        "enablePanel": "Activer le panneau",
+        "disablePanel": "Désactiver le panneau",
+        "hubListTitle": "Hubs configurés",
+        "hubListIntro": "Choisis un hub à modifier.",
+        "hubPickPlaceholder": "Choisir un hub…",
+        "back": "◀ Retour",
+        "hubEditTitle": "Réglages du hub",
+        "hubEditIntro": "Catégorie, gabarit de nom, limite, bitrate et verrouillage par défaut.",
+        "hubChannel": "Salon générateur",
+        "hubCategory": "Catégorie",
+        "hubCategoryDefault": "*celle du hub*",
+        "hubTemplate": "Gabarit de nom",
+        "hubLimit": "Limite de membres",
+        "hubBitrate": "Bitrate",
+        "hubBitrateDefault": "*par défaut*",
+        "hubLocked": "Verrouillé par défaut",
+        "hubLockedOn": "✅ Oui",
+        "hubLockedOff": "⛔ Non",
+        "hubCategoryPlaceholder": "Catégorie où créer les salons",
+        "editTemplate": "Gabarit de nom",
+        "editLimits": "Limite & bitrate",
+        "lockDefault": "Verrouiller par défaut",
+        "unlockDefault": "Déverrouiller par défaut",
+        "hubInherit": "Permissions du générateur",
+        "hubInheritOn": "✅ Copiées à la création (restrictions de rôles héritées).",
+        "hubInheritOff": "❌ Non copiées (permissions par défaut).",
+        "enableInherit": "Hériter les permissions",
+        "disableInherit": "Ne plus hériter",
+        "deleteHub": "Supprimer ce hub",
+        "templateTitle": "Gabarit de nom",
+        "templateField": "Nom ({user}, {username})",
+        "limitsTitle": "Limite & bitrate",
+        "limitField": "Limite de membres (0-99)",
+        "bitrateField": "Bitrate en kbps (vide = défaut)",
+        "noHubsYet": "❌ Ajoute d'abord un hub."
+      },
+      "control": {
+        "title": "Configuration du salon",
+        "intro": "Voici l'espace de configuration de votre salon vocal temporaire. Les différentes options disponibles vous permettent de personnaliser les permissions de votre salon selon vos préférences.",
+        "currentState": "👑 {owner} · Accès : **{access}** · Limite : **{limit}** · 🎤 {micro} · 📹 {video} · 🎵 {soundboard}",
+        "unlimited": "illimitée",
+        "none": "Aucun",
+        "on": "activé",
+        "off": "coupé",
+        "mode_open": "🔊 Ouvert",
+        "mode_closed": "🔒 Fermé",
+        "mode_private": "🔇 Privé",
+        "tip": "💡 Les membres de la liste blanche ne sont pas impactés par les permissions refusées aux membres.",
+        "open": "🔊 Ouvert",
+        "closed": "🔒 Fermé",
+        "private": "🔇 Privé",
+        "whitelistBtn": "✅ Liste blanche",
+        "blacklistBtn": "📋 Liste noire",
+        "purge": "➡️ Purge",
+        "micro": "🎤 Micro",
+        "video": "📹 Vidéo",
+        "soundboard": "🎵 Soundboards",
+        "status": "🏷️ Statut",
+        "transfer": "👑 Transférer",
+        "settings": "⚙️ Réglages",
+        "save": "💾 Sauvegarder",
+        "claim": "🙋 Revendiquer",
+        "delete": "🗑️ Supprimer",
+        "back": "◀ Retour",
+        "media": "🎤 Micro · 📹 Vidéo · 🎵 Soundboard",
+        "desc_open": "Le salon sera ouvert à tous les membres, sauf ceux figurant sur la liste noire.",
+        "desc_closed": "Le salon sera visible de tous, mais seulement accessible à la liste blanche.",
+        "desc_private": "Le salon ne sera visible et accessible qu'aux membres de la liste blanche.",
+        "desc_whitelist": "Les membres et rôles présents dans cette liste pourront toujours rejoindre le salon.",
+        "desc_blacklist": "Les membres présents dans cette liste ne pourront jamais rejoindre le salon.",
+        "desc_purge": "Déconnecter tous les membres du salon vocal à l'exception de ceux présents dans la liste blanche.",
+        "desc_transfer": "Transférer la gestion du salon au membre de votre choix.",
+        "desc_settings": "Modifier le nom et la limite de membres du salon.",
+        "desc_media": "Autoriser ou couper le micro, la caméra et le soundboard des membres. ⚠️ Sans effet sur les administrateurs et le propriétaire du serveur (limitation Discord).",
+        "wlPlaceholder": "Membres toujours autorisés à rejoindre",
+        "blPlaceholder": "Membres interdits de rejoindre",
+        "transferPlaceholder": "Nouveau propriétaire (présent dans le salon)",
+        "nameField": "Nom du salon",
+        "limitField": "Limite de membres (0 = illimité)",
+        "statusTitle": "Statut du salon",
+        "statusField": "Statut (laisser vide pour retirer)",
+        "statusPlaceholder": "Ex. : 🎮 On joue à…",
+        "settingsTitle": "Réglages du salon",
+        "notTemp": "❌ Ce salon n'est pas un salon temporaire.",
+        "notOwner": "⛔ Seul le propriétaire du salon peut faire ça.",
+        "ownerPresent": "❌ Le propriétaire est toujours présent, tu ne peux pas revendiquer le salon.",
+        "notInChannel": "❌ Tu dois être dans le salon pour le revendiquer.",
+        "transferAbsent": "❌ Ce membre doit être dans le salon pour recevoir la propriété.",
+        "purged": "🔌 {count} membre(s) déconnecté(s).",
+        "saved": "💾 Réglages enregistrés : ils seront réappliqués à ton prochain salon.",
+        "deleting": "🗑️ Suppression du salon…",
+        "ownerLine": "Propriétaire du salon : {owner}",
+        "wlRolePlaceholder": "Rôles toujours autorisés à rejoindre"
+      }
+    },
+    "streamalerts": {
+      "label": "Alertes stream & flux",
+      "description": "Annonce dans un salon les lives, vidéos et nouveautés de flux (Twitch, YouTube, Reddit, RSS, Dealabs).",
+      "platform": {
+        "twitch": "Twitch",
+        "youtube": "YouTube",
+        "reddit": "Reddit",
+        "rss": "Flux RSS",
+        "dealabs": "Dealabs"
+      },
+      "embed": {
+        "twitchTitle": "🔴 {name} est en live !",
+        "youtubeTitle": "📺 Nouvelle vidéo de {name} !",
+        "game": "Catégorie",
+        "redditTitle": "🟠 Nouveau post sur {name} !",
+        "rssTitle": "📰 Nouvel article — {name}",
+        "dealabsTitle": "🏷️ Nouveau deal — {name}",
+        "price": "🏷️ Prix",
+        "temperature": "🌡️ Température",
+        "merchant": "🏪 Marchand"
+      },
+      "announceTwitch": "🔴 **{name}** est en live sur Twitch ! {url}",
+      "announceYoutube": "📺 **{name}** vient de publier une vidéo ! {url}",
+      "panel": {
+        "intro": "Suis des sources et annonce leurs nouveautés dans un salon : lives Twitch, vidéos YouTube, posts Reddit, articles RSS et deals Dealabs. Ajoute une source, choisis le salon et, si tu veux, un rôle à mentionner et un message personnalisé.",
+        "noSubs": "*Aucune source. Ajoute une chaîne, un subreddit, un flux RSS ou Dealabs ci-dessous.*",
+        "noChannel": "⚠️ salon non défini (inactif)",
+        "subsField": "Sources suivies",
+        "twitchStatus": "API Twitch",
+        "twitchOn": "✅ Clés configurées (`.env`)",
+        "twitchOff": "⛔ `TWITCH_CLIENT_ID`/`SECRET` manquants — Twitch inactif (YouTube fonctionne sans clé).",
+        "addTwitch": "➕ Twitch",
+        "addYoutube": "➕ YouTube",
+        "manage": "Gérer les abonnements",
+        "listTitle": "Abonnements",
+        "listIntro": "Choisis un abonnement à modifier.",
+        "pickPlaceholder": "Choisir un abonnement…",
+        "back": "◀ Retour",
+        "editTitle": "Abonnement — {name}",
+        "editIntro": "Salon d'annonce, rôle à mentionner et message personnalisé.",
+        "platformField": "Plateforme",
+        "channelField": "Salon d'annonce",
+        "notSet": "*non défini*",
+        "roleField": "Rôle mentionné",
+        "noRole": "*aucun*",
+        "messageField": "Message personnalisé",
+        "defaultMessage": "*message par défaut*",
+        "channelPlaceholder": "Salon où poster les annonces",
+        "rolePlaceholder": "Rôle à mentionner (optionnel)",
+        "editMessage": "✏️ Message",
+        "deleteSub": "🗑️ Supprimer",
+        "add_twitchTitle": "Ajouter une chaîne Twitch",
+        "add_youtubeTitle": "Ajouter une chaîne YouTube",
+        "twitchIdField": "Pseudo Twitch",
+        "youtubeIdField": "Chaîne YouTube (@handle, nom ou UC…)",
+        "messageTitle": "Message d'annonce",
+        "messageInput": "Texte du message",
+        "addReddit": "➕ Reddit",
+        "addRss": "➕ RSS",
+        "addDealabs": "➕ Dealabs",
+        "add_redditTitle": "Ajouter un subreddit",
+        "add_rssTitle": "Ajouter un flux RSS",
+        "add_dealabsTitle": "Ajouter une alerte Dealabs",
+        "redditIdField": "Subreddit (ex. gaming ou r/gaming)",
+        "rssIdField": "URL du flux RSS/Atom",
+        "dealabsIdField": "Mot-clé de filtre (optionnel)",
+        "testButton": "🧪 Tester",
+        "test_ok": "✅ Annonce de test envoyée dans le salon configuré.",
+        "test_nochannel": "⚠️ Choisis d'abord un salon d'annonce pour cette source.",
+        "test_notfound": "❌ Rien à annoncer : source introuvable, vide, ou filtre sans résultat (Twitch nécessite les clés API).",
+        "test_unreachable": "❌ Flux injoignable : la source est bloquée (Cloudflare ?) ou l'URL est invalide. Vérifie l'accès réseau du bot à ce site.",
+        "dealabsStatus": "Dealabs (Cloudflare)",
+        "dealabsOn": "✅ Résolveur FlareSolverr configuré.",
+        "dealabsOff": "⛔ `FLARESOLVERR_URL` manquant — Dealabs bloqué par Cloudflare (voir README)."
+      }
+    },
+    "serverstats": {
+      "label": "Compteurs de serveur",
+      "description": "Des salons dont le nom affiche une statistique du serveur, mise à jour automatiquement.",
+      "type": {
+        "members": "Membres",
+        "humans": "Humains",
+        "bots": "Bots",
+        "boosts": "Boosts",
+        "roles": "Rôles",
+        "channels": "Salons",
+        "role": "Membres d'un rôle"
+      },
+      "default": {
+        "members": "👥 {count} membres",
+        "humans": "🧑 {count} humains",
+        "bots": "🤖 {count} bots",
+        "boosts": "🚀 {count} boosts",
+        "roles": "🏷️ {count} rôles",
+        "channels": "📁 {count} salons",
+        "role": "⭐ {count}"
+      },
+      "panel": {
+        "intro": "Ajoute un salon (vocal, textuel ou catégorie) comme compteur : son nom affichera une statistique et se met à jour toutes les 10 minutes. Tu peux créer plusieurs compteurs sur plusieurs salons/catégories. ⚠️ Discord met les noms de salons **textuels** en minuscules — préfère un salon vocal ou une catégorie pour un rendu propre.",
+        "noCounters": "*Aucun compteur. Sélectionne un salon vocal ci-dessous pour en créer un.*",
+        "countersField": "Compteurs",
+        "noCountersYet": "❌ Aucun compteur pour le moment. Ajoute d'abord un salon avec le sélecteur ci-dessus.",
+        "addPlaceholder": "Ajouter un salon (vocal, textuel, catégorie)",
+        "manage": "Gérer les compteurs",
+        "listTitle": "Compteurs",
+        "listIntro": "Choisis un compteur à modifier.",
+        "pickPlaceholder": "Choisir un compteur…",
+        "back": "◀ Retour",
+        "editTitle": "Réglages du compteur",
+        "editIntro": "Type de statistique, gabarit du nom et (pour « Membres d'un rôle ») le rôle à compter.\n⚠️ Discord limite les renommages à **2 / 10 min par salon** : après deux changements rapides, le nom du salon peut mettre plusieurs minutes à suivre — le panneau, lui, reste à jour.",
+        "channelField": "Salon",
+        "typeField": "Type",
+        "templateField": "Gabarit du nom",
+        "roleField": "Rôle compté",
+        "noRole": "*non défini*",
+        "typePlaceholder": "Type de statistique",
+        "rolePlaceholder": "Rôle à compter",
+        "editTemplate": "✏️ Gabarit",
+        "delete": "🗑️ Supprimer",
+        "templateTitle": "Gabarit du nom",
+        "templateInput": "Nom du salon ({count} = valeur)"
+      }
+    },
+    "configbackup": {
+      "label": "Sauvegarde / export config",
+      "description": "Exporte toute la configuration des modules du serveur en fichier JSON, et la réimporte.",
+      "command": {
+        "description": "Exporte ou importe la configuration des modules du serveur.",
+        "export": "Télécharge toute la config des modules dans un fichier JSON.",
+        "import": "Restaure la config des modules depuis un fichier JSON."
+      },
+      "opt": {
+        "file": "Le fichier JSON de sauvegarde à importer.",
+        "recreate": "Recréer les salons/rôles manquants sur ce serveur (par défaut : oui)."
+      },
+      "export": {
+        "title": "💾 Sauvegarde de la configuration",
+        "done": "Voici la sauvegarde de **{count}** module(s). Garde ce fichier précieusement : tu pourras le réimporter avec `/sauvegarde importer`.",
+        "structure": "🏗️ Structure incluse : **{channels}** salon(s) et **{roles}** rôle(s) référencés — ils pourront être recréés à l'import sur un autre serveur."
+      },
+      "import": {
+        "title": "✅ Configuration importée",
+        "applied": "**{count}** module(s) restauré(s) : {list}",
+        "structure": "🏗️ Structure : **{channelsCreated}** salon(s) créé(s) · {channelsReused} réutilisé(s) — **{rolesCreated}** rôle(s) créé(s) · {rolesReused} réutilisé(s).",
+        "structureFailed": "⚠️ **{failed}** élément(s) n'ont pas pu être créés — le bot a besoin des permissions **Gérer les rôles** et **Gérer les salons** (et d'être assez haut dans la hiérarchie).",
+        "structureMissing": "ℹ️ Cette sauvegarde ne contient pas la structure (salons/rôles). Ré-exporte-la depuis la dernière version du bot pour permettre la recréation automatique.",
+        "skippedUnknown": "⚠️ Modules inconnus ignorés : {list}",
+        "skippedInvalid": "⚠️ Config invalide ignorée : {list}",
+        "otherGuild": "ℹ️ Cette sauvegarde provient d'un autre serveur — vérifie les réglages après coup.",
+        "tooLarge": "❌ Le fichier est trop volumineux (max 1 Mo). Ce n'est probablement pas une sauvegarde valide.",
+        "downloadFailed": "❌ Impossible de télécharger le fichier joint. Réessaie.",
+        "invalidJson": "❌ Le fichier n'est pas un JSON valide.",
+        "invalidShape": "❌ Ce fichier n'est pas une sauvegarde Vakz-Bot valide."
+      }
+    },
+    "verification": {
+      "label": "Vérification",
+      "description": "Porte d'entrée anti-bot : un bouton ou un captcha image attribue le rôle vérifié qui débloque le serveur.",
+      "panel": {
+        "intro": "Publie un message de vérification avec un bouton qui attribue le rôle vérifié — au choix par simple clic ou après un captcha image.",
+        "channelField": "Salon",
+        "roleField": "Rôle vérifié",
+        "methodField": "Méthode",
+        "statusField": "Message",
+        "logField": "Salon de logs",
+        "previewField": "Aperçu du message",
+        "notSet": "Non défini",
+        "published": "✅ Publié",
+        "notPublished": "⛔ Non publié",
+        "channelPlaceholder": "Salon où publier la vérification…",
+        "rolePlaceholder": "Rôle attribué après vérification…",
+        "logPlaceholder": "Salon de logs (optionnel)…",
+        "methodButton": "Bouton (clic simple)",
+        "methodCaptcha": "Captcha image",
+        "methodToggle": "Méthode : {method}",
+        "editText": "Éditer le texte",
+        "editButton": "Éditer le bouton",
+        "publish": "Publier",
+        "textModalTitle": "Message de vérification",
+        "titleField": "Titre",
+        "contentField": "Contenu",
+        "buttonModalTitle": "Bouton de vérification",
+        "buttonField": "Texte du bouton",
+        "roleWarning": "Je ne pourrai pas attribuer ce rôle : donne-moi « Gérer les rôles » et place mon rôle **au-dessus** du rôle vérifié.",
+        "needRole": "❌ Choisis d'abord un rôle vérifié avant de publier.",
+        "publishError": {
+          "nochannel": "❌ Choisis d'abord un salon valide.",
+          "send": "❌ Impossible d'envoyer le message (vérifie mes permissions dans le salon)."
+        }
+      },
+      "feedback": {
+        "disabled": "❌ La vérification est désactivée sur ce serveur.",
+        "notConfigured": "❌ La vérification n'est pas encore prête (aucun rôle vérifié défini). Préviens un administrateur.",
+        "alreadyVerified": "✅ Tu es déjà vérifié !",
+        "cannotAssign": "❌ Je ne peux pas t'attribuer le rôle vérifié. Un administrateur doit vérifier mes permissions (Gérer les rôles + hiérarchie).",
+        "captchaInstructions": "🔐 Recopie le code affiché sur l'image, puis clique sur « Saisir le code ». La casse n'a pas d'importance.",
+        "captchaWrong": "❌ Code incorrect. Réessaie en cliquant sur « Saisir le code ».",
+        "captchaExpired": "⌛ Le captcha a expiré. Reclique sur « Se vérifier » pour en générer un nouveau.",
+        "success": "✅ Vérification réussie, bienvenue ! Tu as désormais accès au serveur.",
+        "openButton": "Saisir le code",
+        "answerModalTitle": "Vérification",
+        "answerField": "Code affiché sur l'image"
+      },
+      "log": {
+        "verified": "✅ {user} a réussi la vérification."
+      }
+    },
+    "customcommands": {
+      "label": "Commandes personnalisées",
+      "description": "Des auto-réponses déclenchées par des mots-clés : déclencheur → réponse (texte ou embed), avec salon, cooldown et suppression du message.",
+      "match": {
+        "contains": "Contient",
+        "exact": "Exact",
+        "startsWith": "Commence par",
+        "endsWith": "Finit par"
+      },
+      "panel": {
+        "intro": "Crée des réponses automatiques : quand un message correspond à un déclencheur, le bot répond. Variables : {user} · {username} · {server} · {channel}.",
+        "listField": "Commandes ({count})",
+        "noCommands": "Aucune commande pour le moment. Clique sur « Ajouter ».",
+        "add": "Ajouter",
+        "manage": "Gérer",
+        "back": "Retour",
+        "listTitle": "Gérer les commandes",
+        "listIntro": "Choisis une commande à modifier.",
+        "pickPlaceholder": "Choisis une commande…",
+        "editTitle": "Modifier la commande",
+        "editIntro": "Règle le déclencheur, la réponse et les options ci-dessous.",
+        "triggerField": "Déclencheur",
+        "matchField": "Correspondance",
+        "channelField": "Salon",
+        "anyChannel": "Tous",
+        "embedField": "En embed",
+        "deleteField": "Supprime le message",
+        "cooldownField": "Cooldown",
+        "responseField": "Réponse",
+        "on": "✅ Oui",
+        "off": "⛔ Non",
+        "matchPlaceholder": "Type de correspondance…",
+        "channelPlaceholder": "Limiter à un salon (optionnel)…",
+        "editResponse": "Éditer la réponse",
+        "toggleEmbed": "Embed",
+        "toggleDelete": "Suppr. message",
+        "editCooldown": "Cooldown",
+        "delete": "Supprimer",
+        "createTitle": "Nouvelle commande",
+        "triggerInput": "Déclencheur (ex. bonjour)",
+        "responseInput": "Réponse (variables {user} {server}…)",
+        "responseTitle": "Réponse de la commande",
+        "cooldownTitle": "Délai anti-spam",
+        "cooldownInput": "Cooldown en secondes (0 = aucun)"
+      }
+    },
+    "scheduledmessages": {
+      "label": "Messages récurrents",
+      "description": "Publie automatiquement des messages dans un salon selon une cadence (quotidien, hebdomadaire ou toutes les N heures).",
+      "type": {
+        "daily": "Quotidien",
+        "weekly": "Hebdomadaire",
+        "interval": "Par intervalle"
+      },
+      "weekday": {
+        "0": "Dimanche",
+        "1": "Lundi",
+        "2": "Mardi",
+        "3": "Mercredi",
+        "4": "Jeudi",
+        "5": "Vendredi",
+        "6": "Samedi"
+      },
+      "describe": {
+        "daily": "Tous les jours à {time}",
+        "weekly": "Chaque {day} à {time}",
+        "interval": "Toutes les {hours} h"
+      },
+      "panel": {
+        "intro": "Programme des messages postés automatiquement. Les heures sont dans le fuseau du bot (Europe/Paris).",
+        "listField": "Messages ({count})",
+        "noMessages": "Aucun message programmé. Choisis un salon ci-dessous pour en ajouter un.",
+        "addPlaceholder": "Ajouter un message dans un salon…",
+        "manage": "Gérer",
+        "back": "Retour",
+        "listTitle": "Gérer les messages",
+        "listIntro": "Choisis un message à modifier.",
+        "pickPlaceholder": "Choisis un message…",
+        "editTitle": "Modifier le message",
+        "editIntro": "Règle la cadence, le salon et le contenu ci-dessous.",
+        "channelField": "Salon",
+        "scheduleField": "Cadence",
+        "embedField": "En embed",
+        "contentField": "Contenu",
+        "on": "✅ Oui",
+        "off": "⛔ Non",
+        "cadencePlaceholder": "Type de cadence…",
+        "weekdayPlaceholder": "Jour de la semaine…",
+        "channelPlaceholder": "Changer de salon…",
+        "editContent": "Éditer le contenu",
+        "editTime": "Régler l'horaire",
+        "toggleEmbed": "Embed",
+        "sendNow": "Envoyer maintenant",
+        "delete": "Supprimer",
+        "defaultContent": "Message à personnaliser ✍️",
+        "contentTitle": "Contenu du message",
+        "contentInput": "Contenu (texte ou embed)",
+        "timeTitle": "Horaire",
+        "timeInput": "Heure au format HH:MM (ex. 09:00)",
+        "hoursInput": "Intervalle en heures (1 à 168)",
+        "sendOk": "✅ Message envoyé.",
+        "sendFailed": "❌ Envoi impossible (salon inaccessible ou permissions)."
+      }
+    },
+    "wordreactions": {
+      "label": "Réactions de mots",
+      "description": "Ajoute automatiquement des emojis en réaction aux messages contenant certains mots-clés.",
+      "match": {
+        "contains": "Contient",
+        "word": "Mot entier",
+        "exact": "Exact",
+        "startsWith": "Commence par",
+        "endsWith": "Finit par"
+      },
+      "panel": {
+        "intro": "Quand un message correspond à un déclencheur, le bot y ajoute les emojis choisis. Plusieurs règles peuvent s'appliquer au même message.",
+        "listField": "Règles ({count})",
+        "noRules": "Aucune règle pour le moment. Clique sur « Ajouter ».",
+        "add": "Ajouter",
+        "manage": "Gérer",
+        "back": "Retour",
+        "listTitle": "Gérer les réactions",
+        "listIntro": "Choisis une règle à modifier.",
+        "pickPlaceholder": "Choisis une règle…",
+        "editTitle": "Modifier la règle",
+        "editIntro": "Règle le déclencheur, les emojis, la correspondance et le salon.",
+        "triggerField": "Déclencheur",
+        "matchField": "Correspondance",
+        "channelField": "Salon",
+        "anyChannel": "Tous",
+        "emojisField": "Emojis",
+        "matchPlaceholder": "Type de correspondance…",
+        "channelPlaceholder": "Limiter à un salon (optionnel)…",
+        "editRule": "Éditer",
+        "delete": "Supprimer",
+        "modalTitle": "Réaction de mot",
+        "triggerInput": "Déclencheur (ex. bravo)",
+        "emojisInput": "Emojis (unicode ou :nom:), max 3",
+        "invalidEmojis": "❌ Indique au moins un emoji valide : un emoji unicode 😀, ou la forme `:nom:` d'un emoji du serveur, séparés par un espace."
+      }
+    },
+    "info": {
+      "label": "Commandes d'informations",
+      "description": "Commandes utilitaires : infos sur un membre, le serveur, un rôle, ou l'avatar de quelqu'un.",
+      "opt": {
+        "member": "Le membre concerné (par défaut : toi).",
+        "role": "Le rôle concerné.",
+        "emoji": "L'emoji à agrandir (personnalisé, :nom: ou unicode)."
+      },
+      "yes": "✅ Oui",
+      "no": "⛔ Non",
+      "field": {
+        "id": "Identifiant",
+        "bot": "Bot",
+        "created": "Compte créé",
+        "joined": "A rejoint",
+        "roles": "Rôles ({count})",
+        "boosting": "Booste depuis",
+        "owner": "Propriétaire",
+        "members": "Membres",
+        "boosts": "Boosts",
+        "channels": "Salons",
+        "emojis": "Emojis",
+        "color": "Couleur",
+        "position": "Position"
+      },
+      "boostValue": "**{count}** (niveau {tier})",
+      "channelValue": "💬 {text} · 🔊 {voice} · 📁 {categories}",
+      "userinfo": {
+        "description": "Affiche les informations d'un membre.",
+        "title": "Informations sur {user}"
+      },
+      "serverinfo": {
+        "description": "Affiche les informations du serveur.",
+        "title": "Informations sur {server}"
+      },
+      "avatar": {
+        "description": "Affiche l'avatar d'un membre en grand.",
+        "title": "Avatar de {user}",
+        "link": "Lien",
+        "serverLink": "Avatar du serveur"
+      },
+      "roleinfo": {
+        "description": "Affiche les informations d'un rôle.",
+        "title": "Informations sur {role}",
+        "hoisted": "Affiché à part",
+        "mentionable": "Mentionnable",
+        "managed": "Géré (bot/intégration)",
+        "permissions": "Permissions",
+        "admin": "👑 Administrateur",
+        "permCount": "{count} permission(s)"
+      },
+      "emoji": {
+        "description": "Affiche un emoji en grand (téléchargeable).",
+        "download": "Téléchargement",
+        "animated": "🎞️ Animé",
+        "static": "🖼️ Statique",
+        "notEmoji": "❌ Ce n'est pas un emoji valide. Donne un emoji personnalisé, un `:nom:` du serveur, ou un emoji unicode."
+      }
+    },
+    "games": {
+      "label": "Jeux",
+      "description": "Des mini-jeux fun : boule magique, dés, pile ou face, tirage, pierre-feuille-ciseaux, morpion et bataille navale (avec stats).",
+      "opt": {
+        "question": "Ta question pour la boule magique.",
+        "count": "Nombre de dés à lancer (défaut : 1).",
+        "options": "Les choix, séparés par « | » ou « , ».",
+        "move": "Ton coup.",
+        "member": "Le membre concerné (par défaut : toi).",
+        "opponent": "Adversaire à défier (laisse vide pour jouer contre le bot)."
+      },
+      "boule8": {
+        "description": "Pose une question à la boule magique.",
+        "title": "🎱 Boule magique",
+        "questionField": "Question",
+        "answerField": "Réponse",
+        "answers": "C'est certain.|Sans aucun doute.|Oui, absolument.|Tu peux compter dessus.|Probablement.|Les signes pointent vers oui.|Peut-être bien.|Difficile à dire, réessaie.|Rien n'est moins sûr.|Concentre-toi et repose la question.|Ne compte pas dessus.|Ma réponse est non.|Mes sources disent non.|Très peu probable.|J'en doute fortement."
+      },
+      "dice": {
+        "description": "Lance un ou plusieurs dés à {faces} faces."
+      },
+      "coin": {
+        "description": "Tire à pile ou face.",
+        "title": "🪙 Pile ou face",
+        "heads": "**Pile !**",
+        "tails": "**Face !**"
+      },
+      "choose": {
+        "description": "Le bot choisit pour toi parmi plusieurs options.",
+        "title": "🤔 Choix",
+        "result": "Je choisis… **{choice}** !",
+        "needTwo": "Donne au moins deux options, séparées par « | » ou « , »."
+      },
+      "pfc": {
+        "description": "Pierre-feuille-ciseaux (contre le bot ou un membre).",
+        "title": "✊ Pierre-Feuille-Ciseaux",
+        "line": "Toi : {player} — Moi : {bot}",
+        "win": "🎉 **Tu gagnes !**",
+        "loss": "😈 **J'ai gagné !**",
+        "draw": "🤝 **Égalité !**",
+        "recordField": "Ton bilan",
+        "record": "🏆 {wins} · 💀 {losses} · 🤝 {draws}",
+        "challenge": "{challenger} défie {opponent} ! {opponent}, choisis ton coup 👇",
+        "duelExpired": "⌛ Ce défi a expiré.",
+        "notYourDuel": "❌ Ce défi ne t'est pas destiné.",
+        "duel": {
+          "challengerWins": "🎉 {challenger} remporte le duel !",
+          "opponentWins": "🎉 {opponent} remporte le duel !",
+          "draw": "🤝 Égalité entre {challenger} et {opponent} !"
+        }
+      },
+      "ttt": {
+        "description": "Joue au morpion contre le bot ou un membre.",
+        "title": "🎮 Morpion",
+        "bot": "l'ordinateur",
+        "turn": "🎯 Au tour de {user}.",
+        "botTurn": "🤖 À moi de jouer…",
+        "wins": "🎉 {user} remporte la partie !",
+        "botWins": "🤖 J'ai gagné ! 😎",
+        "draw": "🤝 Match nul !",
+        "expired": "⌛ Cette partie a expiré.",
+        "notYourTurn": "❌ Ce n'est pas ton tour (ou pas ta partie)."
+      },
+      "bn": {
+        "description": "Joue à la bataille navale contre le bot ou un membre.",
+        "title": "🚢 Bataille navale",
+        "bot": "l'ordinateur",
+        "fire": "Tirer",
+        "coordLabel": "Coordonnée (ex. C7)",
+        "ownGrid": "Ta flotte",
+        "targetGrid": "Tes tirs",
+        "myFleet": "Ma flotte",
+        "turn": "🎯 Au tour de {user} de tirer.",
+        "botTurn": "🤖 À moi de tirer…",
+        "wins": "🎉 {user} remporte la bataille !",
+        "botWins": "🤖 J'ai coulé toute ta flotte ! 😎",
+        "remaining": "🚢 Navires coulés : {sunk}/{total}",
+        "expired": "⌛ Cette partie a expiré.",
+        "notYourTurn": "❌ Ce n'est pas ton tour (ou pas ta partie).",
+        "notPlayer": "❌ Tu ne participes pas à cette partie.",
+        "invalidCoord": "❌ Coordonnée invalide. Une lettre (A-H) et un chiffre (1-8), ex. C7.",
+        "alreadyShot": "❌ Tu as déjà tiré sur cette case.",
+        "shotMiss": "🌊 {who} tire en {coord} : à l'eau !",
+        "shotHit": "🎯 {who} tire en {coord} : touché !",
+        "shotSunk": "💥 {who} tire en {coord} : coulé !"
+      },
+      "stats": {
+        "description": "Affiche les statistiques de jeu d'un membre.",
+        "title": "🎮 Stats de jeu — {user}",
+        "none": "Aucune partie jouée pour le moment.",
+        "value": "{plays} parties · 🏆 {wins} · 💀 {losses} · 🤝 {draws} · {winrate}% de victoires",
+        "pfcField": "✊ Pierre-Feuille-Ciseaux",
+        "morpionField": "🎮 Morpion",
+        "batailleField": "🚢 Bataille navale"
+      }
+    },
+    "deploy": {
+      "label": "Mise à jour",
+      "description": "Met à jour le bot (git pull + rebuild). Réservé au propriétaire.",
+      "disabled": "❌ La mise à jour depuis le bot n'est pas configurée (définis `BOT_OWNER_ID`).",
+      "notOwner": "❌ Seul le propriétaire du bot peut lancer une mise à jour.",
+      "title": "🚀 Mise à jour du bot",
+      "intro": "Confirme pour lancer `git pull` puis `docker compose up -d --build` sur l'hôte. Le bot va redémarrer.",
+      "statusField": "Dernier déploiement",
+      "noResult": "*(aucun déploiement enregistré)*",
+      "lastResult": "{icon} {status} {when}{commit}",
+      "logField": "Journal",
+      "confirm": "Mettre à jour",
+      "cancel": "Annuler",
+      "cancelled": "Mise à jour annulée.",
+      "requested": "🚀 Mise à jour de **`{branch}`** demandée. L'hôte va récupérer le code et reconstruire — le bot va redémarrer dans un instant.",
+      "requestFailed": "❌ Impossible d'écrire la demande de mise à jour (vérifie le dossier `DEPLOY_DIR` et les droits).",
+      "restarted": "{icon} Bot redémarré. Mise à jour terminée : `{status}`{commit}.",
+      "restartedNoResult": "✅ Bot redémarré. Le résultat de mise à jour n’est pas encore disponible.",
+      "currentStatusField": "Etat de l updater",
+      "statusUnknown": "*(aucun etat updater disponible)*",
+      "requestNotPicked": "⚠️ L updater hote n a pas encore pris la demande. Dernier etat : {status}\nVerifie que `vakzbot-updater.sh loop` tourne ou que le service systemd `.path` surveille bien `DEPLOY_DIR`.",
+      "updateTimeout": "⚠️ Aucun redemarrage ni resultat apres {seconds}s. Dernier etat : {status}\nVerifie les logs de l updater hote et Docker Compose.",
+      "updateFailed": "❌ Mise a jour echouee avant redemarrage. Dernier etat : {status}",
+      "updateFinishedNoRestart": "⚠️ L updater a termine en `{status}` (commit `{commit}`), mais le bot n a pas redemarre apres {seconds}s. Si Docker indique \"no changes\", c est probablement que l image/conteneur n a pas ete recree.",
+      "branchField": "Branche à déployer",
+      "branchPlaceholder": "Choisis la branche à déployer…"
+    },
+    "route": {
+      "label": "Route de l'Infini",
+      "description": "Aventure solo : avance sur la route, affronte des événements aléatoires et gagne pièces et objets.",
+      "opt": {
+        "member": "Le membre concerné (par défaut : toi)."
+      },
+      "commands": {
+        "move": "Avance d'un pas sur la Route de l'Infini.",
+        "profile": "Affiche le profil d'un voyageur.",
+        "leaderboard": "Classement des plus grandes distances."
+      },
+      "noTraveler": "🧭 {user} n'a pas encore pris la route (`/route avancer`).",
+      "profileTitle": "🧭 Voyageur — {user}",
+      "moveTitle": "🧭 {user} avance sur la Route de l'Infini",
+      "leaderboardEmpty": "Personne n'a encore parcouru de distance.",
+      "leaderboardTitle": "🏆 Route de l'Infini — plus grandes distances",
+      "cooldown": "😮‍💨 Tu es fatigué. Tu pourras repartir {time}.",
+      "itemFound": "🎁 Tu obtiens **{emoji} {name}** !",
+      "fainted": "💀 Tu es tombé à court de forces… tu te réveilles au dernier campement (distance divisée par deux).",
+      "stats": {
+        "title": "État du voyageur",
+        "body": "❤️ {bar} {health}/{maxHealth}\n⚡ Énergie : {energy}/100\n📏 Distance : {distance}\n🪙 Pièces gagnées : {coins}\n🎲 Événements : {events}"
+      },
+      "events": {
+        "path": "🥾 Tu marches sur un sentier paisible et progresses tranquillement.",
+        "treasure": "💰 Tu déterres un coffre oublié rempli de pièces !",
+        "monster": "⚔️ Une créature surgit ! Tu la combats et poursuis ta route, marqué par le combat.",
+        "trap": "🪤 Un piège se referme sur toi ! Tu t'en dégages tant bien que mal.",
+        "merchant": "🧺 Un marchand ambulant croise ta route.",
+        "rest": "🏕️ Tu montes le camp et récupères des forces.",
+        "shortcut": "🧭 Tu découvres un raccourci et avances à grands pas !",
+        "storm": "🌩️ Une tempête violente te ralentit et t'épuise.",
+        "friend": "🤝 Un compagnon de route partage vivres et pièces avec toi.",
+        "abyss": "🕳️ Tu chutes dans un gouffre… tu remontes de justesse, couvert de blessures mais les poches pleines."
+      },
+      "panel": {
+        "intro": "Règle le rythme de l'aventure et les récompenses.",
+        "on": "✅ Activé",
+        "off": "❌ Désactivé",
+        "cooldownField": "Délai entre deux pas",
+        "cooldownValue": "{minutes} min",
+        "coinsField": "Pièces (économie)",
+        "itemsField": "Objets trouvés",
+        "editCooldown": "Modifier le délai",
+        "cooldownLabel": "Délai en minutes (0-1440)"
+      }
+    },
+    "bingo": {
+      "label": "Bingo",
+      "description": "Bingo de serveur : cartons 5×5, tirages, détection de ligne ou de carton plein.",
+      "opt": {
+        "mode": "Condition de victoire (défaut : une ligne)."
+      },
+      "modeLine": "Une ligne",
+      "modeFull": "Carton plein",
+      "commands": {
+        "start": "Démarre une nouvelle partie de Bingo (staff).",
+        "join": "Reçois ton carton de Bingo.",
+        "card": "Affiche ton carton.",
+        "draw": "Tire le prochain numéro (staff).",
+        "stop": "Termine la partie en cours (staff)."
+      },
+      "staffOnly": "❌ Réservé au staff (permission Gérer le serveur).",
+      "noGame": "❌ Aucune partie en cours. Le staff peut la lancer avec `/bingo demarrer`.",
+      "startedTitle": "🎲 Bingo lancé !",
+      "startedBody": "Mode : **{mode}**. Prenez votre carton avec `/bingo rejoindre`, puis le staff tire les numéros avec `/bingo tirer`.",
+      "joined": "🎫 Voici ton carton (case ★ = libre) :",
+      "yourCard": "🎫 Ton carton :",
+      "noCard": "❌ Tu n'as pas de carton. Rejoins avec `/bingo rejoindre`.",
+      "stopped": "🛑 Partie de Bingo terminée.",
+      "allDrawn": "Tous les numéros ont déjà été tirés !",
+      "drawTitle": "🎱 Tirage",
+      "drawBody": "Numéro tiré : **{number}** ({count}/75). Vérifiez vos cartons !",
+      "winnersField": "🎉 BINGO !",
+      "myCardButton": "Mon carton"
+    },
+    "freegames": {
+      "label": "Jeux gratuits",
+      "description": "Annonce les jeux qui deviennent gratuits à garder (Steam, Epic Games, GOG) dans un salon.",
+      "embedDescription": "🎮 **Gratuit à récupérer** sur {store} pour une durée limitée !\n[Voir sur la boutique]({url})",
+      "priceField": "Prix",
+      "free": "Gratuit",
+      "command": {
+        "description": "Affiche les jeux actuellement gratuits (Steam, Epic, GOG).",
+        "none": "🎮 Aucun jeu gratuit à récupérer pour le moment.",
+        "title": "🎮 **{count}** jeu(x) gratuit(s) à récupérer :"
+      },
+      "panel": {
+        "intro": "Choisis le salon d'annonce, un rôle à mentionner et les plateformes à surveiller. Le bot vérifie toutes les 30 min et annonce chaque nouveau jeu offert.",
+        "channelField": "Salon d'annonce",
+        "roleField": "Rôle mentionné",
+        "notSet": "*(non défini — module inactif)*",
+        "none": "*(aucun)*",
+        "channelPlaceholder": "Salon où annoncer les jeux gratuits…",
+        "rolePlaceholder": "Rôle à mentionner (optionnel)…",
+        "preview": "Voir les jeux gratuits du moment",
+        "platformsField": "Plateformes surveillées",
+        "platformsPlaceholder": "Choisir les plateformes…",
+        "noPlatform": "*(aucune — module inactif)*"
+      },
+      "platform": {
+        "steam": "Steam",
+        "epic": "Epic Games",
+        "gog": "GOG"
+      }
+    },
+    "patchnotes": {
+      "label": "Patch Notes",
+      "description": "Surveille les notes de patch de jeux et logiciels, puis les publie dans les salons choisis.",
+      "panel": {
+        "intro": "Sélectionne un jeu ou logiciel, puis choisis le salon où publier ses patchnotes. Chaque source peut avoir son propre salon.",
+        "selectedField": "Source sélectionnée",
+        "subsField": "Abonnements actifs",
+        "noSubs": "Aucune source configurée pour le moment.",
+        "pickChannelHint": "Choisis un salon ci-dessous pour activer cette source.",
+        "sourcePlaceholder": "Choisis un jeu ou logiciel... page {page}/{pages}",
+        "channelPlaceholder": "Salon pour {source}",
+        "rolePlaceholder": "Rôle à mentionner (optionnel)",
+        "removePlaceholder": "Retirer un ou plusieurs abonnements...",
+        "previous": "Précédent",
+        "next": "Suivant",
+        "preview": "Aperçu",
+        "noPreview": "Aucune patchnote récente trouvée pour cette source.",
+        "previewTitle": "Aperçu des dernières patchnotes : {source}",
+        "removeSelected": "Retirer la source",
+        "search": "Rechercher",
+        "searchTitle": "Rechercher une source",
+        "searchField": "Jeu ou logiciel",
+        "searchPlaceholder": "Ex. League, TFT, Rust, Node, Docker...",
+        "searchActiveField": "Recherche",
+        "searchActiveValue": "{query} - {count} résultat(s)",
+        "modeField": "Affichage",
+        "activeModeValue": "Abonnements actifs - {count} configuré(s). Sélectionne une source pour modifier son salon ou son rôle.",
+        "activePlaceholder": "Choisis un abonnement actif... page {page}/{pages}",
+        "activeMode": "Actifs",
+        "catalogMode": "Catalogue",
+        "noActiveSubs": "Aucun abonnement actif à éditer pour le moment. Choisis une source et un salon pour en créer un.",
+        "deleteSelected": "Supprimer",
+        "listField": "Liste affichée",
+        "listStatus": "Page {page}/{pages} · {total} source(s)",
+        "publish": "Publier la dernière",
+        "publishMissingChannel": "Choisis un salon avant de publier les patchnotes.",
+        "publishDone": "✅ Dernière patchnote publiée dans {channel}.",
+        "publishFailed": "❌ Impossible de publier les patchnotes. Vérifie le salon, mes permissions ou la source.",
+        "publishFailedNoNotes": "❌ Aucune patchnote récente trouvée pour {source}. Essaie Aperçu ou une autre source.",
+        "publishFailedChannel": "❌ Salon inaccessible : {channel}. Vérifie que je peux le voir.",
+        "publishFailedPermissions": "❌ Permissions manquantes dans {channel}. Il me faut Envoyer des messages et Intégrer des liens.",
+        "publishFailedSource": "❌ Source Patch Notes introuvable. Resélectionne le jeu ou logiciel.",
+        "publishFailedSend": "❌ Envoi impossible dans {channel}. Vérifie mes permissions et les paramètres du salon."
+      },
+      "embed": {
+        "footer": "Patch Notes · {source}",
+        "noDescription": "Aucun résumé disponible. Ouvre le lien pour lire la note complète."
+      }
+    },
+    "stickymessages": {
+      "label": "Messages épinglés",
+      "description": "Garde un message toujours en bas d'un salon : il est re-posté à chaque nouvelle discussion.",
+      "panel": {
+        "intro": "Choisis un salon pour y définir un message « collant » qui restera toujours en bas. À chaque nouveau message, le bot le fait remonter.",
+        "listField": "Salons avec un sticky",
+        "noSticky": "*Aucun message épinglé. Choisis un salon ci-dessous pour en créer un.*",
+        "pickPlaceholder": "Choisir un salon à configurer…",
+        "editTitle": "Message épinglé",
+        "editIntro": "Salon : {channel}",
+        "contentField": "Contenu",
+        "empty": "*(non défini)*",
+        "formatField": "Format",
+        "formatEmbed": "🖼️ Embed",
+        "formatText": "📝 Texte",
+        "editText": "✏️ Éditer le texte",
+        "embedToggle": "🖼️ Embed",
+        "delete": "🗑️ Supprimer",
+        "back": "◀ Retour",
+        "modalTitle": "Message épinglé",
+        "modalField": "Contenu du message",
+        "modalPlaceholder": "Le texte qui restera en bas du salon…"
+      }
+    },
+    "messageprofiles": {
+      "label": "Profils de messages",
+      "description": "Fais parler le bot sous un pseudo et un avatar personnalisés via /dire (staff).",
+      "command": {
+        "description": "Publie un message sous l'identité d'un profil configuré.",
+        "profileOpt": "Profil sous lequel parler",
+        "messageOpt": "Message à publier",
+        "channelOpt": "Salon où publier (par défaut : le salon actuel)",
+        "unknownProfile": "❌ Profil introuvable. Configure-le via /config → Profils de messages.",
+        "badChannel": "❌ Salon invalide.",
+        "result": {
+          "ok": "✅ Message publié dans {channel} sous « {name} ».",
+          "noperm": "❌ Il me manque la permission « Gérer les webhooks » dans ce salon.",
+          "fail": "❌ Échec de l'envoi. Réessaie plus tard."
+        }
+      },
+      "panel": {
+        "intro": "Crée des profils (pseudo + avatar) pour faire parler le bot via /dire. Réservé aux membres pouvant gérer les messages ; le bot doit pouvoir gérer les webhooks.",
+        "listField": "Profils",
+        "noProfiles": "*Aucun profil. Ajoute-en un ci-dessous.*",
+        "add": "➕ Ajouter un profil",
+        "pickPlaceholder": "Choisir un profil à modifier…",
+        "editTitle": "Profil — {name}",
+        "editIntro": "Modifie le pseudo/avatar ou supprime ce profil.",
+        "avatarField": "Avatar",
+        "avatarDefault": "*(avatar du bot)*",
+        "edit": "✏️ Modifier",
+        "delete": "🗑️ Supprimer",
+        "back": "◀ Retour",
+        "modalTitle": "Profil de message",
+        "nameField": "Pseudo affiché",
+        "avatarInput": "URL de l'avatar (optionnel)",
+        "tooMany": "❌ Maximum {max} profils atteint."
+      }
+    }
+  }
+}

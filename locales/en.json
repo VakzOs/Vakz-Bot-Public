@@ -1,0 +1,2337 @@
+{
+  "errors": {
+    "generic": "❌ An error occurred. Please try again later.",
+    "guildOnly": "❌ This command can only be used in a server.",
+    "moduleDisabled": "❌ This module is disabled on this server. An administrator can enable it via `/config`."
+  },
+  "modules": {
+    "core": {
+      "label": "Core",
+      "description": "Essential system commands (ping, configuration).",
+      "ping": {
+        "description": "Show the bot latency.",
+        "title": "🏓 Pong!",
+        "computing": "Measuring latency…",
+        "websocket": "Gateway (WebSocket)",
+        "roundtrip": "Round-trip",
+        "build": "Build",
+        "refresh": "Refresh"
+      },
+      "config": {
+        "description": "Enable, disable and configure the bot modules on this server.",
+        "title": "Server configuration",
+        "intro": "Manage **{guild}** modules by category. **{enabled}/{total}** modules enabled.",
+        "noModules": "No configurable module is available yet.",
+        "selectPlaceholder": "Pick a module to configure…",
+        "statusEnabled": "✅ Enabled",
+        "statusDisabled": "⛔ Disabled",
+        "statusInternal": "🔒 System",
+        "enableButton": "Enable",
+        "disableButton": "Disable",
+        "internalModule": "🔒 The “{module}” module is a system module: it cannot be disabled.",
+        "enabledNotice": "✅ The “{module}” module has been enabled on this server.",
+        "disabledNotice": "⛔ The “{module}” module has been disabled on this server.",
+        "expired": "⏳ Menu expired. Run the `/config` command again.",
+        "notAllowed": "❌ You are not allowed to use this menu.",
+        "back": "◀️ Back",
+        "enableHint": "Enable this module to access its settings.",
+        "noPanel": "This module has no extra settings.",
+        "footer": "Vakz-Bot · Configuration",
+        "categorySelectPlaceholder": "Choose a module category…",
+        "moduleSelectPlaceholder": "Choose a module to configure…",
+        "categoryStatus": "{indicator} `{enabled}/{total} enabled`",
+        "moreModules": "+ {count} more module(s)…",
+        "categoryTitle": "{emoji} {category}",
+        "categoryIntro": "Choose the module to configure on **{guild}**.",
+        "categoryModulesField": "Modules",
+        "categoryFooter": "Page {page}/{pages}",
+        "homeButton": "Home",
+        "previousButton": "Previous",
+        "nextButton": "Next",
+        "statusField": "Status",
+        "categoryField": "Category",
+        "nextStepField": "Next step",
+        "categories": {
+          "security": {
+            "label": "Security & moderation",
+            "description": "{enabled}/{total} enabled · protection, logs, verification"
+          },
+          "community": {
+            "label": "Community",
+            "description": "{enabled}/{total} enabled · welcome, roles, conversations"
+          },
+          "engagement": {
+            "label": "Engagement",
+            "description": "{enabled}/{total} enabled · XP, economy, reactions"
+          },
+          "operations": {
+            "label": "Server tools",
+            "description": "{enabled}/{total} enabled · reminders, stats, voice"
+          },
+          "fun": {
+            "label": "Games & fun",
+            "description": "{enabled}/{total} enabled · mini-games and downtime"
+          }
+        },
+        "disabledModules": "+ {count} disabled module(s)"
+      }
+    },
+    "welcome": {
+      "label": "Welcome & farewell",
+      "description": "Customizable join and leave messages.",
+      "panel": {
+        "intro": "Configure the join and leave messages below.",
+        "arrivals": "📥 Joins",
+        "departures": "📤 Leaves",
+        "welcomeChannel": "Join channel…",
+        "leaveChannel": "Leave channel…",
+        "welcomeToggle": "Joins",
+        "leaveToggle": "Leaves",
+        "embed": "Embed",
+        "message": "✏️ Message",
+        "test": "🧪 Test",
+        "modalTitleWelcome": "Join message",
+        "modalTitleLeave": "Leave message",
+        "modalField": "Message",
+        "modalPlaceholder": "Variables: {mention} {username} {server} {count}",
+        "modalFooterField": "Footer (optional)",
+        "modalFooterPlaceholder": "Variables: {server} {username} {count}",
+        "testNoChannel": "❌ Set a channel for this message first.",
+        "testSent": "✅ Preview sent to {channel}.",
+        "card": "🖼️ Card",
+        "modalCardField": "Card background image (URL)",
+        "modalCardPlaceholder": "https://… (empty = default background)"
+      },
+      "state": {
+        "statusLabel": "Status",
+        "statusOn": "✅ Active",
+        "statusOff": "⛔ Paused",
+        "embedLabel": "Embed",
+        "yes": "Yes",
+        "no": "No",
+        "channelLabel": "Channel",
+        "channelNone": "*not set*",
+        "messageLabel": "Message",
+        "footerLabel": "Footer",
+        "placeholders": "Variables: {mention} · {username} · {server} · {count}",
+        "cardLabel": "Card",
+        "cardCustom": "✅ on (custom background)",
+        "cardDefault": "✅ on (default background)"
+      },
+      "card": {
+        "welcomeTitle": "Welcome!",
+        "leaveTitle": "Goodbye",
+        "memberCount": "Member #{count}"
+      }
+    },
+    "levels": {
+      "label": "Levels",
+      "description": "XP per message, levels, reward roles and leaderboard.",
+      "commands": {
+        "rang": {
+          "description": "Show your level, XP and rank.",
+          "member": "The member whose rank to show (default: you).",
+          "noXp": "This member hasn't earned any XP yet.",
+          "title": "{user}'s level",
+          "level": "Level",
+          "rank": "Rank",
+          "xp": "XP",
+          "progress": "Progress"
+        },
+        "leaderboard": {
+          "description": "Show the XP leaderboard.",
+          "empty": "Nobody has earned XP on this server yet.",
+          "title": "🏆 Leaderboard"
+        }
+      },
+      "panel": {
+        "intro": "Configure XP, the level-up announcement and reward roles.",
+        "on": "✅ Enabled",
+        "off": "⛔ Disabled",
+        "sameChannel": "message channel",
+        "noRewards": "*no reward role*",
+        "rewardWarning": "The bot can't assign roles marked ⚠️. Give it the **Manage Roles** permission and move **its role above** the reward roles (Server Settings → Roles).",
+        "levelWord": "Level",
+        "xpField": "⚙️ XP",
+        "xpValue": "{min} to {max} XP per message · cooldown {cd}s",
+        "announceField": "📢 Level-up announcement",
+        "rewardsField": "🏅 Reward roles",
+        "channelPlaceholder": "Announcement channel (empty = message channel)",
+        "announceToggle": "Announcements",
+        "editMessage": "✏️ Message",
+        "editXp": "⚙️ XP settings",
+        "addReward": "Add a reward role…",
+        "removeReward": "Remove a reward role…",
+        "msgModalTitle": "Level-up message",
+        "msgModalField": "Message",
+        "msgModalPlaceholder": "Variables: {mention} {username} {server} {level}",
+        "xpModalTitle": "XP settings",
+        "xpMinField": "Minimum XP per message",
+        "xpMaxField": "Maximum XP per message",
+        "cooldownField": "Cooldown (seconds)",
+        "rewardModalTitle": "Reward role",
+        "rewardModalField": "From which level?",
+        "advanced": "⚙️ Advanced",
+        "advTitle": "⚙️ Levels · advanced settings",
+        "advIntro": "Voice XP, boosters, ignored channels/roles, max level, curve, card colour and auto leaderboard.",
+        "voiceField": "Voice XP",
+        "voiceOn": "✅ On · {xp} XP/min",
+        "voiceOff": "⛔ Off",
+        "multiplierField": "Booster multiplier",
+        "maxLevelField": "Max level",
+        "unlimited": "unlimited",
+        "curveField": "Curve factor",
+        "cardColorField": "Card colour",
+        "leaderboardField": "Auto leaderboard",
+        "ignoredField": "Exclusions & boosters",
+        "ignoredChannels": "{count} ignored channel(s)",
+        "ignoredRoles": "{count} ignored role(s)",
+        "boosterRoles": "{count} booster role(s)",
+        "ignoredChannelsPlaceholder": "Channels with no XP gain…",
+        "ignoredRolesPlaceholder": "Roles with no XP gain…",
+        "boosterRolesPlaceholder": "Booster roles (XP ×)…",
+        "leaderboardPlaceholder": "Auto leaderboard channel…",
+        "voiceDisable": "Disable voice XP",
+        "voiceEnable": "Enable voice XP",
+        "advNumbers": "✏️ Values",
+        "back": "◀ Back",
+        "advModalTitle": "Advanced settings",
+        "voiceXpField": "Voice XP / minute"
+      }
+    },
+    "reactionroles": {
+      "label": "Reaction roles",
+      "description": "Assigns roles when members react to a message. The bot adds one reaction per role, DraftBot-style.",
+      "feedback": {
+        "disabled": "❌ This module is disabled on this server.",
+        "roleGone": "❌ This role no longer exists.",
+        "cannotAssign": "⚠️ I can't manage this role (missing « Manage Roles » or role above mine).",
+        "added": "✅ Role {role} added.",
+        "removed": "➖ Role {role} removed.",
+        "error": "❌ An error occurred."
+      },
+      "panel": {
+        "intro": "Set up the message, add roles (each with an emoji), pick the channel then publish. The bot adds one reaction per role: reacting grants the role, removing the reaction removes it.",
+        "channelField": "Channel",
+        "notSet": "*not set*",
+        "statusField": "Status",
+        "published": "✅ Published",
+        "notPublished": "⛔ Not published",
+        "rolesField": "Roles",
+        "noRoles": "*no role*",
+        "roleWarning": "The bot can't assign roles marked ⚠️. Give it « Manage Roles » and move its role above (Server Settings → Roles).",
+        "channelPlaceholder": "Channel to publish the menu",
+        "addRole": "Add a role…",
+        "removeRole": "Remove a role…",
+        "editText": "✏️ Title & description",
+        "emojisButton": "😀 My emojis",
+        "publish": "📤 Publish / Update",
+        "emojiList": "**Server emojis** — copy a code into the Emoji field:",
+        "noEmojis": "This server has no custom emoji.",
+        "roleModalTitle": "Role button",
+        "labelField": "Button label",
+        "emojiField": "Emoji (optional, e.g. :name:)",
+        "textModalTitle": "Title & description",
+        "titleField": "Title",
+        "descriptionField": "Description",
+        "tooMany": "❌ Maximum {max} roles reached.",
+        "publishError": {
+          "nochannel": "❌ Pick a publish channel first.",
+          "noroles": "❌ Add at least one role before publishing.",
+          "send": "❌ Couldn't send the message (check my permissions in the channel).",
+          "permissions": "❌ I'm missing a permission in that channel (View Channel, Send Messages, Embed Links).",
+          "invalid": "❌ A button emoji is invalid. Use a unicode emoji or an emoji from THIS server, then republish.",
+          "strippedEmojis": "⚠️ The menu was published, but an invalid emoji was skipped. Fix it and republish to show it.",
+          "noemoji": "❌ Add at least one role with a valid emoji (reaction roles work by emoji)."
+        },
+        "emojiWarning": "Roles marked ❓ have no emoji: add one, otherwise they won't get a reaction."
+      }
+    },
+    "interactivemessages": {
+      "label": "Interactive messages",
+      "description": "Build reusable embeds (title, description, colour) posted in a channel, with role buttons (click = add/remove) and link buttons.",
+      "feedback": {
+        "disabled": "❌ This module is disabled on this server.",
+        "roleGone": "❌ This role no longer exists.",
+        "cannotAssign": "⚠️ I can't manage this role (missing “Manage Roles” permission, or the role is above mine).",
+        "added": "✅ Role {role} added.",
+        "removed": "➖ Role {role} removed.",
+        "error": "❌ Something went wrong."
+      },
+      "panel": {
+        "intro": "Create interactive messages: an embed posted in a channel, with role buttons (click = add/remove the role) and link buttons. Pick a message to edit or create one.",
+        "panelsField": "Messages",
+        "noPanels": "*No interactive message yet. Click “Create a message”.*",
+        "notSet": "*not set*",
+        "published": "✅ Published",
+        "notPublished": "⛔ Not published",
+        "buttonCount": "{count} button(s)",
+        "pickPlaceholder": "Edit a message…",
+        "noContent": "*empty*",
+        "createButton": "Create a message",
+        "editTitle": "Message: {name}",
+        "editIntro": "Set the content, channel and buttons, then publish. Re-publishing updates the existing message.",
+        "channelField": "Channel",
+        "statusField": "Status",
+        "colorField": "Colour",
+        "colorDefault": "*default*",
+        "contentField": "Content",
+        "buttonsField": "Buttons",
+        "noButtons": "*no button*",
+        "roleMissing": "*missing role*",
+        "kindRole": "Role",
+        "kindLink": "Link",
+        "channelPlaceholder": "Channel to publish the message in",
+        "addRolePlaceholder": "Add one or more role buttons…",
+        "buttonPickPlaceholder": "Manage a button…",
+        "editContent": "✏️ Content",
+        "addLink": "🔗 Add a link",
+        "publish": "📤 Publish / Update",
+        "deletePanel": "🗑️ Delete",
+        "back": "◀ Back",
+        "buttonEditTitle": "Button: {label}",
+        "buttonEditIntro": "Edit the label, emoji, style (role buttons) or delete this button.",
+        "kindField": "Type",
+        "targetField": "Target",
+        "emojiField": "Emoji",
+        "styleField": "Style",
+        "style_primary": "Blue",
+        "style_secondary": "Grey",
+        "style_success": "Green",
+        "style_danger": "Red",
+        "stylePlaceholder": "Choose a style…",
+        "editButton": "✏️ Edit",
+        "deleteButton": "🗑️ Delete button",
+        "createTitle": "New interactive message",
+        "nameField": "Name (internal, to find it back)",
+        "titleField": "Embed title",
+        "descriptionField": "Description",
+        "contentTitle": "Message content",
+        "colorInputField": "Colour (hex, e.g. #5865f2)",
+        "linkTitle": "Link button",
+        "labelField": "Button text",
+        "urlField": "Link (https://…)",
+        "emojiInputField": "Emoji (optional, e.g. :name:)",
+        "buttonModalTitle": "Edit button",
+        "tooManyPanels": "❌ Maximum {max} messages reached.",
+        "untitled": "Interactive message",
+        "tooManyButtons": "❌ Maximum {max} buttons reached.",
+        "badUrl": "❌ Invalid link: it must start with http:// or https://.",
+        "panelGone": "❌ This interactive message can't be found (maybe deleted). Go back and try again.",
+        "publishError": {
+          "nochannel": "❌ Choose a publication channel first.",
+          "empty": "❌ Add a title or a description before publishing.",
+          "permissions": "❌ I'm missing a permission in that channel (View Channel, Send Messages, Embed Links).",
+          "send": "❌ Couldn't send the message (check my permissions in the channel)."
+        }
+      }
+    },
+    "interserver": {
+      "label": "Cross-server",
+      "description": "Links channels from different servers: a message posted in a linked channel is relayed (name + avatar preserved) to the other channels of the same network.",
+      "panel": {
+        "intro": "Link a channel to a “network code”. Use the SAME code on a channel of another server (where the bot is present) to connect them: messages will be relayed both ways.",
+        "linksField": "Linked channels",
+        "noLinks": "*No linked channel. Pick a channel below to link it to a network.*",
+        "tagField": "Server name",
+        "tagOn": "✅ Shown after the nickname",
+        "tagOff": "⛔ Hidden",
+        "linkPlaceholder": "Link a channel to a network…",
+        "unlinkPlaceholder": "Unlink a channel…",
+        "disableTag": "Hide server name",
+        "enableTag": "Show server name",
+        "linkModalTitle": "Link channel to a network",
+        "networkField": "Network code (3-32 chars)",
+        "badChannel": "❌ Invalid channel (pick a text channel).",
+        "linkError": {
+          "code": "❌ Invalid network code (3 to 32 characters: letters, digits, dashes).",
+          "perm": "❌ I'm missing the “Manage Webhooks” permission in that channel.",
+          "fail": "❌ Couldn't create the relay webhook. Try again."
+        }
+      }
+    },
+    "autoroles": {
+      "label": "Auto roles",
+      "description": "Assigns roles when a member joins, and a role while connected to voice.",
+      "panel": {
+        "intro": "Choose the roles automatically given to new members.",
+        "humansField": "👤 Member roles",
+        "botsField": "🤖 Bot roles",
+        "none": "*none*",
+        "roleWarning": "The bot can't assign roles marked ⚠️. Give it « Manage Roles » and move its role above (Server Settings → Roles).",
+        "humansPlaceholder": "Roles given to new members",
+        "botsPlaceholder": "Roles given to bots",
+        "voiceField": "🎙️ Voice role",
+        "voicePlaceholder": "Role granted while connected to voice…"
+      }
+    },
+    "streamer": {
+      "label": "Streamer mode",
+      "description": "A panel where members deafen themselves (without muting their mic) to stream a game to friends.",
+      "button": "Enable / Disable",
+      "embed": {
+        "roleField": "{role} — {count} member(s)",
+        "noMembers": "No member"
+      },
+      "feedback": {
+        "disabled": "❌ Streamer mode is disabled on this server.",
+        "notConfigured": "❌ No Streaming role is configured (an admin must set it in `/config`).",
+        "roleGone": "❌ The Streaming role no longer exists.",
+        "cannot": "⚠️ I can't: I'm missing « Deafen Members » or « Manage Roles », or the Streaming role is above mine.",
+        "notInVoice": "❌ Join a voice channel first.",
+        "enabledUser": "🎙️ **Streamer mode enabled.** You no longer hear Discord, but your mic keeps broadcasting.",
+        "disabledUser": "🔊 **Streamer mode disabled.** You can hear Discord again.",
+        "error": "❌ An error occurred (check my permissions)."
+      },
+      "panel": {
+        "intro": "Choose the Streaming role and channel, then publish the panel.",
+        "roleField": "Streaming role",
+        "channelField": "Channel",
+        "statusField": "Status",
+        "notSet": "*not set*",
+        "published": "✅ Published",
+        "notPublished": "⛔ Not published",
+        "warning": "To work: give me « Deafen Members » + « Manage Roles », and move my role above the Streaming role.",
+        "rolePlaceholder": "Role given to streaming members",
+        "channelPlaceholder": "Channel to publish the panel",
+        "editText": "✏️ Title & description",
+        "publish": "📤 Publish / Update",
+        "textModalTitle": "Title & description",
+        "titleField": "Title",
+        "descriptionField": "Description",
+        "publishError": {
+          "nochannel": "❌ Pick a channel first.",
+          "norole": "❌ Pick a Streaming role first.",
+          "send": "❌ Couldn't send the message (check my permissions in the channel)."
+        }
+      }
+    },
+    "automod": {
+      "label": "Auto-moderation",
+      "description": "Automatically filters spam, ads, abuse, and honeypot messages.",
+      "actions": {
+        "delete": "Delete",
+        "warn": "Warn",
+        "timeout": "Timeout",
+        "ban": "Ban",
+        "kick": "Kick"
+      },
+      "rules": {
+        "spam": "Spam",
+        "invites": "Invites",
+        "links": "Links",
+        "badWords": "Blocked words",
+        "mentions": "Mentions",
+        "caps": "Caps",
+        "honeypot": "Honeypot"
+      },
+      "reason": {
+        "spam": "Auto-moderation: spam ({count} messages in {seconds}s).",
+        "invites": "Auto-moderation: unauthorized Discord invite.",
+        "links": "Auto-moderation: unauthorized link.",
+        "badWords": "Auto-moderation: blocked word.",
+        "mentions": "Auto-moderation: mention abuse.",
+        "caps": "Auto-moderation: caps abuse."
+      },
+      "detail": {
+        "spam": "{count} messages inside the {seconds}s window.",
+        "badWords": "Detected word: `{word}`",
+        "mentions": "{count} mentions in the message.",
+        "caps": "{percent}% uppercase letters."
+      },
+      "log": {
+        "title": "Auto-moderation",
+        "member": "Member",
+        "rule": "Rule",
+        "action": "Action",
+        "channel": "Channel",
+        "reason": "Reason",
+        "detail": "Detail",
+        "empty": "*empty content*"
+      },
+      "panel": {
+        "intro": "Enable automatic rules and configure the honeypot channel. Members with Manage Messages / Manage Server are ignored.",
+        "logChannel": "Logs channel",
+        "honeypotChannel": "Honeypot channel",
+        "rulesField": "Enabled rules",
+        "notSet": "*not set*",
+        "on": "✅ Enabled",
+        "off": "⛔ Disabled",
+        "published": "published",
+        "notPublished": "not published",
+        "ruleLine": "• {rule}: {status} → {action}",
+        "honeypotLine": "{status} · message {message}",
+        "logPlaceholder": "Channel where auto-mod logs are sent",
+        "honeypotPlaceholder": "Text channel used as a trap",
+        "settings": "Settings",
+        "settingsTitle": "Auto-moderation settings",
+        "badWordsField": "Blocked words, comma-separated",
+        "allowlistField": "Allowed domains, comma-separated",
+        "spamField": "Spam: messages/seconds",
+        "limitsField": "Limits: mentions/caps length/caps %",
+        "timeoutsField": "Timeout min: spam/words/mentions",
+        "createHoneypot": "Create channel",
+        "publishHoneypot": "Publish honeypot",
+        "createFailed": "❌ Could not create the honeypot channel. Check my Manage Channels permission.",
+        "publishFailed": "❌ Could not publish the honeypot. Select a text channel and check my permissions.",
+        "actions": "Actions",
+        "actionsTitle": "Automatic sanctions",
+        "actionsField": "Rule actions",
+        "setupHoneypot": "Create / publish",
+        "actionsPlaceholder": "delete/warn/timeout/kick/ban"
+      },
+      "honeypot": {
+        "bans": "Bans",
+        "action": "Honeypot ban",
+        "topic": "Anti-compromised-account honeypot: do not send messages here.",
+        "createReason": "Vakz-Bot honeypot channel creation",
+        "embedTitle": "DO NOT SEND MESSAGES IN THIS CHANNEL",
+        "embedDescription": "This channel is used to catch compromised accounts. Any messages sent here will result in an immediate ban.",
+        "banReason": "Honeypot channel triggered",
+        "counter": "Bans: {count}"
+      }
+    },
+    "moderation": {
+      "label": "Moderation",
+      "description": "Sanctions (warn, kick, ban, timeout), history and log.",
+      "commands": {
+        "warn": {
+          "description": "Warn a member."
+        },
+        "kick": {
+          "description": "Kick a member from the server."
+        },
+        "ban": {
+          "description": "Ban a member (or a user by their ID)."
+        },
+        "unban": {
+          "description": "Unban a user."
+        },
+        "timeout": {
+          "description": "Time a member out for a duration (e.g. 10m, 1h, 1j)."
+        },
+        "untimeout": {
+          "description": "Remove a member's timeout."
+        },
+        "history": {
+          "description": "Show a member's sanction history."
+        }
+      },
+      "opt": {
+        "member": "The targeted member.",
+        "reason": "The reason for the sanction.",
+        "deleteDays": "Delete messages from the last N days (0-7).",
+        "userId": "The ID of the user to unban.",
+        "duration": "Duration (e.g. 10m, 1h30m, 1j). Max 28 days."
+      },
+      "types": {
+        "warn": "⚠️ Warning",
+        "kick": "👢 Kick",
+        "ban": "🔨 Ban",
+        "unban": "♻️ Unban",
+        "timeout": "🔇 Timeout",
+        "untimeout": "🔊 Timeout removed"
+      },
+      "log": {
+        "user": "Member",
+        "moderator": "Moderator",
+        "executor": "Action by",
+        "reason": "Reason",
+        "noReason": "*no reason*",
+        "until": "Until"
+      },
+      "dm": {
+        "warn": "⚠️ You were warned in {guild}",
+        "kick": "👢 You were kicked from {guild}",
+        "ban": "🔨 You were banned from {guild}",
+        "unban": "♻️ Your ban in {guild} was lifted",
+        "timeout": "🔇 You were timed out in {guild}",
+        "untimeout": "🔊 Your timeout in {guild} was removed"
+      },
+      "result": {
+        "warn": "⚠️ {user} has been warned.",
+        "kick": "👢 {user} has been kicked.",
+        "ban": "🔨 {user} has been banned.",
+        "unban": "♻️ {user} has been unbanned.",
+        "timeout": "🔇 {user} has been timed out for {duration}.",
+        "untimeout": "🔊 {user}'s timeout has been removed."
+      },
+      "targetError": {
+        "self": "❌ You can't sanction yourself.",
+        "owner": "❌ You can't sanction the server owner.",
+        "bot": "❌ I can't sanction myself.",
+        "botHierarchy": "❌ This member has a role higher than or equal to mine: I can't sanction them.",
+        "modHierarchy": "❌ This member has a role higher than or equal to yours."
+      },
+      "notInGuild": "❌ This member is not on the server.",
+      "botNoPerm": "❌ I'm missing the permission required for this action.",
+      "actionFailed": "❌ The action failed (permissions or hierarchy).",
+      "invalidDuration": "❌ Invalid duration. Examples: `10m`, `1h30m`, `2j`.",
+      "invalidUserId": "❌ Invalid user ID.",
+      "notBanned": "❌ This user is not banned (or the ID is wrong).",
+      "history": {
+        "empty": "✅ {user} has no recorded sanction.",
+        "title": "{user}'s record"
+      },
+      "panel": {
+        "intro": "Configure the log channel and DMs to sanctioned members.",
+        "logChannel": "Log channel",
+        "notSet": "*not set*",
+        "dm": "DM member",
+        "on": "✅ Yes",
+        "off": "⛔ No",
+        "logPlaceholder": "Channel to log sanctions",
+        "dmToggle": "DM the sanctioned member"
+      }
+    },
+    "economy": {
+      "label": "Economy",
+      "description": "Virtual currency, earnings, leaderboard and role shop.",
+      "opt": {
+        "member": "The targeted member.",
+        "amount": "The amount."
+      },
+      "commands": {
+        "balance": {
+          "description": "Show a member's balance.",
+          "title": "{user}'s balance",
+          "line": "Balance"
+        },
+        "daily": {
+          "description": "Claim your daily reward.",
+          "claimed": "🎁 You received {amount}! New balance: {balance}.",
+          "cooldown": "⏳ You already claimed your reward. Come back {time}."
+        },
+        "pay": {
+          "description": "Transfer currency to another member.",
+          "invalidTarget": "❌ Invalid recipient.",
+          "insufficient": "❌ Not enough balance.",
+          "done": "✅ You sent {amount} to {user}."
+        },
+        "leaderboard": {
+          "description": "Show the richest members.",
+          "empty": "Nobody has any {currency} yet.",
+          "title": "💰 Richest members"
+        },
+        "admin": {
+          "description": "Manage member balances (admin).",
+          "give": "Add currency to a member.",
+          "take": "Remove currency from a member.",
+          "set": "Set a member's balance.",
+          "done": "✅ {user}'s balance: {balance}."
+        },
+        "shop": {
+          "description": "Show the role shop."
+        }
+      },
+      "shop": {
+        "title": "🛒 Role shop",
+        "empty": "*The shop is empty.*",
+        "disabled": "❌ The Economy module is disabled.",
+        "unavailable": "❌ This item is no longer available.",
+        "alreadyOwned": "❌ You already own this role.",
+        "cannotAssign": "⚠️ I can't assign this role (permission or hierarchy).",
+        "tooPoor": "❌ Too expensive: {price} but you only have {balance}.",
+        "bought": "✅ You bought {role} for {price}.",
+        "soldOut": "sold out",
+        "stock": "stock: {n}",
+        "switch": "Switch shop…",
+        "outOfStock": "❌ This item is sold out."
+      },
+      "panel": {
+        "intro": "Configure the currency, earnings and role shop.",
+        "currencyField": "💱 Currency",
+        "earnField": "💬 Earn / message",
+        "earnValue": "{min} to {max} · cooldown {cd}s",
+        "dailyField": "🎁 Daily",
+        "shopField": "🛒 Shop",
+        "shopEmpty": "*empty*",
+        "shopAdd": "Add a role to the shop…",
+        "shopRemove": "Remove a role from the shop…",
+        "editCurrency": "💱 Currency",
+        "editEarn": "💬 Earnings",
+        "editDaily": "🎁 Daily",
+        "currencyModal": "Currency",
+        "nameField": "Currency name",
+        "symbolField": "Symbol / emoji (e.g. 🪙 or :name:)",
+        "earnModal": "Earnings per message",
+        "minField": "Minimum gain",
+        "maxField": "Maximum gain",
+        "cdField": "Cooldown (seconds)",
+        "dailyModal": "Daily reward",
+        "dailyAmountField": "Daily amount",
+        "priceModal": "Role price",
+        "priceField": "Price",
+        "shopFull": "❌ Maximum {max} shops reached.",
+        "advanced": "⚙️ Advanced",
+        "advTitle": "⚙️ Economy · advanced settings",
+        "advIntro": "Voice money, ignored channels/roles and richest auto leaderboard.",
+        "voiceField": "Voice money",
+        "voiceOn": "✅ On · {amount} {symbol}/min",
+        "voiceOff": "⛔ Off",
+        "leaderboardField": "Auto leaderboard",
+        "off": "⛔ Off",
+        "ignoredField": "Exclusions",
+        "ignoredChannels": "{count} ignored channel(s)",
+        "ignoredRoles": "{count} ignored role(s)",
+        "ignoredChannelsPlaceholder": "Channels with no money gain…",
+        "ignoredRolesPlaceholder": "Roles with no money gain…",
+        "leaderboardPlaceholder": "Auto leaderboard channel…",
+        "voiceDisable": "Disable voice money",
+        "voiceEnable": "Enable voice money",
+        "voiceAmount": "Voice amount / minute",
+        "voiceAmountField": "Money per minute in voice",
+        "back": "◀ Back",
+        "itemCount": "{count} item(s)",
+        "shopsField": "Shops",
+        "createShop": "🛍️ Create a shop",
+        "shopPickPlaceholder": "Edit a shop…",
+        "shopNameField": "Shop name",
+        "shopDefault": "Shop",
+        "shopEditTitle": "Shop: {name}",
+        "shopEditIntro": "Add items (roles) with price and stock, set the name and banner.",
+        "bannerField": "Banner",
+        "bannerSet": "view image",
+        "bannerNone": "*none*",
+        "bannerFieldModal": "Banner (https URL, empty = none)",
+        "itemsField": "Items",
+        "noItems": "*no item*",
+        "itemAdd": "Add a role to sell…",
+        "itemRemove": "Remove an item…",
+        "shopMeta": "✏️ Name & banner",
+        "shopDelete": "🗑️ Delete shop",
+        "stockField": "Stock (-1 = unlimited)",
+        "stockUnlimited": "unlimited stock",
+        "stockSoldOut": "sold out",
+        "stockN": "stock: {n}"
+      }
+    },
+    "items": {
+      "label": "Items & inventories",
+      "description": "Per-server item catalog: buy with the currency, inventory, use (role reward) and trade between members.",
+      "opt": {
+        "item": "The item.",
+        "quantity": "Quantity (default: 1).",
+        "member": "The target member (default: you)."
+      },
+      "rarity": {
+        "common": "Common",
+        "rare": "Rare",
+        "epic": "Epic",
+        "legendary": "Legendary"
+      },
+      "commands": {
+        "unknownItem": "❌ That item doesn't exist (anymore).",
+        "inventory": {
+          "description": "Show a member's inventory.",
+          "title": "🎒 {user}'s inventory",
+          "empty": "This inventory is empty."
+        },
+        "catalog": {
+          "description": "Show the server's item catalog.",
+          "empty": "🛒 No items in the catalog yet.",
+          "title": "🛒 Item catalog",
+          "notForSale": "not for sale",
+          "footer": "✨ = usable · 🔁 = tradable · /acheter to buy"
+        },
+        "buy": {
+          "description": "Buy an item with the server currency.",
+          "notForSale": "❌ This item is not for sale.",
+          "insufficient": "❌ You need {cost} (you have {balance}).",
+          "done": "🛒 You bought **{qty}× {emoji} {name}** for {cost}. You now have **{total}**."
+        },
+        "use": {
+          "description": "Use an item from your inventory.",
+          "notUsable": "❌ This item cannot be used.",
+          "dontHave": "❌ You don't own any **{emoji} {name}**.",
+          "reason": "Item used: {name}",
+          "roleGranted": "🎁 You get the {role} role!",
+          "title": "✨ Item used",
+          "done": "{user} uses **{emoji} {name}**."
+        },
+        "give": {
+          "description": "Give an item to another member.",
+          "disabled": "❌ Item trading is disabled on this server.",
+          "invalidTarget": "❌ Pick another member (not a bot or yourself).",
+          "notTradable": "❌ This item can't be traded.",
+          "insufficient": "❌ You don't have enough **{emoji} {name}**.",
+          "done": "🎁 {from} gives **{qty}× {emoji} {name}** to {to}!"
+        },
+        "admin": {
+          "description": "Grant or remove items (staff).",
+          "give": "Give an item to a member.",
+          "take": "Remove an item from a member.",
+          "gave": "✅ Gave {qty}× {emoji} {name} to {user} (total: {total}).",
+          "took": "✅ Removed {qty}× {emoji} {name} from {user}."
+        }
+      },
+      "panel": {
+        "intro": "Create and manage the server's items. Members buy, use and trade them.",
+        "on": "✅ On",
+        "off": "❌ Off",
+        "free": "free",
+        "noItems": "No items yet. Add one to get started.",
+        "noDescription": "*(no description)*",
+        "itemsField": "Items ({count}/{max})",
+        "tradingField": "Member trading",
+        "addItem": "➕ Add an item",
+        "enableTrading": "Enable trading",
+        "disableTrading": "Disable trading",
+        "pickPlaceholder": "Manage an item…",
+        "priceField": "Price",
+        "rarityField": "Rarity",
+        "flagsField": "Options",
+        "roleField": "Role reward",
+        "roleNone": "*(none)*",
+        "buyable": "Buyable",
+        "tradable": "Tradable",
+        "usable": "Usable",
+        "rarityPlaceholder": "Choose rarity…",
+        "rolePlaceholder": "Role granted on use (optional)…",
+        "editFields": "✏️ Edit",
+        "deleteItem": "🗑️ Delete",
+        "back": "◀ Back",
+        "addTitle": "New item",
+        "editTitle": "Edit item",
+        "nameField": "Name",
+        "emojiField": "Emoji",
+        "descriptionField": "Description",
+        "tooMany": "❌ Maximum {max} items reached.",
+        "nameRequired": "❌ Name is required."
+      }
+    },
+    "birthdays": {
+      "label": "Birthdays",
+      "description": "Wish members a happy birthday (message + role of the day).",
+      "command": {
+        "description": "Manage your birthday.",
+        "set": "Save your birthday.",
+        "remove": "Remove your birthday.",
+        "view": "Show a member's birthday.",
+        "upcoming": "Show upcoming birthdays."
+      },
+      "opt": {
+        "day": "Day (1-31).",
+        "month": "Month (1-12).",
+        "year": "Year (optional, to show age).",
+        "member": "The targeted member (default: you).",
+        "targetMember": "Set for another member (admin: Manage Server)."
+      },
+      "invalidDate": "❌ Invalid date.",
+      "noPermission": "❌ You don't have permission to manage another member's birthday.",
+      "set": "🎂 Your birthday is saved for {date}!",
+      "setOther": "🎂 {user}'s birthday is saved for {date}!",
+      "removed": "🗑️ Your birthday has been removed.",
+      "removedOther": "🗑️ {user}'s birthday has been removed.",
+      "none": "ℹ️ {user} hasn't saved a birthday.",
+      "today": "today! 🎉",
+      "inDays": "in {days} day(s)",
+      "view": {
+        "title": "🎂 {user}'s birthday"
+      },
+      "upcomingTitle": "🎂 Upcoming birthdays",
+      "upcomingEmpty": "No birthday saved yet.",
+      "panel": {
+        "intro": "Configure the announcement channel, day role, hour and message.",
+        "channelField": "Announcement channel",
+        "roleField": "Role of the day",
+        "hourField": "Announcement hour",
+        "messageField": "Message",
+        "notSet": "*not set*",
+        "channelPlaceholder": "Channel to wish birthdays",
+        "rolePlaceholder": "Role given on the day (optional)",
+        "editMessage": "✏️ Message",
+        "editHour": "🕘 Hour",
+        "messageModal": "Birthday message",
+        "hourModal": "Announcement hour (HH:MM)"
+      }
+    },
+    "reminders": {
+      "label": "Reminders",
+      "description": "Schedule persistent reminders in a channel or by DM.",
+      "invalidDuration": "❌ Invalid duration. Enter a number of minutes (minimum 1 minute, maximum {days} day(s)).",
+      "emptyText": "❌ Reminder text cannot be empty.",
+      "dmDisabled": "❌ DM reminders are disabled on this server.",
+      "created": "⏰ Reminder scheduled: {duration} (next run {time}).",
+      "delivery": "⏰ {target}, reminder: {text}",
+      "weekdays": {
+        "1": "Monday",
+        "2": "Tuesday",
+        "3": "Wednesday",
+        "4": "Thursday",
+        "5": "Friday",
+        "6": "Saturday",
+        "7": "Sunday"
+      },
+      "panel": {
+        "intro": "Create and configure server reminders. Pick a member or role, then a destination.",
+        "dmField": "DM reminders",
+        "maxDelayField": "Maximum delay",
+        "maxDelayValue": "{days} day(s)",
+        "modeField": "Mode",
+        "modeOnce": "One-time",
+        "modeWeekly": "Weekly",
+        "targetField": "Target",
+        "destinationField": "Destination",
+        "notSet": "*not set*",
+        "on": "✅ Allowed",
+        "off": "⛔ Disabled",
+        "dmToggle": "DMs",
+        "destinationDm": "DM",
+        "destinationChannel": "Channel",
+        "userPlaceholder": "Member to remind",
+        "rolePlaceholder": "Role to remind",
+        "channelPlaceholder": "Channel where the reminder is sent",
+        "create": "Create reminder",
+        "createModal": "Create reminder",
+        "minutesField": "Delay in minutes",
+        "weekdayButton": "Day: {day}",
+        "timeField": "Time (HH:MM)",
+        "textField": "Reminder text",
+        "notReady": "❌ Pick a target and a destination before creating the reminder.",
+        "invalidWeekly": "❌ Enter a valid time (`18:00`).",
+        "weeklySummary": "every {day} at {time}",
+        "editMaxDelay": "⏱️ Max delay",
+        "maxDelayModal": "Maximum reminder delay",
+        "invalidMaxDelay": "❌ Enter a number of days between 1 and 365."
+      }
+    },
+    "rules": {
+      "label": "Rules",
+      "description": "Posts the server rules and grants an access role on acceptance.",
+      "embed": {
+        "version": "Version {version}"
+      },
+      "feedback": {
+        "disabled": "❌ This module is disabled on this server.",
+        "roleGone": "❌ The access role no longer exists. Please tell an administrator.",
+        "cannotAssign": "⚠️ I cannot assign the access role (missing “Manage Roles” permission or the role is above mine).",
+        "error": "❌ Something went wrong. Please try again later.",
+        "alreadyUpToDate": "✅ You have already accepted the current version of the rules.",
+        "accepted": "✅ Thanks, you accepted the rules! Your access is unlocked.",
+        "revalidated": "🔄 Thanks for accepting the new version of the rules!"
+      },
+      "log": {
+        "accepted": "📜 {user} accepted the rules (version {version})."
+      },
+      "panel": {
+        "intro": "Configure the rules, pick the access role, then publish them in a channel.",
+        "channelField": "Publish channel",
+        "roleField": "Access role",
+        "statusField": "Status",
+        "versionField": "Version",
+        "versionValue": "v{version} · {count} member(s) up to date",
+        "logField": "Log channel",
+        "previewField": "Text preview",
+        "notSet": "*not set*",
+        "published": "✅ Published",
+        "notPublished": "⛔ Not published",
+        "roleWarning": "I cannot assign the role marked ⚠️. Give me “Manage Roles” and place my role above it (Server Settings → Roles).",
+        "channelPlaceholder": "Channel to publish the rules",
+        "rolePlaceholder": "Role granted on acceptance",
+        "logPlaceholder": "Logging channel (optional)",
+        "editText": "✏️ Title & text",
+        "editButton": "🔘 Button label",
+        "revalidate": "🔄 Request re-validation",
+        "publish": "📤 Publish / Update",
+        "textModalTitle": "Rules title & text",
+        "titleField": "Title",
+        "contentField": "Rules text",
+        "buttonModalTitle": "Acceptance button label",
+        "buttonField": "Button text",
+        "publishError": {
+          "nochannel": "❌ Pick a publish channel first.",
+          "send": "❌ Could not send the message (check my permissions in the channel)."
+        }
+      }
+    },
+    "suggestions": {
+      "label": "Suggestions",
+      "description": "Members propose ideas (with a Steam link), voted 👍/👎 and decided on by staff.",
+      "command": {
+        "description": "Submit a suggestion to the server.",
+        "textOpt": "The text of your suggestion.",
+        "steamOpt": "Steam link of the game to suggest (optional)."
+      },
+      "notConfigured": "❌ No suggestions channel is configured. An admin must set one in `/config`.",
+      "channelGone": "❌ The suggestions channel cannot be found. Please tell an administrator.",
+      "wrongChannel": "❌ Run `/suggestion` in a suggestions channel: {channels}",
+      "invalidSteam": "❌ Invalid Steam link. Example: https://store.steampowered.com/app/730",
+      "steamFetchFailed": "❌ Could not fetch the game info from Steam. Please try again later.",
+      "submitted": "✅ Your suggestion has been posted! {url}",
+      "sendError": "❌ Could not post the suggestion (check my permissions in the channel).",
+      "threadName": "Suggestion {id}",
+      "status": {
+        "pending": "⏳ Pending",
+        "approved": "✅ Approved",
+        "rejected": "❌ Rejected",
+        "considered": "🤔 Under review"
+      },
+      "button": {
+        "approve": "✅ Approve",
+        "reject": "❌ Reject",
+        "consider": "🤔 Under review"
+      },
+      "modal": {
+        "approve": "Approve the suggestion",
+        "reject": "Reject the suggestion",
+        "consider": "Mark under review",
+        "reasonField": "Reason (optional)"
+      },
+      "feedback": {
+        "disabled": "❌ This module is disabled on this server.",
+        "gone": "❌ This suggestion no longer exists.",
+        "staffOnly": "⛔ Only staff can decide on suggestions.",
+        "decided": "✅ Decision saved: {status}."
+      },
+      "steam": {
+        "gameField": "🎮 Game",
+        "aboutField": "📝 About",
+        "free": "Free",
+        "unknownPrice": "Price unavailable"
+      },
+      "embed": {
+        "title": "💡 Suggestion",
+        "author": "Suggested by",
+        "status": "Status",
+        "votes": "Votes",
+        "votesFor": "👍 For ({count})",
+        "votesAgainst": "👎 Against ({count})",
+        "footer": "ID {id}",
+        "decision": "Staff decision",
+        "decisionValue": "By {moderator}\n{reason}",
+        "noReason": "*no reason provided*"
+      },
+      "panel": {
+        "intro": "Pick the suggestions channels and the staff role allowed to decide.",
+        "channelField": "Suggestions channels",
+        "notSet": "*not set*",
+        "noChannels": "*no channel*",
+        "staffField": "Staff role",
+        "staffDefault": "*Manage Server*",
+        "threadField": "Discussion thread",
+        "on": "✅ Enabled",
+        "off": "⛔ Disabled",
+        "channelPlaceholder": "Channels where /suggestion is allowed",
+        "staffPlaceholder": "Role allowed to approve/reject",
+        "threadToggle": "🧵 Auto discussion thread",
+        "advanced": "⚙️ Advanced",
+        "advTitle": "⚙️ Suggestions · advanced settings",
+        "advIntro": "Per-member/role limits, reward on approval and dynamic vote colour.",
+        "unlimited": "unlimited",
+        "noRoleLimits": "*no role limit*",
+        "rewardCoinsValue": "💰 {coins} coins",
+        "rewardItemValue": "🎁 {item}",
+        "defaultLimitField": "Default limit (pending)",
+        "dynColorField": "Dynamic colour",
+        "rewardField": "Reward on approval",
+        "noReward": "*none*",
+        "roleLimitsField": "Per-role limits",
+        "roleLimitAdd": "Add a role limit…",
+        "rewardItemPlaceholder": "Item granted on approval…",
+        "roleLimitRemove": "Remove a role limit…",
+        "editDefaultLimit": "✏️ Default limit",
+        "editRewardCoins": "💰 Reward coins",
+        "dynColorDisable": "Dynamic colour: off",
+        "dynColorEnable": "Dynamic colour: on",
+        "back": "◀ Back",
+        "roleLimitModalTitle": "Role limit",
+        "roleLimitField": "Limit (0 = unlimited)",
+        "rewardCoinsField": "Coins granted to the author"
+      },
+      "limitReached": "❌ You reached your limit of {max} pending suggestion(s).",
+      "reward": {
+        "coins": "💰 {coins} coins",
+        "item": "🎁 {item}",
+        "granted": "🎉 Reward sent to the author: {reward}"
+      },
+      "list": {
+        "description": "Ranking and search of suggestions.",
+        "rankingDescription": "Show the top-rated suggestions.",
+        "searchDescription": "Search suggestions by keyword.",
+        "keywordOpt": "Keyword to search.",
+        "empty": "No suggestion yet.",
+        "rankingTitle": "🏆 Top-rated suggestions",
+        "noMatch": "No suggestion matches “{keyword}”.",
+        "searchTitle": "🔎 Results for “{keyword}”"
+      }
+    },
+    "starboard": {
+      "label": "Starboard",
+      "description": "Reposts messages that get enough star ⭐ reactions to a channel.",
+      "jump": "Jump to message",
+      "header": "{emoji} **{count}** · {channel}",
+      "panel": {
+        "intro": "Pick the starboard channel, the trigger emoji and the star threshold.",
+        "channelField": "Starboard channel",
+        "notSet": "*not set*",
+        "emojiField": "Emoji",
+        "thresholdField": "Star threshold",
+        "ignoreBotsField": "Ignore bots",
+        "on": "✅ Enabled",
+        "off": "⛔ Disabled",
+        "channelPlaceholder": "Channel to repost messages",
+        "editEmoji": "⭐ Emoji",
+        "editThreshold": "🔢 Threshold",
+        "ignoreBotsToggle": "🤖 Ignore bots",
+        "emojiModal": "Trigger emoji",
+        "thresholdModal": "Star threshold"
+      }
+    },
+    "logs": {
+      "label": "Logs",
+      "description": "Logs important server actions and adds the /clear command.",
+      "fields": {
+        "channel": "Channel",
+        "author": "Author",
+        "member": "Member",
+        "moderator": "Moderator",
+        "executor": "Action by",
+        "count": "Count",
+        "target": "Target",
+        "reason": "Reason",
+        "role": "Role",
+        "content": "Content",
+        "before": "Before",
+        "after": "After",
+        "change": "Change",
+        "unknown": "*unknown*",
+        "unavailable": "*unavailable*",
+        "noReason": "*no reason provided*",
+        "everyone": "Everyone"
+      },
+      "events": {
+        "messageDelete": {
+          "title": "Message deleted"
+        },
+        "messageBulkDelete": {
+          "title": "Bulk message delete"
+        },
+        "messageUpdate": {
+          "title": "Message edited"
+        },
+        "memberAdd": {
+          "title": "Member joined"
+        },
+        "memberRemove": {
+          "title": "Member left"
+        },
+        "channelCreate": {
+          "title": "Channel created"
+        },
+        "channelDelete": {
+          "title": "Channel deleted"
+        },
+        "channelUpdate": {
+          "title": "Channel updated"
+        },
+        "roleCreate": {
+          "title": "Role created"
+        },
+        "roleDelete": {
+          "title": "Role deleted"
+        },
+        "roleUpdate": {
+          "title": "Role updated"
+        },
+        "clear": {
+          "title": "Messages cleared"
+        }
+      },
+      "clear": {
+        "description": "Quickly delete messages in the current channel.",
+        "opt": {
+          "count": "Number of messages to delete (1 to 100).",
+          "member": "Only delete messages from one member.",
+          "reason": "Reason shown in logs."
+        },
+        "invalidChannel": "❌ This command must be used in a server text channel.",
+        "botNoPerm": "❌ I do not have the “Manage Messages” permission in this channel.",
+        "none": "No recent deletable message found.",
+        "failed": "❌ Could not delete these messages. Check my permissions.",
+        "done": "✅ Deleted {count} message(s)."
+      },
+      "panel": {
+        "intro": "Choose the logs channel and the event families to record.",
+        "channelField": "Logs channel",
+        "enabledField": "Enabled events",
+        "notSet": "*not set*",
+        "on": "✅ Enabled",
+        "off": "⛔ Disabled",
+        "channelPlaceholder": "Channel where logs are sent",
+        "categoryLine": "• {category}: {status}",
+        "categories": {
+          "messages": "Messages",
+          "members": "Members",
+          "channels": "Channels",
+          "roles": "Roles",
+          "moderation": "Moderation"
+        }
+      },
+      "rollback": {
+        "button": "Restore",
+        "done": "✅ Rollback completed.",
+        "used": "❌ This rollback was already used.",
+        "missing": "❌ This rollback cannot be found or has expired.",
+        "notAllowed": "⛔ You are not allowed to use this rollback.",
+        "unsupported": "❌ This rollback type is not supported.",
+        "noPermission": "❌ I do not have the required permissions to restore this item.",
+        "failed": "❌ Could not restore this item. Check my permissions and hierarchy."
+      }
+    },
+    "tickets": {
+      "label": "Tickets",
+      "description": "Multiple ticket types; each type opens a private channel visible to the chosen roles.",
+      "welcomeTitle": "🎫 Ticket opened",
+      "welcome": "Hello {user}, your “{type}” ticket is open. Describe your request here, the team will reply. Click “Close ticket” once it’s resolved.",
+      "opened": "✅ Your ticket has been opened: {channel}",
+      "feedback": {
+        "disabled": "❌ This module is disabled on this server."
+      },
+      "error": {
+        "notype": "❌ This ticket type no longer exists.",
+        "max": "❌ You already have {max} open ticket(s). Close it before opening a new one.",
+        "noperm": "❌ I lack the “Manage Channels” permission to create the ticket.",
+        "create": "❌ Could not create the ticket channel. Check my permissions and the category."
+      },
+      "close": {
+        "button": "🔒 Close ticket",
+        "confirm": "Close this ticket? The channel will be deleted.",
+        "confirmButton": "🔒 Confirm close",
+        "closing": "🔒 Closing the ticket…",
+        "closingArchive": "🔒 Archiving the conversation then closing…",
+        "notFound": "❌ This ticket cannot be found or is already closed.",
+        "cantClose": "⛔ Only the author, the type staff or an admin can close it."
+      },
+      "archive": {
+        "title": "📦 Ticket archive",
+        "header": "Type: {type}\nAuthor: {opener}\nClosed by: {closedBy}\nMessages: {count}"
+      },
+      "panel": {
+        "intro": "Configure the channels, the ticket types (and their roles), then publish the panel.",
+        "channelField": "Panel channel",
+        "categoryField": "Ticket category",
+        "archiveField": "Archive channel",
+        "archiveOff": "*archiving disabled*",
+        "statusField": "Status",
+        "published": "✅ Published",
+        "notPublished": "⛔ Not published",
+        "maxField": "Max tickets / member",
+        "typesField": "Ticket types",
+        "noTypes": "*no type — add one*",
+        "typeNoRoles": "*no role*",
+        "notSet": "*not set*",
+        "channelPlaceholder": "Channel to publish the panel",
+        "categoryPlaceholder": "Category where tickets are created",
+        "archivePlaceholder": "Channel to archive conversations (optional)",
+        "addType": "➕ Add a type",
+        "manageTypes": "📝 Manage types",
+        "settings": "⚙️ Settings",
+        "publish": "📤 Publish / Update",
+        "typeListTitle": "📝 Ticket types",
+        "typeListIntro": "Pick a type to edit (roles, name, deletion).",
+        "typePickPlaceholder": "Pick a type…",
+        "back": "◀️ Back",
+        "typeEditTitle": "Type: {label}",
+        "typeEditIntro": "Select the roles allowed to see and handle this ticket type.",
+        "typeRolesField": "Allowed roles",
+        "typeRolesPlaceholder": "Roles that can see this type…",
+        "typeRename": "✏️ Rename",
+        "typeDelete": "🗑️ Delete",
+        "typeModalTitle": "Ticket type",
+        "typeLabelField": "Button name",
+        "typeEmojiField": "Emoji (optional)",
+        "typePrefixField": "Channel prefix",
+        "typePrefixNone": "*default (type-username)*",
+        "tooManyTypes": "❌ Maximum {max} types reached.",
+        "noTypesYet": "❌ Add a type first with “➕ Add a type”.",
+        "settingsTitle": "Panel settings",
+        "titleField": "Title",
+        "descField": "Message",
+        "publishError": {
+          "nochannel": "❌ Pick a publish channel first.",
+          "notypes": "❌ Add at least one ticket type before publishing.",
+          "send": "❌ Could not send the message (check my permissions in the channel)."
+        },
+        "modeField": "Mode",
+        "modeChannel": "📁 Private channel (category)",
+        "modeThread": "🧵 Private thread",
+        "modeChannelBtn": "Mode: Channel",
+        "modeThreadBtn": "Mode: Thread",
+        "nameFormatField": "Name format"
+      }
+    },
+    "giveaways": {
+      "label": "Giveaways",
+      "description": "Random giveaways: prize, duration, winners, button entry.",
+      "command": {
+        "description": "Start and manage giveaways.",
+        "start": "Start a giveaway.",
+        "end": "End a giveaway now and draw the winners.",
+        "reroll": "Reroll the giveaway (all winners, or one specific winner).",
+        "list": "List active giveaways."
+      },
+      "opt": {
+        "prize": "The prize to win.",
+        "duration": "Giveaway duration (e.g. 1h, 2d, 30m).",
+        "winners": "Number of winners (default 1).",
+        "channel": "Channel to post the giveaway (default: here).",
+        "role": "Role required to enter (optional).",
+        "id": "The target giveaway.",
+        "winner": "The winner to replace (targeted reroll)."
+      },
+      "embed": {
+        "title": "🎉 Giveaway: {prize}",
+        "intro": "Click the button to enter!\n**{count}** winner(s) drawn at the end.",
+        "endedIntro": "Giveaway ended.",
+        "footer": "ID {id}",
+        "host": "Hosted by",
+        "winners": "Winners",
+        "endsAt": "Ends",
+        "endedAt": "Ended",
+        "participants": "Participants",
+        "requiredRole": "Required role",
+        "result": "🏆 Winner(s)",
+        "noWinner": "No participants 😢"
+      },
+      "joinButton": "🎉 Enter ({count})",
+      "announceWinners": "🎉 Congratulations {winners}! You win **{prize}**!",
+      "announceNoWinner": "😢 Nobody entered the giveaway for **{prize}**.",
+      "announceReroll": "🔄 New draw! Congratulations {winners}, you win **{prize}**!",
+      "announceRerollOne": "🔄 {old} is replaced: congratulations {new}, you win **{prize}**!",
+      "feedback": {
+        "disabled": "❌ This module is disabled on this server.",
+        "ended": "❌ This giveaway is over or cannot be found.",
+        "needRole": "⛔ You need the {role} role to enter this giveaway.",
+        "joined": "✅ You entered the giveaway! Good luck 🍀",
+        "left": "➖ You are no longer entered in this giveaway."
+      },
+      "reroll": {
+        "notWinner": "❌ This member is not a current winner of this giveaway.",
+        "noEligible": "❌ No eligible participant left to replace this winner."
+      },
+      "invalidDuration": "❌ Invalid duration. Examples: `1h`, `2d`, `30m`, `1h30m`.",
+      "channelInvalid": "❌ Invalid channel to post the giveaway.",
+      "sendError": "❌ Could not post the giveaway (check my permissions in the channel).",
+      "launched": "✅ Giveaway started! {url}",
+      "notFoundActive": "❌ No active giveaway with that id.",
+      "endedManual": "🎉 Giveaway ended! Winner(s): {winners}",
+      "endedNoWinner": "😢 Giveaway ended, but nobody entered.",
+      "notFoundEnded": "❌ No ended giveaway with that id.",
+      "rerolledOne": "🔄 {old} replaced by {new}.",
+      "rerolledAll": "🔄 New draw done. Winner(s): {winners}",
+      "listEmpty": "No active giveaway.",
+      "listTitle": "🎉 Active giveaways",
+      "listLine": "• **{prize}** — `{id}` — ends {ends} — {channel}",
+      "panel": {
+        "intro": "Pick a log channel (optional) and customize the announcement messages.",
+        "logField": "Log channel",
+        "logOff": "*logs disabled*",
+        "winField": "Win message",
+        "noWinField": "No-winner message",
+        "logPlaceholder": "Channel to log winners (optional)",
+        "editWin": "✏️ Win message",
+        "editNoWin": "✏️ No-winner message",
+        "messageField": "Message ({winners}, {prize})",
+        "winModal": "Win message",
+        "noWinModal": "No-winner message"
+      },
+      "log": {
+        "title": "🎁 Giveaway ended",
+        "entry": "Prize: **{prize}**\nWinner(s): {winners}\nHosted by: {host}\nID: `{id}`"
+      }
+    },
+    "advent": {
+      "label": "Advent calendar",
+      "description": "From December 1st to 24th, every member opens one door a day and earns coins and/or an item.",
+      "announce": "🎄 Day **{day}** of the Advent calendar is now open! Use `/avent ouvrir` to reveal your reward.",
+      "command": {
+        "description": "Advent calendar: open your door of the day.",
+        "open": "Open today's door (or a specific day).",
+        "dayOption": "Day to open (1-24). Default: today.",
+        "calendar": "Show your progress in the calendar."
+      },
+      "feedback": {
+        "disabled": "❌ The Advent calendar is disabled on this server.",
+        "closed": "🎄 The calendar isn't open (only December 1st to 24th).",
+        "locked": "🔒 Day {day}'s door can't be opened yet.",
+        "already": "🎁 You already opened day {day}'s door."
+      },
+      "calendar": {
+        "title": "🎄 Advent calendar",
+        "footerOpen": "Day {day} · {opened}/24 doors opened",
+        "footerClosed": "Come back December 1st to 24th!"
+      },
+      "reward": {
+        "title": "🎁 Door {day} opened!",
+        "coins": "💰 +{coins} coins",
+        "item": "🎁 +{qty}× {item}",
+        "nothing": "…but the door was empty this time.",
+        "balance": "Balance: {balance} coins"
+      },
+      "panel": {
+        "intro": "Configure the calendar: announcement channel, default coins, and each day's reward (coins + item + message). Pick a day to edit it.",
+        "announceField": "Announcement channel",
+        "notSet": "*not set*",
+        "testField": "Test mode",
+        "testOn": "✅ On (all doors openable)",
+        "testOff": "⛔ Off (December only)",
+        "defaultCoinsField": "Default coins",
+        "daysField": "Rewards per day",
+        "allDefault": "Every day: {coins} coins (default).",
+        "coinsShort": "{coins} coins",
+        "dayN": "Day {day}",
+        "dayPickPlaceholder": "Edit a day…",
+        "announcePlaceholder": "Daily announcement channel (optional)",
+        "disableTest": "Disable test mode",
+        "enableTest": "Enable test mode",
+        "editDefaultCoins": "Default coins",
+        "noItem": "*no item*",
+        "itemMissing": "*deleted item*",
+        "dayEditTitle": "Day {day}",
+        "dayEditIntro": "Reward specific to this day.",
+        "dayEditDefault": "This day uses the default reward. Edit it to customise.",
+        "coinsField": "Coins",
+        "itemField": "Item",
+        "messageField": "Message",
+        "noMessage": "*none*",
+        "itemPickPlaceholder": "Item to grant that day…",
+        "editReward": "✏️ Edit reward",
+        "clearItem": "Remove item",
+        "back": "◀ Back",
+        "rewardModalTitle": "Reward — day {day}",
+        "itemQtyField": "Item quantity"
+      }
+    },
+    "reports": {
+      "label": "Reports",
+      "description": "Lets members report behavior to the staff.",
+      "command": {
+        "description": "Report a member to the staff.",
+        "member": "The member to report.",
+        "reason": "The reason for the report.",
+        "message": "Discord link to the related message (optional)."
+      },
+      "status": {
+        "open": "Open",
+        "taken": "Taken",
+        "resolved": "Resolved",
+        "ignored": "Ignored"
+      },
+      "button": {
+        "take": "Take",
+        "resolve": "Resolve",
+        "ignore": "Ignore"
+      },
+      "embed": {
+        "title": "Report",
+        "target": "Reported member",
+        "reporter": "Reported by",
+        "status": "Status",
+        "source": "Source",
+        "assignee": "Taken by",
+        "resolvedBy": "Handled by",
+        "jump": "View message",
+        "none": "*not provided*",
+        "footer": "Report {id}"
+      },
+      "panel": {
+        "intro": "Configure the private staff channel where reports arrive. The reporting member only gets access to the private thread created for their report.",
+        "channelField": "Reports channel",
+        "staffField": "Staff role",
+        "notSet": "*not set*",
+        "staffDefault": "*Manage Server*",
+        "channelPlaceholder": "Staff text channel where reports are sent",
+        "staffPlaceholder": "Role allowed to handle reports"
+      },
+      "feedback": {
+        "staffOnly": "⛔ Only staff can handle this report.",
+        "gone": "❌ This report cannot be found.",
+        "closed": "ℹ️ This report is already closed."
+      },
+      "notConfigured": "❌ No reports channel is configured. An admin must set one in `/config`.",
+      "channelGone": "❌ The reports channel cannot be found. Please tell an administrator.",
+      "selfReport": "❌ You cannot report yourself.",
+      "submitted": "✅ Report sent to the staff.",
+      "sendError": "❌ Could not send the report. Check my permissions in the configured channel (View Channel, Send Messages, Create Private Threads, Manage Threads).",
+      "threadName": "Report {id}",
+      "invalidMessageLink": "❌ The message link is invalid or does not belong to this server.",
+      "submittedWithThread": "✅ Report sent to the staff. You can access the private thread {thread}.",
+      "threadIntro": "{reporter}, your report about {target} is open here. Only authorized staff can follow this thread with you.",
+      "staffThreadLine": "Private reporter/staff thread: {thread}"
+    },
+    "tempvoice": {
+      "label": "Temporary voice channels",
+      "description": "Joining a generator channel creates a personal voice channel, deleted when empty.",
+      "createReason": "Temporary voice channel for {user}",
+      "autoTransfer": "👑 {user} is now the channel owner.",
+      "command": {
+        "description": "Manage your temporary voice channel.",
+        "panel": "Re-post the control panel in your channel.",
+        "claim": "Become the channel owner if the current one left.",
+        "transfer": "Transfer ownership to a member.",
+        "transferMember": "The member who will receive ownership.",
+        "rename": "Rename your channel.",
+        "renameValue": "The new channel name.",
+        "limit": "Set the member limit.",
+        "limitValue": "Limit (0 = unlimited).",
+        "notInVoice": "❌ You must be in a voice channel.",
+        "notTemp": "❌ This channel is not a temporary channel.",
+        "claimed": "👑 You are now the channel owner.",
+        "panelPosted": "✅ Control panel posted.",
+        "transferred": "👑 Ownership transferred.",
+        "renamed": "✏️ Channel renamed.",
+        "limitSet": "👥 Limit updated."
+      },
+      "panel": {
+        "intro": "Configure one or more generator channels (\"hubs\"). When a member joins one, the bot creates a personal voice channel and moves them into it.",
+        "hubsField": "Generator channels",
+        "noHubs": "*No hub yet. Pick a voice channel below to add one.*",
+        "limitShort": "limit {limit}",
+        "unlimited": "unlimited",
+        "controlField": "Control panel",
+        "controlOn": "✅ Posted in the created channel",
+        "controlOff": "⛔ Disabled",
+        "addHubPlaceholder": "Add a generator channel (voice)",
+        "manageHubs": "Manage hubs",
+        "enablePanel": "Enable panel",
+        "disablePanel": "Disable panel",
+        "hubListTitle": "Configured hubs",
+        "hubListIntro": "Pick a hub to edit.",
+        "hubPickPlaceholder": "Choose a hub…",
+        "back": "◀ Back",
+        "hubEditTitle": "Hub settings",
+        "hubEditIntro": "Category, name template, limit, bitrate and default lock.",
+        "hubChannel": "Generator channel",
+        "hubCategory": "Category",
+        "hubCategoryDefault": "*the hub's own*",
+        "hubTemplate": "Name template",
+        "hubLimit": "Member limit",
+        "hubBitrate": "Bitrate",
+        "hubBitrateDefault": "*default*",
+        "hubLocked": "Locked by default",
+        "hubLockedOn": "✅ Yes",
+        "hubLockedOff": "⛔ No",
+        "hubCategoryPlaceholder": "Category where channels are created",
+        "editTemplate": "Name template",
+        "editLimits": "Limit & bitrate",
+        "lockDefault": "Lock by default",
+        "unlockDefault": "Unlock by default",
+        "hubInherit": "Generator permissions",
+        "hubInheritOn": "✅ Copied on creation (role restrictions inherited).",
+        "hubInheritOff": "❌ Not copied (default permissions).",
+        "enableInherit": "Inherit permissions",
+        "disableInherit": "Don't inherit",
+        "deleteHub": "Delete this hub",
+        "templateTitle": "Name template",
+        "templateField": "Name ({user}, {username})",
+        "limitsTitle": "Limit & bitrate",
+        "limitField": "Member limit (0-99)",
+        "bitrateField": "Bitrate in kbps (empty = default)",
+        "noHubsYet": "❌ Add a hub first."
+      },
+      "control": {
+        "title": "Channel settings",
+        "intro": "This is the configuration space for your temporary voice channel. The available options let you customize the channel's permissions to your liking.",
+        "currentState": "👑 {owner} · Access: **{access}** · Limit: **{limit}** · 🎤 {micro} · 📹 {video} · 🎵 {soundboard}",
+        "unlimited": "unlimited",
+        "none": "None",
+        "on": "on",
+        "off": "off",
+        "mode_open": "🔊 Open",
+        "mode_closed": "🔒 Closed",
+        "mode_private": "🔇 Private",
+        "tip": "💡 Whitelisted members are not impacted by permissions denied to members.",
+        "open": "🔊 Open",
+        "closed": "🔒 Closed",
+        "private": "🔇 Private",
+        "whitelistBtn": "✅ Whitelist",
+        "blacklistBtn": "📋 Blacklist",
+        "purge": "➡️ Purge",
+        "micro": "🎤 Mic",
+        "video": "📹 Video",
+        "soundboard": "🎵 Soundboards",
+        "status": "🏷️ Status",
+        "transfer": "👑 Transfer",
+        "settings": "⚙️ Settings",
+        "save": "💾 Save",
+        "claim": "🙋 Claim",
+        "delete": "🗑️ Delete",
+        "back": "◀ Back",
+        "media": "🎤 Mic · 📹 Video · 🎵 Soundboard",
+        "desc_open": "The channel will be open to all members, except those on the blacklist.",
+        "desc_closed": "The channel stays visible to everyone, but only the whitelist can join.",
+        "desc_private": "The channel will only be visible and joinable by whitelisted members.",
+        "desc_whitelist": "Members and roles in this list can always join the channel.",
+        "desc_blacklist": "Members in this list can never join the channel.",
+        "desc_purge": "Disconnect every member of the voice channel except those covered by the whitelist.",
+        "desc_transfer": "Transfer channel management to a member of your choice.",
+        "desc_settings": "Change the channel's name and member limit.",
+        "desc_media": "Allow or cut members' mic, camera and soundboard. ⚠️ No effect on administrators and the server owner (Discord limitation).",
+        "wlPlaceholder": "Members always allowed to join",
+        "blPlaceholder": "Members forbidden to join",
+        "transferPlaceholder": "New owner (present in the channel)",
+        "nameField": "Channel name",
+        "limitField": "Member limit (0 = unlimited)",
+        "statusTitle": "Channel status",
+        "statusField": "Status (leave empty to clear)",
+        "statusPlaceholder": "e.g. 🎮 Playing…",
+        "settingsTitle": "Channel settings",
+        "notTemp": "❌ This channel is not a temporary channel.",
+        "notOwner": "⛔ Only the channel owner can do that.",
+        "ownerPresent": "❌ The owner is still here, you cannot claim the channel.",
+        "notInChannel": "❌ You must be in the channel to claim it.",
+        "transferAbsent": "❌ That member must be in the channel to receive ownership.",
+        "purged": "🔌 Disconnected {count} member(s).",
+        "saved": "💾 Settings saved: they will be reapplied to your next channel.",
+        "deleting": "🗑️ Deleting the channel…",
+        "ownerLine": "Channel owner: {owner}",
+        "wlRolePlaceholder": "Roles always allowed to join"
+      }
+    },
+    "streamalerts": {
+      "label": "Stream & feed alerts",
+      "description": "Announce lives, videos and feed items in a channel (Twitch, YouTube, Reddit, RSS, Dealabs).",
+      "platform": {
+        "twitch": "Twitch",
+        "youtube": "YouTube",
+        "reddit": "Reddit",
+        "rss": "RSS feed",
+        "dealabs": "Dealabs"
+      },
+      "embed": {
+        "twitchTitle": "🔴 {name} is live!",
+        "youtubeTitle": "📺 New video from {name}!",
+        "game": "Category",
+        "redditTitle": "🟠 New post on {name}!",
+        "rssTitle": "📰 New article — {name}",
+        "dealabsTitle": "🏷️ New deal — {name}",
+        "price": "🏷️ Price",
+        "temperature": "🌡️ Temperature",
+        "merchant": "🏪 Merchant"
+      },
+      "announceTwitch": "🔴 **{name}** is now live on Twitch! {url}",
+      "announceYoutube": "📺 **{name}** just posted a video! {url}",
+      "panel": {
+        "intro": "Follow sources and announce their news in a channel: Twitch lives, YouTube videos, Reddit posts, RSS articles and Dealabs deals. Add a source, pick the channel and, optionally, a role to ping and a custom message.",
+        "noSubs": "*No source. Add a channel, subreddit, RSS feed or Dealabs below.*",
+        "noChannel": "⚠️ no channel set (inactive)",
+        "subsField": "Followed sources",
+        "twitchStatus": "Twitch API",
+        "twitchOn": "✅ Keys configured (`.env`)",
+        "twitchOff": "⛔ `TWITCH_CLIENT_ID`/`SECRET` missing — Twitch inactive (YouTube works without a key).",
+        "addTwitch": "➕ Twitch",
+        "addYoutube": "➕ YouTube",
+        "manage": "Manage subscriptions",
+        "listTitle": "Subscriptions",
+        "listIntro": "Pick a subscription to edit.",
+        "pickPlaceholder": "Choose a subscription…",
+        "back": "◀ Back",
+        "editTitle": "Subscription — {name}",
+        "editIntro": "Announce channel, role to ping and custom message.",
+        "platformField": "Platform",
+        "channelField": "Announce channel",
+        "notSet": "*not set*",
+        "roleField": "Pinged role",
+        "noRole": "*none*",
+        "messageField": "Custom message",
+        "defaultMessage": "*default message*",
+        "channelPlaceholder": "Channel to post announcements",
+        "rolePlaceholder": "Role to ping (optional)",
+        "editMessage": "✏️ Message",
+        "deleteSub": "🗑️ Delete",
+        "add_twitchTitle": "Add a Twitch channel",
+        "add_youtubeTitle": "Add a YouTube channel",
+        "twitchIdField": "Twitch username",
+        "youtubeIdField": "YouTube channel (@handle, name or UC…)",
+        "messageTitle": "Announcement message",
+        "messageInput": "Message text",
+        "addReddit": "➕ Reddit",
+        "addRss": "➕ RSS",
+        "addDealabs": "➕ Dealabs",
+        "add_redditTitle": "Add a subreddit",
+        "add_rssTitle": "Add an RSS feed",
+        "add_dealabsTitle": "Add a Dealabs alert",
+        "redditIdField": "Subreddit (e.g. gaming or r/gaming)",
+        "rssIdField": "RSS/Atom feed URL",
+        "dealabsIdField": "Filter keyword (optional)",
+        "testButton": "🧪 Test",
+        "test_ok": "✅ Test announcement sent to the configured channel.",
+        "test_nochannel": "⚠️ Pick an announce channel for this source first.",
+        "test_notfound": "❌ Nothing to announce: source not found, empty, or filter with no match (Twitch needs API keys).",
+        "test_unreachable": "❌ Feed unreachable: the source is blocked (Cloudflare?) or the URL is invalid. Check the bot's network access to this site.",
+        "dealabsStatus": "Dealabs (Cloudflare)",
+        "dealabsOn": "✅ FlareSolverr resolver configured.",
+        "dealabsOff": "⛔ `FLARESOLVERR_URL` missing — Dealabs blocked by Cloudflare (see README)."
+      }
+    },
+    "serverstats": {
+      "label": "Server counters",
+      "description": "Voice channels whose name shows a server statistic, updated automatically.",
+      "type": {
+        "members": "Members",
+        "humans": "Humans",
+        "bots": "Bots",
+        "boosts": "Boosts",
+        "roles": "Roles",
+        "channels": "Channels",
+        "role": "Members of a role"
+      },
+      "default": {
+        "members": "👥 {count} members",
+        "humans": "🧑 {count} humans",
+        "bots": "🤖 {count} bots",
+        "boosts": "🚀 {count} boosts",
+        "roles": "🏷️ {count} roles",
+        "channels": "📁 {count} channels",
+        "role": "⭐ {count}"
+      },
+      "panel": {
+        "intro": "Add a channel (voice, text or category) as a counter: its name shows a statistic and refreshes every 10 minutes. You can create several counters on several channels/categories. ⚠️ Discord lowercases **text** channel names — prefer a voice channel or a category for a clean look.",
+        "noCounters": "*No counter. Pick a voice channel below to create one.*",
+        "countersField": "Counters",
+        "noCountersYet": "❌ No counter yet. Add a channel first with the selector above.",
+        "addPlaceholder": "Add a channel (voice, text, category)",
+        "manage": "Manage counters",
+        "listTitle": "Counters",
+        "listIntro": "Pick a counter to edit.",
+        "pickPlaceholder": "Choose a counter…",
+        "back": "◀ Back",
+        "editTitle": "Counter settings",
+        "editIntro": "Statistic type, name template and (for “Members of a role”) the role to count.\n⚠️ Discord limits renames to **2 / 10 min per channel**: after two quick changes the channel name may lag a few minutes — the panel itself stays up to date.",
+        "channelField": "Channel",
+        "typeField": "Type",
+        "templateField": "Name template",
+        "roleField": "Counted role",
+        "noRole": "*not set*",
+        "typePlaceholder": "Statistic type",
+        "rolePlaceholder": "Role to count",
+        "editTemplate": "✏️ Template",
+        "delete": "🗑️ Delete",
+        "templateTitle": "Name template",
+        "templateInput": "Channel name ({count} = value)"
+      }
+    },
+    "configbackup": {
+      "label": "Config backup / export",
+      "description": "Exports the server's entire module configuration to a JSON file, and imports it back.",
+      "command": {
+        "description": "Export or import the server's module configuration.",
+        "export": "Download the whole module config as a JSON file.",
+        "import": "Restore the module config from a JSON file."
+      },
+      "opt": {
+        "file": "The JSON backup file to import.",
+        "recreate": "Recreate missing channels/roles on this server (default: yes)."
+      },
+      "export": {
+        "title": "💾 Configuration backup",
+        "done": "Here is the backup of **{count}** module(s). Keep this file safe: you can restore it with `/sauvegarde importer`.",
+        "structure": "🏗️ Structure included: **{channels}** channel(s) and **{roles}** role(s) referenced — they can be recreated on import to another server."
+      },
+      "import": {
+        "title": "✅ Configuration imported",
+        "applied": "**{count}** module(s) restored: {list}",
+        "structure": "🏗️ Structure: **{channelsCreated}** channel(s) created · {channelsReused} reused — **{rolesCreated}** role(s) created · {rolesReused} reused.",
+        "structureFailed": "⚠️ **{failed}** item(s) could not be created — the bot needs the **Manage Roles** and **Manage Channels** permissions (and to be high enough in the hierarchy).",
+        "structureMissing": "ℹ️ This backup does not include the structure (channels/roles). Re-export it from the latest bot version to enable automatic recreation.",
+        "skippedUnknown": "⚠️ Unknown modules skipped: {list}",
+        "skippedInvalid": "⚠️ Invalid config skipped: {list}",
+        "otherGuild": "ℹ️ This backup comes from another server — double-check the settings afterwards.",
+        "tooLarge": "❌ The file is too large (max 1 MB). It is probably not a valid backup.",
+        "downloadFailed": "❌ Could not download the attached file. Please try again.",
+        "invalidJson": "❌ The file is not valid JSON.",
+        "invalidShape": "❌ This file is not a valid Vakz-Bot backup."
+      }
+    },
+    "verification": {
+      "label": "Verification",
+      "description": "Anti-bot gate: a button or image captcha grants the verified role that unlocks the server.",
+      "panel": {
+        "intro": "Post a verification message with a button that grants the verified role — either by a simple click or after an image captcha.",
+        "channelField": "Channel",
+        "roleField": "Verified role",
+        "methodField": "Method",
+        "statusField": "Message",
+        "logField": "Log channel",
+        "previewField": "Message preview",
+        "notSet": "Not set",
+        "published": "✅ Published",
+        "notPublished": "⛔ Not published",
+        "channelPlaceholder": "Channel to post verification in…",
+        "rolePlaceholder": "Role granted after verification…",
+        "logPlaceholder": "Log channel (optional)…",
+        "methodButton": "Button (single click)",
+        "methodCaptcha": "Image captcha",
+        "methodToggle": "Method: {method}",
+        "editText": "Edit text",
+        "editButton": "Edit button",
+        "publish": "Publish",
+        "textModalTitle": "Verification message",
+        "titleField": "Title",
+        "contentField": "Content",
+        "buttonModalTitle": "Verification button",
+        "buttonField": "Button text",
+        "roleWarning": "I won't be able to grant this role: give me “Manage Roles” and place my role **above** the verified role.",
+        "needRole": "❌ Choose a verified role before publishing.",
+        "publishError": {
+          "nochannel": "❌ Choose a valid channel first.",
+          "send": "❌ Could not send the message (check my permissions in the channel)."
+        }
+      },
+      "feedback": {
+        "disabled": "❌ Verification is disabled on this server.",
+        "notConfigured": "❌ Verification isn't ready yet (no verified role set). Please tell an administrator.",
+        "alreadyVerified": "✅ You are already verified!",
+        "cannotAssign": "❌ I can't grant you the verified role. An administrator must check my permissions (Manage Roles + hierarchy).",
+        "captchaInstructions": "🔐 Copy the code shown on the image, then click “Enter code”. Case does not matter.",
+        "captchaWrong": "❌ Wrong code. Try again by clicking “Enter code”.",
+        "captchaExpired": "⌛ The captcha expired. Click “Verify” again to get a new one.",
+        "success": "✅ Verified, welcome! You now have access to the server.",
+        "openButton": "Enter code",
+        "answerModalTitle": "Verification",
+        "answerField": "Code shown on the image"
+      },
+      "log": {
+        "verified": "✅ {user} passed verification."
+      }
+    },
+    "customcommands": {
+      "label": "Custom commands",
+      "description": "Keyword-triggered auto-responses: trigger → reply (text or embed), with channel, cooldown and trigger deletion.",
+      "match": {
+        "contains": "Contains",
+        "exact": "Exact",
+        "startsWith": "Starts with",
+        "endsWith": "Ends with"
+      },
+      "panel": {
+        "intro": "Create automatic replies: when a message matches a trigger, the bot responds. Variables: {user} · {username} · {server} · {channel}.",
+        "listField": "Commands ({count})",
+        "noCommands": "No command yet. Click “Add”.",
+        "add": "Add",
+        "manage": "Manage",
+        "back": "Back",
+        "listTitle": "Manage commands",
+        "listIntro": "Pick a command to edit.",
+        "pickPlaceholder": "Pick a command…",
+        "editTitle": "Edit command",
+        "editIntro": "Adjust the trigger, response and options below.",
+        "triggerField": "Trigger",
+        "matchField": "Match",
+        "channelField": "Channel",
+        "anyChannel": "Any",
+        "embedField": "As embed",
+        "deleteField": "Deletes message",
+        "cooldownField": "Cooldown",
+        "responseField": "Response",
+        "on": "✅ Yes",
+        "off": "⛔ No",
+        "matchPlaceholder": "Match type…",
+        "channelPlaceholder": "Restrict to a channel (optional)…",
+        "editResponse": "Edit response",
+        "toggleEmbed": "Embed",
+        "toggleDelete": "Delete msg",
+        "editCooldown": "Cooldown",
+        "delete": "Delete",
+        "createTitle": "New command",
+        "triggerInput": "Trigger (e.g. hello)",
+        "responseInput": "Response (variables {user} {server}…)",
+        "responseTitle": "Command response",
+        "cooldownTitle": "Anti-spam delay",
+        "cooldownInput": "Cooldown in seconds (0 = none)"
+      }
+    },
+    "scheduledmessages": {
+      "label": "Recurring messages",
+      "description": "Automatically posts messages to a channel on a schedule (daily, weekly or every N hours).",
+      "type": {
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "interval": "Interval"
+      },
+      "weekday": {
+        "0": "Sunday",
+        "1": "Monday",
+        "2": "Tuesday",
+        "3": "Wednesday",
+        "4": "Thursday",
+        "5": "Friday",
+        "6": "Saturday"
+      },
+      "describe": {
+        "daily": "Every day at {time}",
+        "weekly": "Every {day} at {time}",
+        "interval": "Every {hours}h"
+      },
+      "panel": {
+        "intro": "Schedule messages posted automatically. Times use the bot's timezone (Europe/Paris).",
+        "listField": "Messages ({count})",
+        "noMessages": "No scheduled message. Pick a channel below to add one.",
+        "addPlaceholder": "Add a message to a channel…",
+        "manage": "Manage",
+        "back": "Back",
+        "listTitle": "Manage messages",
+        "listIntro": "Pick a message to edit.",
+        "pickPlaceholder": "Pick a message…",
+        "editTitle": "Edit message",
+        "editIntro": "Adjust the schedule, channel and content below.",
+        "channelField": "Channel",
+        "scheduleField": "Schedule",
+        "embedField": "As embed",
+        "contentField": "Content",
+        "on": "✅ Yes",
+        "off": "⛔ No",
+        "cadencePlaceholder": "Schedule type…",
+        "weekdayPlaceholder": "Day of week…",
+        "channelPlaceholder": "Change channel…",
+        "editContent": "Edit content",
+        "editTime": "Set time",
+        "toggleEmbed": "Embed",
+        "sendNow": "Send now",
+        "delete": "Delete",
+        "defaultContent": "Message to customize ✍️",
+        "contentTitle": "Message content",
+        "contentInput": "Content (text or embed)",
+        "timeTitle": "Schedule",
+        "timeInput": "Time as HH:MM (e.g. 09:00)",
+        "hoursInput": "Interval in hours (1 to 168)",
+        "sendOk": "✅ Message sent.",
+        "sendFailed": "❌ Could not send (channel unreachable or permissions)."
+      }
+    },
+    "wordreactions": {
+      "label": "Word reactions",
+      "description": "Automatically adds emoji reactions to messages containing certain keywords.",
+      "match": {
+        "contains": "Contains",
+        "word": "Whole word",
+        "exact": "Exact",
+        "startsWith": "Starts with",
+        "endsWith": "Ends with"
+      },
+      "panel": {
+        "intro": "When a message matches a trigger, the bot adds the chosen emojis. Several rules can apply to the same message.",
+        "listField": "Rules ({count})",
+        "noRules": "No rule yet. Click “Add”.",
+        "add": "Add",
+        "manage": "Manage",
+        "back": "Back",
+        "listTitle": "Manage reactions",
+        "listIntro": "Pick a rule to edit.",
+        "pickPlaceholder": "Pick a rule…",
+        "editTitle": "Edit rule",
+        "editIntro": "Adjust the trigger, emojis, match and channel.",
+        "triggerField": "Trigger",
+        "matchField": "Match",
+        "channelField": "Channel",
+        "anyChannel": "Any",
+        "emojisField": "Emojis",
+        "matchPlaceholder": "Match type…",
+        "channelPlaceholder": "Restrict to a channel (optional)…",
+        "editRule": "Edit",
+        "delete": "Delete",
+        "modalTitle": "Word reaction",
+        "triggerInput": "Trigger (e.g. bravo)",
+        "emojisInput": "Emojis (unicode or :name:), max 3",
+        "invalidEmojis": "❌ Provide at least one valid emoji: a unicode emoji 😀, or the `:name:` form of a server emoji, space-separated."
+      }
+    },
+    "info": {
+      "label": "Info commands",
+      "description": "Utility commands: info about a member, the server, a role, or someone's avatar.",
+      "opt": {
+        "member": "The target member (default: you).",
+        "role": "The target role.",
+        "emoji": "The emoji to enlarge (custom, :name: or unicode)."
+      },
+      "yes": "✅ Yes",
+      "no": "⛔ No",
+      "field": {
+        "id": "ID",
+        "bot": "Bot",
+        "created": "Account created",
+        "joined": "Joined",
+        "roles": "Roles ({count})",
+        "boosting": "Boosting since",
+        "owner": "Owner",
+        "members": "Members",
+        "boosts": "Boosts",
+        "channels": "Channels",
+        "emojis": "Emojis",
+        "color": "Color",
+        "position": "Position"
+      },
+      "boostValue": "**{count}** (tier {tier})",
+      "channelValue": "💬 {text} · 🔊 {voice} · 📁 {categories}",
+      "userinfo": {
+        "description": "Show a member's information.",
+        "title": "Info about {user}"
+      },
+      "serverinfo": {
+        "description": "Show the server's information.",
+        "title": "Info about {server}"
+      },
+      "avatar": {
+        "description": "Show a member's avatar in full size.",
+        "title": "{user}'s avatar",
+        "link": "Link",
+        "serverLink": "Server avatar"
+      },
+      "roleinfo": {
+        "description": "Show a role's information.",
+        "title": "Info about {role}",
+        "hoisted": "Displayed separately",
+        "mentionable": "Mentionable",
+        "managed": "Managed (bot/integration)",
+        "permissions": "Permissions",
+        "admin": "👑 Administrator",
+        "permCount": "{count} permission(s)"
+      },
+      "emoji": {
+        "description": "Show an emoji in full size (downloadable).",
+        "download": "Download",
+        "animated": "🎞️ Animated",
+        "static": "🖼️ Static",
+        "notEmoji": "❌ That's not a valid emoji. Provide a custom emoji, a server `:name:`, or a unicode emoji."
+      }
+    },
+    "games": {
+      "label": "Games",
+      "description": "Fun mini-games: magic 8-ball, dice, coin flip, random pick, rock-paper-scissors, tic-tac-toe and Battleship (with stats).",
+      "opt": {
+        "question": "Your question for the magic 8-ball.",
+        "count": "Number of dice to roll (default: 1).",
+        "options": "The choices, separated by “|” or “,”.",
+        "move": "Your move.",
+        "member": "The target member (default: you).",
+        "opponent": "Opponent to challenge (leave empty to play the bot)."
+      },
+      "boule8": {
+        "description": "Ask the magic 8-ball a question.",
+        "title": "🎱 Magic 8-ball",
+        "questionField": "Question",
+        "answerField": "Answer",
+        "answers": "It is certain.|Without a doubt.|Yes, definitely.|You may rely on it.|Most likely.|Signs point to yes.|Maybe.|Hard to say, try again.|Don't count on it.|Concentrate and ask again.|My reply is no.|My sources say no.|Very doubtful.|Outlook not so good.|I strongly doubt it."
+      },
+      "dice": {
+        "description": "Roll one or more {faces}-sided dice."
+      },
+      "coin": {
+        "description": "Flip a coin.",
+        "title": "🪙 Coin flip",
+        "heads": "**Heads!**",
+        "tails": "**Tails!**"
+      },
+      "choose": {
+        "description": "The bot picks for you among several options.",
+        "title": "🤔 Choice",
+        "result": "I pick… **{choice}**!",
+        "needTwo": "Give at least two options, separated by “|” or “,”."
+      },
+      "pfc": {
+        "description": "Rock-paper-scissors (against the bot or a member).",
+        "title": "✊ Rock-Paper-Scissors",
+        "line": "You: {player} — Me: {bot}",
+        "win": "🎉 **You win!**",
+        "loss": "😈 **I win!**",
+        "draw": "🤝 **Draw!**",
+        "recordField": "Your record",
+        "record": "🏆 {wins} · 💀 {losses} · 🤝 {draws}",
+        "challenge": "{challenger} challenges {opponent}! {opponent}, pick your move 👇",
+        "duelExpired": "⌛ This challenge has expired.",
+        "notYourDuel": "❌ This challenge isn't for you.",
+        "duel": {
+          "challengerWins": "🎉 {challenger} wins the duel!",
+          "opponentWins": "🎉 {opponent} wins the duel!",
+          "draw": "🤝 Draw between {challenger} and {opponent}!"
+        }
+      },
+      "ttt": {
+        "description": "Play tic-tac-toe against the bot or a member.",
+        "title": "🎮 Tic-tac-toe",
+        "bot": "the computer",
+        "turn": "🎯 {user}'s turn.",
+        "botTurn": "🤖 My turn…",
+        "wins": "🎉 {user} wins the game!",
+        "botWins": "🤖 I win! 😎",
+        "draw": "🤝 It's a draw!",
+        "expired": "⌛ This game has expired.",
+        "notYourTurn": "❌ It's not your turn (or not your game)."
+      },
+      "bn": {
+        "description": "Play Battleship against the bot or a member.",
+        "title": "🚢 Battleship",
+        "bot": "the computer",
+        "fire": "Fire",
+        "coordLabel": "Coordinate (e.g. C7)",
+        "ownGrid": "Your fleet",
+        "targetGrid": "Your shots",
+        "myFleet": "My fleet",
+        "turn": "🎯 {user}'s turn to fire.",
+        "botTurn": "🤖 My turn to fire…",
+        "wins": "🎉 {user} wins the battle!",
+        "botWins": "🤖 I sank your whole fleet! 😎",
+        "remaining": "🚢 Ships sunk: {sunk}/{total}",
+        "expired": "⌛ This game has expired.",
+        "notYourTurn": "❌ It's not your turn (or not your game).",
+        "notPlayer": "❌ You're not part of this game.",
+        "invalidCoord": "❌ Invalid coordinate. One letter (A-H) and one number (1-8), e.g. C7.",
+        "alreadyShot": "❌ You already fired at that cell.",
+        "shotMiss": "🌊 {who} fires at {coord}: miss!",
+        "shotHit": "🎯 {who} fires at {coord}: hit!",
+        "shotSunk": "💥 {who} fires at {coord}: sunk!"
+      },
+      "stats": {
+        "description": "Show a member's game statistics.",
+        "title": "🎮 Game stats — {user}",
+        "none": "No game played yet.",
+        "value": "{plays} games · 🏆 {wins} · 💀 {losses} · 🤝 {draws} · {winrate}% win rate",
+        "pfcField": "✊ Rock-Paper-Scissors",
+        "morpionField": "🎮 Tic-tac-toe",
+        "batailleField": "🚢 Battleship"
+      }
+    },
+    "deploy": {
+      "label": "Update",
+      "description": "Updates the bot (git pull + rebuild). Owner only.",
+      "disabled": "❌ In-bot updates aren't configured (set `BOT_OWNER_ID`).",
+      "notOwner": "❌ Only the bot owner can trigger an update.",
+      "title": "🚀 Bot update",
+      "intro": "Confirm to run `git pull` then `docker compose up -d --build` on the host. The bot will restart.",
+      "statusField": "Last deployment",
+      "noResult": "*(no deployment recorded)*",
+      "lastResult": "{icon} {status} {when}{commit}",
+      "logField": "Log",
+      "confirm": "Update",
+      "cancel": "Cancel",
+      "cancelled": "Update cancelled.",
+      "requested": "🚀 Update of **`{branch}`** requested. The host will pull and rebuild — the bot will restart shortly.",
+      "requestFailed": "❌ Couldn't write the update request (check `DEPLOY_DIR` and permissions).",
+      "restarted": "{icon} Bot restarted. Update finished: `{status}`{commit}.",
+      "restartedNoResult": "✅ Bot restarted. The update result is not available yet.",
+      "currentStatusField": "Updater state",
+      "statusUnknown": "*(no updater state available)*",
+      "requestNotPicked": "⚠️ The host updater has not picked up the request yet. Last state: {status}\nCheck that `vakzbot-updater.sh loop` is running or that the systemd `.path` watches `DEPLOY_DIR`.",
+      "updateTimeout": "⚠️ No restart or result after {seconds}s. Last state: {status}\nCheck the host updater logs and Docker Compose.",
+      "updateFailed": "❌ Update failed before restart. Last state: {status}",
+      "updateFinishedNoRestart": "⚠️ The updater finished with `{status}` (commit `{commit}`), but the bot did not restart after {seconds}s. If Docker says \"no changes\", the image/container was probably not recreated.",
+      "branchField": "Branch to deploy",
+      "branchPlaceholder": "Choose the branch to deploy…"
+    },
+    "route": {
+      "label": "Endless Road",
+      "description": "A solo adventure: walk the road, face random events and earn coins and items.",
+      "opt": {
+        "member": "The target member (default: you)."
+      },
+      "commands": {
+        "move": "Take a step on the Endless Road.",
+        "profile": "Show a traveller's profile.",
+        "leaderboard": "Longest-distance leaderboard."
+      },
+      "noTraveler": "🧭 {user} hasn't hit the road yet (`/route avancer`).",
+      "profileTitle": "🧭 Traveller — {user}",
+      "moveTitle": "🧭 {user} walks the Endless Road",
+      "leaderboardEmpty": "No one has covered any distance yet.",
+      "leaderboardTitle": "🏆 Endless Road — longest distances",
+      "cooldown": "😮‍💨 You're tired. You can set off again {time}.",
+      "itemFound": "🎁 You get **{emoji} {name}**!",
+      "fainted": "💀 You ran out of strength… you wake at the last camp (distance halved).",
+      "stats": {
+        "title": "Traveller status",
+        "body": "❤️ {bar} {health}/{maxHealth}\n⚡ Energy: {energy}/100\n📏 Distance: {distance}\n🪙 Coins earned: {coins}\n🎲 Events: {events}"
+      },
+      "events": {
+        "path": "🥾 You walk a peaceful trail and make quiet progress.",
+        "treasure": "💰 You dig up a forgotten chest full of coins!",
+        "monster": "⚔️ A creature ambushes you! You fight it off and press on, worse for wear.",
+        "trap": "🪤 A trap snaps shut on you! You wriggle free.",
+        "merchant": "🧺 A wandering merchant crosses your path.",
+        "rest": "🏕️ You make camp and recover your strength.",
+        "shortcut": "🧭 You find a shortcut and stride ahead!",
+        "storm": "🌩️ A violent storm slows and exhausts you.",
+        "friend": "🤝 A fellow traveller shares food and coins with you.",
+        "abyss": "🕳️ You fall into a chasm… you barely climb out, battered but with full pockets."
+      },
+      "panel": {
+        "intro": "Tune the adventure pace and rewards.",
+        "on": "✅ On",
+        "off": "❌ Off",
+        "cooldownField": "Delay between steps",
+        "cooldownValue": "{minutes} min",
+        "coinsField": "Coins (economy)",
+        "itemsField": "Found items",
+        "editCooldown": "Edit delay",
+        "cooldownLabel": "Delay in minutes (0-1440)"
+      }
+    },
+    "bingo": {
+      "label": "Bingo",
+      "description": "Server bingo: 5×5 cards, draws, line or full-card detection.",
+      "opt": {
+        "mode": "Win condition (default: one line)."
+      },
+      "modeLine": "One line",
+      "modeFull": "Full card",
+      "commands": {
+        "start": "Start a new bingo game (staff).",
+        "join": "Get your bingo card.",
+        "card": "Show your card.",
+        "draw": "Draw the next number (staff).",
+        "stop": "End the current game (staff)."
+      },
+      "staffOnly": "❌ Staff only (Manage Server permission).",
+      "noGame": "❌ No game in progress. Staff can start one with `/bingo demarrer`.",
+      "startedTitle": "🎲 Bingo started!",
+      "startedBody": "Mode: **{mode}**. Grab your card with `/bingo rejoindre`, then staff draws numbers with `/bingo tirer`.",
+      "joined": "🎫 Here's your card (★ = free space):",
+      "yourCard": "🎫 Your card:",
+      "noCard": "❌ You have no card. Join with `/bingo rejoindre`.",
+      "stopped": "🛑 Bingo game ended.",
+      "allDrawn": "All numbers have already been drawn!",
+      "drawTitle": "🎱 Draw",
+      "drawBody": "Number drawn: **{number}** ({count}/75). Check your cards!",
+      "winnersField": "🎉 BINGO!",
+      "myCardButton": "My card"
+    },
+    "freegames": {
+      "label": "Free games",
+      "description": "Announces games that become free to keep (Steam, Epic Games, GOG) in a channel.",
+      "embedDescription": "🎮 **Free to keep** on {store} for a limited time!\n[View on the store]({url})",
+      "priceField": "Price",
+      "free": "Free",
+      "command": {
+        "description": "Show the games that are currently free (Steam, Epic, GOG).",
+        "none": "🎮 No free-to-keep games right now.",
+        "title": "🎮 **{count}** free-to-keep game(s):"
+      },
+      "panel": {
+        "intro": "Pick the announcement channel, an optional role to ping and the platforms to watch. The bot checks every 30 min and announces each new free game.",
+        "channelField": "Announcement channel",
+        "roleField": "Pinged role",
+        "notSet": "*(not set — module inactive)*",
+        "none": "*(none)*",
+        "channelPlaceholder": "Channel to announce free games…",
+        "rolePlaceholder": "Role to ping (optional)…",
+        "preview": "Show current free games",
+        "platformsField": "Watched platforms",
+        "platformsPlaceholder": "Choose platforms…",
+        "noPlatform": "*(none — module inactive)*"
+      },
+      "platform": {
+        "steam": "Steam",
+        "epic": "Epic Games",
+        "gog": "GOG"
+      }
+    },
+    "patchnotes": {
+      "label": "Patch Notes",
+      "description": "Watch game and software patch notes, then publish them in selected channels.",
+      "panel": {
+        "intro": "Select a game or software, then choose the channel where its patch notes should be posted. Each source can use its own channel.",
+        "selectedField": "Selected source",
+        "subsField": "Active subscriptions",
+        "noSubs": "No source configured yet.",
+        "pickChannelHint": "Choose a channel below to enable this source.",
+        "sourcePlaceholder": "Choose a game or software... page {page}/{pages}",
+        "channelPlaceholder": "Channel for {source}",
+        "rolePlaceholder": "Role to mention (optional)",
+        "removePlaceholder": "Remove one or more subscriptions...",
+        "previous": "Previous",
+        "next": "Next",
+        "preview": "Preview",
+        "noPreview": "No recent patch notes found for this source.",
+        "previewTitle": "Latest patch notes preview: {source}",
+        "removeSelected": "Remove source",
+        "search": "Search",
+        "searchTitle": "Search source",
+        "searchField": "Game or software",
+        "searchPlaceholder": "e.g. League, TFT, Rust, Node, Docker...",
+        "searchActiveField": "Search",
+        "searchActiveValue": "{query} - {count} result(s)",
+        "modeField": "View",
+        "activeModeValue": "Active subscriptions - {count} configured. Select a source to edit its channel or role.",
+        "activePlaceholder": "Choose an active subscription... page {page}/{pages}",
+        "activeMode": "Active",
+        "catalogMode": "Catalog",
+        "noActiveSubs": "There is no active subscription to edit yet. Pick a source and a channel to create one.",
+        "deleteSelected": "Delete",
+        "listField": "Displayed list",
+        "listStatus": "Page {page}/{pages} · {total} source(s)",
+        "publish": "Publish latest",
+        "publishMissingChannel": "Choose a channel before publishing patch notes.",
+        "publishDone": "✅ Published the latest patch note in {channel}.",
+        "publishFailed": "❌ Unable to publish patch notes. Check the channel, my permissions, or the source.",
+        "publishFailedNoNotes": "❌ No recent patch note found for {source}. Try Preview or another source.",
+        "publishFailedChannel": "❌ Channel unavailable: {channel}. Check that I can see it.",
+        "publishFailedPermissions": "❌ Missing permissions in {channel}. I need Send Messages and Embed Links.",
+        "publishFailedSource": "❌ Patch Notes source not found. Select the game or software again.",
+        "publishFailedSend": "❌ Could not send in {channel}. Check my permissions and channel settings."
+      },
+      "embed": {
+        "footer": "Patch Notes · {source}",
+        "noDescription": "No summary available. Open the link to read the full note."
+      }
+    },
+    "stickymessages": {
+      "label": "Sticky messages",
+      "description": "Keeps a message always at the bottom of a channel: it is re-posted on every new discussion.",
+      "panel": {
+        "intro": "Pick a channel to set a « sticky » message that always stays at the bottom. On every new message, the bot bumps it back down.",
+        "listField": "Channels with a sticky",
+        "noSticky": "*No sticky message. Pick a channel below to create one.*",
+        "pickPlaceholder": "Choose a channel to configure…",
+        "editTitle": "Sticky message",
+        "editIntro": "Channel: {channel}",
+        "contentField": "Content",
+        "empty": "*(not set)*",
+        "formatField": "Format",
+        "formatEmbed": "🖼️ Embed",
+        "formatText": "📝 Text",
+        "editText": "✏️ Edit text",
+        "embedToggle": "🖼️ Embed",
+        "delete": "🗑️ Delete",
+        "back": "◀ Back",
+        "modalTitle": "Sticky message",
+        "modalField": "Message content",
+        "modalPlaceholder": "The text that will stay at the bottom of the channel…"
+      }
+    },
+    "messageprofiles": {
+      "label": "Message profiles",
+      "description": "Make the bot speak under a custom name and avatar via /dire (staff).",
+      "command": {
+        "description": "Post a message under a configured profile's identity.",
+        "profileOpt": "Profile to speak as",
+        "messageOpt": "Message to post",
+        "channelOpt": "Channel to post in (default: current channel)",
+        "unknownProfile": "❌ Profile not found. Set it up via /config → Message profiles.",
+        "badChannel": "❌ Invalid channel.",
+        "result": {
+          "ok": "✅ Message posted in {channel} as “{name}”.",
+          "noperm": "❌ I'm missing the “Manage Webhooks” permission in that channel.",
+          "fail": "❌ Sending failed. Try again later."
+        }
+      },
+      "panel": {
+        "intro": "Create profiles (name + avatar) to make the bot speak via /dire. Restricted to members who can manage messages; the bot must be able to manage webhooks.",
+        "listField": "Profiles",
+        "noProfiles": "*No profile yet. Add one below.*",
+        "add": "➕ Add a profile",
+        "pickPlaceholder": "Choose a profile to edit…",
+        "editTitle": "Profile — {name}",
+        "editIntro": "Edit the name/avatar or delete this profile.",
+        "avatarField": "Avatar",
+        "avatarDefault": "*(bot avatar)*",
+        "edit": "✏️ Edit",
+        "delete": "🗑️ Delete",
+        "back": "◀ Back",
+        "modalTitle": "Message profile",
+        "nameField": "Display name",
+        "avatarInput": "Avatar URL (optional)",
+        "tooMany": "❌ Maximum of {max} profiles reached."
+      }
+    }
+  }
+}

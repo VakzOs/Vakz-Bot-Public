@@ -1,0 +1,41 @@
+# --- Secrets & environnement ---
+.env
+.env.*
+!.env.example
+
+# --- Bases de données locales (SQLite) ---
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.sqlite-journal
+prisma/*.db
+prisma/*.db-journal
+prisma/dev.db*
+
+# --- Dépendances & build ---
+node_modules/
+dist/
+build/
+
+# --- Client Prisma généré ---
+# (régénéré via `prisma generate`, jamais committé)
+
+# --- Logs ---
+*.log
+/logs/
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# --- Assets générés à l'exécution (cartes de niveau, transcripts de tickets…) ---
+data/
+assets/generated/
+
+# --- OS / éditeurs ---
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp

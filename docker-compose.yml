@@ -1,0 +1,69 @@
+# Docker Compose — Vakz-Bot
+# Les secrets sont lus depuis `.env` (env_file) : aucun secret en clair ici.
+services:
+  bot:
+    build: .
+    image: vakz-bot:latest
+    container_name: vakz-bot
+    restart: unless-stopped
+    # Variables sensibles (DISCORD_TOKEN, DISCORD_CLIENT_ID, etc.) depuis .env
+    env_file:
+      - .env
+    # On force ici les chemins qui doivent pointer vers le volume persistant,
+    # en surchargeant d'éventuelles valeurs locales du .env.
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: 'file:/app/data/prod.db'
+      # Résolveur Cloudflare interne (service flaresolverr ci-dessous), utilisé
+      # par le module d'alertes pour les sources protégées (Dealabs).
+      FLARESOLVERR_URL: 'http://flaresolverr:8191'
+    depends_on:
+      - flaresolverr
+    # API web (dashboard). N'expose le port que si WEB_API_TOKEN est défini côté
+    # hôte ; l'accès reste protégé par ce token secret. Adapte 3210 au besoin.
+    ports:
+      - '${WEB_API_PORT:-3210}:${WEB_API_PORT:-3210}'
+    volumes:
+      # Base SQLite + fichiers /maj partages avec l hote.
+      - ./data:/app/data
+      # Assets générés (cartes de niveau, transcripts de tickets…).
+      - vakzbot-assets:/app/assets/generated
+
+  # Reverse-proxy HTTPS (opt-in) devant l'API web, pour chiffrer le token entre
+  # Vercel et le VPS. Activé uniquement avec le profil « proxy » :
+  #   docker compose --profile proxy up -d
+  # Nécessite dans .env : CADDY_DOMAIN (sous-domaine pointant vers le VPS) et
+  # CADDY_EMAIL (contact Let's Encrypt). Une fois en place, on peut fermer le
+  # port 3210 sur le pare-feu : seuls 80/443 (Caddy) restent exposés.
+  caddy:
+    image: caddy:2-alpine
+    container_name: vakz-caddy
+    restart: unless-stopped
+    profiles: ['proxy']
+    env_file:
+      - .env
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - bot
+
+  # Résolveur Cloudflare (Chrome headless) : contourne le challenge « Just a
+  # moment… » pour les sources protégées comme Dealabs. Non exposé à l'hôte,
+  # accessible uniquement en interne via le réseau Compose (http://flaresolverr:8191).
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: vakz-flaresolverr
+    restart: unless-stopped
+    environment:
+      LOG_LEVEL: warning
+      TZ: Europe/Paris
+
+volumes:
+  vakzbot-assets:
+  caddy-data:
+  caddy-config:
