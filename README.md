@@ -176,7 +176,7 @@ courante>`. Pour forcer une branche précise, définis `BRANCH=<nom>` (variable
 ## Dashboard web (configuration à distance)
 
 En plus de `/config` sur Discord, un **dashboard web** (site Next.js séparé,
-déployé sur Vercel — voir le dépôt `VakzBot-Web`) permet de configurer le bot
+déployé sur Vercel — voir le dépôt [VakzBot-Web-Public](https://github.com/VakzOs/VakzBot-Web-Public)) permet de configurer le bot
 depuis un navigateur : activer/désactiver les modules, éditer leur configuration
 via des formulaires, **publier/mettre à jour les panneaux** (tickets,
 rôles-réactions, règlement, vérification, mode streameur) sans repasser par
