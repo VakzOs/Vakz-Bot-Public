@@ -720,6 +720,51 @@
         "epic": "Épique",
         "legendary": "Légendaire"
       },
+      "use": {
+        "reason": "Objet utilisé : {name}",
+        "effects": {
+          "role": {
+            "done": "🏷️ Rôle {role} accordé.",
+            "fail": "⚠️ Impossible d'accorder le rôle {role} (droits/position ?)."
+          },
+          "coins": {
+            "done": "🪙 {amount} pièces."
+          },
+          "routeSelf": {
+            "done": "🧭 Sur ta Route : {parts}."
+          },
+          "routeDamage": {
+            "noTarget": "⚠️ Aucune cible indiquée pour les dégâts.",
+            "notTravelling": "⚠️ {target} n'est pas sur la Route de l'Infini.",
+            "done": "🎯 {target} subit **{amount}** dégâts sur la Route ({health}/{maxHealth} PV).",
+            "fainted": "💥 {target} tombe sous tes **{amount}** dégâts sur la Route !"
+          },
+          "grantItem": {
+            "done": "🎁 Tu reçois **{qty}× {emoji} {name}**.",
+            "missing": "⚠️ L'objet à offrir n'existe plus."
+          },
+          "privateChannel": {
+            "done": "🔒 Salon privé créé : {channel}.",
+            "fail": "⚠️ Impossible de créer le salon (droits « Gérer les salons » ?)."
+          }
+        }
+      },
+      "limit": {
+        "description": "Règle le plafond global d'objets par serveur (propriétaire du bot).",
+        "view": "Affiche le plafond actuel.",
+        "set": "Fixe le plafond (0 = illimité).",
+        "increase": "Augmente le plafond.",
+        "reduce": "Réduit le plafond.",
+        "opt": {
+          "number": "Nouveau plafond (0 = illimité).",
+          "amount": "Nombre d'objets à ajouter / retirer."
+        },
+        "unlimited": "illimité",
+        "notOwner": "❌ Réservé au propriétaire du bot (droit /maj).",
+        "current": "📦 Plafond d'objets par serveur : **{value}**.",
+        "currentlyUnlimited": "ℹ️ Le plafond est actuellement **illimité**. Utilise `/objets-limite definir` pour fixer une valeur.",
+        "updated": "✅ Plafond d'objets par serveur mis à jour : **{value}**."
+      },
       "commands": {
         "unknownItem": "❌ Cet objet n'existe pas (ou plus).",
         "inventory": {
@@ -732,7 +777,8 @@
           "empty": "🛒 Aucun objet dans le catalogue pour le moment.",
           "title": "🛒 Catalogue d'objets",
           "notForSale": "non achetable",
-          "footer": "✨ = utilisable · 🔁 = échangeable · /acheter pour acheter"
+          "footer": "✨ = utilisable · 🔁 = échangeable · /acheter pour acheter",
+          "footerPaged": "{base} • Page {page}/{pages}"
         },
         "buy": {
           "description": "Achète un objet avec la monnaie du serveur.",
@@ -742,8 +788,11 @@
         },
         "use": {
           "description": "Utilise un objet de ton inventaire.",
+          "optTarget": "Membre visé (pour les effets ciblés, ex. dégâts sur la Route).",
           "notUsable": "❌ Cet objet ne peut pas être utilisé.",
           "dontHave": "❌ Tu ne possèdes aucun **{emoji} {name}**.",
+          "targetRequired": "❌ Cet objet nécessite une cible : ajoute l'option **cible**.",
+          "cooldown": "⏳ Objet en rechargement. Réessaie {time}.",
           "reason": "Objet utilisé : {name}",
           "roleGranted": "🎁 Tu reçois le rôle {role} !",
           "title": "✨ Objet utilisé",
@@ -773,6 +822,7 @@
         "noItems": "Aucun objet. Ajoute-en un pour commencer.",
         "noDescription": "*(pas de description)*",
         "itemsField": "Objets ({count}/{max})",
+        "itemsFieldUnlimited": "Objets ({count})",
         "tradingField": "Échanges entre membres",
         "addItem": "➕ Ajouter un objet",
         "enableTrading": "Activer les échanges",
@@ -785,6 +835,7 @@
         "roleNone": "*(aucun)*",
         "buyable": "Achetable",
         "tradable": "Échangeable",
+        "droppable": "Drop en jeu",
         "usable": "Utilisable",
         "rarityPlaceholder": "Choisir la rareté…",
         "rolePlaceholder": "Rôle accordé à l'utilisation (optionnel)…",
@@ -797,7 +848,25 @@
         "emojiField": "Emoji",
         "descriptionField": "Description",
         "tooMany": "❌ Maximum {max} objets atteint.",
-        "nameRequired": "❌ Le nom est obligatoire."
+        "nameRequired": "❌ Le nom est obligatoire.",
+        "dropsField": "🎁 Drops en jeu",
+        "dropsButton": "🎁 Drops",
+        "dropsSummary": "✅ Activés · {on}",
+        "dropsTitle": "🎁 Butin des mini-jeux",
+        "dropsIntro": "Fait tomber des objets à la fin des mini-jeux (PFC, morpion, bataille navale). Chaque rareté a un pourcentage de drop que tu définis. À chaque partie éligible, on tire de la plus rare à la plus commune ; seuls les objets marqués « Drop en jeu » peuvent tomber.",
+        "dropsEnabledField": "État",
+        "dropsOnField": "Déclenchement",
+        "dropsChanceField": "Chances par rareté",
+        "dropsOnPlaceholder": "Quand tirer un drop…",
+        "dropsOn": {
+          "win": "Victoire seulement",
+          "winDraw": "Victoire et égalité",
+          "any": "Chaque partie"
+        },
+        "dropsEnable": "✅ Activer les drops",
+        "dropsDisable": "⏸️ Désactiver les drops",
+        "dropsEditChances": "🎲 Modifier les %",
+        "dropsChancesTitle": "Chances de drop par rareté (%)"
       }
     },
     "birthdays": {
@@ -1360,14 +1429,16 @@
       "calendar": {
         "title": "🎄 Calendrier de l'Avent",
         "footerOpen": "Jour {day} · {opened}/24 portes ouvertes",
-        "footerClosed": "Reviens du 1er au 24 décembre !"
+        "footerClosed": "Reviens du 1er au 24 décembre !",
+        "testBadge": "🧪 **Mode test actif** — toutes les portes sont ouvrables (hors décembre aussi)."
       },
       "reward": {
         "title": "🎁 Porte {day} ouverte !",
         "coins": "💰 +{coins} pièces",
         "item": "🎁 +{qty}× {item}",
         "nothing": "…mais la porte était vide cette fois.",
-        "balance": "Solde : {balance} pièces"
+        "balance": "Solde : {balance} pièces",
+        "linkButton": "🔗 Ouvrir le lien"
       },
       "panel": {
         "intro": "Configure le calendrier : salon d'annonce, pièces par défaut, et la récompense de chaque jour (pièces + objet + message). Choisis un jour pour l'éditer.",
@@ -1392,15 +1463,22 @@
         "dayEditIntro": "Récompense spécifique à ce jour.",
         "dayEditDefault": "Ce jour utilise la récompense par défaut. Modifie-le pour la personnaliser.",
         "coinsField": "Pièces",
-        "itemField": "Objet",
+        "itemField": "Objets",
         "messageField": "Message",
         "noMessage": "*aucun*",
-        "itemPickPlaceholder": "Objet à offrir ce jour…",
+        "itemPickPlaceholder": "Objets à offrir ce jour (plusieurs possibles)…",
         "editReward": "✏️ Modifier la récompense",
-        "clearItem": "Retirer l'objet",
+        "clearItem": "Tout retirer",
         "back": "◀ Retour",
         "rewardModalTitle": "Récompense — jour {day}",
-        "itemQtyField": "Quantité d'objet"
+        "itemQtyField": "Quantité (par objet)",
+        "resetTest": "🧪 Réinitialiser mes ouvertures",
+        "resetDone": "🧪 {count} ouverture(s) réinitialisée(s). Tu peux ré-ouvrir les portes.",
+        "resetNone": "🧪 Aucune ouverture à réinitialiser.",
+        "linkField": "Lien (URL)",
+        "noLink": "*aucun*",
+        "unnamedItem": "(sans nom)",
+        "itemSelectDropped": "⚠️ Sélecteur d'objet masqué : Discord a refusé son affichage.\nDétail technique (copie-le au dev) :\n```{detail}```"
       }
     },
     "reports": {
@@ -1998,7 +2076,10 @@
     },
     "games": {
       "label": "Jeux",
-      "description": "Des mini-jeux fun : boule magique, dés, pile ou face, tirage, pierre-feuille-ciseaux, morpion et bataille navale (avec stats).",
+      "description": "Des mini-jeux fun : boule magique, dés, pile ou face, tirage, pierre-feuille-ciseaux, morpion et bataille navale (avec stats). Peut faire tomber des objets (drops) si le module « Objets » est configuré.",
+      "drop": {
+        "announce": "🎁 {user} a trouvé {emoji} **{name}** ({rarity}) !"
+      },
       "opt": {
         "question": "Ta question pour la boule magique.",
         "count": "Nombre de dés à lancer (défaut : 1).",
@@ -2128,7 +2209,8 @@
       "commands": {
         "move": "Avance d'un pas sur la Route de l'Infini.",
         "profile": "Affiche le profil d'un voyageur.",
-        "leaderboard": "Classement des plus grandes distances."
+        "leaderboard": "Classement des plus grandes distances.",
+        "shop": "Achète une provision (effet immédiat à l'achat)."
       },
       "noTraveler": "🧭 {user} n'a pas encore pris la route (`/route avancer`).",
       "profileTitle": "🧭 Voyageur — {user}",
@@ -2140,7 +2222,7 @@
       "fainted": "💀 Tu es tombé à court de forces… tu te réveilles au dernier campement (distance divisée par deux).",
       "stats": {
         "title": "État du voyageur",
-        "body": "❤️ {bar} {health}/{maxHealth}\n⚡ Énergie : {energy}/100\n📏 Distance : {distance}\n🪙 Pièces gagnées : {coins}\n🎲 Événements : {events}"
+        "body": "❤️ {bar} {health}/{maxHealth}\n⚡ Énergie : {energy}/100\n📏 Distance : {distance}\n🪙 Pièces gagnées : {coins}\n🎲 Événements : {events}\n💀 Morts : {deaths}"
       },
       "events": {
         "path": "🥾 Tu marches sur un sentier paisible et progresses tranquillement.",
@@ -2152,7 +2234,71 @@
         "shortcut": "🧭 Tu découvres un raccourci et avances à grands pas !",
         "storm": "🌩️ Une tempête violente te ralentit et t'épuise.",
         "friend": "🤝 Un compagnon de route partage vivres et pièces avec toi.",
-        "abyss": "🕳️ Tu chutes dans un gouffre… tu remontes de justesse, couvert de blessures mais les poches pleines."
+        "abyss": "🕳️ Tu chutes dans un gouffre… tu remontes de justesse, couvert de blessures mais les poches pleines.",
+        "oasis": "🌴 Tu tombes sur une oasis cachée et te ressources à l'ombre des palmiers.",
+        "ruins": "🏛️ Tu explores des ruines antiques et y déniches quelques trésors.",
+        "wolves": "🐺 Une meute de loups te prend en chasse ! Tu leur échappes, non sans dommages.",
+        "river": "🌊 Tu traverses une rivière tumultueuse : épuisant, mais tu gagnes du terrain.",
+        "shrine": "⛩️ Tu pries devant un sanctuaire mystérieux et te sens revigoré.",
+        "mirage": "🏜️ Un mirage t'égare dans le désert et te fait perdre du temps et des forces.",
+        "bandits": "🗡️ Des bandits t'attaquent ! Tu les repousses et récupères leur butin.",
+        "volcano": "🌋 Tu longes un volcan en éruption : la chaleur te brûle, mais l'or fondu vaut le détour.",
+        "quicksand": "🏜️ Tu t'enfonces dans des sables mouvants ! Tu t'en sors épuisé, et tu as perdu du terrain.",
+        "landslide": "⛰️ Un glissement de terrain te fait dévaler la pente ! Tu dois refaire tout le chemin à pied.",
+        "lost": "🌫️ Un brouillard épais t'égare complètement… tu rebrousses chemin sans t'en rendre compte.",
+        "bog": "🐸 Tu t'embourbes dans un marécage nauséabond et perds un temps fou à t'en extraire.",
+        "ravine": "🧗 Tu glisses dans une ravine et remontes péniblement, blessé et découragé.",
+        "curse": "💀 Une malédiction ancestrale te frappe et te renvoie violemment en arrière !",
+        "echo": "⏳ Un écho temporel te ramène loin en arrière… mais tu te sens étrangement reposé.",
+        "thief": "🦹 Un voleur à la tire te déleste de quelques pièces avant de filer !",
+        "gambler": "🎲 Un parieur te défie au jeu de dés : gagne ou perds, c'est le destin qui tranche.",
+        "sphinx": "🦁 Une sphinx te pose une énigme. Bonne réponse ou humiliation ? Le suspense est total.",
+        "ambush": "🏹 Des gobelins te tendent une embuscade ! Tu les repousses et gardes leur maigre butin.",
+        "bridge": "🌉 Le pont suspendu s'effondre sous ton poids… parfois tu sautes à temps, parfois non.",
+        "golem": "🗿 Un golem de pierre bloque le passage ! Tu le terrasses et pilles son trésor.",
+        "meteor": "☄️ Une météorite s'écrase à côté de toi ! Le cratère regorge de métaux précieux.",
+        "dragon": "🐉 UN DRAGON ! Tu survis à son souffle et rafles une partie de son trésor.",
+        "caravan": "🐪 Tu rejoins une caravane de marchands : sécurité, vivres et bonne compagnie.",
+        "herbalist": "🌿 Une herboriste te concocte un remède qui apaise tes blessures.",
+        "waterfall": "⛲ Tu te baignes sous une cascade glaciale et en ressors revigoré.",
+        "fireflies": "✨ Des lucioles magiques éclairent ton chemin et te portent en avant.",
+        "well": "🪙 Tu jetes une pièce dans un puits aux souhaits… et le puits te la rend au centuple !",
+        "hermit": "🧙 Un ermite sage partage sa soupe et t'offre un objet de sa collection.",
+        "eagle": "🦅 Un aigle géant te saisit et te dépose des kilomètres plus loin !",
+        "fairy": "🧚 Une fée taquine saupoudre ta route de poussière magique.",
+        "portal": "🌀 Un portail instable t'avale et te recrache bien plus loin sur la route !",
+        "fountain": "⛲✨ ULTRA RARE — La Fontaine de Jouvence ! Tu y plonges et en ressors complètement régénéré. ❤️ FULL VIE !",
+        "elixir": "🌟 ULTRA RARE — Tu découvres l'Élixir Céleste : corps et esprit entièrement restaurés. ❤️⚡ FULL TOUT !",
+        "goldenvault": "🏆 ULTRA RARE — Tu perces la Chambre Forte Dorée : une montagne de pièces s'offre à toi !",
+        "phoenix": "🔥 ULTRA RARE — Un phénix renaît sous tes yeux et t'offre ses flammes : vie presque entièrement restaurée, et un présent en plus !",
+        "witch": "🧙‍♀️ Une sorcière te tend une potion fumante… effet surprise : remède ou poison ?",
+        "mimic": "🎁👅 Un coffre au trésor ! …C'est une MIMIQUE ! Tu la combats et pilles ses entrailles.",
+        "ogre": "👹 Un ogre bloque le chemin ! Il te rosse et te fait les poches avant de te laisser passer.",
+        "skeletons": "💀 Des squelettes sortent du sol dans un vieux cimetière ! Tu les réduis en poussière.",
+        "harpy": "🦅 Une harpie fond sur toi en hurlant et s'envole avec ta bourse !",
+        "fog": "🌫️ Un brouillard épais s'abat sur la route. Tu tournes en rond et perds du terrain.",
+        "willowisp": "🔥 Un feu follet t'attire hors du sentier… Tu le poursuis comme un idiot et te perds.",
+        "mermaid": "🧜‍♀️ Le chant d'une sirène t'ensorcelle. Tu te réveilles sur la berge, en arrière du chemin.",
+        "toll": "🌉 Un troll garde le pont : « Péage ! » Tu paies, mais tu avances vite de l'autre côté.",
+        "smith": "⚒️ Un forgeron itinérant te soigne et te ravitaillent contre quelques pièces.",
+        "altar": "🩸 Un autel ancien réclame une offrande de sang… en échange, il crache de l'or.",
+        "mushrooms": "🍄 Tu grignotes des champignons inconnus. Énergie assurée… mais est-ce que c'était comestible ?",
+        "wizard": "🧙 Un mage errant te téléporte d'un claquement de doigts. Direction ? Lui-même n'en sait rien.",
+        "raven": "🐦‍⬛ Un corbeau messager te suit un moment et laisse tomber un petit cadeau.",
+        "giant": "🗿 Un GÉANT se dresse devant toi ! Tu le combats de toutes tes forces et pilles sa cachette.",
+        "griffin": "🦅✨ Un griffon t'attrape par l'épaule et te dépose bien plus loin sur la route !",
+        "timeloop": "⏳✨ ULTRA RARE — Une boucle temporelle t'aspire ! Tu revis les mêmes lieux… mais tu en ressors plein d'énergie.",
+        "wishingstar": "🌠✨ ULTRA RARE — Une étoile filante exauce ton vœu : fortune, vigueur et fougue retrouvées !",
+        "peddler": "🧳 Un marchand ambulant te hèle ! Il propose ses provisions à prix cassés — une occasion à saisir, c'est lui ou la boutique.",
+        "tavern": "🍺 Tu fais halte dans une taverne animée : tu bois, manges et repars requinqué (mais la note allège ta bourse).",
+        "market": "🛒 Un marché coloré s'étend sur ta route : tu y déniches un objet utile.",
+        "bear": "🐻 Un ours surgit des fourrés ! Tu t'en sors, griffé mais vivant, et poursuis ta route.",
+        "festival": "🎉 Tu tombes sur une fête de village : danses, festin et quelques pièces offertes !",
+        "serpent": "🐍 Un serpent géant se dresse sur ton chemin. Le combat est rude, mais ses écailles valent de l'or.",
+        "frost": "❄️ Un froid mordant s'installe : tu grelottes, épuisé, et peines à avancer.",
+        "oracle": "🔮 Un oracle te révèle un raccourci caché : tu gagnes énormément de terrain.",
+        "knight": "⚔️ Tu découvres le repaire d'un chevalier tombé : sa cache contient des pièces et un objet.",
+        "ghost": "👻 Un spectre te hante et te fait rebrousser chemin, glacé jusqu'aux os."
       },
       "panel": {
         "intro": "Règle le rythme de l'aventure et les récompenses.",
@@ -2163,8 +2309,46 @@
         "coinsField": "Pièces (économie)",
         "itemsField": "Objets trouvés",
         "editCooldown": "Modifier le délai",
-        "cooldownLabel": "Délai en minutes (0-1440)"
-      }
+        "cooldownLabel": "Délai en minutes (0-1440)",
+        "dropsField": "🎁 Chances de drop (Route)",
+        "dropsDisabled": "*Objets désactivés.*",
+        "editDrops": "🎲 Chances de drop",
+        "dropsTitle": "Chances de drop de la Route (%)",
+        "regenField": "Régénération d'énergie",
+        "regenValue": "**{rate}**/min jusqu'à **{cap}** ⚡",
+        "editRegen": "⚡ Régénération",
+        "regenRateLabel": "⚡ regagnés par minute (0-10)",
+        "regenCapLabel": "Plafond de la régénération (0-100)",
+        "shopPricesField": "Prix boutique (achat)",
+        "editShopPrices": "🧳 Prix boutique",
+        "peddlerPricesField": "Prix marchand ambulant (vente)",
+        "editPeddlerPrices": "🪙 Prix marchand"
+      },
+      "goods": {
+        "potion": {
+          "name": "🧪 Potion de soin",
+          "desc": "+40 PV immédiats. Le goût est immonde, mais ça marche."
+        },
+        "tonic": {
+          "name": "⚗️ Tonique d'énergie",
+          "desc": "+50 ⚡ immédiats. Idéal contre l'épuisement."
+        },
+        "ration": {
+          "name": "🍖 Ration de voyage",
+          "desc": "+15 PV et +20 ⚡ immédiats. Le repas du marcheur."
+        }
+      },
+      "shop": {
+        "title": "🧳 Boutique de la Route",
+        "buyButton": "Acheter {name}",
+        "bought": "✅ Tu achètes et utilises aussitôt **{name}** ({effect}) pour 🪙 **{price}**. Nouveau solde : 🪙 {balance}.",
+        "tooPoor": "❌ Il te faut 🪙 **{price}** (solde actuel : {balance})."
+      },
+      "peddler": {
+        "notYours": "🛑 Ce marchand s'adresse à un autre voyageur.",
+        "buyButton": "Acheter {name} • {price} 🪙"
+      },
+      "exhausted": "🥵 **Épuisé !** Ton énergie est négative : progression réduite de moitié et dégâts amplifiés (×1.5). Attends de récupérer ou utilise une provision."
     },
     "bingo": {
       "label": "Bingo",
@@ -2331,6 +2515,97 @@
         "nameField": "Pseudo affiché",
         "avatarInput": "URL de l'avatar (optionnel)",
         "tooMany": "❌ Maximum {max} profils atteint."
+      }
+    },
+    "music": {
+      "label": "Musique",
+      "description": "Écoute de la musique dans les salons vocaux (YouTube, SoundCloud, Spotify…) via un serveur Lavalink.",
+      "notConfigured": "❌ La musique n'est pas configurée sur cet hébergement (serveur Lavalink absent).",
+      "nodeDown": "❌ Le serveur Lavalink est injoignable. Vérifie qu'il tourne (`docker compose ps`) et que LAVALINK_HOST / LAVALINK_PASSWORD sont corrects.",
+      "joinFailed": "❌ Impossible de rejoindre ton salon vocal (permissions « Se connecter » / « Parler » manquantes ?).",
+      "playError": "❌ Une erreur est survenue pendant la lecture. Réessaie dans un instant.",
+      "notInVoice": "❌ Rejoins d'abord un salon vocal.",
+      "notSameChannel": "❌ Tu dois être dans le même salon vocal que le bot.",
+      "nothingPlaying": "❌ Rien n'est en cours de lecture.",
+      "noPermission": "❌ Réservé au rôle DJ (ou à « Gérer le serveur »).",
+      "noResults": "❌ Aucun résultat pour cette recherche.",
+      "addedTitle": "➕ Ajouté à la file",
+      "addedPlaylist": "➕ **{count}** pistes ajoutées à la file (playlist « {name} »).",
+      "skipped": "⏭️ Piste passée.",
+      "skippedEnd": "⏭️ Dernière piste passée, fin de la file.",
+      "stopped": "⏹️ Lecture arrêtée et file vidée.",
+      "alreadyPaused": "⏸️ La lecture est déjà en pause.",
+      "paused": "⏸️ Lecture mise en pause.",
+      "notPaused": "▶️ La lecture n'est pas en pause.",
+      "resumed": "▶️ Lecture reprise.",
+      "volumeSet": "🔊 Volume réglé à {volume}%.",
+      "loopSet": "🔁 Répétition : {mode}.",
+      "queueTooShort": "❌ Pas assez de pistes dans la file pour mélanger.",
+      "shuffled": "🔀 File mélangée.",
+      "cannotSeek": "❌ Impossible de se déplacer dans cette piste (live ou absente).",
+      "badPosition": "❌ Position invalide. Ex. `1:30`, `90` ou `1m30s`.",
+      "seeked": "⏩ Position : {time}.",
+      "badIndex": "❌ Numéro de piste invalide.",
+      "removed": "🗑️ Retiré de la file : {title}.",
+      "left": "👋 Déconnecté du salon vocal.",
+      "queueEmpty": "*File vide.*",
+      "queueEnded": "✅ File terminée.",
+      "loopState": {
+        "off": "désactivée",
+        "track": "piste",
+        "queue": "file"
+      },
+      "field": {
+        "author": "👤 Artiste :",
+        "requestedBy": "🙋 Demandé par :",
+        "nowPlaying": "En lecture",
+        "upNext": "À suivre",
+        "andMore": "…et {count} autre(s).",
+        "queueTitle": "🎶 File d'attente",
+        "playlist": "playlist"
+      },
+      "command": {
+        "play": "Joue une musique ou l'ajoute à la file (recherche ou lien).",
+        "playQuery": "Titre à rechercher ou lien (YouTube, SoundCloud…).",
+        "playSource": "Plateforme de recherche (si ce n'est pas un lien).",
+        "skip": "Passe à la piste suivante.",
+        "stop": "Arrête la lecture et vide la file.",
+        "pause": "Met la lecture en pause.",
+        "resume": "Reprend la lecture.",
+        "volume": "Règle le volume de lecture.",
+        "volumeValue": "Volume en pourcentage (0-150).",
+        "loop": "Change le mode de répétition.",
+        "loopValue": "Mode de répétition.",
+        "shuffle": "Mélange la file d'attente.",
+        "seek": "Se déplace à une position dans la piste.",
+        "seekValue": "Position, ex. 1:30, 90 (s) ou 1m30s.",
+        "remove": "Retire une piste de la file.",
+        "removeValue": "Numéro de la piste dans la file.",
+        "disconnect": "Déconnecte le bot du salon vocal.",
+        "queue": "Affiche la file d'attente.",
+        "nowplaying": "Affiche la piste en cours de lecture."
+      },
+      "panel": {
+        "intro": "Réglages du module musique : rôle DJ, volume, plateforme de recherche et comportements.",
+        "notConfigured": "⚠️ Aucun serveur Lavalink n'est configuré sur cet hébergement : les commandes de musique répondront qu'elles ne sont pas disponibles. Renseigne les variables LAVALINK_* côté hôte.",
+        "djField": "🎧 Rôle DJ",
+        "djNone": "*Tout le monde*",
+        "searchField": "🔎 Recherche par défaut",
+        "volumeField": "🔊 Volume",
+        "sameChannelField": "📍 Même salon requis",
+        "autoLeaveField": "🚪 Départ auto",
+        "on": "✅ Activé",
+        "off": "⬜ Désactivé",
+        "searchPlaceholder": "Plateforme de recherche par défaut…",
+        "djPlaceholder": "Choisir le rôle DJ (aucun = tout le monde)…",
+        "editVolumes": "🔊 Volumes",
+        "sameChannelOn": "Exiger le même salon",
+        "sameChannelOff": "Ne pas exiger le même salon",
+        "autoLeaveOn": "Activer le départ auto",
+        "autoLeaveOff": "Désactiver le départ auto",
+        "volumesTitle": "Réglage des volumes",
+        "defaultVolumeField": "Volume par défaut (1-100)",
+        "maxVolumeField": "Volume maximum (1-150)"
       }
     }
   }

@@ -434,10 +434,20 @@ model Item {
   buyable     Boolean         @default(true)
   /// Échangeable entre membres (`/donner-objet`).
   tradable    Boolean         @default(true)
-  /// Utilisable (`/utiliser`) ; consomme un exemplaire.
+  /// Peut tomber en butin dans les mini-jeux (module « Jeux »).
+  droppable   Boolean         @default(true)
+  /// Utilisable (`/utiliser`).
   usable      Boolean         @default(false)
-  /// Rôle accordé à l'utilisation (optionnel).
+  /// Rôle accordé à l'utilisation (héritage ; désormais couvert par `effects`).
   roleReward  String?
+  /// Effets déclenchés à l'utilisation (JSON, validé par zod). Voir items/effects.ts.
+  effects     String          @default("[]")
+  /// À l'usage : true = l'objet est consommé (supprimé) ; false = réutilisable
+  /// (voir `cooldownSeconds`).
+  consumable  Boolean         @default(true)
+  /// Si NON consommable : délai (en secondes) entre deux usages par un même
+  /// membre. 0 = aucun cooldown.
+  cooldownSeconds Int         @default(0)
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   inventory   InventoryItem[]
@@ -453,6 +463,8 @@ model InventoryItem {
   userId    String
   itemId    String
   quantity  Int      @default(0)
+  /// Dernier usage (`/utiliser`) — base du cooldown des objets réutilisables.
+  usedAt    DateTime?
   updatedAt DateTime @updatedAt
   item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
 
@@ -476,8 +488,12 @@ model Traveler {
   coins      Int       @default(0)
   /// Nombre d'événements vécus.
   events     Int       @default(0)
+  /// Nombre de fois tombé à court de forces (morts).
+  deaths     Int       @default(0)
   /// Dernier déplacement (cooldown).
   lastMoveAt DateTime?
+  /// Dernier changement d'énergie (base du calcul de la régénération passive).
+  energyAt   DateTime  @default(now())
   createdAt  DateTime  @default(now())
   updatedAt  DateTime  @updatedAt
 
@@ -568,4 +584,12 @@ model PatchNoteAnnouncement {
 
   @@unique([guildId, sourceId, noteId])
   @@index([guildId, sourceId])
+}
+
+/// Réglages globaux de l'instance (clé/valeur), modifiables par le propriétaire
+/// du bot (droit /maj). Ex. : plafond d'objets par serveur (« items.maxPerGuild »).
+model AppSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
 }

@@ -1,7 +1,7 @@
 import { ChannelType, SlashCommandBuilder } from 'discord.js';
 import type { SlashCommand } from '../../../core/module.js';
 import { t } from '../../../core/i18n.js';
-import { infoEmbed } from '../../../lib/embeds.js';
+import { Emojis, infoEmbed } from '../../../lib/embeds.js';
 
 /** `/serverinfo` — informations générales sur le serveur. */
 export const serverinfo: SlashCommand = {
@@ -24,7 +24,10 @@ export const serverinfo: SlashCommand = {
 
     const created = Math.floor(guild.createdTimestamp / 1000);
 
-    const embed = infoEmbed({ title: t('modules.info.serverinfo.title', { server: guild.name }) })
+    const embed = infoEmbed({
+      title: t('modules.info.serverinfo.title', { server: guild.name }),
+      emoji: Emojis.house,
+    })
       .setThumbnail(guild.iconURL({ size: 256 }))
       .addFields(
         { name: t('modules.info.field.id'), value: `\`${guild.id}\``, inline: true },

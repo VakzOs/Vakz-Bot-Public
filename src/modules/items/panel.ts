@@ -18,13 +18,15 @@ import { t } from '../../core/i18n.js';
 import { infoEmbed } from '../../lib/embeds.js';
 import { parseEmoji, resolveEmojiInput } from '../../lib/emoji.js';
 import {
-  MAX_ITEMS,
+  DROP_TRIGGERS,
   MODULE_NAME,
   RARITIES,
+  type ItemsConfig,
   type Rarity,
   getItemsConfig,
   updateItemsConfig,
 } from './config.js';
+import { getItemLimit } from './limit.js';
 import {
   type Item,
   countItems,
@@ -56,6 +58,7 @@ function clampInt(value: string, fallback: number, min: number, max: number): nu
 async function render(ctx: BotContext, guildId: string) {
   const config = await getItemsConfig(ctx, guildId);
   const items = await listItems(ctx, guildId);
+  const limit = await getItemLimit(ctx);
 
   const list = items.length
     ? items
@@ -72,12 +75,24 @@ async function render(ctx: BotContext, guildId: string) {
     description: t('modules.items.panel.intro'),
   }).addFields(
     {
-      name: t('modules.items.panel.itemsField', { count: items.length, max: MAX_ITEMS }),
+      name:
+        limit === null
+          ? t('modules.items.panel.itemsFieldUnlimited', { count: items.length })
+          : t('modules.items.panel.itemsField', { count: items.length, max: limit }),
       value: list,
     },
     {
       name: t('modules.items.panel.tradingField'),
       value: onOff(config.tradingEnabled),
+      inline: true,
+    },
+    {
+      name: t('modules.items.panel.dropsField'),
+      value: config.drops.enabled
+        ? t('modules.items.panel.dropsSummary', {
+            on: t(`modules.items.panel.dropsOn.${config.drops.on}`),
+          })
+        : onOff(false),
       inline: true,
     },
   );
@@ -88,7 +103,7 @@ async function render(ctx: BotContext, guildId: string) {
         .setCustomId(panelCustomId(MODULE_NAME, 'add'))
         .setLabel(t('modules.items.panel.addItem'))
         .setStyle(ButtonStyle.Success)
-        .setDisabled(items.length >= MAX_ITEMS),
+        .setDisabled(limit !== null && items.length >= limit),
       new ButtonBuilder()
         .setCustomId(panelCustomId(MODULE_NAME, 'trading'))
         .setLabel(
@@ -97,6 +112,10 @@ async function render(ctx: BotContext, guildId: string) {
             : t('modules.items.panel.enableTrading'),
         )
         .setStyle(config.tradingEnabled ? ButtonStyle.Secondary : ButtonStyle.Success),
+      new ButtonBuilder()
+        .setCustomId(panelCustomId(MODULE_NAME, 'drops'))
+        .setLabel(t('modules.items.panel.dropsButton'))
+        .setStyle(ButtonStyle.Primary),
     ),
   ];
 
@@ -149,6 +168,7 @@ function renderItemEdit(item: Item): { embeds: EmbedBuilder[]; components: Panel
         value: [
           `${t('modules.items.panel.buyable')} : ${onOff(item.buyable)}`,
           `${t('modules.items.panel.tradable')} : ${onOff(item.tradable)}`,
+          `${t('modules.items.panel.droppable')} : ${onOff(item.droppable)}`,
           `${t('modules.items.panel.usable')} : ${onOff(item.usable)}`,
         ].join('\n'),
       },
@@ -193,6 +213,10 @@ function renderItemEdit(item: Item): { embeds: EmbedBuilder[]; components: Panel
           .setLabel(t('modules.items.panel.tradable'))
           .setStyle(item.tradable ? ButtonStyle.Success : ButtonStyle.Secondary),
         new ButtonBuilder()
+          .setCustomId(panelCustomId(MODULE_NAME, 'droppable', item.id))
+          .setLabel(t('modules.items.panel.droppable'))
+          .setStyle(item.droppable ? ButtonStyle.Success : ButtonStyle.Secondary),
+        new ButtonBuilder()
           .setCustomId(panelCustomId(MODULE_NAME, 'usable', item.id))
           .setLabel(t('modules.items.panel.usable'))
           .setStyle(item.usable ? ButtonStyle.Success : ButtonStyle.Secondary),
@@ -213,6 +237,84 @@ function renderItemEdit(item: Item): { embeds: EmbedBuilder[]; components: Panel
       ),
     ],
   };
+}
+
+// --- Vue des drops (butin des mini-jeux) ------------------------------------
+
+function renderDropsView(config: ItemsConfig): { embeds: EmbedBuilder[]; components: PanelRow[] } {
+  const drops = config.drops;
+  const embed = infoEmbed({
+    title: t('modules.items.panel.dropsTitle'),
+    description: t('modules.items.panel.dropsIntro'),
+  }).addFields(
+    { name: t('modules.items.panel.dropsEnabledField'), value: onOff(drops.enabled), inline: true },
+    {
+      name: t('modules.items.panel.dropsOnField'),
+      value: t(`modules.items.panel.dropsOn.${drops.on}`),
+      inline: true,
+    },
+    {
+      name: t('modules.items.panel.dropsChanceField'),
+      value: RARITIES.map((r) => `${rarityLabel(r)} — **${drops[r]}%**`).join('\n'),
+    },
+  );
+
+  const onMenu = new StringSelectMenuBuilder()
+    .setCustomId(panelCustomId(MODULE_NAME, 'dropson'))
+    .setPlaceholder(t('modules.items.panel.dropsOnPlaceholder'))
+    .addOptions(
+      DROP_TRIGGERS.map((trigger) =>
+        new StringSelectMenuOptionBuilder()
+          .setLabel(t(`modules.items.panel.dropsOn.${trigger}`))
+          .setValue(trigger)
+          .setDefault(trigger === drops.on),
+      ),
+    );
+
+  return {
+    embeds: [embed],
+    components: [
+      row().addComponents(onMenu),
+      row().addComponents(
+        new ButtonBuilder()
+          .setCustomId(panelCustomId(MODULE_NAME, 'dropstoggle'))
+          .setLabel(
+            drops.enabled
+              ? t('modules.items.panel.dropsDisable')
+              : t('modules.items.panel.dropsEnable'),
+          )
+          .setStyle(drops.enabled ? ButtonStyle.Secondary : ButtonStyle.Success),
+        new ButtonBuilder()
+          .setCustomId(panelCustomId(MODULE_NAME, 'dropspct'))
+          .setLabel(t('modules.items.panel.dropsEditChances'))
+          .setStyle(ButtonStyle.Primary),
+        new ButtonBuilder()
+          .setCustomId(panelCustomId(MODULE_NAME, 'home'))
+          .setLabel(t('modules.items.panel.back'))
+          .setStyle(ButtonStyle.Secondary),
+      ),
+    ],
+  };
+}
+
+function dropsModal(config: ItemsConfig): ModalBuilder {
+  const modal = new ModalBuilder()
+    .setCustomId(panelCustomId(MODULE_NAME, 'dropspctmodal'))
+    .setTitle(t('modules.items.panel.dropsChancesTitle'));
+  for (const r of RARITIES) {
+    modal.addComponents(
+      textField(
+        r,
+        `${t(`modules.items.rarity.${r}`)} (%)`,
+        TextInputStyle.Short,
+        String(config.drops[r]),
+        true,
+        3,
+        '0-100',
+      ),
+    );
+  }
+  return modal;
 }
 
 // --- Modals -----------------------------------------------------------------
@@ -317,9 +419,10 @@ async function handle({
     }
     case 'add': {
       if (!interaction.isButton()) return;
-      if ((await countItems(ctx, guildId)) >= MAX_ITEMS) {
+      const limit = await getItemLimit(ctx);
+      if (limit !== null && (await countItems(ctx, guildId)) >= limit) {
         await interaction.reply({
-          content: t('modules.items.panel.tooMany', { max: MAX_ITEMS }),
+          content: t('modules.items.panel.tooMany', { max: limit }),
           flags: MessageFlags.Ephemeral,
         });
         return;
@@ -395,6 +498,7 @@ async function handle({
     }
     case 'buyable':
     case 'tradable':
+    case 'droppable':
     case 'usable': {
       if (!interaction.isButton()) return;
       const item = await getItem(ctx, guildId, itemId);
@@ -406,6 +510,45 @@ async function handle({
       if (!interaction.isButton()) return;
       await deleteItem(ctx, itemId);
       await interaction.update(await renderPage());
+      return;
+    }
+    case 'drops': {
+      if (!interaction.isButton()) return;
+      await interaction.update(renderDropsView(await getItemsConfig(ctx, guildId)));
+      return;
+    }
+    case 'dropstoggle': {
+      if (!interaction.isButton()) return;
+      const config = await getItemsConfig(ctx, guildId);
+      const updated = await updateItemsConfig(ctx, guildId, {
+        drops: { ...config.drops, enabled: !config.drops.enabled },
+      });
+      await interaction.update(renderDropsView(updated));
+      return;
+    }
+    case 'dropson': {
+      if (!interaction.isStringSelectMenu()) return;
+      const value = interaction.values[0];
+      const config = await getItemsConfig(ctx, guildId);
+      const on = DROP_TRIGGERS.find((trigger) => trigger === value) ?? config.drops.on;
+      const updated = await updateItemsConfig(ctx, guildId, { drops: { ...config.drops, on } });
+      await interaction.update(renderDropsView(updated));
+      return;
+    }
+    case 'dropspct': {
+      if (!interaction.isButton()) return;
+      await interaction.showModal(dropsModal(await getItemsConfig(ctx, guildId)));
+      return;
+    }
+    case 'dropspctmodal': {
+      if (!interaction.isModalSubmit() || !interaction.isFromMessage()) return;
+      const config = await getItemsConfig(ctx, guildId);
+      const drops = { ...config.drops };
+      for (const r of RARITIES) {
+        drops[r] = clampInt(interaction.fields.getTextInputValue(r), drops[r], 0, 100);
+      }
+      const updated = await updateItemsConfig(ctx, guildId, { drops });
+      await interaction.update(renderDropsView(updated));
       return;
     }
     default:

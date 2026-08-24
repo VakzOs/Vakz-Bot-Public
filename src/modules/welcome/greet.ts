@@ -1,10 +1,5 @@
-import {
-  AttachmentBuilder,
-  EmbedBuilder,
-  type GuildMember,
-  type PartialGuildMember,
-} from 'discord.js';
-import { Colors } from '../../lib/embeds.js';
+import { AttachmentBuilder, type GuildMember, type PartialGuildMember } from 'discord.js';
+import { Colors, Emojis, errorEmbed, successEmbed } from '../../lib/embeds.js';
 import { t } from '../../core/i18n.js';
 import type { GreetConfig, GreetKind } from './config.js';
 import { renderGreetCard } from './card.js';
@@ -75,10 +70,12 @@ export async function sendGreeting(
   const card = greet.card ? await buildGreetCard(member, greet, kind) : null;
 
   if (greet.embed) {
-    const embed = new EmbedBuilder()
-      .setColor(kind === 'welcome' ? Colors.success : Colors.error)
-      .setDescription(content)
-      .setTimestamp();
+    // Vert + 👋 pour une arrivée, rouge + 👋 pour un départ (look DraftBot).
+    const embed = (kind === 'welcome' ? successEmbed : errorEmbed)({
+      description: content,
+      timestamp: true,
+      emoji: Emojis.wave,
+    });
 
     const footer = formatGreeting(greet.footer, member).trim();
     if (footer) embed.setFooter({ text: footer });

@@ -1,4 +1,7 @@
 import {
+  ActionRowBuilder,
+  ButtonBuilder,
+  ButtonStyle,
   type ChatInputCommandInteraction,
   EmbedBuilder,
   MessageFlags,
@@ -6,7 +9,7 @@ import {
 } from 'discord.js';
 import type { BotContext, SlashCommand } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { Colors } from '../../lib/embeds.js';
+import { Colors, Emojis, withEmoji } from '../../lib/embeds.js';
 import { LAST_DAY, MODULE_NAME, getAdventConfig } from './config.js';
 import { currentAdventDay, openDoor, openedDays, rewardForDay } from './service.js';
 
@@ -69,10 +72,14 @@ export const advent: SlashCommand = {
 
     if (sub === 'calendrier') {
       const opened = new Set(await openedDays(ctx, guildId, interaction.user.id));
+      const grid = calendarGrid(opened, today);
+      const description = config.testMode
+        ? `${t('modules.advent.calendar.testBadge')}\n${grid}`
+        : grid;
       const embed = new EmbedBuilder()
         .setColor(XMAS_GREEN)
-        .setTitle(t('modules.advent.calendar.title'))
-        .setDescription(calendarGrid(opened, today))
+        .setTitle(withEmoji(t('modules.advent.calendar.title'), '🎄'))
+        .setDescription(description)
         .setFooter({
           text: today
             ? t('modules.advent.calendar.footerOpen', { day: today, opened: opened.size })
@@ -105,20 +112,33 @@ export const advent: SlashCommand = {
     const reward = rewardForDay(config, result.day);
     const lines: string[] = [];
     if (result.coins > 0) lines.push(t('modules.advent.reward.coins', { coins: result.coins }));
-    if (result.itemName) {
-      lines.push(t('modules.advent.reward.item', { qty: result.itemQty, item: result.itemName }));
+    for (const item of result.items) {
+      lines.push(t('modules.advent.reward.item', { qty: item.qty, item: item.name }));
     }
     if (!lines.length) lines.push(t('modules.advent.reward.nothing'));
     const flavour = result.message || reward.message;
 
     const embed = new EmbedBuilder()
-      .setColor(Colors.success ?? XMAS_GREEN)
-      .setTitle(t('modules.advent.reward.title', { day: result.day }))
+      .setColor(Colors.success)
+      .setTitle(withEmoji(t('modules.advent.reward.title', { day: result.day }), Emojis.gift))
       .setDescription(lines.join('\n') + (flavour ? `\n\n${flavour}` : ''));
     if (result.balance !== null) {
       embed.setFooter({ text: t('modules.advent.reward.balance', { balance: result.balance }) });
     }
 
-    await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
+    // Lien du jour : bouton Lien uniquement si une URL http(s) valide est réglée.
+    const components: ActionRowBuilder<ButtonBuilder>[] = [];
+    if (reward.link && /^https?:\/\//i.test(reward.link)) {
+      components.push(
+        new ActionRowBuilder<ButtonBuilder>().addComponents(
+          new ButtonBuilder()
+            .setStyle(ButtonStyle.Link)
+            .setURL(reward.link)
+            .setLabel(t('modules.advent.reward.linkButton')),
+        ),
+      );
+    }
+
+    await interaction.reply({ embeds: [embed], components, flags: MessageFlags.Ephemeral });
   },
 };

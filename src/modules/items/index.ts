@@ -25,6 +25,29 @@ export default defineModule({
         },
       ],
     },
+    {
+      key: 'drops',
+      label: '🎁 Butin dans les mini-jeux',
+      description:
+        'Fait tomber des objets « droppable » à la fin des mini-jeux (PFC, morpion, bataille navale), avec un pourcentage par rareté. On tire de la plus rare à la plus commune.',
+      fields: [
+        { key: 'enabled', label: 'Activer les drops', type: 'boolean' },
+        {
+          key: 'on',
+          label: 'Quand tirer un drop',
+          type: 'select',
+          options: [
+            { value: 'win', label: 'Victoire seulement' },
+            { value: 'winDraw', label: 'Victoire et égalité' },
+            { value: 'any', label: 'Chaque partie (peu importe l’issue)' },
+          ],
+        },
+        { key: 'common', label: '% drop — Commun (0-100)', type: 'number' },
+        { key: 'rare', label: '% drop — Rare (0-100)', type: 'number' },
+        { key: 'epic', label: '% drop — Épique (0-100)', type: 'number' },
+        { key: 'legendary', label: '% drop — Légendaire (0-100)', type: 'number' },
+      ],
+    },
   ],
   configPanel: itemsPanel,
   commands: itemsCommands,

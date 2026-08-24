@@ -1,15 +1,28 @@
-import { AttachmentBuilder, EmbedBuilder, type Interaction, MessageFlags } from 'discord.js';
+import {
+  AttachmentBuilder,
+  EmbedBuilder,
+  type Interaction,
+  MessageFlags,
+  type SendableChannels,
+} from 'discord.js';
 import type { BotContext, ComponentHandler } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { Colors } from '../../lib/embeds.js';
+import { Colors, Emojis, withEmoji } from '../../lib/embeds.js';
 import {
   PFC_CHOICES,
   PFC_EMOJI,
   type PfcChoice,
+  awardGameDrop,
   invertOutcome,
   pfcOutcome,
   recordResult,
 } from './service.js';
+
+/** Salon d'envoi (pour les annonces de drop) si l'interaction en a un. */
+function sendableChannel(interaction: Interaction): SendableChannels | null {
+  const channel = interaction.channel;
+  return channel?.isSendable() ? channel : null;
+}
 import { endDuel, getDuel } from './duel.js';
 import {
   BOT,
@@ -79,7 +92,7 @@ async function handlePfc(
   const color = outcome === 'draw' ? Colors.warning : Colors.success;
   const embed = new EmbedBuilder()
     .setColor(color)
-    .setTitle(t('modules.games.pfc.title'))
+    .setTitle(withEmoji(t('modules.games.pfc.title'), Emojis.game))
     .setDescription(
       `${PFC_EMOJI[duel.challengerMove]} <@${duel.challengerId}> — <@${duel.opponentId}> ${PFC_EMOJI[opponentMove]}\n\n` +
         t(`modules.games.pfc.duel.${resultKey}`, {
@@ -88,6 +101,10 @@ async function handlePfc(
         }),
     );
   await interaction.update({ embeds: [embed], components: [] });
+
+  const channel = sendableChannel(interaction);
+  await awardGameDrop(ctx, channel, guildId, duel.challengerId, outcome);
+  await awardGameDrop(ctx, channel, guildId, duel.opponentId, invertOutcome(outcome));
 }
 
 /** Enregistre le résultat d'une partie de morpion terminée. */
@@ -158,6 +175,19 @@ async function handleTtt(
     embeds: [buildTttEmbed(game, over, won)],
     components: renderBoard(gameId as string, game, over, line),
   });
+
+  if (over) {
+    const channel = sendableChannel(interaction);
+    if (won === 0) {
+      await awardGameDrop(ctx, channel, guildId, game.p1, 'draw');
+      if (game.p2 !== BOT) await awardGameDrop(ctx, channel, guildId, game.p2, 'draw');
+    } else {
+      const winnerId = won === 1 ? game.p1 : game.p2;
+      const loserId = won === 1 ? game.p2 : game.p1;
+      if (winnerId !== BOT) await awardGameDrop(ctx, channel, guildId, winnerId, 'win');
+      if (loserId !== BOT) await awardGameDrop(ctx, channel, guildId, loserId, 'loss');
+    }
+  }
 }
 
 /** Décrit un tir résolu (ligne affichée sous la grille). */
@@ -288,6 +318,13 @@ async function handleBnShot(
       embeds: [buildBnEmbed(game, over, winnerId)],
       components: buildFireRow(id as string, over, game.p2 === BOT),
     });
+  }
+
+  if (over && winnerId) {
+    const channel = sendableChannel(interaction);
+    const loserId = winnerId === game.p1 ? game.p2 : game.p1;
+    if (winnerId !== BOT) await awardGameDrop(ctx, channel, guildId, winnerId, 'win');
+    if (loserId !== BOT) await awardGameDrop(ctx, channel, guildId, loserId, 'loss');
   }
 }
 

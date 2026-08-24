@@ -10,7 +10,7 @@ import {
 import type { Suggestion } from '@prisma/client';
 import type { BotContext } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { Colors } from '../../lib/embeds.js';
+import { Colors, Emojis, withEmoji } from '../../lib/embeds.js';
 import { addBalance } from '../economy/service.js';
 import { addToInventory, getItem } from '../items/service.js';
 import { MODULE_NAME, type SuggestionsConfig } from './config.js';
@@ -66,7 +66,7 @@ export function buildSuggestionEmbed(
 ): EmbedBuilder {
   const game = parseGameMetadata(suggestion.metadata);
   const embed = new EmbedBuilder()
-    .setTitle(t('modules.suggestions.embed.title'))
+    .setTitle(withEmoji(t('modules.suggestions.embed.title'), Emojis.tip))
     .setDescription(suggestion.content)
     .setFooter({ text: t('modules.suggestions.embed.footer', { id: suggestion.id.slice(0, 8) }) })
     .setTimestamp(suggestion.createdAt);

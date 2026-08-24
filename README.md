@@ -2,7 +2,7 @@
 
 Vakz-Bot est un bot Discord **multi-serveurs**, **modulaire**, **auto-hébergé** et pensé comme une alternative libre aux gros bots généralistes. Tout se configure serveur par serveur via `/config` (panneaux Discord interactifs : menus, boutons, modals, sélecteurs) ou depuis un **dashboard web** (voir [Dashboard web](#dashboard-web-configuration-à-distance)).
 
-Le projet couvre aujourd'hui le socle, la communauté, la modération, la sécurité, les logs avancés, les tickets, les giveaways, les salons vocaux temporaires, les automatisations et les jeux.
+Le projet couvre aujourd'hui le socle, la communauté, la modération, la sécurité, les logs avancés, les tickets, les giveaways, les salons vocaux temporaires, la musique, les automatisations et les jeux.
 
 ## Sommaire
 
@@ -13,6 +13,7 @@ Le projet couvre aujourd'hui le socle, la communauté, la modération, la sécur
 - [Installation locale](#installation-locale)
 - [Déploiement VPS Docker](#déploiement-vps-docker)
 - [Dashboard web (configuration à distance)](#dashboard-web-configuration-à-distance)
+- [Musique (Lavalink)](#musique-lavalink)
 - [Commandes slash](#commandes-slash)
 - [Modules configurables](#modules-configurables)
 - [Permissions et intents](#permissions-et-intents)
@@ -176,7 +177,7 @@ courante>`. Pour forcer une branche précise, définis `BRANCH=<nom>` (variable
 ## Dashboard web (configuration à distance)
 
 En plus de `/config` sur Discord, un **dashboard web** (site Next.js séparé,
-déployé sur Vercel — voir le dépôt [VakzBot-Web-Public](https://github.com/VakzOs/VakzBot-Web-Public)) permet de configurer le bot
+déployé sur Vercel — voir le dépôt `VakzBot-Web`) permet de configurer le bot
 depuis un navigateur : activer/désactiver les modules, éditer leur configuration
 via des formulaires, **publier/mettre à jour les panneaux** (tickets,
 rôles-réactions, règlement, vérification, mode streameur) sans repasser par
@@ -285,6 +286,124 @@ pare-feu : il n'a plus besoin d'être exposé.
   sinon le bot refuse de démarrer. Sans lui, seuls le pseudo et l'avatar de
   serveur sont détectés en direct.
 
+## Musique (Lavalink)
+
+Le module **Musique** joue de l'audio dans les salons vocaux. La lecture est
+déléguée à un serveur **[Lavalink](https://lavalink.dev) v4** (le bot lui-même
+ne décode pas l'audio) : il faut donc un serveur Lavalink joignable. Sans lui,
+le module reste chargé mais les commandes répondent qu'il n'est pas disponible.
+
+Sources prises en charge d'origine : **YouTube** (via le plugin officiel
+`youtube-source`), **SoundCloud**, **Bandcamp**, **Twitch**, **Vimeo** et les
+liens HTTP directs. Le plugin **LavaSrc** est également inclus dans la config
+Lavalink fournie, ce qui ajoute **Spotify** (`spsearch`) et **Deezer**
+(`dzsearch`) — Spotify demande simplement des identifiants (voir
+[Spotify / Deezer](#spotify--deezer-lavasrc)). Le sélecteur de plateforme se
+choisit dans `/config` (ou le dashboard web).
+
+### Option A — Docker Compose (recommandé)
+
+Un service `lavalink` est fourni (profil **`music`**), préconfiguré avec le
+plugin YouTube (`deploy/lavalink/application.yml`) :
+
+```bash
+# 1) Dans .env :
+LAVALINK_HOST=lavalink
+LAVALINK_PASSWORD=un-mot-de-passe-solide   # openssl rand -hex 16
+COMPOSE_PROFILES=music                      # active le profil en permanence
+
+# 2) Démarre le bot AVEC le serveur Lavalink :
+docker compose up -d
+```
+
+Le serveur Lavalink n'est **pas exposé** à l'hôte : le bot y accède en interne
+(`http://lavalink:2333`). Compte ~**512 Mo de RAM** supplémentaires (réglable
+via `_JAVA_OPTIONS` dans le compose).
+
+> 🔄 **Mise à jour `/maj`** : l'updater lance `docker compose up -d` **sans**
+> `--profile`. Renseigne donc `COMPOSE_PROFILES=music` dans `.env` (comme
+> ci-dessus) pour que Lavalink soit démarré et maintenu automatiquement à chaque
+> mise à jour. Sinon, lance-le une fois à la main avec `docker compose --profile
+> music up -d` : grâce à `restart: unless-stopped`, il survit ensuite aux `/maj`
+> et aux redémarrages, mais un `/maj` ne le relancera pas s'il est totalement
+> arrêté. (Combine avec Caddy au besoin : `COMPOSE_PROFILES=music,proxy`.)
+
+Sans le profil `music`, le bot tourne normalement et le module musique reste
+simplement inactif.
+
+### Option B — Lavalink autonome / externe
+
+Fais tourner Lavalink ailleurs (binaire, autre conteneur, hébergeur) puis
+renseigne dans `.env` :
+
+```env
+LAVALINK_HOST=127.0.0.1      # ou le domaine du serveur Lavalink
+LAVALINK_PORT=2333
+LAVALINK_PASSWORD=…          # identique à application.yml côté Lavalink
+LAVALINK_SECURE=false        # true si TLS (wss/https) devant Lavalink
+```
+
+### Spotify / Deezer (LavaSrc)
+
+Le plugin **LavaSrc** est déjà déclaré dans `deploy/lavalink/application.yml`, mais
+Spotify et Deezer sont **désactivés par défaut** — car LavaSrc **refuse de démarrer**
+si une source est activée sans ses identifiants (Deezer exige une *master key*).
+YouTube / SoundCloud fonctionnent sans rien de tout ça.
+
+Chaque source est **opt-in** via une variable d'env :
+
+- **Spotify** (`spsearch`) — crée une application sur le
+  [dashboard développeur Spotify](https://developer.spotify.com/dashboard) puis, dans `.env` :
+
+  ```env
+  LAVASRC_SPOTIFY=true
+  SPOTIFY_CLIENT_ID=…
+  SPOTIFY_CLIENT_SECRET=…
+  ```
+
+- **Deezer** (`dzsearch`) — nécessite une *master key* de déchiffrement
+  (**obligatoire**, sinon Lavalink crashe) :
+
+  ```env
+  LAVASRC_DEEZER=true
+  DEEZER_MASTER_KEY=…
+  ```
+
+Ces variables sont transmises au conteneur `lavalink` par le compose ; en
+Lavalink autonome, mets-les plutôt dans le `application.yml` de ton serveur. Comme
+Spotify/Apple ne diffusent pas l'audio directement, LavaSrc retrouve chaque titre
+(par ISRC ou par nom) sur **YouTube/SoundCloud** pour la lecture. Une fois activées,
+choisis la plateforme dans le sélecteur `/config` → Musique.
+
+### YouTube sur un VPS (OAuth)
+
+Sur une **IP de datacenter** (VPS Oracle, AWS…), YouTube exige souvent une
+connexion pour lire une vidéo — les logs Lavalink affichent alors
+`This video requires login`. La parade est d'authentifier Lavalink avec un
+**compte Google** (OAuth) :
+
+1. Dans `.env` : `YOUTUBE_OAUTH=true`, puis recrée Lavalink
+   (`docker compose up -d --force-recreate lavalink`).
+2. Suis les logs : `docker compose logs -f lavalink`. Le plugin affiche un lien
+   `https://www.google.com/device` + un **code** — ouvre-le et autorise avec un
+   **compte Google jetable** (⚠️ pas ton compte principal : YouTube peut le limiter).
+3. Lavalink logue alors un **refresh token** : copie-le dans
+   `YOUTUBE_OAUTH_REFRESH_TOKEN` (`.env`) et recrée Lavalink → l'auth devient
+   permanente (plus besoin de refaire le code au redémarrage).
+
+Alternative sans YouTube : **SoundCloud** (et Spotify pour la recherche) ne
+souffrent pas de ce blocage — tu peux simplement mettre SoundCloud en plateforme
+par défaut.
+
+### Réglages du module (`/config` → Musique, ou dashboard web)
+
+Rôle **DJ** (réserve les commandes de contrôle ; vide = tout le monde), **volume**
+par défaut et maximum, **plateforme de recherche** par défaut, exiger d'être dans
+le **même salon** vocal que le bot, et **quitter automatiquement** en fin de file.
+
+> Intent requis : `GuildVoiceStates` (non privilégié, déjà activé). Aucun intent
+> privilégié supplémentaire n'est nécessaire pour la musique.
+
 ## Commandes slash
 
 | Commande                                                         | Module                    | Usage                                                                         |
@@ -302,7 +421,7 @@ pare-feu : il n'a plus besoin d'être exposé.
 | `/jeuxgratuits`                                                  | Jeux gratuits             | Liste les jeux Steam actuellement gratuits (à garder).                        |
 | `/dire`                                                          | Profils de messages       | Fait parler le bot sous un profil (pseudo + avatar) via webhook (staff).       |
 | `/solde`, `/daily`, `/payer`, `/riches`, `/boutique`             | Économie                  | Monnaie virtuelle, récompense quotidienne, paiement, classement et boutique.  |
-| `/eco give`, `/eco take`, `/eco set`                             | Économie                  | Administration des soldes. Permission : gérer le serveur.                     |
+| `/argent-admin donner`, `/argent-admin retirer`, `/argent-admin definir` | Économie          | Administration des soldes (ajout, retrait, définition). Permission : gérer le serveur. |
 | `/anniversaire definir`, `/retirer`, `/voir`, `/prochains`       | Anniversaires             | Gestion des anniversaires.                                                    |
 | `/suggestion`                                                    | Suggestions               | Crée une suggestion, avec lien Steam optionnel.                               |
 | `/suggestions classement`, `/suggestions rechercher`            | Suggestions               | Classement des suggestions et recherche par mot-clé.                         |
@@ -323,6 +442,10 @@ pare-feu : il n'a plus besoin d'être exposé.
 | `/objets`                                                        | Objets & inventaires      | Liste le catalogue d'objets du serveur.                                       |
 | `/acheter`, `/utiliser`, `/donner-objet`                         | Objets & inventaires      | Achat avec la monnaie, utilisation (rôle-récompense), échange entre membres.  |
 | `/objets-admin donner`, `/retirer`                               | Objets & inventaires      | Attribue ou retire des objets. Permission : gérer le serveur.                 |
+| `/play`                                                          | Musique                   | Joue une musique / l'ajoute à la file (recherche ou lien).                    |
+| `/skip`, `/stop`, `/pause`, `/resume`, `/disconnect`             | Musique                   | Contrôle la lecture (rôle DJ si configuré). `/disconnect` quitte le vocal.    |
+| `/queue`, `/nowplaying`                                          | Musique                   | Affiche la file d'attente et la piste en cours.                              |
+| `/volume`, `/loop`, `/shuffle`, `/seek`, `/remove`               | Musique                   | Volume, répétition (off/piste/file), mélange, position, retrait d'une piste. |
 
 ## Modules configurables
 
@@ -365,12 +488,13 @@ vérification et mode streameur).
 | Commandes personnalisées  | Auto-réponses texte ou embed, variables, cooldown, suppression optionnelle du message.                                                               |
 | Messages récurrents       | Publications automatiques quotidiennes, hebdomadaires ou par intervalle.                                                                             |
 | Réactions de mots         | Ajoute des réactions sur mots-clés avec plusieurs modes de correspondance.                                                                           |
-| Jeux                      | Active/désactive les mini-jeux et les stats de parties.                                                                                              |
-| Objets & inventaires      | Catalogue d'objets par serveur (nom, emoji, rareté, prix, rôle-récompense), achat avec la monnaie, inventaire, utilisation et échange entre membres. |
-| Route de l'Infini         | Aventure solo à événements aléatoires (trésor, monstre, tempête…) : PV, énergie, distance, pièces (économie) et objets trouvés. Cooldown réglable.   |
+| Jeux                      | Active/désactive les mini-jeux et les stats de parties. Les parties (PFC, morpion, bataille navale) peuvent faire tomber des objets (drops) — voir « Objets & inventaires ». |
+| Objets & inventaires      | Catalogue d'objets par serveur (nom, emoji, rareté, prix, rôle-récompense), achat avec la monnaie, inventaire, utilisation et échange entre membres. **Drops en jeu** : un pourcentage de drop par rareté (défini manuellement) fait tomber des objets à la fin des mini-jeux. |
+| Route de l'Infini         | Aventure solo à événements aléatoires (trésor, monstre, tempête, oasis, ruines, loups, sanctuaire, bandits, volcan…) : PV, énergie, distance, pièces (économie), objets trouvés (barème de drop propre) et compteur de morts. Cooldown réglable.   |
 | Bingo                     | Partie de Bingo par serveur : cartons 5×5 (1-75, centre libre), tirages par le staff, détection automatique de ligne ou de carton plein.             |
 | Commandes d'informations  | Commandes en lecture seule (`/userinfo`, `/serverinfo`, `/avatar`, `/roleinfo`, `/emoji`) **et** un *journal des profils* optionnel : note dans un salon les changements de profil des membres (nom, nom affiché, photo de profil avec avant/après, pseudo serveur), avec filtre par rôles. |
 | Sauvegarde de configuration | Export/import JSON de toute la configuration serveur (`/sauvegarde`), avec recréation/remappage optionnel des salons et rôles manquants à l'import. |
+| Musique                   | Lecture audio dans les salons vocaux via Lavalink (YouTube, SoundCloud, Bandcamp… et Spotify/Deezer avec le plugin LavaSrc) : file d'attente, répétition, mélange, volume, seek, rôle DJ. Nécessite un serveur Lavalink (voir [Musique](#musique-lavalink)). |
 
 ## Points importants par module
 
@@ -403,6 +527,17 @@ Le honeypot peut créer/publier un salon piège avec image, texte FR et bouton c
 ### Jeux
 
 Les dés dédiés existent pour D4, D6, D8, D10, D12, D20 et D100, avec option `nombre`. Les sorties sont compactes, par exemple `D8 (x2) : 10 (4+6)`. PFC, morpion et bataille navale fonctionnent contre le bot ou en duel contre un membre ; les parties alimentent `/statsjeux`. La bataille navale se joue sur une grille 8×8 dessinée en image : un bouton **Tirer** ouvre une zone de saisie pour indiquer la case visée (ex. `C7`). Contre le bot, l'image montre ta flotte et ta grille de tir. En duel contre un membre, l'image publique n'affiche que la grille de tir (navires adverses cachés) et chaque joueur consulte sa propre flotte en privé via le bouton **Ma flotte**, sans jamais voir celle de l'autre.
+
+#### Drops d'objets
+
+Si le module **Objets & inventaires** est activé et les drops configurés, les parties de PFC, morpion et bataille navale peuvent faire **tomber des objets** du catalogue. Dans `/config → Objets → 🎁 Drops` (ou le dashboard), on règle :
+
+- **quand** un tirage a lieu (victoire seule, victoire + égalité, ou chaque partie) ;
+- un **pourcentage de drop par rareté** (Commun, Rare, Épique, Légendaire), défini manuellement.
+
+À chaque partie éligible, le tirage part de la rareté **la plus rare vers la plus commune** : la première dont le pourcentage réussit fait gagner un objet aléatoire de cette rareté (parmi ceux marqués **« Drop en jeu »**), ajouté à l'inventaire du membre et annoncé dans le salon. Un objet exclu des drops (bouton « Drop en jeu » désactivé) ne tombe jamais — pratique pour les objets à rôle-récompense.
+
+La **Route de l'Infini** possède son **propre barème de drop**, **indépendant** de celui des mini-jeux : ses chances par rareté se règlent dans `/config → Route de l'Infini → 🎲 Chances de drop` (ou le dashboard). Le mécanisme est le même (tirage rareté par rareté, uniquement sur les objets « Drop en jeu »), déclenché par l'événement « marchand » quand « Distribuer les objets trouvés » est activé.
 
 ### Sauvegarde de configuration
 

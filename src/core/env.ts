@@ -68,6 +68,15 @@ const envSchema = z.object({
   // membres. À activer AUSSI dans le Developer Portal (Bot → Presence Intent),
   // sinon le bot refuse de démarrer.
   PRESENCE_INTENT: booleanFromString.default('false'),
+
+  // --- Musique (Lavalink, optionnel) -----------------------------------------
+  // Serveur Lavalink pour le module « Musique ». Vide = module désactivé (les
+  // commandes répondent que la musique n'est pas configurée). En Docker, le
+  // service `lavalink` du compose fournit l'hôte `lavalink`.
+  LAVALINK_HOST: z.string().optional(),
+  LAVALINK_PORT: z.coerce.number().int().min(1).max(65535).default(2333),
+  LAVALINK_PASSWORD: z.string().default('youshallnotpass'),
+  LAVALINK_SECURE: booleanFromString.default('false'),
 });
 
 export type Env = z.infer<typeof envSchema>;

@@ -2,7 +2,7 @@ import { defineModule } from '../../core/module.js';
 import { MODULE_NAME, economyConfigSchema, economyDefaultConfig } from './config.js';
 import { economyPanel } from './panel.js';
 import { boutique, economyComponent } from './shop.js';
-import { daily, eco, payer, riches, solde } from './commands.js';
+import { argentAdmin, daily, payer, riches, solde } from './commands.js';
 import { onMessage } from './events.js';
 import { leaderboardTask, voiceMoneyTask } from './task.js';
 
@@ -38,7 +38,7 @@ export default defineModule({
   ],
   configPanel: economyPanel,
   componentHandler: economyComponent,
-  commands: [solde, daily, payer, riches, boutique, eco],
+  commands: [solde, daily, payer, riches, boutique, argentAdmin],
   events: [onMessage],
   tasks: [voiceMoneyTask, leaderboardTask],
 });

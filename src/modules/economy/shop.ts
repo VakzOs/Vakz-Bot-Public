@@ -2,7 +2,7 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
-  EmbedBuilder,
+  type EmbedBuilder,
   type Guild,
   type MessageActionRowComponentBuilder,
   MessageFlags,
@@ -12,7 +12,7 @@ import {
   StringSelectMenuOptionBuilder,
 } from 'discord.js';
 import type { ComponentHandler, SlashCommand } from '../../core/module.js';
-import { Colors } from '../../lib/embeds.js';
+import { brandedEmbed } from '../../lib/embeds.js';
 import { t } from '../../core/i18n.js';
 import {
   MODULE_NAME,
@@ -44,10 +44,10 @@ function buildShopView(
   if (config.shops.length === 0) {
     return {
       embeds: [
-        new EmbedBuilder()
-          .setColor(Colors.brand)
-          .setTitle(t('modules.economy.shop.title'))
-          .setDescription(t('modules.economy.shop.empty')),
+        brandedEmbed({
+          title: t('modules.economy.shop.title'),
+          description: t('modules.economy.shop.empty'),
+        }),
       ],
       components: [],
     };
@@ -61,10 +61,7 @@ function buildShopView(
       )
     : [t('modules.economy.shop.empty')];
 
-  const embed = new EmbedBuilder()
-    .setColor(Colors.brand)
-    .setTitle(shop.name)
-    .setDescription(lines.join('\n'));
+  const embed = brandedEmbed({ title: shop.name, description: lines.join('\n') });
   if (shop.bannerUrl) embed.setImage(shop.bannerUrl);
 
   const components: ActionRowBuilder<MessageActionRowComponentBuilder>[] = [];

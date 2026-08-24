@@ -1,5 +1,6 @@
 import { Events, EmbedBuilder, type GuildTextBasedChannel } from 'discord.js';
 import { defineEvent, type BotContext } from '../../core/module.js';
+import { Colors } from '../../lib/embeds.js';
 import { MODULE_NAME, getInfoConfig, type InfoConfig } from './config.js';
 
 /** Au-delà de ce nombre de membres, on évite le fetch complet (trop coûteux). */
@@ -24,9 +25,6 @@ export async function warmMemberCache(ctx: BotContext): Promise<void> {
     }
   }
 }
-
-/** Bleu « blurple » pour les embeds de surveillance. */
-const WATCH_COLOR = 0x5865f2;
 
 /**
  * URL commune posée sur plusieurs embeds pour que le client Discord les
@@ -64,7 +62,9 @@ async function sendWatch(
   const embeds = [embed];
   if (avatars) {
     embed.setURL(GALLERY_URL).setImage(avatars.before);
-    embeds.push(new EmbedBuilder().setColor(WATCH_COLOR).setURL(GALLERY_URL).setImage(avatars.after));
+    embeds.push(
+      new EmbedBuilder().setColor(Colors.brand).setURL(GALLERY_URL).setImage(avatars.after),
+    );
   }
   await channel.send({ embeds }).catch(() => undefined);
 }
@@ -92,7 +92,7 @@ export const onUserUpdate = defineEvent({
       if (!roleAllowed(config, [...member.roles.cache.keys()])) continue;
 
       const embed = new EmbedBuilder()
-        .setColor(WATCH_COLOR)
+        .setColor(Colors.brand)
         .setAuthor({ name: newUser.tag, iconURL: newUser.displayAvatarURL() })
         .setDescription(`🪪 <@${newUser.id}> a modifié son profil.`)
         .setFooter({ text: `ID : ${newUser.id}` })
@@ -154,7 +154,7 @@ export const onGuildMemberUpdate = defineEvent({
     if (!roleAllowed(config, [...newMember.roles.cache.keys()])) return;
 
     const embed = new EmbedBuilder()
-      .setColor(WATCH_COLOR)
+      .setColor(Colors.brand)
       .setAuthor({ name: newMember.user.tag, iconURL: newMember.displayAvatarURL() })
       .setDescription(`🪪 <@${newMember.id}> a mis à jour son profil sur le serveur.`)
       .setFooter({ text: `ID : ${newMember.id}` })

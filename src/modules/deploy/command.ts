@@ -11,7 +11,7 @@ import {
 } from 'discord.js';
 import type { ComponentHandler, SlashCommand } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { Colors } from '../../lib/embeds.js';
+import { Colors, Emojis, withEmoji } from '../../lib/embeds.js';
 import {
   type DeployResult,
   type DeployStatus,
@@ -31,10 +31,10 @@ function resultLine(result: DeployResult | null): string {
     : '';
   const icon =
     result.status === 'success'
-      ? '\u2705'
+      ? '✅'
       : result.status === 'failure'
-        ? '\u274C'
-        : '\u2139\uFE0F';
+        ? '❌'
+        : 'ℹ️';
   const commit = result.commit ? ` \`${result.commit.slice(0, 8)}\`` : '';
   return t('modules.deploy.lastResult', { icon, status: result.status, when, commit });
 }
@@ -54,7 +54,7 @@ async function buildEmbed(branch: string): Promise<EmbedBuilder> {
   const [result, status] = await Promise.all([readResult(), readStatus()]);
   const embed = new EmbedBuilder()
     .setColor(Colors.brand)
-    .setTitle(t('modules.deploy.title'))
+    .setTitle(withEmoji(t('modules.deploy.title'), Emojis.zap))
     .setDescription(t('modules.deploy.intro'))
     .addFields(
       { name: t('modules.deploy.branchField'), value: `\`${branch}\``, inline: true },
@@ -70,7 +70,7 @@ async function buildEmbed(branch: string): Promise<EmbedBuilder> {
   return embed;
 }
 
-/** S\u00E9lecteur de branche + boutons confirmer/annuler (l'index choisi est encod\u00E9
+/** Sélecteur de branche + boutons confirmer/annuler (l'index choisi est encodé
  * dans le customId du bouton confirmer). */
 function buildComponents(
   selectedIndex: number,
@@ -101,7 +101,7 @@ function buildComponents(
       new ButtonBuilder()
         .setCustomId(`deploy|confirm|${selectedIndex}`)
         .setLabel(t('modules.deploy.confirm'))
-        .setEmoji('\uD83D\uDE80')
+        .setEmoji('🚀')
         .setStyle(ButtonStyle.Danger),
       new ButtonBuilder()
         .setCustomId('deploy|cancel')

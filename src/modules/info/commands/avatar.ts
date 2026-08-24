@@ -1,7 +1,7 @@
 import { SlashCommandBuilder } from 'discord.js';
 import type { SlashCommand } from '../../../core/module.js';
 import { t } from '../../../core/i18n.js';
-import { infoEmbed } from '../../../lib/embeds.js';
+import { Emojis, infoEmbed } from '../../../lib/embeds.js';
 
 /** `/avatar` — affiche l'avatar (en grand) d'un membre ou de soi-même. */
 export const avatar: SlashCommand = {
@@ -13,7 +13,10 @@ export const avatar: SlashCommand = {
     const user = interaction.options.getUser('membre') ?? interaction.user;
     const globalUrl = user.displayAvatarURL({ size: 1024 });
 
-    const embed = infoEmbed({ title: t('modules.info.avatar.title', { user: user.tag }) })
+    const embed = infoEmbed({
+      title: t('modules.info.avatar.title', { user: user.tag }),
+      emoji: Emojis.picture,
+    })
       .setImage(globalUrl)
       .setDescription(`[${t('modules.info.avatar.link')}](${globalUrl})`);
 

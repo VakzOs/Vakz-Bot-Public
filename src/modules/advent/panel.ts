@@ -6,6 +6,7 @@ import {
   ChannelType,
   type EmbedBuilder,
   type MessageActionRowComponentBuilder,
+  MessageFlags,
   ModalBuilder,
   StringSelectMenuBuilder,
   StringSelectMenuOptionBuilder,
@@ -25,7 +26,7 @@ import {
   getAdventConfig,
   updateAdventConfig,
 } from './config.js';
-import { rewardForDay } from './service.js';
+import { resetOwnClaims, rewardForDay, rewardItemIds } from './service.js';
 
 function row(): PanelRow {
   return new ActionRowBuilder<MessageActionRowComponentBuilder>();
@@ -41,7 +42,16 @@ function upsertReward(config: AdventConfig, day: number, patch: Partial<DayRewar
   }
   return [
     ...config.rewards,
-    { day, coins: config.defaultCoins, itemId: null, itemQty: 1, message: '', ...patch },
+    {
+      day,
+      coins: config.defaultCoins,
+      items: [],
+      itemId: null,
+      itemQty: 1,
+      message: '',
+      link: '',
+      ...patch,
+    },
   ].sort((a, b) => a.day - b.day);
 }
 
@@ -54,7 +64,8 @@ function daysSummary(config: AdventConfig): string {
     .sort((a, b) => a.day - b.day)
     .map((reward) => {
       const bits = [d('coinsShort', { coins: reward.coins })];
-      if (reward.itemId) bits.push(`🎁×${reward.itemQty}`);
+      const nItems = rewardItemIds(reward).length;
+      if (nItems) bits.push(`🎁×${nItems}`);
       return `• ${d('dayN', { day: reward.day })} — ${bits.join(' · ')}`;
     })
     .join('\n');
@@ -87,7 +98,7 @@ async function render(ctx: BotContext, guildId: string) {
     .addOptions(
       Array.from({ length: LAST_DAY }, (_, i) => i + 1).map((day) => {
         const reward = rewardForDay(config, day);
-        const summary = `${d('coinsShort', { coins: reward.coins })}${reward.itemId ? ' · 🎁' : ''}`;
+        const summary = `${d('coinsShort', { coins: reward.coins })}${rewardItemIds(reward).length ? ' · 🎁' : ''}`;
         return new StringSelectMenuOptionBuilder()
           .setLabel(d('dayN', { day }))
           .setValue(String(day))
@@ -117,6 +128,18 @@ async function render(ctx: BotContext, guildId: string) {
     ),
   ];
 
+  // En mode test : bouton de remise à zéro de SES ouvertures, pour rejouer le
+  // calendrier autant de fois que voulu hors décembre.
+  if (config.testMode) {
+    const buttonsRow = components[components.length - 1];
+    buttonsRow?.addComponents(
+      new ButtonBuilder()
+        .setCustomId(panelCustomId(MODULE_NAME, 'reset'))
+        .setLabel(d('resetTest'))
+        .setStyle(ButtonStyle.Danger),
+    );
+  }
+
   return { embed, components };
 }
 
@@ -127,16 +150,25 @@ async function renderDayEdit(
   guildId: string,
   config: AdventConfig,
   day: number,
+  includeItems = true,
 ): Promise<{ embeds: EmbedBuilder[]; components: PanelRow[] }> {
   const reward = rewardForDay(config, day);
   const explicit = config.rewards.some((entry) => entry.day === day);
 
+  const selectedIds = rewardItemIds(reward);
   let itemLabel = d('noItem');
-  if (reward.itemId) {
-    const item = await getItem(ctx, guildId, reward.itemId);
-    itemLabel = item
-      ? `${item.emoji ? `${item.emoji} ` : ''}${item.name} ×${reward.itemQty}`
-      : d('itemMissing');
+  if (selectedIds.length) {
+    const names = await Promise.all(
+      selectedIds.map(async (id) => {
+        const item = await getItem(ctx, guildId, id);
+        return item ? `${item.emoji ? `${item.emoji} ` : ''}${item.name}` : d('itemMissing');
+      }),
+    );
+    itemLabel =
+      names
+        .map((name) => `• ${name} ×${reward.itemQty}`)
+        .join('\n')
+        .slice(0, 1024) || d('noItem');
   }
 
   const embed = infoEmbed({
@@ -145,26 +177,37 @@ async function renderDayEdit(
   }).addFields(
     { name: d('coinsField'), value: String(reward.coins), inline: true },
     { name: d('itemField'), value: itemLabel, inline: true },
+    { name: d('linkField'), value: reward.link || d('noLink') },
     { name: d('messageField'), value: reward.message || d('noMessage') },
   );
 
   const components: PanelRow[] = [];
 
-  const items = await listItems(ctx, guildId);
+  const items = includeItems ? await listItems(ctx, guildId) : [];
   if (items.length) {
+    const options = items.slice(0, 25);
+    const selected = new Set(selectedIds);
     components.push(
       row().addComponents(
+        // Multi-select : on peut offrir PLUSIEURS objets différents le même jour.
         new StringSelectMenuBuilder()
           .setCustomId(panelCustomId(MODULE_NAME, 'itempick', String(day)))
           .setPlaceholder(d('itemPickPlaceholder'))
+          .setMinValues(0)
+          .setMaxValues(options.length)
           .addOptions(
-            items.slice(0, 25).map((item) => {
-              const option = new StringSelectMenuOptionBuilder()
-                .setLabel(item.name.slice(0, 100))
+            options.map((item) => {
+              // Pas d'emoji sur les options : l'emoji stocké d'un objet (custom
+              // supprimé, raccourci non résolu, texte parasite…) passe le
+              // `toJSON()` local mais fait rejeter TOUT le sélecteur par Discord
+              // (« Une erreur est survenue » / sélecteur impossible à afficher).
+              // Il est purement décoratif ici, on s'en passe pour fiabiliser.
+              // Un nom vide ferait planter setLabel → repli sur un libellé.
+              const label = item.name.trim().slice(0, 100) || d('unnamedItem');
+              return new StringSelectMenuOptionBuilder()
+                .setLabel(label)
                 .setValue(item.id)
-                .setDefault(item.id === reward.itemId);
-              if (item.emoji) option.setEmoji(item.emoji);
-              return option;
+                .setDefault(selected.has(item.id));
             }),
           ),
       ),
@@ -177,7 +220,7 @@ async function renderDayEdit(
       .setLabel(d('editReward'))
       .setStyle(ButtonStyle.Primary),
   );
-  if (reward.itemId) {
+  if (selectedIds.length) {
     buttons.addComponents(
       new ButtonBuilder()
         .setCustomId(panelCustomId(MODULE_NAME, 'clearitem', String(day)))
@@ -231,6 +274,11 @@ function rewardModal(day: number, reward: DayReward): ModalBuilder {
         max: 500,
         value: reward.message,
       }),
+      textRow('link', d('linkField'), TextInputStyle.Short, {
+        max: 500,
+        value: reward.link,
+        placeholder: 'https://…',
+      }),
     );
 }
 
@@ -253,7 +301,36 @@ function parseAmount(input: string, max: number, fallback: number): number {
   return Math.min(max, Math.max(0, parsed));
 }
 
+/**
+ * Normalise un lien saisi : ne garde qu'une URL http(s) valide (ajoute
+ * `https://` si le schéma manque), sinon chaîne vide. Évite de stocker un
+ * lien invalide qui ferait échouer le bouton Lien à l'ouverture de la porte.
+ */
+function sanitizeLink(input: string): string {
+  const value = input.trim();
+  if (!value) return '';
+  const candidate = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+  try {
+    const url = new URL(candidate);
+    if (url.protocol === 'http:' || url.protocol === 'https:') return url.toString().slice(0, 500);
+  } catch {
+    // saisie non convertible en URL : on l'ignore
+  }
+  return '';
+}
+
 // --- Routeur ----------------------------------------------------------------
+
+async function updatePanel(
+  interaction: PanelHandlerArgs['interaction'],
+  page: { embeds: EmbedBuilder[]; components: PanelRow[] },
+): Promise<void> {
+  if (interaction.isMessageComponent()) {
+    await interaction.update(page);
+  } else if (interaction.isModalSubmit() && interaction.isFromMessage()) {
+    await interaction.update(page);
+  }
+}
 
 async function showDay(
   interaction: PanelHandlerArgs['interaction'],
@@ -262,13 +339,39 @@ async function showDay(
   day: number,
   renderPage: PanelHandlerArgs['renderPage'],
 ): Promise<void> {
+  if (day < 1 || day > LAST_DAY) {
+    await updatePanel(interaction, await renderPage());
+    return;
+  }
   const config = await getAdventConfig(ctx, guildId);
-  const view = day >= 1 && day <= LAST_DAY ? await renderDayEdit(ctx, guildId, config, day) : null;
-  const page = view ?? (await renderPage());
-  if (interaction.isMessageComponent()) {
-    await interaction.update(page);
-  } else if (interaction.isModalSubmit() && interaction.isFromMessage()) {
-    await interaction.update(page);
+  try {
+    await updatePanel(interaction, await renderDayEdit(ctx, guildId, config, day, true));
+  } catch (error) {
+    // Filet de sécurité : si Discord refuse la vue avec le sélecteur d'objet
+    // (emoji/objet problématique), on trace l'erreur réelle et on réaffiche le
+    // jour SANS le sélecteur, pour que le panneau reste utilisable.
+    ctx.logger.error(
+      { err: error, guildId, day },
+      "Rendu de l'édition du jour (avec sélecteur d'objet) refusé, repli sans sélecteur",
+    );
+    try {
+      await updatePanel(interaction, await renderDayEdit(ctx, guildId, config, day, false));
+    } catch (fallbackError) {
+      ctx.logger.error(
+        { err: fallbackError, guildId, day },
+        "Repli de l'édition du jour (sans sélecteur) a aussi échoué",
+      );
+    }
+    // Diagnostic (admin only, éphémère) : remonte le motif exact du refus.
+    if (interaction.isRepliable()) {
+      const detail = error instanceof Error ? error.message : String(error);
+      await interaction
+        .followUp({
+          content: d('itemSelectDropped', { detail: detail.slice(0, 600) }),
+          flags: MessageFlags.Ephemeral,
+        })
+        .catch(() => undefined);
+    }
   }
 }
 
@@ -300,6 +403,18 @@ async function handle({
       if (!interaction.isButton()) return;
       const config = await getAdventConfig(ctx, guildId);
       await interaction.showModal(defaultCoinsModal(config));
+      return;
+    }
+    case 'reset': {
+      if (!interaction.isButton()) return;
+      const removed = await resetOwnClaims(ctx, guildId, interaction.user.id);
+      await interaction.update(await renderPage());
+      await interaction
+        .followUp({
+          content: removed > 0 ? d('resetDone', { count: removed }) : d('resetNone'),
+          flags: MessageFlags.Ephemeral,
+        })
+        .catch(() => undefined);
       return;
     }
     case 'defcoinsmodal': {
@@ -346,6 +461,7 @@ async function handle({
         coins: parseAmount(interaction.fields.getTextInputValue('coins'), 1_000_000, 0),
         itemQty: Math.max(1, parseAmount(interaction.fields.getTextInputValue('qty'), 100, 1)),
         message: interaction.fields.getTextInputValue('message').trim().slice(0, 500),
+        link: sanitizeLink(interaction.fields.getTextInputValue('link')),
       });
       await updateAdventConfig(ctx, guildId, { rewards });
       await showDay(interaction, ctx, guildId, day, renderPage);
@@ -355,7 +471,12 @@ async function handle({
       if (!interaction.isStringSelectMenu()) return;
       if (day < 1 || day > LAST_DAY) return;
       const config = await getAdventConfig(ctx, guildId);
-      const rewards = upsertReward(config, day, { itemId: interaction.values[0] ?? null });
+      // Multi-select : la sélection complète devient la liste d'objets du jour.
+      // On vide l'ancien champ mono-objet pour éviter tout doublon (migration).
+      const rewards = upsertReward(config, day, {
+        items: [...new Set(interaction.values)].slice(0, 25),
+        itemId: null,
+      });
       await updateAdventConfig(ctx, guildId, { rewards });
       await showDay(interaction, ctx, guildId, day, renderPage);
       return;
@@ -364,7 +485,7 @@ async function handle({
       if (!interaction.isButton()) return;
       if (day < 1 || day > LAST_DAY) return;
       const config = await getAdventConfig(ctx, guildId);
-      const rewards = upsertReward(config, day, { itemId: null });
+      const rewards = upsertReward(config, day, { items: [], itemId: null });
       await updateAdventConfig(ctx, guildId, { rewards });
       await showDay(interaction, ctx, guildId, day, renderPage);
       return;

@@ -8,7 +8,7 @@ import {
 } from 'discord.js';
 import type { BotContext } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { Colors } from '../../lib/embeds.js';
+import { Colors, successEmbed } from '../../lib/embeds.js';
 import { MODULE_NAME, type RulesConfig } from './config.js';
 
 /** customId du bouton d'acceptation publié dans le salon (hors `/config`). */
@@ -83,11 +83,10 @@ export async function logAcceptance(
   if (!config.logChannelId) return;
   const channel = await guild.channels.fetch(config.logChannelId).catch(() => null);
   if (!channel || !channel.isTextBased()) return;
-  const embed = new EmbedBuilder()
-    .setColor(Colors.success)
-    .setDescription(
-      t('modules.rules.log.accepted', { user: `<@${userId}>`, version: config.version }),
-    );
+  const embed = successEmbed({
+    description: t('modules.rules.log.accepted', { user: `<@${userId}>`, version: config.version }),
+    timestamp: true,
+  });
   await channel
     .send({ embeds: [embed], allowedMentions: { parse: [] } })
     .catch((error: unknown) =>

@@ -1,7 +1,7 @@
 import { MessageFlags, PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import type { SlashCommand } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { infoEmbed } from '../../lib/embeds.js';
+import { Emojis, infoEmbed, rankLabel } from '../../lib/embeds.js';
 import { formatMoney, getEconomyConfig } from './config.js';
 import {
   addBalance,
@@ -26,6 +26,7 @@ export const solde: SlashCommand = {
     const embed = infoEmbed({
       title: t('modules.economy.commands.balance.title', { user: target.username }),
       description: `${t('modules.economy.commands.balance.line')} : ${formatMoney(config, balance)}`,
+      emoji: Emojis.coin,
     });
     await interaction.reply({ embeds: [embed] });
   },
@@ -128,28 +129,28 @@ export const riches: SlashCommand = {
       return;
     }
 
-    const medals = ['🥇', '🥈', '🥉'];
     const lines = top.map(
       (entry, index) =>
-        `${medals[index] ?? `**${index + 1}.**`} <@${entry.userId}> — ${formatMoney(config, entry.balance)}`,
+        `${rankLabel(index)} <@${entry.userId}> — ${formatMoney(config, entry.balance)}`,
     );
     const embed = infoEmbed({
       title: t('modules.economy.commands.leaderboard.title', { currency: config.currencyName }),
       description: lines.join('\n'),
+      emoji: Emojis.trophy,
     });
     await interaction.reply({ embeds: [embed], allowedMentions: { parse: [] } });
   },
 };
 
-/** `/eco` — gestion administrative des soldes (give / take / set). */
-export const eco: SlashCommand = {
+/** `/argent-admin` — gestion administrative des soldes (donner / retirer / definir). */
+export const argentAdmin: SlashCommand = {
   data: new SlashCommandBuilder()
-    .setName('eco')
+    .setName('argent-admin')
     .setDescription(t('modules.economy.commands.admin.description'))
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
     .addSubcommand((s) =>
       s
-        .setName('give')
+        .setName('donner')
         .setDescription(t('modules.economy.commands.admin.give'))
         .addUserOption((o) =>
           o.setName('membre').setDescription(t('modules.economy.opt.member')).setRequired(true),
@@ -164,7 +165,7 @@ export const eco: SlashCommand = {
     )
     .addSubcommand((s) =>
       s
-        .setName('take')
+        .setName('retirer')
         .setDescription(t('modules.economy.commands.admin.take'))
         .addUserOption((o) =>
           o.setName('membre').setDescription(t('modules.economy.opt.member')).setRequired(true),
@@ -179,7 +180,7 @@ export const eco: SlashCommand = {
     )
     .addSubcommand((s) =>
       s
-        .setName('set')
+        .setName('definir')
         .setDescription(t('modules.economy.commands.admin.set'))
         .addUserOption((o) =>
           o.setName('membre').setDescription(t('modules.economy.opt.member')).setRequired(true),
@@ -200,9 +201,9 @@ export const eco: SlashCommand = {
     const config = await getEconomyConfig(ctx, interaction.guildId);
 
     let balance: number;
-    if (sub === 'give') {
+    if (sub === 'donner') {
       balance = await addBalance(ctx, interaction.guildId, target.id, amount);
-    } else if (sub === 'take') {
+    } else if (sub === 'retirer') {
       const current = await getBalance(ctx, interaction.guildId, target.id);
       balance = Math.max(0, current - amount);
       await setBalance(ctx, interaction.guildId, target.id, balance);

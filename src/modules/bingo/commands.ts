@@ -12,7 +12,7 @@ import {
 } from 'discord.js';
 import type { ComponentHandler, SlashCommand } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { Colors, infoEmbed } from '../../lib/embeds.js';
+import { Colors, Emojis, infoEmbed, withEmoji } from '../../lib/embeds.js';
 import { getBingoConfig } from './config.js';
 import { CARD_IMAGE, renderCardImage } from './render.js';
 import {
@@ -94,6 +94,7 @@ const bingo: SlashCommand = {
             description: t('modules.bingo.startedBody', {
               mode: t(mode === 'full' ? 'modules.bingo.modeFull' : 'modules.bingo.modeLine'),
             }),
+            emoji: Emojis.party,
           }),
         ],
       });
@@ -140,7 +141,7 @@ const bingo: SlashCommand = {
       const winners = await findWinners(ctx, drawnGame, result.drawn);
       const embed = new EmbedBuilder()
         .setColor(winners.length ? Colors.success : Colors.brand)
-        .setTitle(t('modules.bingo.drawTitle'))
+        .setTitle(withEmoji(t('modules.bingo.drawTitle'), Emojis.game))
         .setDescription(
           t('modules.bingo.drawBody', { number: result.number, count: result.count }),
         );

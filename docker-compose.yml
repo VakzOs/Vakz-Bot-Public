@@ -63,6 +63,42 @@ services:
       LOG_LEVEL: warning
       TZ: Europe/Paris
 
+  # Serveur audio Lavalink (opt-in) pour le module « Musique ». Activé avec le
+  # profil « music » :
+  #   docker compose --profile music up -d
+  # Pense à mettre `LAVALINK_HOST=lavalink` dans .env pour que le bot l'utilise.
+  # Non exposé à l'hôte : le bot y accède en interne (http://lavalink:2333).
+  lavalink:
+    image: ghcr.io/lavalink-devs/lavalink:4
+    container_name: vakz-lavalink
+    restart: unless-stopped
+    profiles: ['music']
+    environment:
+      _JAVA_OPTIONS: '-Xmx512m'
+      SERVER_PORT: '2333'
+      # Mot de passe partagé avec le bot (LAVALINK_PASSWORD dans .env).
+      LAVALINK_SERVER_PASSWORD: '${LAVALINK_PASSWORD:-youshallnotpass}'
+      # OAuth YouTube (débloque la lecture sur IP de datacenter). Opt-in.
+      YOUTUBE_OAUTH: '${YOUTUBE_OAUTH:-false}'
+      YOUTUBE_OAUTH_REFRESH_TOKEN: '${YOUTUBE_OAUTH_REFRESH_TOKEN:-}'
+      # Plugin LavaSrc (Spotify/Deezer) — désactivés par défaut. Active-les via
+      # LAVASRC_SPOTIFY / LAVASRC_DEEZER (=true) + les identifiants ci-dessous.
+      # Deezer EXIGE une master key, sinon Lavalink refuse de démarrer.
+      LAVASRC_SPOTIFY: '${LAVASRC_SPOTIFY:-false}'
+      LAVASRC_DEEZER: '${LAVASRC_DEEZER:-false}'
+      SPOTIFY_CLIENT_ID: '${SPOTIFY_CLIENT_ID:-}'
+      SPOTIFY_CLIENT_SECRET: '${SPOTIFY_CLIENT_SECRET:-}'
+      DEEZER_MASTER_KEY: '${DEEZER_MASTER_KEY:-}'
+    volumes:
+      # Config en lecture seule. On NE monte PAS de volume sur /opt/Lavalink/plugins :
+      # le conteneur tourne en utilisateur non-root et un volume nommé (créé root)
+      # provoque « Permission denied » au téléchargement des plugins. Sans volume,
+      # Lavalink écrit dans son dossier interne (bon propriétaire) ; les plugins se
+      # re-téléchargent en quelques secondes au (re)démarrage.
+      - ./deploy/lavalink/application.yml:/opt/Lavalink/application.yml:ro
+    expose:
+      - '2333'
+
 volumes:
   vakzbot-assets:
   caddy-data:

@@ -1,5 +1,9 @@
 import { randomInt } from 'node:crypto';
+import type { SendableChannels } from 'discord.js';
 import type { BotContext } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
+import { brandedEmbed } from '../../lib/embeds.js';
+import { type GameOutcome, rarityColor, rarityLabel, rollGameDrop } from '../items/service.js';
 
 /** Identifiant stable du module (clé en base). */
 export const MODULE_NAME = 'games';
@@ -91,4 +95,31 @@ export async function getStats(
 ): Promise<GameStatRow[]> {
   const rows = await ctx.db.gameStat.findMany({ where: { guildId, userId } }).catch(() => []);
   return rows as GameStatRow[];
+}
+
+/**
+ * Tente un drop d'objet pour `userId` selon son issue de partie, et l'annonce
+ * dans le salon le cas échéant. Sans effet si le module « Objets » ou les drops
+ * sont désactivés, ou si le tirage échoue. Best-effort (jamais bloquant).
+ */
+export async function awardGameDrop(
+  ctx: BotContext,
+  channel: SendableChannels | null,
+  guildId: string,
+  userId: string,
+  outcome: GameOutcome,
+): Promise<void> {
+  if (!channel) return;
+  const item = await rollGameDrop(ctx, guildId, userId, outcome).catch(() => null);
+  if (!item) return;
+  const embed = brandedEmbed({
+    color: rarityColor(item.rarity),
+    description: t('modules.games.drop.announce', {
+      user: `<@${userId}>`,
+      emoji: item.emoji,
+      name: item.name,
+      rarity: rarityLabel(item.rarity),
+    }),
+  });
+  await channel.send({ embeds: [embed] }).catch(() => undefined);
 }

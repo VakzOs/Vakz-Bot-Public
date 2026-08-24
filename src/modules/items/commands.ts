@@ -1,26 +1,42 @@
 import {
+  ActionRowBuilder,
   type AutocompleteInteraction,
+  ButtonBuilder,
+  ButtonStyle,
+  ComponentType,
+  type EmbedBuilder,
   MessageFlags,
   PermissionFlagsBits,
   SlashCommandBuilder,
 } from 'discord.js';
 import type { BotContext, SlashCommand } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { infoEmbed } from '../../lib/embeds.js';
+import { Emojis, infoEmbed } from '../../lib/embeds.js';
 import { formatMoney, getEconomyConfig } from '../economy/config.js';
 import { addBalance, getBalance } from '../economy/service.js';
+import { isOwner } from '../deploy/service.js';
 import { getItemsConfig } from './config.js';
+import { getItemLimit, setItemLimit } from './limit.js';
+import { parseEffects, requiresTarget } from './effects-schema.js';
+import { applyItemEffects } from './effects.js';
 import {
   type Item,
   addToInventory,
   getInventory,
   getItem,
+  getItemUsedAt,
   getQuantity,
   listItems,
+  markItemUsed,
   rarityColor,
   rarityLabel,
   takeFromInventory,
 } from './service.js';
+
+/** Libellé lisible d'une limite (nombre ou « illimité »). */
+function limitLabel(limit: number | null): string {
+  return limit === null ? t('modules.items.limit.unlimited') : String(limit);
+}
 
 /** Autocomplétion des objets, filtrable (achetables, utilisables, etc.). */
 function itemAutocomplete(filter?: (item: Item) => boolean) {
@@ -81,6 +97,7 @@ export const inventaire: SlashCommand = {
 
     const embed = infoEmbed({
       title: t('modules.items.commands.inventory.title', { user: user.username }),
+      emoji: Emojis.backpack,
     }).setThumbnail(user.displayAvatarURL({ size: 128 }));
 
     if (lines.length === 0) {
@@ -99,7 +116,10 @@ export const inventaire: SlashCommand = {
   },
 };
 
-/** `/objets` — liste le catalogue d'objets du serveur. */
+/** Nombre d'objets affichés par page du catalogue (embed lisible). */
+const CATALOG_PAGE_SIZE = 10;
+
+/** `/objets` — liste le catalogue d'objets du serveur (paginé). */
 export const objets: SlashCommand = {
   data: new SlashCommandBuilder()
     .setName('objets')
@@ -117,22 +137,82 @@ export const objets: SlashCommand = {
       return;
     }
 
-    const lines = items.map((item) => {
-      const price =
-        item.buyable && item.price > 0
-          ? formatMoney(config, item.price)
-          : t('modules.items.commands.catalog.notForSale');
-      const tags = [item.usable ? '✨' : '', item.tradable ? '🔁' : ''].filter(Boolean).join(' ');
-      return `${item.emoji} **${item.name}** — ${price} · ${rarityLabel(item.rarity)}${tags ? ` · ${tags}` : ''}\n${
-        item.description ? `> ${item.description.slice(0, 120)}` : ''
-      }`.trim();
-    });
+    const pageCount = Math.ceil(items.length / CATALOG_PAGE_SIZE);
 
-    const embed = infoEmbed({
-      title: t('modules.items.commands.catalog.title'),
-      description: lines.join('\n\n').slice(0, 4000),
-    }).setFooter({ text: t('modules.items.commands.catalog.footer') });
-    await interaction.reply({ embeds: [embed] });
+    const renderPage = (page: number): EmbedBuilder => {
+      const slice = items.slice(
+        page * CATALOG_PAGE_SIZE,
+        page * CATALOG_PAGE_SIZE + CATALOG_PAGE_SIZE,
+      );
+      const lines = slice.map((item) => {
+        const price =
+          item.buyable && item.price > 0
+            ? formatMoney(config, item.price)
+            : t('modules.items.commands.catalog.notForSale');
+        const tags = [item.usable ? '✨' : '', item.tradable ? '🔁' : ''].filter(Boolean).join(' ');
+        return `${item.emoji} **${item.name}** — ${price} · ${rarityLabel(item.rarity)}${tags ? ` · ${tags}` : ''}\n${
+          item.description ? `> ${item.description.slice(0, 120)}` : ''
+        }`.trim();
+      });
+      const footer =
+        pageCount > 1
+          ? t('modules.items.commands.catalog.footerPaged', {
+              base: t('modules.items.commands.catalog.footer'),
+              page: page + 1,
+              pages: pageCount,
+            })
+          : t('modules.items.commands.catalog.footer');
+      return infoEmbed({
+        title: t('modules.items.commands.catalog.title'),
+        description: lines.join('\n\n').slice(0, 4000),
+        emoji: Emojis.gem,
+      }).setFooter({ text: footer });
+    };
+
+    const navRow = (page: number, disabled = false): ActionRowBuilder<ButtonBuilder> =>
+      new ActionRowBuilder<ButtonBuilder>().addComponents(
+        new ButtonBuilder()
+          .setCustomId('objets:prev')
+          .setEmoji('◀️')
+          .setStyle(ButtonStyle.Secondary)
+          .setDisabled(disabled || page === 0),
+        new ButtonBuilder()
+          .setCustomId('objets:next')
+          .setEmoji('▶️')
+          .setStyle(ButtonStyle.Secondary)
+          .setDisabled(disabled || page >= pageCount - 1),
+      );
+
+    // Catalogue éphémère (« my eyes only ») : visible du seul auteur.
+    // Une seule page : pas de boutons.
+    if (pageCount === 1) {
+      await interaction.reply({ embeds: [renderPage(0)], flags: MessageFlags.Ephemeral });
+      return;
+    }
+
+    let page = 0;
+    await interaction.reply({
+      embeds: [renderPage(page)],
+      components: [navRow(page)],
+      flags: MessageFlags.Ephemeral,
+    });
+    const message = await interaction.fetchReply();
+
+    const collector = message.createMessageComponentCollector({
+      componentType: ComponentType.Button,
+      idle: 120_000,
+    });
+    collector.on('collect', async (button) => {
+      page =
+        button.customId === 'objets:next'
+          ? Math.min(pageCount - 1, page + 1)
+          : Math.max(0, page - 1);
+      await button.update({ embeds: [renderPage(page)], components: [navRow(page)] });
+    });
+    collector.on('end', async () => {
+      // Message éphémère : désactive les boutons via le webhook d'interaction.
+      await interaction.editReply({ components: [navRow(page, true)] }).catch(() => undefined);
+    });
   },
 };
 
@@ -193,12 +273,15 @@ export const acheter: SlashCommand = {
   },
 };
 
-/** `/utiliser` — consomme un objet (accorde son rôle éventuel). */
+/** `/utiliser` — utilise un objet et applique ses effets configurés. */
 export const utiliser: SlashCommand = {
   data: new SlashCommandBuilder()
     .setName('utiliser')
     .setDescription(t('modules.items.commands.use.description'))
-    .addStringOption(objetOption(true)),
+    .addStringOption(objetOption(true))
+    .addUserOption((o) =>
+      o.setName('cible').setDescription(t('modules.items.commands.use.optTarget')),
+    ),
   autocomplete: itemAutocomplete((item) => item.usable),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
@@ -229,26 +312,64 @@ export const utiliser: SlashCommand = {
       return;
     }
 
-    await takeFromInventory(ctx, interaction.guildId, interaction.user.id, item.id, 1);
+    const effects = parseEffects(item);
 
-    let roleNote = '';
-    if (item.roleReward) {
-      const added = await interaction.member.roles
-        .add(item.roleReward, t('modules.items.commands.use.reason', { name: item.name }))
-        .then(() => true)
-        .catch(() => false);
-      if (added)
-        roleNote = `\n${t('modules.items.commands.use.roleGranted', { role: `<@&${item.roleReward}>` })}`;
+    // Cible requise pour certains effets (ex. dégâts sur la Route).
+    const targetUser = interaction.options.getUser('cible');
+    if (requiresTarget(effects) && !targetUser) {
+      await interaction.reply({
+        content: t('modules.items.commands.use.targetRequired'),
+        flags: MessageFlags.Ephemeral,
+      });
+      return;
     }
+
+    // Cooldown des objets réutilisables (non consommables).
+    if (!item.consumable && item.cooldownSeconds > 0) {
+      const usedAt = await getItemUsedAt(ctx, interaction.guildId, interaction.user.id, item.id);
+      const readyAt = usedAt ? usedAt.getTime() + item.cooldownSeconds * 1000 : 0;
+      if (readyAt > Date.now()) {
+        await interaction.reply({
+          content: t('modules.items.commands.use.cooldown', {
+            time: `<t:${Math.floor(readyAt / 1000)}:R>`,
+          }),
+          flags: MessageFlags.Ephemeral,
+        });
+        return;
+      }
+    }
+
+    const targetMember = targetUser
+      ? await interaction.guild.members.fetch(targetUser.id).catch(() => null)
+      : null;
+
+    const lines = await applyItemEffects({
+      ctx,
+      guild: interaction.guild,
+      member: interaction.member,
+      target: targetMember,
+      item,
+      effects,
+    });
+
+    // Consommation OU cooldown (selon la config de l'objet).
+    if (item.consumable) {
+      await takeFromInventory(ctx, interaction.guildId, interaction.user.id, item.id, 1);
+    } else {
+      await markItemUsed(ctx, interaction.guildId, interaction.user.id, item.id);
+    }
+
+    const body =
+      t('modules.items.commands.use.done', {
+        user: `<@${interaction.user.id}>`,
+        emoji: item.emoji,
+        name: item.name,
+      }) + (lines.length > 0 ? `\n\n${lines.join('\n')}` : '');
 
     const embed = infoEmbed({
       title: t('modules.items.commands.use.title'),
-      description:
-        t('modules.items.commands.use.done', {
-          user: `<@${interaction.user.id}>`,
-          emoji: item.emoji,
-          name: item.name,
-        }) + roleNote,
+      description: body,
+      emoji: Emojis.sparkles,
     }).setColor(rarityColor(item.rarity));
     await interaction.reply({ embeds: [embed] });
   },
@@ -409,6 +530,99 @@ export const objetsAdmin: SlashCommand = {
   },
 };
 
+/** `/objets-limite` — règle le plafond global d'objets (propriétaire du bot). */
+export const objetsLimite: SlashCommand = {
+  data: new SlashCommandBuilder()
+    .setName('objets-limite')
+    .setDescription(t('modules.items.limit.description'))
+    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+    .addSubcommand((s) => s.setName('voir').setDescription(t('modules.items.limit.view')))
+    .addSubcommand((s) =>
+      s
+        .setName('definir')
+        .setDescription(t('modules.items.limit.set'))
+        .addIntegerOption((o) =>
+          o
+            .setName('nombre')
+            .setDescription(t('modules.items.limit.opt.number'))
+            .setRequired(true)
+            .setMinValue(0)
+            .setMaxValue(1_000_000),
+        ),
+    )
+    .addSubcommand((s) =>
+      s
+        .setName('augmenter')
+        .setDescription(t('modules.items.limit.increase'))
+        .addIntegerOption((o) =>
+          o
+            .setName('de')
+            .setDescription(t('modules.items.limit.opt.amount'))
+            .setRequired(true)
+            .setMinValue(1)
+            .setMaxValue(1_000_000),
+        ),
+    )
+    .addSubcommand((s) =>
+      s
+        .setName('reduire')
+        .setDescription(t('modules.items.limit.reduce'))
+        .addIntegerOption((o) =>
+          o
+            .setName('de')
+            .setDescription(t('modules.items.limit.opt.amount'))
+            .setRequired(true)
+            .setMinValue(1)
+            .setMaxValue(1_000_000),
+        ),
+    ),
+  async execute(interaction, ctx) {
+    // Réservé au propriétaire du bot (même droit que /maj).
+    if (!isOwner(interaction.user.id)) {
+      await interaction.reply({
+        content: t('modules.items.limit.notOwner'),
+        flags: MessageFlags.Ephemeral,
+      });
+      return;
+    }
+
+    const sub = interaction.options.getSubcommand();
+    const current = await getItemLimit(ctx);
+
+    if (sub === 'voir') {
+      await interaction.reply({
+        content: t('modules.items.limit.current', { value: limitLabel(current) }),
+        flags: MessageFlags.Ephemeral,
+      });
+      return;
+    }
+
+    let target: number | null;
+    if (sub === 'definir') {
+      const n = interaction.options.getInteger('nombre', true);
+      target = n <= 0 ? null : n; // 0 = illimité
+    } else {
+      // augmenter / reduire : nécessite une limite finie existante.
+      if (current === null) {
+        await interaction.reply({
+          content: t('modules.items.limit.currentlyUnlimited'),
+          flags: MessageFlags.Ephemeral,
+        });
+        return;
+      }
+      const amount = interaction.options.getInteger('de', true);
+      const next = sub === 'augmenter' ? current + amount : current - amount;
+      target = Math.max(1, next); // ne descend jamais sous 1 (utiliser « definir 0 » pour illimité)
+    }
+
+    const saved = await setItemLimit(ctx, target);
+    await interaction.reply({
+      content: t('modules.items.limit.updated', { value: limitLabel(saved) }),
+      flags: MessageFlags.Ephemeral,
+    });
+  },
+};
+
 export const itemsCommands: SlashCommand[] = [
   inventaire,
   objets,
@@ -416,4 +630,5 @@ export const itemsCommands: SlashCommand[] = [
   utiliser,
   donnerObjet,
   objetsAdmin,
+  objetsLimite,
 ];

@@ -1,0 +1,107 @@
+# Configuration Lavalink v4 pour le module « Musique » de Vakz-Bot.
+# Le mot de passe est injecté depuis l'environnement (LAVALINK_SERVER_PASSWORD),
+# lui-même repris de LAVALINK_PASSWORD dans .env via docker-compose.
+#
+# YouTube n'est plus une source native en Lavalink v4 : on le fournit via le
+# plugin officiel youtube-source (téléchargé automatiquement au démarrage).
+# Spotify / Deezer / Apple Music / Yandex sont fournis par le plugin LavaSrc
+# (préfixes spsearch / dzsearch / amsearch côté bot). LavaSrc ne diffuse pas
+# lui-même l'audio Spotify/Apple : il retrouve chaque titre (via l'ISRC ou le
+# nom) sur un fournisseur diffusable — ici YouTube (voir `providers`).
+server:
+  port: ${SERVER_PORT:2333}
+  address: 0.0.0.0
+
+lavalink:
+  plugins:
+    # Garde ce plugin À JOUR : YouTube change régulièrement son script player et
+    # une version trop ancienne casse (« Must find sig function »). Dernières
+    # versions : https://github.com/lavalink-devs/youtube-source/releases
+    - dependency: 'dev.lavalink.youtube:youtube-plugin:1.18.1'
+      snapshot: false
+    # À garder à jour aussi : Spotify change son API et casse les vieilles
+    # versions (les nouvelles apps Spotify nécessitent LavaSrc >= 4.8.x).
+    # Dernières versions : https://github.com/topi314/LavaSrc/releases
+    - dependency: 'com.github.topi314.lavasrc:lavasrc-plugin:4.8.3'
+      snapshot: false
+  server:
+    password: ${LAVALINK_SERVER_PASSWORD:youshallnotpass}
+    sources:
+      # Désactivé ici : c'est le plugin youtube-source ci-dessus qui gère YouTube.
+      youtube: false
+      bandcamp: true
+      soundcloud: true
+      twitch: true
+      vimeo: true
+      http: true
+      local: false
+    bufferDurationMs: 400
+    frameBufferDurationMs: 5000
+    trackStuckThresholdMs: 10000
+    youtubePlaylistLoadLimit: 6
+    playerUpdateInterval: 5
+    opusEncodingQuality: 10
+    # HIGH : meilleur rééchantillonnage (moins d'artefacts / de saturation).
+    resamplingQuality: HIGH
+
+plugins:
+  youtube:
+    enabled: true
+    allowSearch: true
+    allowDirectVideoIds: true
+    allowDirectPlaylistIds: true
+    clients:
+      - MUSIC
+      - WEB
+      - ANDROID_VR
+      - WEBEMBEDDED
+    # OAuth : sur une IP de datacenter (VPS), YouTube exige souvent une
+    # connexion (« This video requires login »). L'OAuth authentifie Lavalink
+    # avec un compte Google et débloque la lecture. Opt-in via env :
+    #   1) YOUTUBE_OAUTH=true, recrée lavalink, suis le lien + code dans les logs
+    #      (utilise un compte Google JETABLE, pas ton compte principal).
+    #   2) copie le refresh token affiché dans YOUTUBE_OAUTH_REFRESH_TOKEN (.env).
+    oauth:
+      enabled: ${YOUTUBE_OAUTH:false}
+      refreshToken: '${YOUTUBE_OAUTH_REFRESH_TOKEN:}'
+
+  lavasrc:
+    sources:
+      # Spotify / Deezer sont DÉSACTIVÉS par défaut : LavaSrc plante au démarrage
+      # si une source est activée sans ses identifiants (Deezer exige une master
+      # key, etc.). On les active via des variables d'env (opt-in) :
+      #   Spotify -> LAVASRC_SPOTIFY=true  + SPOTIFY_CLIENT_ID / SPOTIFY_CLIENT_SECRET
+      #   Deezer  -> LAVASRC_DEEZER=true   + DEEZER_MASTER_KEY (obligatoire)
+      spotify: ${LAVASRC_SPOTIFY:false}
+      applemusic: false
+      deezer: ${LAVASRC_DEEZER:false}
+      yandexmusic: false
+      flowerytts: false
+      youtube: false # (géré par le plugin youtube-source)
+    # Où LavaSrc va chercher l'audio diffusable d'un titre Spotify/Apple.
+    # %ISRC% = correspondance exacte par code ISRC quand il est connu.
+    providers:
+      - 'ytsearch:"%ISRC%"'
+      - 'ytsearch:%QUERY%'
+      - 'scsearch:%QUERY%'
+    spotify:
+      # Application Spotify : https://developer.spotify.com/dashboard
+      clientId: '${SPOTIFY_CLIENT_ID:}'
+      clientSecret: '${SPOTIFY_CLIENT_SECRET:}'
+      countryCode: 'FR'
+      playlistLoadLimit: 6
+      albumLoadLimit: 6
+      # Spotify a restreint GET /v1/artists pour les nouvelles apps (403). LavaSrc
+      # l'appelle pour enrichir les résultats de recherche : on le désactive pour
+      # que la recherche fonctionne quand même (les titres sont retrouvés sur
+      # YouTube pour la lecture, l'info « artiste » exacte n'est pas nécessaire).
+      resolveArtistsInSearch: false
+    deezer:
+      # Clé de déchiffrement Deezer (optionnelle). Sans elle, la recherche et les
+      # métadonnées Deezer fonctionnent mais la lecture retombe sur `providers`.
+      masterDecryptionKey: '${DEEZER_MASTER_KEY:}'
+
+logging:
+  level:
+    root: INFO
+    lavalink: INFO

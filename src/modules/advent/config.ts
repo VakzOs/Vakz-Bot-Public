@@ -11,9 +11,15 @@ export const LAST_DAY = 24;
 const dayRewardSchema = z.object({
   day: z.number().int().min(1).max(LAST_DAY),
   coins: z.number().int().min(0).max(1_000_000).default(0),
+  /** Objets offerts ce jour (plusieurs possibles). */
+  items: z.array(z.string()).max(25).default([]),
+  /** Ancien champ mono-objet, conservé pour rétrocompat (migré vers `items`). */
   itemId: z.string().nullable().default(null),
+  /** Quantité offerte, appliquée à chaque objet de la liste. */
   itemQty: z.number().int().min(1).max(100).default(1),
   message: z.string().max(500).default(''),
+  /** Lien (URL) offert à l'ouverture de la porte, affiché en bouton. */
+  link: z.string().max(500).default(''),
 });
 
 export const adventConfigSchema = z.object({

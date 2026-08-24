@@ -2,11 +2,11 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
-  EmbedBuilder,
+  type EmbedBuilder,
   type Guild,
   type MessageActionRowComponentBuilder,
 } from 'discord.js';
-import { Colors } from '../../lib/embeds.js';
+import { brandedEmbed } from '../../lib/embeds.js';
 import { t } from '../../core/i18n.js';
 import type { StreamerConfig } from './config.js';
 
@@ -35,14 +35,10 @@ export function buildStreamerEmbed(config: StreamerConfig, guild: Guild): EmbedB
 
   // Note : les mentions de rôle ne s'affichent que dans la VALEUR d'un champ
   // (pas dans son nom) — on met donc le rôle + le compte dans la valeur.
-  return new EmbedBuilder()
-    .setColor(Colors.brand)
-    .setTitle(config.title)
-    .setDescription(config.description)
-    .addFields({
-      name: '​',
-      value: `${t('modules.streamer.embed.roleField', { role: roleText, count: members.length })}\n${list}`,
-    });
+  return brandedEmbed({ title: config.title, description: config.description }).addFields({
+    name: '\u200b',
+    value: `${t('modules.streamer.embed.roleField', { role: roleText, count: members.length })}\n${list}`,
+  });
 }
 
 export type PublishResult =

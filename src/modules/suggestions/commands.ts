@@ -1,7 +1,7 @@
-import { ChannelType, EmbedBuilder, MessageFlags, SlashCommandBuilder } from 'discord.js';
+import { ChannelType, MessageFlags, SlashCommandBuilder } from 'discord.js';
 import type { SlashCommand } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { infoEmbed } from '../../lib/embeds.js';
+import { Emojis, infoEmbed, rankLabel } from '../../lib/embeds.js';
 import { getSuggestionsConfig, MODULE_NAME, memberLimit } from './config.js';
 import {
   buildComponents,
@@ -164,16 +164,16 @@ export const suggestionsList: SlashCommand = {
         });
         return;
       }
-      const medals = ['🥇', '🥈', '🥉'];
       const lines = top.map((entry, index) => {
         const link = suggestionLink(guildId, entry.suggestion);
         const label = truncate(entry.suggestion.content);
         const text = link ? `[${label}](${link})` : label;
-        return `${medals[index] ?? `**${index + 1}.**`} ${text} — 👍 ${entry.up} · 👎 ${entry.down}`;
+        return `${rankLabel(index)} ${text} — 👍 ${entry.up} · 👎 ${entry.down}`;
       });
       const embed = infoEmbed({
         title: t('modules.suggestions.list.rankingTitle'),
         description: lines.join('\n'),
+        emoji: Emojis.trophy,
       });
       await interaction.reply({ embeds: [embed], allowedMentions: { parse: [] } });
       return;
@@ -196,10 +196,11 @@ export const suggestionsList: SlashCommand = {
       const text = link ? `[${label}](${link})` : label;
       return `• ${text} — *${status}*`;
     });
-    const embed = new EmbedBuilder()
-      .setColor(0x5865f2)
-      .setTitle(t('modules.suggestions.list.searchTitle', { keyword: truncate(keyword, 40) }))
-      .setDescription(lines.join('\n'));
+    const embed = infoEmbed({
+      title: t('modules.suggestions.list.searchTitle', { keyword: truncate(keyword, 40) }),
+      description: lines.join('\n'),
+      emoji: Emojis.search,
+    });
     await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
   },
 };

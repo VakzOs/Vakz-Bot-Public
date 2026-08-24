@@ -14,7 +14,7 @@ import {
 } from 'discord.js';
 import type { BotContext } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { Colors } from '../../lib/embeds.js';
+import { Colors, Emojis, withEmoji } from '../../lib/embeds.js';
 import { recordSanction } from '../moderation/service.js';
 import { type AutomodAction, type AutomodConfig } from './config.js';
 
@@ -242,7 +242,7 @@ export async function logIncident(
         ? Colors.error
         : Colors.warning,
     )
-    .setTitle(t('modules.automod.log.title'))
+    .setTitle(withEmoji(t('modules.automod.log.title'), Emojis.shield))
     .addFields(
       { name: t('modules.automod.log.member'), value: `<@${data.userId}>`, inline: true },
       {
@@ -394,7 +394,7 @@ export async function buildHoneypotEmbed(
   config: AutomodConfig,
 ): Promise<EmbedBuilder> {
   return new EmbedBuilder()
-    .setColor(0xf59e0b)
+    .setColor(Colors.warning)
     .setTitle(honeypotTitle(config))
     .setDescription(honeypotDescription(config));
 }

@@ -1,21 +1,43 @@
-import { EmbedBuilder, MessageFlags, SlashCommandBuilder } from 'discord.js';
+import { existsSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { AttachmentBuilder, MessageFlags, SlashCommandBuilder } from 'discord.js';
 import type { SlashCommand } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { Colors, infoEmbed } from '../../lib/embeds.js';
+import {
+  Emojis,
+  brandedEmbed,
+  errorEmbed,
+  infoEmbed,
+  progressBar,
+  rankLabel,
+  withEmoji,
+} from '../../lib/embeds.js';
 import { getRouteConfig } from './config.js';
+import { buildPeddlerRows, buildShopView } from './shop.js';
 import {
   type MoveOutcome,
   type Traveler,
+  applyEnergyRegen,
   cooldownState,
   getTraveler,
   leaderboard,
   move,
 } from './service.js';
 
+// dist/modules/route/commands.js -> ../../../assets/route || src -> idem
+const ROUTE_ART_DIR = join(dirname(fileURLToPath(import.meta.url)), '../../../assets/route');
+
+/** Artwork de l'événement, s'il existe (assets/route/<clé>.jpg). */
+function eventArtwork(eventKey: string): AttachmentBuilder | null {
+  const path = join(ROUTE_ART_DIR, `${eventKey}.jpg`);
+  if (!existsSync(path)) return null;
+  return new AttachmentBuilder(path, { name: `${eventKey}.jpg` });
+}
+
 /** Barre de vie graphique (10 segments). */
 function healthBar(health: number, max: number): string {
-  const filled = Math.round((Math.max(0, health) / max) * 10);
-  return `${'▰'.repeat(filled)}${'▱'.repeat(10 - filled)}`;
+  return progressBar(max > 0 ? health / max : 0, 10);
 }
 
 function signed(value: number): string {
@@ -24,10 +46,10 @@ function signed(value: number): string {
 
 /** Ligne récapitulative des effets d'un déplacement. */
 function deltaLine(deltas: MoveOutcome['deltas']): string {
-  const parts = [`📏 +${Math.max(0, deltas.distance)}`];
+  const parts = [`📏 ${signed(deltas.distance)}`];
   if (deltas.health !== 0) parts.push(`❤️ ${signed(deltas.health)}`);
   if (deltas.energy !== 0) parts.push(`⚡ ${signed(deltas.energy)}`);
-  if (deltas.coins > 0) parts.push(`🪙 +${deltas.coins}`);
+  if (deltas.coins !== 0) parts.push(`🪙 ${signed(deltas.coins)}`);
   return parts.join(' • ');
 }
 
@@ -42,6 +64,7 @@ function statsField(traveler: Traveler): { name: string; value: string } {
       distance: traveler.distance,
       coins: traveler.coins,
       events: traveler.events,
+      deaths: traveler.deaths,
     }),
   };
 }
@@ -61,6 +84,7 @@ const avancer: SlashCommand = {
     b.addSubcommand((s) =>
       s.setName('classement').setDescription(t('modules.route.commands.leaderboard')),
     );
+    b.addSubcommand((s) => s.setName('boutique').setDescription(t('modules.route.commands.shop')));
     return b;
   })(),
   async execute(interaction, ctx) {
@@ -77,12 +101,22 @@ const avancer: SlashCommand = {
         });
         return;
       }
+      const config = await getRouteConfig(ctx, interaction.guildId);
+      // Énergie affichée = énergie effective APRÈS régénération passive.
+      const shown: Traveler = { ...traveler, energy: applyEnergyRegen(traveler, config) };
       const embed = infoEmbed({
         title: t('modules.route.profileTitle', { user: user.username }),
+        emoji: Emojis.compass,
       })
         .setThumbnail(user.displayAvatarURL({ size: 128 }))
-        .addFields(statsField(traveler));
+        .addFields(statsField(shown));
       await interaction.reply({ embeds: [embed] });
+      return;
+    }
+
+    if (sub === 'boutique') {
+      const config = await getRouteConfig(ctx, interaction.guildId);
+      await interaction.reply(buildShopView(config));
       return;
     }
 
@@ -95,16 +129,15 @@ const avancer: SlashCommand = {
         });
         return;
       }
-      const medals = ['🥇', '🥈', '🥉'];
       const lines = rows.map(
-        (row, index) =>
-          `${medals[index] ?? `**${index + 1}.**`} <@${row.userId}> — 📏 **${row.distance}**`,
+        (row, index) => `${rankLabel(index)} <@${row.userId}> — 📏 **${row.distance}**`,
       );
       await interaction.reply({
         embeds: [
           infoEmbed({
             title: t('modules.route.leaderboardTitle'),
             description: lines.join('\n'),
+            emoji: Emojis.trophy,
           }),
         ],
         allowedMentions: { parse: [] },
@@ -132,14 +165,35 @@ const avancer: SlashCommand = {
       (outcome.itemFound
         ? `\n${t('modules.route.itemFound', { emoji: outcome.itemFound.emoji, name: outcome.itemFound.name })}`
         : '') +
+      (outcome.exhausted ? `\n\n${t('modules.route.exhausted')}` : '') +
       (outcome.fainted ? `\n\n${t('modules.route.fainted')}` : '');
 
-    const embed = new EmbedBuilder()
-      .setColor(outcome.fainted ? Colors.error : Colors.brand)
-      .setTitle(t('modules.route.moveTitle', { user: interaction.user.username }))
-      .setDescription(description)
-      .addFields(statsField(outcome.traveler));
-    await interaction.reply({ embeds: [embed] });
+    // Rouge 💀 si le voyageur tombe, embed brandé 🗺️ sinon.
+    const embed = outcome.fainted
+      ? errorEmbed({
+          title: t('modules.route.moveTitle', { user: interaction.user.username }),
+          description,
+          emoji: '💀',
+        })
+      : brandedEmbed({
+          title: withEmoji(t('modules.route.moveTitle', { user: interaction.user.username }), Emojis.map),
+          description,
+        });
+    embed.addFields(statsField(outcome.traveler));
+
+    // Artwork de l'événement en pièce jointe (assets/route/<clé>.jpg) si présent.
+    const artwork = eventArtwork(outcome.eventKey);
+    if (artwork) embed.setImage(`attachment://${outcome.eventKey}.jpg`);
+
+    // Marchand ambulant : boutons d'achat à prix cassés (réservés au voyageur).
+    const components =
+      outcome.eventKey === 'peddler' ? buildPeddlerRows(config, interaction.user.id) : [];
+
+    await interaction.reply({
+      embeds: [embed],
+      files: artwork ? [artwork] : [],
+      components,
+    });
   },
 };
 

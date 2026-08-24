@@ -6,17 +6,11 @@ import {
 } from 'discord.js';
 import type { SlashCommand } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { infoEmbed } from '../../lib/embeds.js';
+import { Emojis, infoEmbed, progressBar, rankLabel, statsFields } from '../../lib/embeds.js';
 import { levelProgress } from './curve.js';
 import { renderRankCard } from './card.js';
 import { getLevelsConfig } from './config.js';
 import { type RankInfo, getLeaderboard, getRank } from './service.js';
-
-function progressBar(current: number, needed: number, size = 12): string {
-  const ratio = needed > 0 ? Math.min(current / needed, 1) : 0;
-  const filled = Math.round(ratio * size);
-  return '▰'.repeat(filled) + '▱'.repeat(Math.max(0, size - filled));
-}
 
 function rankEmbed(
   username: string,
@@ -24,17 +18,23 @@ function rankEmbed(
   info: RankInfo,
   progress: { current: number; needed: number },
 ): EmbedBuilder {
-  return infoEmbed({ title: t('modules.levels.commands.rang.title', { user: username }) })
+  const ratio = progress.needed > 0 ? Math.min(progress.current / progress.needed, 1) : 0;
+  return infoEmbed({
+    title: t('modules.levels.commands.rang.title', { user: username }),
+    emoji: Emojis.chart,
+  })
     .setThumbnail(avatarUrl)
     .addFields(
-      { name: t('modules.levels.commands.rang.level'), value: `${info.level}`, inline: true },
-      { name: t('modules.levels.commands.rang.rank'), value: `#${info.rank}`, inline: true },
-      { name: t('modules.levels.commands.rang.xp'), value: `${info.xp}`, inline: true },
-      {
-        name: t('modules.levels.commands.rang.progress'),
-        value: `${progressBar(progress.current, progress.needed)}\n\`${progress.current} / ${progress.needed} XP\``,
-      },
-    );
+      statsFields([
+        [t('modules.levels.commands.rang.level'), `${info.level}`],
+        [t('modules.levels.commands.rang.rank'), `#${info.rank}`],
+        [t('modules.levels.commands.rang.xp'), `${info.xp}`],
+      ]),
+    )
+    .addFields({
+      name: t('modules.levels.commands.rang.progress'),
+      value: `${progressBar(ratio, 12)}\n\`${progress.current} / ${progress.needed} XP\``,
+    });
 }
 
 /** `/rang` — affiche une carte (image) avec le niveau, l'XP et le rang d'un membre. */
@@ -105,15 +105,14 @@ export const classement: SlashCommand = {
       return;
     }
 
-    const medals = ['🥇', '🥈', '🥉'];
     const lines = top.map((entry, index) => {
-      const rank = medals[index] ?? `**${index + 1}.**`;
-      return `${rank} <@${entry.userId}> — ${t('modules.levels.commands.rang.level')} ${entry.level} · ${entry.xp} XP`;
+      return `${rankLabel(index)} <@${entry.userId}> — ${t('modules.levels.commands.rang.level')} ${entry.level} · ${entry.xp} XP`;
     });
 
     const embed = infoEmbed({
       title: t('modules.levels.commands.leaderboard.title'),
       description: lines.join('\n'),
+      emoji: Emojis.trophy,
     });
 
     await interaction.reply({ embeds: [embed], allowedMentions: { parse: [] } });

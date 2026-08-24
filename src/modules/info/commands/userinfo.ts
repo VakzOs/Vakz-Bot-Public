@@ -1,7 +1,7 @@
 import { SlashCommandBuilder, type GuildMember } from 'discord.js';
 import type { SlashCommand } from '../../../core/module.js';
 import { t } from '../../../core/i18n.js';
-import { infoEmbed } from '../../../lib/embeds.js';
+import { Emojis, infoEmbed } from '../../../lib/embeds.js';
 
 /** Horodatage Discord relatif + absolu, ou « — » si inconnu. */
 function stamp(date: Date | null): string {
@@ -32,7 +32,10 @@ export const userinfo: SlashCommand = {
     const user = interaction.options.getUser('membre') ?? interaction.user;
     const member = await interaction.guild.members.fetch(user.id).catch(() => null);
 
-    const embed = infoEmbed({ title: t('modules.info.userinfo.title', { user: user.tag }) })
+    const embed = infoEmbed({
+      title: t('modules.info.userinfo.title', { user: user.tag }),
+      emoji: Emojis.bust,
+    })
       .setThumbnail(user.displayAvatarURL({ size: 256 }))
       .addFields(
         { name: t('modules.info.field.id'), value: `\`${user.id}\``, inline: true },

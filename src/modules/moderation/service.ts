@@ -1,6 +1,6 @@
-import { EmbedBuilder, type Guild, type GuildMember, type User } from 'discord.js';
+import type { Guild, GuildMember, User } from 'discord.js';
 import type { BotContext } from '../../core/module.js';
-import { Colors } from '../../lib/embeds.js';
+import { Colors, Emojis, brandedEmbed } from '../../lib/embeds.js';
 import { t } from '../../core/i18n.js';
 import { getModerationConfig } from './config.js';
 
@@ -13,6 +13,15 @@ const TYPE_COLOR: Record<SanctionType, number> = {
   unban: Colors.success,
   timeout: Colors.warning,
   untimeout: Colors.success,
+};
+
+const TYPE_EMOJI: Record<SanctionType, string> = {
+  warn: Emojis.warning,
+  kick: '👢',
+  ban: Emojis.hammer,
+  unban: Emojis.unlock,
+  timeout: Emojis.clock,
+  untimeout: Emojis.unlock,
 };
 
 export type TargetIssue = 'self' | 'owner' | 'bot' | 'botHierarchy' | 'modHierarchy';
@@ -72,22 +81,21 @@ export async function recordSanction(
   const channel = await guild.channels.fetch(config.logChannelId).catch(() => null);
   if (!channel?.isTextBased()) return;
 
-  const embed = new EmbedBuilder()
-    .setColor(TYPE_COLOR[data.type])
-    .setTitle(t(`modules.moderation.types.${data.type}`))
-    .addFields(
-      {
-        name: t('modules.moderation.log.user'),
-        value: `<@${data.userId}> \`${data.userId}\``,
-        inline: true,
-      },
-      { name: t('modules.moderation.log.moderator'), value: `<@${data.moderatorId}>`, inline: true },
-      {
-        name: t('modules.moderation.log.reason'),
-        value: data.reason || t('modules.moderation.log.noReason'),
-      },
-    )
-    .setTimestamp();
+  const embed = brandedEmbed({
+    color: TYPE_COLOR[data.type],
+    title: `${TYPE_EMOJI[data.type]} ${t(`modules.moderation.types.${data.type}`)}`,
+  }).addFields(
+    {
+      name: t('modules.moderation.log.user'),
+      value: `<@${data.userId}> \`${data.userId}\``,
+      inline: true,
+    },
+    { name: t('modules.moderation.log.moderator'), value: `<@${data.moderatorId}>`, inline: true },
+    {
+      name: t('modules.moderation.log.reason'),
+      value: data.reason || t('modules.moderation.log.noReason'),
+    },
+  );
 
   if (data.expiresAt) {
     embed.addFields({
@@ -111,13 +119,13 @@ export async function notifyUser(
   const config = await getModerationConfig(ctx, guild.id);
   if (!config.dmOnSanction) return;
 
-  const embed = new EmbedBuilder()
-    .setColor(TYPE_COLOR[type])
-    .setTitle(t(`modules.moderation.dm.${type}`, { guild: guild.name }))
-    .addFields({
-      name: t('modules.moderation.log.reason'),
-      value: reason || t('modules.moderation.log.noReason'),
-    });
+  const embed = brandedEmbed({
+    color: TYPE_COLOR[type],
+    title: `${TYPE_EMOJI[type]} ${t(`modules.moderation.dm.${type}`, { guild: guild.name })}`,
+  }).addFields({
+    name: t('modules.moderation.log.reason'),
+    value: reason || t('modules.moderation.log.noReason'),
+  });
   if (expiresAt) {
     embed.addFields({
       name: t('modules.moderation.log.until'),

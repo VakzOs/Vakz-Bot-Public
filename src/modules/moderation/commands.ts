@@ -6,7 +6,7 @@ import {
 } from 'discord.js';
 import type { SlashCommand } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { infoEmbed } from '../../lib/embeds.js';
+import { Emojis, infoEmbed } from '../../lib/embeds.js';
 import { formatDuration, parseDuration } from '../../lib/duration.js';
 import { getHistory, notifyUser, recordSanction, targetError } from './service.js';
 
@@ -191,7 +191,9 @@ export const unban: SlashCommand = {
       moderatorId: interaction.user.id,
       reason,
     });
-    await interaction.reply({ content: t('modules.moderation.result.unban', { user: `<@${userId}>` }) });
+    await interaction.reply({
+      content: t('modules.moderation.result.unban', { user: `<@${userId}>` }),
+    });
   },
 };
 
@@ -303,7 +305,10 @@ export const historique: SlashCommand = {
     const rows = await getHistory(ctx, interaction.guildId, user.id);
 
     if (rows.length === 0) {
-      return ephemeral(interaction, t('modules.moderation.history.empty', { user: `<@${user.id}>` }));
+      return ephemeral(
+        interaction,
+        t('modules.moderation.history.empty', { user: `<@${user.id}>` }),
+      );
     }
 
     const lines = rows.map((row) => {
@@ -315,6 +320,7 @@ export const historique: SlashCommand = {
     const embed = infoEmbed({
       title: t('modules.moderation.history.title', { user: user.tag }),
       description: lines.join('\n\n').slice(0, 4000),
+      emoji: Emojis.shield,
     });
     await interaction.reply({ embeds: [embed], flags: MessageFlags.Ephemeral });
   },

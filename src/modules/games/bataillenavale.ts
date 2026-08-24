@@ -12,7 +12,7 @@ import {
 } from 'discord.js';
 import { GlobalFonts, type SKRSContext2D, createCanvas } from '@napi-rs/canvas';
 import { t } from '../../core/i18n.js';
-import { Colors } from '../../lib/embeds.js';
+import { Colors, Emojis, withEmoji } from '../../lib/embeds.js';
 import { BOT } from './morpion.js';
 
 /** Grille 8×8 (rendue en image → pas de limite de boutons). */
@@ -254,7 +254,7 @@ export function buildBnEmbed(game: BnGame, over: boolean, winnerId: string | nul
 
   return new EmbedBuilder()
     .setColor(over ? Colors.success : Colors.brand)
-    .setTitle(t('modules.games.bn.title'))
+    .setTitle(withEmoji(t('modules.games.bn.title'), Emojis.game))
     .setDescription(lines.join('\n'))
     .setImage(`attachment://${BOARD_IMAGE}`);
 }

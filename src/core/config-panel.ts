@@ -114,6 +114,7 @@ const MODULE_VISUALS: Record<string, ModuleVisual> = {
   items: { category: 'fun', emoji: '\u{1F392}' },
   route: { category: 'fun', emoji: '\u{1F9ED}' },
   bingo: { category: 'fun', emoji: '\u{1F3B0}' },
+  music: { category: 'fun', emoji: '\u{1F3B5}' },
 };
 
 const MODULE_ORDER = Object.keys(MODULE_VISUALS);

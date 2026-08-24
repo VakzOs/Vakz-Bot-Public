@@ -10,7 +10,7 @@ import {
 import type { Report } from '@prisma/client';
 import { t } from '../../core/i18n.js';
 import type { PanelRow } from '../../core/module.js';
-import { Colors } from '../../lib/embeds.js';
+import { Colors, Emojis, withEmoji } from '../../lib/embeds.js';
 import { MODULE_NAME, type ReportsConfig } from './config.js';
 
 export type ReportStatus = 'open' | 'taken' | 'resolved' | 'ignored';
@@ -46,7 +46,7 @@ export function buildReportEmbed(report: Report): EmbedBuilder {
   const status = asStatus(report.status);
   const embed = new EmbedBuilder()
     .setColor(STATUS_COLORS[status])
-    .setTitle(t('modules.reports.embed.title'))
+    .setTitle(withEmoji(t('modules.reports.embed.title'), Emojis.flag))
     .setDescription(report.reason)
     .setFooter({ text: t('modules.reports.embed.footer', { id: report.id.slice(0, 8) }) })
     .setTimestamp(report.createdAt)

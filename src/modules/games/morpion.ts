@@ -7,7 +7,7 @@ import {
   type MessageActionRowComponentBuilder,
 } from 'discord.js';
 import { t } from '../../core/i18n.js';
-import { Colors } from '../../lib/embeds.js';
+import { Colors, Emojis, withEmoji } from '../../lib/embeds.js';
 
 /** Case du plateau : 0 vide, 1 joueur ❌, 2 joueur/bot ⭕. */
 export type Cell = 0 | 1 | 2;
@@ -143,7 +143,7 @@ export function buildTttEmbed(game: TttGame, over: boolean, won: Cell): EmbedBui
   const color = over ? (won === 0 ? Colors.warning : Colors.success) : Colors.brand;
   return new EmbedBuilder()
     .setColor(color)
-    .setTitle(t('modules.games.ttt.title'))
+    .setTitle(withEmoji(t('modules.games.ttt.title'), Emojis.game))
     .setDescription(
       `❌ <@${game.p1}> · ⭕ ${game.p2 === BOT ? t('modules.games.ttt.bot') : `<@${game.p2}>`}\n\n${tttStatus(game, over, won)}`,
     );

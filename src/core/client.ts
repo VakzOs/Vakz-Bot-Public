@@ -19,7 +19,8 @@ import { env } from './env.js';
  *   afficher le texte des messages épinglés au starboard. À activer dans le
  *   portail Discord (Bot → Privileged Gateway Intents → Message Content Intent).
  * - `GuildVoiceStates` (non privilégié) : états vocaux des membres, requis pour
- *   le module « Mode streameur » (mettre un membre en sourdine).
+ *   le module « Mode streameur » (mettre un membre en sourdine) et pour la
+ *   « Musique » (savoir dans quel salon vocal se connecter / rester).
  *
  * Les phases suivantes ajouteront d'autres intents au besoin.
  */

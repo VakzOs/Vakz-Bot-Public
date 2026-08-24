@@ -3,7 +3,7 @@ import {
   ButtonBuilder,
   ButtonStyle,
   ChannelType,
-  EmbedBuilder,
+  type EmbedBuilder,
   type Guild,
   type GuildMember,
   type GuildTextBasedChannel,
@@ -16,7 +16,7 @@ import {
 import type { Ticket } from '@prisma/client';
 import type { BotContext } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { Colors } from '../../lib/embeds.js';
+import { Emojis, brandedEmbed, withEmoji } from '../../lib/embeds.js';
 import { parseEmoji } from '../../lib/emoji.js';
 import { MODULE_NAME, type TicketsConfig, type TicketType } from './config.js';
 
@@ -25,10 +25,7 @@ const CHUNK_LIMIT = 1900;
 
 /** Embed du panneau d'ouverture publié dans le salon. */
 export function buildPanelEmbed(config: TicketsConfig): EmbedBuilder {
-  return new EmbedBuilder()
-    .setColor(Colors.brand)
-    .setTitle(config.title)
-    .setDescription(config.description);
+  return brandedEmbed({ title: config.title, description: config.description });
 }
 
 /** Rangées de boutons du panneau : un bouton par type de ticket (5 par rangée). */
@@ -269,10 +266,10 @@ export async function openTicket(
     data: { guildId: guild.id, channelId: channel.id, openerId: member.id, typeId: type.id },
   });
 
-  const embed = new EmbedBuilder()
-    .setColor(Colors.brand)
-    .setTitle(t('modules.tickets.welcomeTitle'))
-    .setDescription(t('modules.tickets.welcome', { user: `<@${member.id}>`, type: type.label }));
+  const embed = brandedEmbed({
+    title: withEmoji(t('modules.tickets.welcomeTitle'), Emojis.ticket),
+    description: t('modules.tickets.welcome', { user: `<@${member.id}>`, type: type.label }),
+  });
 
   // Mentionner l'auteur l'ajoute automatiquement au fil privé ; les rôles staff
   // sont notifiés (ils accèdent aux fils privés via la permission « Gérer les fils »).
@@ -363,18 +360,15 @@ async function archiveTicket(
     type: ChannelType.PublicThread,
   });
 
-  const header = new EmbedBuilder()
-    .setColor(Colors.brand)
-    .setTitle(t('modules.tickets.archive.title'))
-    .setDescription(
-      t('modules.tickets.archive.header', {
-        type: type?.label ?? '—',
-        opener: `<@${ticket.openerId}>`,
-        closedBy: `<@${closedBy}>`,
-        count: messages.length,
-      }),
-    )
-    .setTimestamp(new Date());
+  const header = brandedEmbed({
+    title: withEmoji(t('modules.tickets.archive.title'), Emojis.ticket),
+    description: t('modules.tickets.archive.header', {
+      type: type?.label ?? '—',
+      opener: `<@${ticket.openerId}>`,
+      closedBy: `<@${closedBy}>`,
+      count: messages.length,
+    }),
+  });
   await thread.send({ embeds: [header], allowedMentions: { parse: [] } });
 
   for (const chunk of buildTranscriptChunks(messages)) {

@@ -1,7 +1,7 @@
 import type { Reminder } from '@prisma/client';
 import type { BotContext } from '../../core/module.js';
 import { env } from '../../core/env.js';
-import { t } from '../../core/i18n.js';
+import { Emojis, infoEmbed } from '../../lib/embeds.js';
 import { MODULE_NAME } from './config.js';
 
 const DUE_BATCH_SIZE = 25;
@@ -60,29 +60,29 @@ export function nextWeeklyOccurrence(
 async function sendReminder(ctx: BotContext, reminder: Reminder): Promise<void> {
   const mention =
     reminder.targetKind === 'role' ? `<@&${reminder.targetId}>` : `<@${reminder.targetId}>`;
-  const content = t('modules.reminders.delivery', {
-    target: mention,
-    text: reminder.message,
+  // Mention hors de l'embed (pour notifier), texte dans un embed « 🔔 … ».
+  const embed = infoEmbed({
+    description: reminder.message,
+    emoji: Emojis.bell,
+    timestamp: true,
   });
+  const allowedMentions =
+    reminder.targetKind === 'role'
+      ? { roles: [reminder.targetId] }
+      : { users: [reminder.targetId] };
 
   if (!reminder.deliverInDm && reminder.channelId) {
     const guild = ctx.client.guilds.cache.get(reminder.guildId);
     const channel = await guild?.channels.fetch(reminder.channelId).catch(() => null);
     if (channel?.isTextBased()) {
-      await channel.send({
-        content,
-        allowedMentions:
-          reminder.targetKind === 'role'
-            ? { roles: [reminder.targetId] }
-            : { users: [reminder.targetId] },
-      });
+      await channel.send({ content: mention, embeds: [embed], allowedMentions });
       return;
     }
   }
 
   if (reminder.targetKind === 'user') {
     const user = await ctx.client.users.fetch(reminder.targetId).catch(() => null);
-    await user?.send({ content }).catch(() => undefined);
+    await user?.send({ content: mention, embeds: [embed] }).catch(() => undefined);
   }
 }
 

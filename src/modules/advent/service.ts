@@ -30,11 +30,22 @@ export function rewardForDay(config: AdventConfig, day: number): DayReward {
     config.rewards.find((reward) => reward.day === day) ?? {
       day,
       coins: config.defaultCoins,
+      items: [],
       itemId: null,
       itemQty: 1,
       message: '',
+      link: '',
     }
   );
+}
+
+/**
+ * Liste effective des objets offerts un jour : la nouvelle liste `items`, ou à
+ * défaut l'ancien champ mono-objet `itemId` (rétrocompat). Dédoublonnée.
+ */
+export function rewardItemIds(reward: DayReward): string[] {
+  const ids = reward.items.length ? reward.items : reward.itemId ? [reward.itemId] : [];
+  return [...new Set(ids)];
 }
 
 /** Jours déjà ouverts par un membre. */
@@ -50,13 +61,30 @@ export async function openedDays(
   return rows.map((row) => row.day);
 }
 
+/**
+ * Réinitialise les portes déjà ouvertes par un membre (aide au test) : renvoie
+ * le nombre de portes effacées. Permet de rejouer le calendrier en mode test.
+ */
+export async function resetOwnClaims(
+  ctx: BotContext,
+  guildId: string,
+  userId: string,
+): Promise<number> {
+  const { count } = await ctx.db.adventClaim.deleteMany({ where: { guildId, userId } });
+  return count;
+}
+
+export interface OpenedItem {
+  name: string;
+  qty: number;
+}
+
 export type OpenResult =
   | {
       ok: true;
       day: number;
       coins: number;
-      itemName: string | null;
-      itemQty: number;
+      items: OpenedItem[];
       message: string;
       balance: number | null;
     }
@@ -91,21 +119,22 @@ export async function openDoor(
   let balance: number | null = null;
   if (reward.coins > 0) balance = await addBalance(ctx, guildId, userId, reward.coins);
 
-  let itemName: string | null = null;
-  if (reward.itemId) {
-    const item = await getItem(ctx, guildId, reward.itemId);
-    if (item) {
-      await addToInventory(ctx, guildId, userId, reward.itemId, reward.itemQty);
-      itemName = item.emoji ? `${item.emoji} ${item.name}` : item.name;
-    }
+  const items: OpenedItem[] = [];
+  for (const itemId of rewardItemIds(reward)) {
+    const item = await getItem(ctx, guildId, itemId);
+    if (!item) continue;
+    await addToInventory(ctx, guildId, userId, itemId, reward.itemQty);
+    items.push({
+      name: item.emoji ? `${item.emoji} ${item.name}` : item.name,
+      qty: reward.itemQty,
+    });
   }
 
   return {
     ok: true,
     day,
     coins: reward.coins,
-    itemName,
-    itemQty: reward.itemQty,
+    items,
     message: reward.message,
     balance,
   };

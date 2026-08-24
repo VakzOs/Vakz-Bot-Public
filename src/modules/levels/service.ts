@@ -1,6 +1,6 @@
-import { EmbedBuilder, PermissionFlagsBits, type Guild, type GuildMember } from 'discord.js';
+import { type EmbedBuilder, PermissionFlagsBits, type Guild, type GuildMember } from 'discord.js';
 import type { BotContext } from '../../core/module.js';
-import { Colors } from '../../lib/embeds.js';
+import { Colors, brandedEmbed, rankLabel } from '../../lib/embeds.js';
 import { levelFromXp } from './curve.js';
 import { type LevelsConfig, MODULE_NAME, getLevelsConfig, updateLevelsConfig } from './config.js';
 
@@ -72,18 +72,16 @@ export function buildLeaderboardEmbed(
   entries: LeaderboardEntry[],
   color: number | null,
 ): EmbedBuilder {
-  const medals = ['🥇', '🥈', '🥉'];
   const lines = entries.length
     ? entries.map((entry, index) => {
-        const rank = medals[index] ?? `**${index + 1}.**`;
-        return `${rank} <@${entry.userId}> — niveau **${entry.level}** · ${entry.xp} XP`;
+        return `${rankLabel(index)} <@${entry.userId}> — niveau **${entry.level}** · ${entry.xp} XP`;
       })
     : ['*Aucun membre classé pour le moment.*'];
-  return new EmbedBuilder()
-    .setColor(color ?? Colors.brand)
-    .setTitle(`🏆 Classement · ${guild.name}`)
-    .setDescription(lines.join('\n'))
-    .setTimestamp(new Date());
+  return brandedEmbed({
+    color: color ?? Colors.brand,
+    title: `🏆 Classement · ${guild.name}`,
+    description: lines.join('\n'),
+  });
 }
 
 export interface RankInfo {

@@ -720,6 +720,51 @@
         "epic": "Epic",
         "legendary": "Legendary"
       },
+      "use": {
+        "reason": "Item used: {name}",
+        "effects": {
+          "role": {
+            "done": "🏷️ Role {role} granted.",
+            "fail": "⚠️ Couldn't grant the {role} role (permissions/position?)."
+          },
+          "coins": {
+            "done": "🪙 {amount} coins."
+          },
+          "routeSelf": {
+            "done": "🧭 On your Route: {parts}."
+          },
+          "routeDamage": {
+            "noTarget": "⚠️ No target given for the damage.",
+            "notTravelling": "⚠️ {target} isn't on the Endless Road.",
+            "done": "🎯 {target} takes **{amount}** damage on the Road ({health}/{maxHealth} HP).",
+            "fainted": "💥 {target} falls to your **{amount}** damage on the Road!"
+          },
+          "grantItem": {
+            "done": "🎁 You receive **{qty}× {emoji} {name}**.",
+            "missing": "⚠️ The item to grant no longer exists."
+          },
+          "privateChannel": {
+            "done": "🔒 Private channel created: {channel}.",
+            "fail": "⚠️ Couldn't create the channel (Manage Channels permission?)."
+          }
+        }
+      },
+      "limit": {
+        "description": "Set the global per-server item cap (bot owner).",
+        "view": "Show the current cap.",
+        "set": "Set the cap (0 = unlimited).",
+        "increase": "Increase the cap.",
+        "reduce": "Reduce the cap.",
+        "opt": {
+          "number": "New cap (0 = unlimited).",
+          "amount": "Number of items to add / remove."
+        },
+        "unlimited": "unlimited",
+        "notOwner": "❌ Bot owner only (/maj permission).",
+        "current": "📦 Per-server item cap: **{value}**.",
+        "currentlyUnlimited": "ℹ️ The cap is currently **unlimited**. Use `/objets-limite definir` to set a value.",
+        "updated": "✅ Per-server item cap updated: **{value}**."
+      },
       "commands": {
         "unknownItem": "❌ That item doesn't exist (anymore).",
         "inventory": {
@@ -732,7 +777,8 @@
           "empty": "🛒 No items in the catalog yet.",
           "title": "🛒 Item catalog",
           "notForSale": "not for sale",
-          "footer": "✨ = usable · 🔁 = tradable · /acheter to buy"
+          "footer": "✨ = usable · 🔁 = tradable · /acheter to buy",
+          "footerPaged": "{base} • Page {page}/{pages}"
         },
         "buy": {
           "description": "Buy an item with the server currency.",
@@ -742,8 +788,11 @@
         },
         "use": {
           "description": "Use an item from your inventory.",
+          "optTarget": "Target member (for targeted effects, e.g. Road damage).",
           "notUsable": "❌ This item cannot be used.",
           "dontHave": "❌ You don't own any **{emoji} {name}**.",
+          "targetRequired": "❌ This item needs a target: add the **cible** option.",
+          "cooldown": "⏳ Item on cooldown. Try again {time}.",
           "reason": "Item used: {name}",
           "roleGranted": "🎁 You get the {role} role!",
           "title": "✨ Item used",
@@ -773,6 +822,7 @@
         "noItems": "No items yet. Add one to get started.",
         "noDescription": "*(no description)*",
         "itemsField": "Items ({count}/{max})",
+        "itemsFieldUnlimited": "Items ({count})",
         "tradingField": "Member trading",
         "addItem": "➕ Add an item",
         "enableTrading": "Enable trading",
@@ -785,6 +835,7 @@
         "roleNone": "*(none)*",
         "buyable": "Buyable",
         "tradable": "Tradable",
+        "droppable": "Game drop",
         "usable": "Usable",
         "rarityPlaceholder": "Choose rarity…",
         "rolePlaceholder": "Role granted on use (optional)…",
@@ -797,7 +848,25 @@
         "emojiField": "Emoji",
         "descriptionField": "Description",
         "tooMany": "❌ Maximum {max} items reached.",
-        "nameRequired": "❌ Name is required."
+        "nameRequired": "❌ Name is required.",
+        "dropsField": "🎁 Game drops",
+        "dropsButton": "🎁 Drops",
+        "dropsSummary": "✅ Enabled · {on}",
+        "dropsTitle": "🎁 Mini-game loot",
+        "dropsIntro": "Drops items at the end of mini-games (RPS, tic-tac-toe, Battleship). Each rarity has a drop percentage you set. On each eligible game, rolls happen from rarest to most common; only items flagged “Game drop” can drop.",
+        "dropsEnabledField": "Status",
+        "dropsOnField": "Trigger",
+        "dropsChanceField": "Chances by rarity",
+        "dropsOnPlaceholder": "When to roll a drop…",
+        "dropsOn": {
+          "win": "Win only",
+          "winDraw": "Win and draw",
+          "any": "Every game"
+        },
+        "dropsEnable": "✅ Enable drops",
+        "dropsDisable": "⏸️ Disable drops",
+        "dropsEditChances": "🎲 Edit %",
+        "dropsChancesTitle": "Drop chances by rarity (%)"
       }
     },
     "birthdays": {
@@ -1360,14 +1429,16 @@
       "calendar": {
         "title": "🎄 Advent calendar",
         "footerOpen": "Day {day} · {opened}/24 doors opened",
-        "footerClosed": "Come back December 1st to 24th!"
+        "footerClosed": "Come back December 1st to 24th!",
+        "testBadge": "🧪 **Test mode active** — every door can be opened (outside December too)."
       },
       "reward": {
         "title": "🎁 Door {day} opened!",
         "coins": "💰 +{coins} coins",
         "item": "🎁 +{qty}× {item}",
         "nothing": "…but the door was empty this time.",
-        "balance": "Balance: {balance} coins"
+        "balance": "Balance: {balance} coins",
+        "linkButton": "🔗 Open the link"
       },
       "panel": {
         "intro": "Configure the calendar: announcement channel, default coins, and each day's reward (coins + item + message). Pick a day to edit it.",
@@ -1392,15 +1463,22 @@
         "dayEditIntro": "Reward specific to this day.",
         "dayEditDefault": "This day uses the default reward. Edit it to customise.",
         "coinsField": "Coins",
-        "itemField": "Item",
+        "itemField": "Items",
         "messageField": "Message",
         "noMessage": "*none*",
-        "itemPickPlaceholder": "Item to grant that day…",
+        "itemPickPlaceholder": "Items to grant this day (several possible)…",
         "editReward": "✏️ Edit reward",
-        "clearItem": "Remove item",
+        "clearItem": "Remove all",
         "back": "◀ Back",
         "rewardModalTitle": "Reward — day {day}",
-        "itemQtyField": "Item quantity"
+        "itemQtyField": "Quantity (per item)",
+        "resetTest": "🧪 Reset my openings",
+        "resetDone": "🧪 {count} opening(s) reset. You can open the doors again.",
+        "resetNone": "🧪 No openings to reset.",
+        "linkField": "Link (URL)",
+        "noLink": "*none*",
+        "unnamedItem": "(unnamed)",
+        "itemSelectDropped": "⚠️ Item selector hidden: Discord rejected it.\nTechnical detail (share with the dev):\n```{detail}```"
       }
     },
     "reports": {
@@ -1998,7 +2076,10 @@
     },
     "games": {
       "label": "Games",
-      "description": "Fun mini-games: magic 8-ball, dice, coin flip, random pick, rock-paper-scissors, tic-tac-toe and Battleship (with stats).",
+      "description": "Fun mini-games: magic 8-ball, dice, coin flip, random pick, rock-paper-scissors, tic-tac-toe and Battleship (with stats). Can drop items when the “Items” module is configured.",
+      "drop": {
+        "announce": "🎁 {user} found {emoji} **{name}** ({rarity})!"
+      },
       "opt": {
         "question": "Your question for the magic 8-ball.",
         "count": "Number of dice to roll (default: 1).",
@@ -2128,7 +2209,8 @@
       "commands": {
         "move": "Take a step on the Endless Road.",
         "profile": "Show a traveller's profile.",
-        "leaderboard": "Longest-distance leaderboard."
+        "leaderboard": "Longest-distance leaderboard.",
+        "shop": "Buy a provision (instant effect on purchase)."
       },
       "noTraveler": "🧭 {user} hasn't hit the road yet (`/route avancer`).",
       "profileTitle": "🧭 Traveller — {user}",
@@ -2140,7 +2222,7 @@
       "fainted": "💀 You ran out of strength… you wake at the last camp (distance halved).",
       "stats": {
         "title": "Traveller status",
-        "body": "❤️ {bar} {health}/{maxHealth}\n⚡ Energy: {energy}/100\n📏 Distance: {distance}\n🪙 Coins earned: {coins}\n🎲 Events: {events}"
+        "body": "❤️ {bar} {health}/{maxHealth}\n⚡ Energy: {energy}/100\n📏 Distance: {distance}\n🪙 Coins earned: {coins}\n🎲 Events: {events}\n💀 Deaths: {deaths}"
       },
       "events": {
         "path": "🥾 You walk a peaceful trail and make quiet progress.",
@@ -2152,7 +2234,71 @@
         "shortcut": "🧭 You find a shortcut and stride ahead!",
         "storm": "🌩️ A violent storm slows and exhausts you.",
         "friend": "🤝 A fellow traveller shares food and coins with you.",
-        "abyss": "🕳️ You fall into a chasm… you barely climb out, battered but with full pockets."
+        "abyss": "🕳️ You fall into a chasm… you barely climb out, battered but with full pockets.",
+        "oasis": "🌴 You stumble upon a hidden oasis and rest in the shade of the palms.",
+        "ruins": "🏛️ You explore ancient ruins and unearth a few treasures.",
+        "wolves": "🐺 A wolf pack gives chase! You escape, but not unscathed.",
+        "river": "🌊 You cross a raging river: exhausting, but you gain ground.",
+        "shrine": "⛩️ You pray at a mysterious shrine and feel reinvigorated.",
+        "mirage": "🏜️ A mirage leads you astray, wasting time and strength.",
+        "bandits": "🗡️ Bandits attack! You fend them off and take their loot.",
+        "volcano": "🌋 You skirt an erupting volcano: the heat scorches you, but the molten gold is worth it.",
+        "quicksand": "🏜️ You sink into quicksand! You crawl out exhausted, having lost precious ground.",
+        "landslide": "⛰️ A landslide sends you tumbling down the slope! You have to climb all the way back.",
+        "lost": "🌫️ A thick fog leads you completely astray… you unknowingly retrace your steps.",
+        "bog": "🐸 You get stuck in a stinking bog and waste ages pulling yourself free.",
+        "ravine": "🧗 You slip into a ravine and climb back out, bruised and demoralised.",
+        "curse": "💀 An ancient curse strikes you and hurls you violently backwards!",
+        "echo": "⏳ A time echo sends you far back… yet you feel strangely rested.",
+        "thief": "🦹 A pickpocket lifts some of your coins and vanishes!",
+        "gambler": "🎲 A gambler challenges you to a dice game: win or lose, fate decides.",
+        "sphinx": "🦁 A sphinx asks you a riddle. Right answer or humiliation? Total suspense.",
+        "ambush": "🏹 Goblins ambush you! You drive them off and keep their meagre loot.",
+        "bridge": "🌉 The suspension bridge gives way under your feet… sometimes you jump clear, sometimes you don't.",
+        "golem": "🗿 A stone golem blocks the way! You bring it down and plunder its hoard.",
+        "meteor": "☄️ A meteor crashes beside you! The crater is full of precious metals.",
+        "dragon": "🐉 A DRAGON! You survive its breath and grab part of its hoard.",
+        "caravan": "🐪 You join a merchant caravan: safety, supplies and good company.",
+        "herbalist": "🌿 A herbalist brews you a remedy that soothes your wounds.",
+        "waterfall": "⛲ You bathe under an icy waterfall and come out reinvigorated.",
+        "fireflies": "✨ Magical fireflies light your path and carry you onward.",
+        "well": "🪙 You toss a coin into a wishing well… and it pays you back a hundredfold!",
+        "hermit": "🧙 A wise hermit shares his soup and gives you an item from his collection.",
+        "eagle": "🦅 A giant eagle snatches you up and drops you miles down the road!",
+        "fairy": "🧚 A mischievous fairy sprinkles your road with magic dust.",
+        "portal": "🌀 An unstable portal swallows you and spits you out much further down the road!",
+        "fountain": "⛲✨ ULTRA RARE — The Fountain of Youth! You dive in and emerge fully regenerated. ❤️ FULL HEALTH!",
+        "elixir": "🌟 ULTRA RARE — You find the Celestial Elixir: body and mind fully restored. ❤️⚡ FULL EVERYTHING!",
+        "goldenvault": "🏆 ULTRA RARE — You crack open the Golden Vault: a mountain of coins is yours!",
+        "phoenix": "🔥 ULTRA RARE — A phoenix is reborn before your eyes and grants you its flames: nearly full health, plus a gift!",
+        "witch": "🧙‍♀️ A witch hands you a steaming potion… surprise effect: remedy or poison?",
+        "mimic": "🎁👅 A treasure chest! …It's a MIMIC! You fight it off and loot its guts.",
+        "ogre": "👹 An ogre blocks the path! It beats you up and picks your pockets before letting you through.",
+        "skeletons": "💀 Skeletons crawl out of an old graveyard! You smash them back to dust.",
+        "harpy": "🦅 A harpy swoops down screeching and flies off with your coin purse!",
+        "fog": "🌫️ Thick fog swallows the road. You wander in circles and lose ground.",
+        "willowisp": "🔥 A will-o'-the-wisp lures you off the trail… You chase it like a fool and get lost.",
+        "mermaid": "🧜‍♀️ A mermaid's song bewitches you. You wake up on the shore, behind where you were.",
+        "toll": "🌉 A troll guards the bridge: 'Toll!' You pay up, but you make fast progress beyond it.",
+        "smith": "⚒️ A traveling blacksmith patches you up and resupplies you for a few coins.",
+        "altar": "🩸 An ancient altar demands a blood offering… in exchange it spits out gold.",
+        "mushrooms": "🍄 You nibble on unknown mushrooms. Energy guaranteed… but were they edible?",
+        "wizard": "🧙 A wandering wizard teleports you with a snap of his fingers. Where to? Even he doesn't know.",
+        "raven": "🐦‍⬛ A messenger raven follows you for a while and drops a little gift.",
+        "giant": "🗿 A GIANT looms before you! You fight with all your might and plunder its stash.",
+        "griffin": "🦅✨ A griffin grabs you by the shoulder and drops you much further down the road!",
+        "timeloop": "⏳✨ ULTRA RARE — A time loop swallows you! You relive the same places… but emerge full of energy.",
+        "wishingstar": "🌠✨ ULTRA RARE — A shooting star grants your wish: fortune, strength and renewed spirit!",
+        "peddler": "🧳 A traveling peddler hails you! He offers his provisions at bargain prices — a deal to grab, it's him or the shop.",
+        "tavern": "🍺 You stop at a lively tavern: you eat, drink and set off refreshed (though the bill lightens your purse).",
+        "market": "🛒 A colourful market lines your path: you snag a useful item.",
+        "bear": "🐻 A bear bursts from the bushes! You escape, clawed but alive, and press on.",
+        "festival": "🎉 You stumble into a village festival: dancing, feasting and a few coins gifted!",
+        "serpent": "🐍 A giant serpent rears up in your path. The fight is fierce, but its scales are worth gold.",
+        "frost": "❄️ A biting cold sets in: you shiver, exhausted, and struggle to move forward.",
+        "oracle": "🔮 An oracle reveals a hidden shortcut: you gain a huge amount of ground.",
+        "knight": "⚔️ You find a fallen knight's hideout: his cache holds coins and an item.",
+        "ghost": "👻 A ghost haunts you and drives you back, chilled to the bone."
       },
       "panel": {
         "intro": "Tune the adventure pace and rewards.",
@@ -2163,8 +2309,46 @@
         "coinsField": "Coins (economy)",
         "itemsField": "Found items",
         "editCooldown": "Edit delay",
-        "cooldownLabel": "Delay in minutes (0-1440)"
-      }
+        "cooldownLabel": "Delay in minutes (0-1440)",
+        "dropsField": "🎁 Drop chances (Route)",
+        "dropsDisabled": "*Items disabled.*",
+        "editDrops": "🎲 Drop chances",
+        "dropsTitle": "Route drop chances (%)",
+        "regenField": "Energy regeneration",
+        "regenValue": "**{rate}**/min up to **{cap}** ⚡",
+        "editRegen": "⚡ Regeneration",
+        "regenRateLabel": "⚡ regained per minute (0-10)",
+        "regenCapLabel": "Regeneration cap (0-100)",
+        "shopPricesField": "Shop prices (buy)",
+        "editShopPrices": "🧳 Shop prices",
+        "peddlerPricesField": "Peddler prices (sale)",
+        "editPeddlerPrices": "🪙 Peddler prices"
+      },
+      "goods": {
+        "potion": {
+          "name": "🧪 Healing potion",
+          "desc": "Instant +40 HP. Tastes awful, but it works."
+        },
+        "tonic": {
+          "name": "⚗️ Energy tonic",
+          "desc": "Instant +50 ⚡. Perfect against exhaustion."
+        },
+        "ration": {
+          "name": "🍖 Travel ration",
+          "desc": "Instant +15 HP and +20 ⚡. A walker's meal."
+        }
+      },
+      "shop": {
+        "title": "🧳 Road Shop",
+        "buyButton": "Buy {name}",
+        "bought": "✅ You buy and instantly use **{name}** ({effect}) for 🪙 **{price}**. New balance: 🪙 {balance}.",
+        "tooPoor": "❌ You need 🪙 **{price}** (current balance: {balance})."
+      },
+      "peddler": {
+        "notYours": "🛑 This peddler is dealing with another traveler.",
+        "buyButton": "Buy {name} • {price} 🪙"
+      },
+      "exhausted": "🥵 **Exhausted!** Your energy is negative: progress halved and damage amplified (×1.5). Rest up or use a provision."
     },
     "bingo": {
       "label": "Bingo",
@@ -2331,6 +2515,97 @@
         "nameField": "Display name",
         "avatarInput": "Avatar URL (optional)",
         "tooMany": "❌ Maximum of {max} profiles reached."
+      }
+    },
+    "music": {
+      "label": "Music",
+      "description": "Listen to music in voice channels (YouTube, SoundCloud, Spotify…) through a Lavalink server.",
+      "notConfigured": "❌ Music isn't configured on this host (no Lavalink server).",
+      "nodeDown": "❌ The Lavalink server is unreachable. Check it's running (`docker compose ps`) and that LAVALINK_HOST / LAVALINK_PASSWORD are correct.",
+      "joinFailed": "❌ Couldn't join your voice channel (missing Connect / Speak permissions?).",
+      "playError": "❌ Something went wrong during playback. Try again in a moment.",
+      "notInVoice": "❌ Join a voice channel first.",
+      "notSameChannel": "❌ You must be in the same voice channel as the bot.",
+      "nothingPlaying": "❌ Nothing is currently playing.",
+      "noPermission": "❌ Reserved to the DJ role (or “Manage Server”).",
+      "noResults": "❌ No results for that search.",
+      "addedTitle": "➕ Added to the queue",
+      "addedPlaylist": "➕ **{count}** tracks added to the queue (playlist “{name}”).",
+      "skipped": "⏭️ Track skipped.",
+      "skippedEnd": "⏭️ Last track skipped, end of the queue.",
+      "stopped": "⏹️ Playback stopped and queue cleared.",
+      "alreadyPaused": "⏸️ Playback is already paused.",
+      "paused": "⏸️ Playback paused.",
+      "notPaused": "▶️ Playback isn't paused.",
+      "resumed": "▶️ Playback resumed.",
+      "volumeSet": "🔊 Volume set to {volume}%.",
+      "loopSet": "🔁 Repeat: {mode}.",
+      "queueTooShort": "❌ Not enough tracks in the queue to shuffle.",
+      "shuffled": "🔀 Queue shuffled.",
+      "cannotSeek": "❌ Can't seek in this track (live or missing).",
+      "badPosition": "❌ Invalid position. E.g. `1:30`, `90` or `1m30s`.",
+      "seeked": "⏩ Position: {time}.",
+      "badIndex": "❌ Invalid track number.",
+      "removed": "🗑️ Removed from the queue: {title}.",
+      "left": "👋 Disconnected from the voice channel.",
+      "queueEmpty": "*Empty queue.*",
+      "queueEnded": "✅ Queue ended.",
+      "loopState": {
+        "off": "off",
+        "track": "track",
+        "queue": "queue"
+      },
+      "field": {
+        "author": "👤 Artist:",
+        "requestedBy": "🙋 Requested by:",
+        "nowPlaying": "Now playing",
+        "upNext": "Up next",
+        "andMore": "…and {count} more.",
+        "queueTitle": "🎶 Queue",
+        "playlist": "playlist"
+      },
+      "command": {
+        "play": "Play a track or add it to the queue (search or link).",
+        "playQuery": "Title to search or a link (YouTube, SoundCloud…).",
+        "playSource": "Search platform (when it isn't a link).",
+        "skip": "Skip to the next track.",
+        "stop": "Stop playback and clear the queue.",
+        "pause": "Pause playback.",
+        "resume": "Resume playback.",
+        "volume": "Set the playback volume.",
+        "volumeValue": "Volume as a percentage (0-150).",
+        "loop": "Change the repeat mode.",
+        "loopValue": "Repeat mode.",
+        "shuffle": "Shuffle the queue.",
+        "seek": "Seek to a position in the track.",
+        "seekValue": "Position, e.g. 1:30, 90 (s) or 1m30s.",
+        "remove": "Remove a track from the queue.",
+        "removeValue": "Track number in the queue.",
+        "disconnect": "Disconnect the bot from the voice channel.",
+        "queue": "Show the queue.",
+        "nowplaying": "Show the currently playing track."
+      },
+      "panel": {
+        "intro": "Music module settings: DJ role, volume, default search platform and behaviours.",
+        "notConfigured": "⚠️ No Lavalink server is configured on this host: music commands will report that they're unavailable. Set the LAVALINK_* variables on the host.",
+        "djField": "🎧 DJ role",
+        "djNone": "*Everyone*",
+        "searchField": "🔎 Default search",
+        "volumeField": "🔊 Volume",
+        "sameChannelField": "📍 Same channel required",
+        "autoLeaveField": "🚪 Auto-leave",
+        "on": "✅ On",
+        "off": "⬜ Off",
+        "searchPlaceholder": "Default search platform…",
+        "djPlaceholder": "Pick the DJ role (none = everyone)…",
+        "editVolumes": "🔊 Volumes",
+        "sameChannelOn": "Require same channel",
+        "sameChannelOff": "Don't require same channel",
+        "autoLeaveOn": "Enable auto-leave",
+        "autoLeaveOff": "Disable auto-leave",
+        "volumesTitle": "Volume settings",
+        "defaultVolumeField": "Default volume (1-100)",
+        "maxVolumeField": "Maximum volume (1-150)"
       }
     }
   }

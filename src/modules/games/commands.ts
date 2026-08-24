@@ -4,16 +4,22 @@ import {
   AttachmentBuilder,
   ButtonBuilder,
   ButtonStyle,
-  EmbedBuilder,
   type MessageActionRowComponentBuilder,
   SlashCommandBuilder,
 } from 'discord.js';
 import type { SlashCommand } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { Colors, infoEmbed } from '../../lib/embeds.js';
+import {
+  Emojis,
+  errorEmbed,
+  infoEmbed,
+  successEmbed,
+  warningEmbed,
+} from '../../lib/embeds.js';
 import {
   PFC_EMOJI,
   type PfcChoice,
+  awardGameDrop,
   botPfcChoice,
   getStats,
   pfcOutcome,
@@ -51,7 +57,10 @@ export const boule8: SlashCommand = {
   async execute(interaction) {
     const question = interaction.options.getString('question', true);
     const answers = t('modules.games.boule8.answers').split('|');
-    const embed = infoEmbed({ title: t('modules.games.boule8.title') }).addFields(
+    const embed = infoEmbed({
+      title: t('modules.games.boule8.title'),
+      emoji: '🎱',
+    }).addFields(
       { name: t('modules.games.boule8.questionField'), value: question.slice(0, 1024) },
       { name: t('modules.games.boule8.answerField'), value: `🎱 ${pick(answers)}` },
     );
@@ -99,6 +108,7 @@ export const pileouface: SlashCommand = {
     const embed = infoEmbed({
       title: t('modules.games.coin.title'),
       description: heads ? t('modules.games.coin.heads') : t('modules.games.coin.tails'),
+      emoji: Emojis.coin,
     });
     await interaction.reply({ embeds: [embed] });
   },
@@ -131,6 +141,7 @@ export const choisir: SlashCommand = {
           infoEmbed({
             title: t('modules.games.choose.title'),
             description: t('modules.games.choose.needTwo'),
+            emoji: Emojis.question,
           }),
         ],
       });
@@ -142,6 +153,7 @@ export const choisir: SlashCommand = {
         infoEmbed({
           title: t('modules.games.choose.title'),
           description: t('modules.games.choose.result', { choice: pick(options).slice(0, 256) }),
+          emoji: Emojis.question,
         }),
       ],
     });
@@ -196,6 +208,7 @@ export const pfc: SlashCommand = {
           challenger: `<@${interaction.user.id}>`,
           opponent: `<@${opponent.id}>`,
         }),
+        emoji: Emojis.game,
       });
       await interaction.reply({
         content: `<@${opponent.id}>`,
@@ -206,7 +219,7 @@ export const pfc: SlashCommand = {
       return;
     }
 
-    // Contre le bot.
+    // Contre le bot : vert en victoire, rouge en défaite, jaune en égalité.
     const bot = botPfcChoice();
     const outcome = pfcOutcome(player, bot);
     await recordResult(ctx, interaction.guildId, interaction.user.id, 'pfc', outcome);
@@ -214,19 +227,19 @@ export const pfc: SlashCommand = {
       (row) => row.game === 'pfc',
     );
 
-    const color =
-      outcome === 'win' ? Colors.success : outcome === 'loss' ? Colors.error : Colors.warning;
-    const embed = new EmbedBuilder()
-      .setColor(color)
-      .setTitle(t('modules.games.pfc.title'))
-      .setDescription(
+    const buildEmbed =
+      outcome === 'win' ? successEmbed : outcome === 'loss' ? errorEmbed : warningEmbed;
+    const embed = buildEmbed({
+      title: t('modules.games.pfc.title'),
+      emoji: Emojis.game,
+      description:
         t('modules.games.pfc.line', {
           player: `${PFC_EMOJI[player]} ${player}`,
           bot: `${PFC_EMOJI[bot]} ${bot}`,
         }) +
-          '\n\n' +
-          t(`modules.games.pfc.${outcome}`),
-      );
+        '\n\n' +
+        t(`modules.games.pfc.${outcome}`),
+    });
     if (stats) {
       embed.addFields({
         name: t('modules.games.pfc.recordField'),
@@ -238,6 +251,15 @@ export const pfc: SlashCommand = {
       });
     }
     await interaction.reply({ embeds: [embed] });
+
+    const channel = interaction.channel;
+    await awardGameDrop(
+      ctx,
+      channel?.isSendable() ? channel : null,
+      interaction.guildId,
+      interaction.user.id,
+      outcome,
+    );
   },
 };
 
@@ -302,6 +324,7 @@ export const statsjeux: SlashCommand = {
 
     const embed = infoEmbed({
       title: t('modules.games.stats.title', { user: user.tag }),
+      emoji: Emojis.chart,
     }).setThumbnail(user.displayAvatarURL({ size: 128 }));
 
     let any = false;

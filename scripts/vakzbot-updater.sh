@@ -7,6 +7,13 @@
 # It writes deploy.status during each phase and deploy.result at the end.
 set -euo pipefail
 
+# Jamais de prompt interactif d'identifiants. L'updater tourne sous systemd
+# (root, sans TTY) : si le credential git est perime (ex. token regenere) ou
+# mal forme, `git fetch` ne DOIT PAS bloquer sur un prompt "Password:" ni
+# aboutir a un etat ambigu -> il doit ECHOUER franchement pour que `/maj`
+# rapporte un echec au lieu de laisser le depot sur un ancien commit.
+export GIT_TERMINAL_PROMPT=0
+
 REPO_DIR="${REPO_DIR:-$(pwd)}"
 DATA_DIR="${DATA_DIR:-$REPO_DIR/data}"
 
@@ -200,8 +207,16 @@ except Exception:
   if (
     set -e
     write_status "fetching" "Recuperation de origin/$BRANCH." "running"
-    echo "[vakzbot-updater] git -C $REPO_DIR fetch --prune origin $BRANCH"
-    git_repo fetch --prune origin "$BRANCH"
+    # Refspec EXPLICITE (source:destination) : indispensable. Un simple
+    # `git fetch origin $BRANCH` ne met a jour QUE FETCH_HEAD tant que la
+    # branche n'est pas couverte par un refspec configure (clone
+    # `--single-branch`/`--depth`, ou `remote.origin.fetch` restreint). Dans ce
+    # cas `refs/remotes/origin/$BRANCH` reste PERIME, et le `reset --hard
+    # origin/$BRANCH` ci-dessous se recale sur l'ANCIEN commit tout en
+    # rapportant un succes (symptome : "commit avant == commit apres" alors que
+    # le distant a avance). Le `+` force la mise a jour non fast-forward.
+    echo "[vakzbot-updater] git -C $REPO_DIR fetch --prune origin +refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
+    git_repo fetch --prune origin "+refs/heads/$BRANCH:refs/remotes/origin/$BRANCH"
     write_status "switching" "Positionnement sur la branche $BRANCH." "running"
     # `checkout -B` (re)cree la branche locale directement sur origin/$BRANCH :
     # gere la premiere extraction ET une branche locale perimee (evite de revenir

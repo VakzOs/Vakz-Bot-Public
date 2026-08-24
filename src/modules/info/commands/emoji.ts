@@ -1,7 +1,7 @@
 import { MessageFlags, SlashCommandBuilder } from 'discord.js';
 import type { SlashCommand } from '../../../core/module.js';
 import { t } from '../../../core/i18n.js';
-import { infoEmbed } from '../../../lib/embeds.js';
+import { Emojis, infoEmbed } from '../../../lib/embeds.js';
 
 /** Un emoji personnalisé Discord : `<:nom:id>` ou `<a:nom:id>` (animé). */
 const CUSTOM_EMOJI = /^<(a)?:(\w{2,32}):(\d{17,20})>$/;
@@ -14,7 +14,7 @@ const TWEMOJI = 'https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets';
 function customEmbed(name: string, id: string, animated: boolean) {
   const ext = animated ? 'gif' : 'png';
   const url = `https://cdn.discordapp.com/emojis/${id}.${ext}?size=1024`;
-  return infoEmbed({ title: `:${name}:` })
+  return infoEmbed({ title: `:${name}:`, emoji: Emojis.sparkles })
     .setImage(url)
     .addFields(
       { name: t('modules.info.field.id'), value: `\`${id}\``, inline: true },

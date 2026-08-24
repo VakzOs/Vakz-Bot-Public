@@ -2,14 +2,14 @@ import {
   ActionRowBuilder,
   ButtonBuilder,
   ButtonStyle,
-  EmbedBuilder,
+  type EmbedBuilder,
   type Guild,
   type MessageActionRowComponentBuilder,
 } from 'discord.js';
 import type { Giveaway } from '@prisma/client';
 import type { BotContext } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
-import { Colors } from '../../lib/embeds.js';
+import { Colors, Emojis, brandedEmbed, successEmbed } from '../../lib/embeds.js';
 import { MODULE_NAME, type GiveawaysConfig, getGiveawaysConfig } from './config.js';
 
 /** Remplace les variables `{clé}` d'un gabarit configurable. */
@@ -32,29 +32,27 @@ export function parseWinners(giveaway: Giveaway): string[] {
 /** Embed d'un tirage (lot, hôte, fin, participants ; gagnants si terminé). */
 export function buildGiveawayEmbed(giveaway: Giveaway, entryCount: number): EmbedBuilder {
   const ended = giveaway.status === 'ended';
-  const embed = new EmbedBuilder()
-    .setColor(ended ? Colors.warning : Colors.brand)
-    .setTitle(t('modules.giveaways.embed.title', { prize: giveaway.prize }))
-    .setDescription(
-      ended
-        ? t('modules.giveaways.embed.endedIntro')
-        : t('modules.giveaways.embed.intro', { count: giveaway.winnerCount }),
-    )
-    .setFooter({ text: t('modules.giveaways.embed.footer', { id: giveaway.id.slice(0, 6) }) })
-    .addFields(
-      { name: t('modules.giveaways.embed.host'), value: `<@${giveaway.hostId}>`, inline: true },
-      {
-        name: t('modules.giveaways.embed.winners'),
-        value: String(giveaway.winnerCount),
-        inline: true,
-      },
-      {
-        name: ended ? t('modules.giveaways.embed.endedAt') : t('modules.giveaways.embed.endsAt'),
-        value: `<t:${Math.floor(giveaway.endsAt.getTime() / 1000)}:R>`,
-        inline: true,
-      },
-      { name: t('modules.giveaways.embed.participants'), value: String(entryCount), inline: true },
-    );
+  const embed = brandedEmbed({
+    color: ended ? Colors.warning : Colors.brand,
+    title: t('modules.giveaways.embed.title', { prize: giveaway.prize }),
+    description: ended
+      ? t('modules.giveaways.embed.endedIntro')
+      : t('modules.giveaways.embed.intro', { count: giveaway.winnerCount }),
+    footer: t('modules.giveaways.embed.footer', { id: giveaway.id.slice(0, 6) }),
+  }).addFields(
+    { name: t('modules.giveaways.embed.host'), value: `<@${giveaway.hostId}>`, inline: true },
+    {
+      name: t('modules.giveaways.embed.winners'),
+      value: String(giveaway.winnerCount),
+      inline: true,
+    },
+    {
+      name: ended ? t('modules.giveaways.embed.endedAt') : t('modules.giveaways.embed.endsAt'),
+      value: `<t:${Math.floor(giveaway.endsAt.getTime() / 1000)}:R>`,
+      inline: true,
+    },
+    { name: t('modules.giveaways.embed.participants'), value: String(entryCount), inline: true },
+  );
 
   if (giveaway.requiredRoleId) {
     embed.addFields({
@@ -169,18 +167,17 @@ async function logWinners(
   if (!config.logChannelId) return;
   const channel = await guild.channels.fetch(config.logChannelId).catch(() => null);
   if (!channel?.isTextBased()) return;
-  const embed = new EmbedBuilder()
-    .setColor(Colors.success)
-    .setTitle(t('modules.giveaways.log.title'))
-    .setDescription(
-      t('modules.giveaways.log.entry', {
-        prize: giveaway.prize,
-        winners: winners.map((w) => `<@${w}>`).join(', '),
-        host: `<@${giveaway.hostId}>`,
-        id: giveaway.id.slice(0, 6),
-      }),
-    )
-    .setTimestamp(new Date());
+  const embed = successEmbed({
+    title: t('modules.giveaways.log.title'),
+    description: t('modules.giveaways.log.entry', {
+      prize: giveaway.prize,
+      winners: winners.map((w) => `<@${w}>`).join(', '),
+      host: `<@${giveaway.hostId}>`,
+      id: giveaway.id.slice(0, 6),
+    }),
+    timestamp: true,
+    emoji: Emojis.party,
+  });
   await channel.send({ embeds: [embed], allowedMentions: { parse: [] } }).catch(() => undefined);
 }
 

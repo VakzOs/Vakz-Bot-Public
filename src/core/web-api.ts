@@ -19,6 +19,17 @@ import { publishMenu } from '../modules/reactionroles/menu.js';
 import type { ReactionRolesConfig } from '../modules/reactionroles/config.js';
 import { publishStreamer } from '../modules/streamer/menu.js';
 import type { StreamerConfig } from '../modules/streamer/config.js';
+import {
+  type Item,
+  countItems,
+  createItem,
+  deleteItem,
+  getItem,
+  listItems,
+  sanitizeItemInput,
+  updateItem,
+} from '../modules/items/service.js';
+import { getItemLimit, setItemLimit } from '../modules/items/limit.js';
 
 /** Résultat commun d'une publication de panneau. */
 type PublishOutcome = { ok: boolean; messageId?: string; error?: string };
@@ -147,6 +158,26 @@ async function serializeModule(
     config: state.config,
     configUI: module.configUI ?? null,
     publishable: PUBLISHERS[module.name] !== undefined,
+  };
+}
+
+/** Sérialise un objet du catalogue pour le dashboard (champs éditables). */
+function serializeItem(item: Item): Record<string, unknown> {
+  return {
+    id: item.id,
+    name: item.name,
+    emoji: item.emoji,
+    description: item.description,
+    rarity: item.rarity,
+    price: item.price,
+    buyable: item.buyable,
+    tradable: item.tradable,
+    droppable: item.droppable,
+    usable: item.usable,
+    roleReward: item.roleReward,
+    effects: item.effects,
+    consumable: item.consumable,
+    cooldownSeconds: item.cooldownSeconds,
   };
 }
 
@@ -434,6 +465,97 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
         });
       }
       return send(res, result.ok ? 200 : 400, result);
+    }
+
+    // --- Catalogue d'objets (module « Objets ») -----------------------------
+    // GET  /api/guilds/:id/items            -> liste le catalogue (token seul)
+    // POST /api/guilds/:id/items            -> crée un objet          (actor requis)
+    // POST /api/guilds/:id/items/:itemId    -> met à jour un objet    (actor requis)
+    // DELETE /api/guilds/:id/items/:itemId  -> supprime un objet      (actor requis)
+    if (parts[1] === 'guilds' && parts[3] === 'items' && parts[2]) {
+      const guildId = parts[2];
+      const itemId = parts[4];
+
+      // Lecture : le token suffit (pas de mutation).
+      if (req.method === 'GET' && !itemId) {
+        const items = await listItems(ctx, guildId);
+        return send(res, 200, { items: items.map(serializeItem), max: await getItemLimit(ctx) });
+      }
+
+      // Toute mutation exige un acteur autorisé à gérer CE serveur.
+      const isMutation =
+        (req.method === 'POST' && !itemId) ||
+        ((req.method === 'POST' || req.method === 'DELETE') && Boolean(itemId));
+      if (isMutation) {
+        const actorId = getActorId(req);
+        if (!actorId || !(await actorCanManageGuild(ctx, guildId, actorId))) {
+          return send(res, 403, { error: 'forbidden' });
+        }
+        if (!rateLimit(`items:${guildId}`, 60, 60_000)) {
+          return send(res, 429, { error: 'rate_limited' });
+        }
+
+        // POST /items -> création
+        if (req.method === 'POST' && !itemId) {
+          const limit = await getItemLimit(ctx);
+          if (limit !== null && (await countItems(ctx, guildId)) >= limit) {
+            return send(res, 409, { error: 'too_many_items', max: limit });
+          }
+          const body = (await readJson(req)) as Record<string, unknown>;
+          const input = sanitizeItemInput(body);
+          if (!input.name) return send(res, 400, { error: 'name_required' });
+          const created = await createItem(ctx, guildId, { ...input, name: input.name });
+          return send(res, 201, { item: serializeItem(created) });
+        }
+
+        // Les routes par objet vérifient d'abord son appartenance au serveur.
+        const existing = itemId ? await getItem(ctx, guildId, itemId) : null;
+        if (!existing || !itemId) return send(res, 404, { error: 'unknown_item' });
+
+        if (req.method === 'DELETE') {
+          await deleteItem(ctx, itemId);
+          return send(res, 200, { ok: true });
+        }
+
+        // POST /items/:itemId -> mise à jour
+        const body = (await readJson(req)) as Record<string, unknown>;
+        const input = sanitizeItemInput(body);
+        // Interdit de vider le nom d'un objet existant.
+        if (body.name !== undefined && !input.name) {
+          return send(res, 400, { error: 'name_required' });
+        }
+        await updateItem(ctx, itemId, input);
+        const updated = await getItem(ctx, guildId, itemId);
+        return send(res, 200, { item: updated ? serializeItem(updated) : null });
+      }
+    }
+
+    // Plafond GLOBAL d'objets par serveur.
+    // GET  /api/items/limit             -> { max } (token seul)
+    // POST /api/items/limit { max }     -> fixe le plafond (propriétaire uniquement)
+    //   max = null ou 0 => illimité.
+    if (parts[1] === 'items' && parts[2] === 'limit' && parts.length === 3) {
+      if (req.method === 'GET') {
+        return send(res, 200, { max: await getItemLimit(ctx) });
+      }
+      if (req.method === 'POST') {
+        // Réglage d'instance : réservé au propriétaire du bot (comme /maj).
+        const actorId = getActorId(req);
+        if (!actorId || !isOwner(actorId)) return send(res, 403, { error: 'forbidden' });
+        if (!rateLimit('items-limit', 20, 60_000)) return send(res, 429, { error: 'rate_limited' });
+        const body = (await readJson(req)) as { max?: unknown };
+        const raw = body.max;
+        // Accepte un entier >= 0 ou null ; 0/null => illimité.
+        const value =
+          raw === null
+            ? null
+            : typeof raw === 'number' && Number.isFinite(raw) && raw >= 0
+              ? Math.trunc(raw)
+              : undefined;
+        if (value === undefined) return send(res, 400, { error: 'invalid_max' });
+        const saved = await setItemLimit(ctx, value);
+        return send(res, 200, { max: saved });
+      }
     }
 
     // GET /api/deploy  -> statut ; POST /api/deploy { branch } -> déclenche /maj

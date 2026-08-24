@@ -38,12 +38,13 @@ ENV TZ=Europe/Paris
 COPY package.json package-lock.json ./
 RUN npm ci --omit=dev
 
-# Schéma + client Prisma régénéré nativement pour la plateforme runtime (arm64).
+# Schéma + client Prisma régénérés nativement pour la plateforme runtime (arm64).
 COPY prisma ./prisma
 RUN npx prisma generate
 
-# Locales + code compilé + entrypoint.
+# Locales + artworks de la Route + code compilé + entrypoint.
 COPY locales ./locales
+COPY assets/route ./assets/route
 COPY --from=builder /app/dist ./dist
 COPY docker-entrypoint.sh ./docker-entrypoint.sh
 

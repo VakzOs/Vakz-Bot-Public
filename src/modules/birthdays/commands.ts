@@ -2,7 +2,7 @@ import { MessageFlags, PermissionFlagsBits, SlashCommandBuilder } from 'discord.
 import type { SlashCommand } from '../../core/module.js';
 import { env } from '../../core/env.js';
 import { t } from '../../core/i18n.js';
-import { infoEmbed } from '../../lib/embeds.js';
+import { Emojis, infoEmbed } from '../../lib/embeds.js';
 import {
   daysUntil,
   getBirthday,
@@ -148,6 +148,7 @@ export const anniversaire: SlashCommand = {
       const embed = infoEmbed({
         title: t('modules.birthdays.view.title', { user: target.username }),
         description: `🎂 **${dateStr}** — ${whenLabel(days)}`,
+        emoji: Emojis.cake,
       });
       await interaction.reply({ embeds: [embed] });
       return;
@@ -168,6 +169,7 @@ export const anniversaire: SlashCommand = {
     const embed = infoEmbed({
       title: t('modules.birthdays.upcomingTitle'),
       description: lines.join('\n'),
+      emoji: Emojis.cake,
     });
     await interaction.reply({ embeds: [embed], allowedMentions: { parse: [] } });
   },

@@ -1,6 +1,6 @@
 import type { EmbedBuilder, Guild, GuildMember } from 'discord.js';
 import type { BotContext } from '../../core/module.js';
-import { brandedEmbed } from '../../lib/embeds.js';
+import { brandedEmbed, rankLabel } from '../../lib/embeds.js';
 import {
   type EconomyConfig,
   MODULE_NAME,
@@ -168,11 +168,10 @@ export function buildLeaderboardEmbed(
   entries: LeaderboardEntry[],
   config: EconomyConfig,
 ): EmbedBuilder {
-  const medals = ['🥇', '🥈', '🥉'];
   const lines = entries.length
     ? entries.map(
         (entry, index) =>
-          `${medals[index] ?? `**${index + 1}.**`} <@${entry.userId}> — ${formatMoney(config, entry.balance)}`,
+          `${rankLabel(index)} <@${entry.userId}> — ${formatMoney(config, entry.balance)}`,
       )
     : ['*Personne n’a encore de solde.*'];
   return brandedEmbed({

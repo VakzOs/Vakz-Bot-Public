@@ -1,7 +1,7 @@
 import { PermissionFlagsBits, SlashCommandBuilder } from 'discord.js';
 import type { SlashCommand } from '../../../core/module.js';
 import { t } from '../../../core/i18n.js';
-import { infoEmbed } from '../../../lib/embeds.js';
+import { Emojis, infoEmbed } from '../../../lib/embeds.js';
 
 /** `/roleinfo` — informations sur un rôle. */
 export const roleinfo: SlashCommand = {
@@ -23,7 +23,10 @@ export const roleinfo: SlashCommand = {
       ? t('modules.info.roleinfo.admin')
       : t('modules.info.roleinfo.permCount', { count: role.permissions.toArray().length });
 
-    const embed = infoEmbed({ title: t('modules.info.roleinfo.title', { role: role.name }) })
+    const embed = infoEmbed({
+      title: t('modules.info.roleinfo.title', { role: role.name }),
+      emoji: Emojis.tag,
+    })
       .setColor(role.color || null)
       .addFields(
         { name: t('modules.info.field.id'), value: `\`${role.id}\``, inline: true },
