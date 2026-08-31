@@ -21,21 +21,6 @@ Le projet couvre aujourd'hui le socle, la communauté, la modération, la sécur
 - [Scripts npm](#scripts-npm)
 - [Checklist de test](#checklist-de-test)
 
-## État actuel
-
-Le bot n'est plus au stade fondations : il contient déjà une base fonctionnelle large.
-
-- Configuration centralisée avec `/config`, organisée par catégories.
-- **Dashboard web** (site Vercel séparé) : config par formulaires, publication de
-  panneaux, `/maj` à distance et purge RGPD des données d'un serveur.
-- Modules activables/désactivables par serveur.
-- i18n FR/EN, français par défaut.
-- SQLite + Prisma avec migrations Docker.
-- Déploiement automatique des slash commands au démarrage si `DEPLOY_COMMANDS_ON_START=true`.
-- Logs serveur avec boutons de rollback pour certains événements.
-- Auto-modération avancée avec actions configurables et honeypot.
-- Jeux récents : dés dédiés, boule 8, pile ou face, tirage, PFC, morpion et bataille navale avec stats.
-
 ## Stack technique
 
 | Domaine          | Choix                                |
