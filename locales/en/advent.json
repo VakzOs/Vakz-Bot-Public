@@ -1,0 +1,35 @@
+{
+  "modules": {
+    "advent": {
+      "label": "Advent calendar",
+      "description": "From December 1st to 24th, every member opens one door a day and earns coins and/or an item.",
+      "announce": "🎄 Day **{day}** of the Advent calendar is now open! Use `/avent ouvrir` to reveal your reward.",
+      "command": {
+        "description": "Advent calendar: open your door of the day.",
+        "open": "Open today's door (or a specific day).",
+        "dayOption": "Day to open (1-24). Default: today.",
+        "calendar": "Show your progress in the calendar."
+      },
+      "feedback": {
+        "disabled": "❌ The Advent calendar is disabled on this server.",
+        "closed": "🎄 The calendar isn't open (only December 1st to 24th).",
+        "locked": "🔒 Day {day}'s door can't be opened yet.",
+        "already": "🎁 You already opened day {day}'s door."
+      },
+      "calendar": {
+        "title": "🎄 Advent calendar",
+        "footerOpen": "Day {day} · {opened}/24 doors opened",
+        "footerClosed": "Come back December 1st to 24th!",
+        "testBadge": "🧪 **Test mode active** — every door can be opened (outside December too)."
+      },
+      "reward": {
+        "title": "🎁 Door {day} opened!",
+        "coins": "💰 +{coins} coins",
+        "item": "🎁 +{qty}× {item}",
+        "nothing": "…but the door was empty this time.",
+        "balance": "Balance: {balance} coins",
+        "linkButton": "🔗 Open the link"
+      }
+    }
+  }
+}

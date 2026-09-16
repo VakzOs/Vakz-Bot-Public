@@ -1,0 +1,35 @@
+{
+  "modules": {
+    "advent": {
+      "label": "Calendrier de l'Avent",
+      "description": "Du 1er au 24 décembre, chaque membre ouvre une porte par jour et gagne des pièces et/ou un objet.",
+      "announce": "🎄 La porte du **jour {day}** du calendrier de l'Avent est ouverte ! Utilise `/avent ouvrir` pour découvrir ta récompense.",
+      "command": {
+        "description": "Calendrier de l'Avent : ouvre ta porte du jour.",
+        "open": "Ouvre la porte du jour (ou d'un jour précis).",
+        "dayOption": "Jour à ouvrir (1-24). Par défaut : aujourd'hui.",
+        "calendar": "Affiche ta progression dans le calendrier."
+      },
+      "feedback": {
+        "disabled": "❌ Le calendrier de l'Avent est désactivé sur ce serveur.",
+        "closed": "🎄 Le calendrier n'est pas ouvert (uniquement du 1er au 24 décembre).",
+        "locked": "🔒 La porte du jour {day} n'est pas encore ouvrable.",
+        "already": "🎁 Tu as déjà ouvert la porte du jour {day}."
+      },
+      "calendar": {
+        "title": "🎄 Calendrier de l'Avent",
+        "footerOpen": "Jour {day} · {opened}/24 portes ouvertes",
+        "footerClosed": "Reviens du 1er au 24 décembre !",
+        "testBadge": "🧪 **Mode test actif** — toutes les portes sont ouvrables (hors décembre aussi)."
+      },
+      "reward": {
+        "title": "🎁 Porte {day} ouverte !",
+        "coins": "💰 +{coins} pièces",
+        "item": "🎁 +{qty}× {item}",
+        "nothing": "…mais la porte était vide cette fois.",
+        "balance": "Solde : {balance} pièces",
+        "linkButton": "🔗 Ouvrir le lien"
+      }
+    }
+  }
+}

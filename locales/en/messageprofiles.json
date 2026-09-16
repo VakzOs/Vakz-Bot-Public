@@ -1,0 +1,21 @@
+{
+  "modules": {
+    "messageprofiles": {
+      "label": "Message profiles",
+      "description": "Make the bot speak under a custom name and avatar via /dire (staff).",
+      "command": {
+        "description": "Post a message under a configured profile's identity.",
+        "profileOpt": "Profile to speak as",
+        "messageOpt": "Message to post",
+        "channelOpt": "Channel to post in (default: current channel)",
+        "unknownProfile": "❌ Profile not found. Set it up on the dashboard → Message profiles.",
+        "badChannel": "❌ Invalid channel.",
+        "result": {
+          "ok": "✅ Message posted in {channel} as “{name}”.",
+          "noperm": "❌ I'm missing the “Manage Webhooks” permission in that channel.",
+          "fail": "❌ Sending failed. Try again later."
+        }
+      }
+    }
+  }
+}

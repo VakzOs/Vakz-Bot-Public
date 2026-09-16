@@ -1,0 +1,169 @@
+{
+  "modules": {
+    "items": {
+      "label": "Items & inventories",
+      "description": "Per-server item catalog: buy with the currency, inventory, use (role reward) and trade between members.",
+      "opt": {
+        "item": "The item.",
+        "quantity": "Quantity (default: 1).",
+        "member": "The target member (default: you)."
+      },
+      "rarity": {
+        "common": "Common",
+        "rare": "Rare",
+        "epic": "Epic",
+        "legendary": "Legendary"
+      },
+      "use": {
+        "reason": "Item used: {name}",
+        "effects": {
+          "role": {
+            "done": "🏷️ Role {role} granted.",
+            "fail": "⚠️ Couldn't grant the {role} role (permissions/position?)."
+          },
+          "coins": {
+            "done": "🪙 {amount} coins."
+          },
+          "routeSelf": {
+            "done": "🧭 On your Route: {parts}."
+          },
+          "routeDamage": {
+            "noTarget": "⚠️ No target given for the damage.",
+            "notTravelling": "⚠️ {target} isn't on the Endless Road.",
+            "done": "🎯 {target} takes **{amount}** damage on the Road ({health}/{maxHealth} HP).",
+            "fainted": "💥 {target} falls to your **{amount}** damage on the Road!",
+            "backfire": {
+              "notTravelling": "🙃 You aimed at {aimed}, but the item backfired… and you're not on the Endless Road.",
+              "done": "🙃 It backfired! You aimed at {aimed}, but **you** take **{amount}** damage on the Road ({health}/{maxHealth} HP).",
+              "fainted": "💀 It backfired! You aimed at {aimed}, but it knocked **you** out: **{amount}** damage on the Road!"
+            }
+          },
+          "grantItem": {
+            "done": "🎁 You receive **{qty}× {emoji} {name}**.",
+            "missing": "⚠️ The item to grant no longer exists."
+          },
+          "privateChannel": {
+            "done": "🔒 Private channel created: {channel}.",
+            "fail": "⚠️ Couldn't create the channel (Manage Channels permission?)."
+          },
+          "stealCoins": {
+            "noTarget": "⚠️ No target given for the theft.",
+            "done": "🪙 You steal **{amount}** coins from {target}!",
+            "broke": "😐 {target} doesn't have a single coin to steal.",
+            "backfire": "🙃 It backfired! You aimed at {aimed}'s pockets, but your hand slips: **{amount}** coins go from yours to theirs.",
+            "backfireBroke": "🙃 It backfired! You aimed at {aimed}… but you have nothing to lose."
+          },
+          "timeout": {
+            "noTarget": "⚠️ No target given for the timeout.",
+            "done": "🤐 {target} is timed out for **{minutes}** minute(s).",
+            "backfire": "🙃 It backfired! You aimed at {aimed}, but **you** are timed out for **{minutes}** minute(s).",
+            "fail": "⚠️ Can't time out {target} (missing permission or higher rank)."
+          },
+          "drainEnergy": {
+            "noTarget": "⚠️ No target given for the drain.",
+            "done": "🥱 You drain **{amount}** energy from {target} (⚡ {energy} left).",
+            "backfire": "🙃 It backfired! You aimed at {aimed}, but **your** energy drains: −**{amount}** (⚡ {energy} left).",
+            "notTravelling": "⚠️ {target} isn't on the Endless Road."
+          },
+          "healTarget": {
+            "noTarget": "⚠️ No target given for the healing.",
+            "done": "💚 {target} is healed: {parts} ({health}/{maxHealth} HP).",
+            "notTravelling": "⚠️ {target} isn't on the Endless Road."
+          },
+          "nickname": {
+            "noTarget": "⚠️ No target given for the rename.",
+            "done": "🏷️ {target} becomes **{nickname}** for **{minutes}** minute(s).",
+            "tooHigh": "⚠️ Can't rename {target}: their rank is equal to or higher than the bot's.",
+            "fail": "⚠️ Can't rename {target} (missing “Manage Nicknames” permission?)."
+          },
+          "mysteryBox": {
+            "opened": "🎲 You open the mystery box…",
+            "labelled": "🎲 Mystery box: **{label}**"
+          },
+          "duckling": {
+            "noTarget": "⚠️ No target given for the duckling.",
+            "done": "🐥 A duckling latches onto {target} for **{turns}** event(s): −{steal}% earnings, −{distance}% distance, +{damage}% damage.",
+            "backfire": "🙃 It backfired! You aimed at {aimed}, but the duckling likes **you** better: it follows you for **{turns}** event(s) — and {aimed} gets the loot."
+          },
+          "unstickDuckling": {
+            "noTarget": "⚠️ No target given.",
+            "done": "🕊️ {target}'s duckling finally flies away.",
+            "none": "😐 No duckling is following {target}."
+          }
+        }
+      },
+      "limit": {
+        "description": "Set the global per-server item cap (bot owner).",
+        "view": "Show the current cap.",
+        "set": "Set the cap (0 = unlimited).",
+        "increase": "Increase the cap.",
+        "reduce": "Reduce the cap.",
+        "opt": {
+          "number": "New cap (0 = unlimited).",
+          "amount": "Number of items to add / remove."
+        },
+        "unlimited": "unlimited",
+        "notOwner": "❌ Bot owner only (/maj permission).",
+        "current": "📦 Per-server item cap: **{value}**.",
+        "currentlyUnlimited": "ℹ️ The cap is currently **unlimited**. Use `/objets-limite definir` to set a value.",
+        "updated": "✅ Per-server item cap updated: **{value}**."
+      },
+      "commands": {
+        "unknownItem": "❌ That item doesn't exist (anymore).",
+        "inventory": {
+          "description": "Show a member's inventory.",
+          "title": "🎒 {user}'s inventory",
+          "empty": "This inventory is empty."
+        },
+        "catalog": {
+          "description": "Show the server's item catalog.",
+          "empty": "🛒 No items in the catalog yet.",
+          "title": "🛒 Item catalog",
+          "notForSale": "not for sale",
+          "footer": "✨ = usable · 🔁 = tradable · /acheter to buy",
+          "footerPaged": "{base} • Page {page}/{pages}"
+        },
+        "buy": {
+          "description": "Buy an item with the server currency.",
+          "notForSale": "❌ This item is not for sale.",
+          "insufficient": "❌ You need {cost} (you have {balance}).",
+          "done": "🛒 You bought **{qty}× {emoji} {name}** for {cost}. You now have **{total}**."
+        },
+        "use": {
+          "description": "Use an item from your inventory.",
+          "optTarget": "Target member (for targeted effects, e.g. Road damage).",
+          "notUsable": "❌ This item cannot be used.",
+          "dontHave": "❌ You don't own any **{emoji} {name}**.",
+          "targetRequired": "❌ This item needs a target: add the **cible** option.",
+          "cooldown": "⏳ Item on cooldown. Try again {time}.",
+          "reason": "Item used: {name}",
+          "roleGranted": "🎁 You get the {role} role!",
+          "title": "✨ Item used",
+          "done": "{user} uses **{emoji} {name}**."
+        },
+        "give": {
+          "description": "Give an item to another member.",
+          "disabled": "❌ Item trading is disabled on this server.",
+          "invalidTarget": "❌ Pick another member (not a bot or yourself).",
+          "notTradable": "❌ This item can't be traded.",
+          "insufficient": "❌ You don't have enough **{emoji} {name}**.",
+          "done": "🎁 {from} gives **{qty}× {emoji} {name}** to {to}!"
+        },
+        "admin": {
+          "description": "Grant or remove items (staff).",
+          "give": "Give an item to a member.",
+          "take": "Remove an item from a member.",
+          "gave": "✅ Gave {qty}× {emoji} {name} to {user} (total: {total}).",
+          "took": "✅ Removed {qty}× {emoji} {name} from {user}."
+        },
+        "sell": {
+          "description": "Sell an item to the server for part of its price.",
+          "disabled": "❌ Quick sell is disabled on this server.",
+          "noValue": "❌ {emoji} {name} has no market value (shop price is 0).",
+          "notOwned": "❌ You don't own {emoji} {name}.",
+          "done": "🗑️ You sold {qty}× {emoji} **{name}** to the server ({percent}%) → +{total}. Balance: {balance}."
+        }
+      }
+    }
+  }
+}

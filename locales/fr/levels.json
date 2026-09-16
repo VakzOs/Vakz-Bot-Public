@@ -1,0 +1,25 @@
+{
+  "modules": {
+    "levels": {
+      "label": "Niveaux",
+      "description": "Gain d'XP par message, niveaux, rôles récompense et classement.",
+      "commands": {
+        "rang": {
+          "description": "Affiche ton niveau, ton XP et ton rang.",
+          "member": "Le membre dont voir le rang (par défaut : toi).",
+          "noXp": "Ce membre n'a pas encore gagné d'XP.",
+          "title": "Niveau de {user}",
+          "level": "Niveau",
+          "rank": "Rang",
+          "xp": "XP",
+          "progress": "Progression"
+        },
+        "leaderboard": {
+          "description": "Affiche le classement des membres par XP.",
+          "empty": "Personne n'a encore gagné d'XP sur ce serveur.",
+          "title": "🏆 Classement"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "modules": {
+    "customcommands": {
+      "label": "Custom commands",
+      "description": "Keyword-triggered auto-responses: trigger → reply (text or embed), with channel, cooldown and trigger deletion.",
+      "match": {
+        "contains": "Contains",
+        "exact": "Exact",
+        "startsWith": "Starts with",
+        "endsWith": "Ends with"
+      }
+    }
+  }
+}

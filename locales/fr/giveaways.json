@@ -1,0 +1,71 @@
+{
+  "modules": {
+    "giveaways": {
+      "label": "Giveaways",
+      "description": "Des tirages au sort : lot, durée, gagnants, participation par bouton.",
+      "command": {
+        "description": "Lancer et gérer des tirages au sort.",
+        "start": "Lancer un tirage au sort.",
+        "end": "Terminer un tirage immédiatement et tirer les gagnants.",
+        "reroll": "Relancer le tirage (tous les gagnants, ou un gagnant précis).",
+        "list": "Lister les tirages en cours."
+      },
+      "opt": {
+        "prize": "Le lot à gagner.",
+        "duration": "Durée du tirage (ex. 1h, 2j, 30m).",
+        "winners": "Nombre de gagnants (défaut 1).",
+        "channel": "Salon où publier le tirage (défaut : ici).",
+        "role": "Rôle requis pour participer (optionnel).",
+        "id": "Le tirage concerné.",
+        "winner": "Le gagnant à remplacer (relance ciblée)."
+      },
+      "embed": {
+        "title": "🎉 Giveaway : {prize}",
+        "intro": "Clique sur le bouton pour participer !\n**{count}** gagnant(s) tiré(s) au sort à la fin.",
+        "endedIntro": "Tirage terminé.",
+        "footer": "ID {id}",
+        "host": "Organisé par",
+        "winners": "Gagnants",
+        "endsAt": "Fin",
+        "endedAt": "Terminé",
+        "participants": "Participants",
+        "requiredRole": "Rôle requis",
+        "result": "🏆 Gagnant(s)",
+        "noWinner": "Aucun participant 😢"
+      },
+      "joinButton": "🎉 Participer ({count})",
+      "announceWinners": "🎉 Félicitations {winners} ! Vous remportez **{prize}** !",
+      "announceNoWinner": "😢 Personne n’a participé au tirage pour **{prize}**.",
+      "announceReroll": "🔄 Nouveau tirage ! Félicitations {winners}, vous remportez **{prize}** !",
+      "announceRerollOne": "🔄 {old} est remplacé : félicitations {new}, tu remportes **{prize}** !",
+      "feedback": {
+        "disabled": "❌ Ce module est désactivé sur ce serveur.",
+        "ended": "❌ Ce tirage est terminé ou introuvable.",
+        "needRole": "⛔ Il faut le rôle {role} pour participer à ce tirage.",
+        "joined": "✅ Tu participes au tirage ! Bonne chance 🍀",
+        "left": "➖ Tu ne participes plus à ce tirage."
+      },
+      "reroll": {
+        "notWinner": "❌ Ce membre n’est pas un gagnant actuel de ce tirage.",
+        "noEligible": "❌ Plus aucun participant éligible pour remplacer ce gagnant."
+      },
+      "invalidDuration": "❌ Durée invalide. Exemples : `1h`, `2j`, `30m`, `1h30m`.",
+      "channelInvalid": "❌ Salon invalide pour publier le tirage.",
+      "sendError": "❌ Impossible de publier le tirage (vérifie mes permissions dans le salon).",
+      "launched": "✅ Tirage lancé ! {url}",
+      "notFoundActive": "❌ Aucun tirage en cours avec cet identifiant.",
+      "endedManual": "🎉 Tirage terminé ! Gagnant(s) : {winners}",
+      "endedNoWinner": "😢 Tirage terminé, mais aucun participant.",
+      "notFoundEnded": "❌ Aucun tirage terminé avec cet identifiant.",
+      "rerolledOne": "🔄 {old} remplacé par {new}.",
+      "rerolledAll": "🔄 Nouveau tirage effectué. Gagnant(s) : {winners}",
+      "listEmpty": "Aucun tirage en cours.",
+      "listTitle": "🎉 Tirages en cours",
+      "listLine": "• **{prize}** — `{id}` — fin {ends} — {channel}",
+      "log": {
+        "title": "🎁 Tirage terminé",
+        "entry": "Lot : **{prize}**\nGagnant(s) : {winners}\nOrganisé par : {host}\nID : `{id}`"
+      }
+    }
+  }
+}

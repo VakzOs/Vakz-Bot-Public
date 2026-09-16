@@ -1,0 +1,21 @@
+{
+  "modules": {
+    "freegames": {
+      "label": "Jeux gratuits",
+      "description": "Annonce les jeux qui deviennent gratuits à garder (Steam, Epic Games, GOG) dans un salon.",
+      "embedDescription": "🎮 **Gratuit à récupérer** sur {store} pour une durée limitée !\n[Voir sur la boutique]({url})",
+      "priceField": "Prix",
+      "free": "Gratuit",
+      "command": {
+        "description": "Affiche les jeux actuellement gratuits (Steam, Epic, GOG).",
+        "none": "🎮 Aucun jeu gratuit à récupérer pour le moment.",
+        "title": "🎮 **{count}** jeu(x) gratuit(s) à récupérer :"
+      },
+      "platform": {
+        "steam": "Steam",
+        "epic": "Epic Games",
+        "gog": "GOG"
+      }
+    }
+  }
+}

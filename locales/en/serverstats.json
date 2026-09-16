@@ -1,0 +1,26 @@
+{
+  "modules": {
+    "serverstats": {
+      "label": "Server counters",
+      "description": "Voice channels whose name shows a server statistic, updated automatically.",
+      "type": {
+        "members": "Members",
+        "humans": "Humans",
+        "bots": "Bots",
+        "boosts": "Boosts",
+        "roles": "Roles",
+        "channels": "Channels",
+        "role": "Members of a role"
+      },
+      "default": {
+        "members": "👥 {count} members",
+        "humans": "🧑 {count} humans",
+        "bots": "🤖 {count} bots",
+        "boosts": "🚀 {count} boosts",
+        "roles": "🏷️ {count} roles",
+        "channels": "📁 {count} channels",
+        "role": "⭐ {count}"
+      }
+    }
+  }
+}

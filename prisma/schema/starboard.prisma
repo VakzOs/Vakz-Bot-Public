@@ -1,0 +1,22 @@
+// Schéma du module « starboard », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/starboard/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Message épinglé au starboard (module « Starboard »). Une ligne par message
+/// source, reliant le message d'origine à sa copie dans le salon starboard.
+model StarboardEntry {
+  id                 String   @id @default(cuid())
+  guildId            String
+  sourceChannelId    String
+  sourceMessageId    String
+  /// Message publié dans le salon starboard (null tant que pas encore posté).
+  starboardMessageId String?
+  authorId           String
+  starCount          Int      @default(0)
+  createdAt          DateTime @default(now())
+
+  @@unique([guildId, sourceMessageId])
+  @@index([guildId])
+}

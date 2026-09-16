@@ -1,0 +1,87 @@
+{
+  "modules": {
+    "moderation": {
+      "label": "Moderation",
+      "description": "Sanctions (warn, kick, ban, timeout), history and log.",
+      "commands": {
+        "warn": {
+          "description": "Warn a member."
+        },
+        "kick": {
+          "description": "Kick a member from the server."
+        },
+        "ban": {
+          "description": "Ban a member (or a user by their ID)."
+        },
+        "unban": {
+          "description": "Unban a user."
+        },
+        "timeout": {
+          "description": "Time a member out for a duration (e.g. 10m, 1h, 1j)."
+        },
+        "untimeout": {
+          "description": "Remove a member's timeout."
+        },
+        "history": {
+          "description": "Show a member's sanction history."
+        }
+      },
+      "opt": {
+        "member": "The targeted member.",
+        "reason": "The reason for the sanction.",
+        "deleteDays": "Delete messages from the last N days (0-7).",
+        "userId": "The ID of the user to unban.",
+        "duration": "Duration (e.g. 10m, 1h30m, 1j). Max 28 days."
+      },
+      "types": {
+        "warn": "⚠️ Warning",
+        "kick": "👢 Kick",
+        "ban": "🔨 Ban",
+        "unban": "♻️ Unban",
+        "timeout": "🔇 Timeout",
+        "untimeout": "🔊 Timeout removed"
+      },
+      "log": {
+        "user": "Member",
+        "moderator": "Moderator",
+        "executor": "Action by",
+        "reason": "Reason",
+        "noReason": "*no reason*",
+        "until": "Until"
+      },
+      "dm": {
+        "warn": "⚠️ You were warned in {guild}",
+        "kick": "👢 You were kicked from {guild}",
+        "ban": "🔨 You were banned from {guild}",
+        "unban": "♻️ Your ban in {guild} was lifted",
+        "timeout": "🔇 You were timed out in {guild}",
+        "untimeout": "🔊 Your timeout in {guild} was removed"
+      },
+      "result": {
+        "warn": "⚠️ {user} has been warned.",
+        "kick": "👢 {user} has been kicked.",
+        "ban": "🔨 {user} has been banned.",
+        "unban": "♻️ {user} has been unbanned.",
+        "timeout": "🔇 {user} has been timed out for {duration}.",
+        "untimeout": "🔊 {user}'s timeout has been removed."
+      },
+      "targetError": {
+        "self": "❌ You can't sanction yourself.",
+        "owner": "❌ You can't sanction the server owner.",
+        "bot": "❌ I can't sanction myself.",
+        "botHierarchy": "❌ This member has a role higher than or equal to mine: I can't sanction them.",
+        "modHierarchy": "❌ This member has a role higher than or equal to yours."
+      },
+      "notInGuild": "❌ This member is not on the server.",
+      "botNoPerm": "❌ I'm missing the permission required for this action.",
+      "actionFailed": "❌ The action failed (permissions or hierarchy).",
+      "invalidDuration": "❌ Invalid duration. Examples: `10m`, `1h30m`, `2j`.",
+      "invalidUserId": "❌ Invalid user ID.",
+      "notBanned": "❌ This user is not banned (or the ID is wrong).",
+      "history": {
+        "empty": "✅ {user} has no recorded sanction.",
+        "title": "{user}'s record"
+      }
+    }
+  }
+}

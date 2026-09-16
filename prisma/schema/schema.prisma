@@ -1,0 +1,185 @@
+// Schéma principal : la source de données, le générateur, et tout ce qui vaut
+// pour l'ensemble du bot.
+//
+// Prisma lit TOUS les fichiers `.prisma` de ce dossier et les fusionne. Le
+// découpage n'est donc pas cosmétique : il fait du schéma d'un module un
+// FICHIER, et un fichier s'exclut de la publication vers le miroir public.
+// Un `model` laissé dans ce fichier-ci ne le pourrait pas — on ne retire pas
+// un morceau de fichier.
+
+// Schéma Prisma de Vakz-Bot.
+//
+// Base de données : SQLite (fichier local, gratuit, zéro infra).
+// Le schéma reste volontairement portable vers PostgreSQL : on évite tout type
+// spécifique SQLite et on stocke les structures (config, listes d'IDs) sous forme
+// de JSON sérialisé (champ String), (dé)sérialisé et validé par zod dans le code.
+// Migration vers Postgres = changer `provider` + régénérer ; le code métier ne bouge pas.
+
+generator client {
+  provider      = "prisma-client-js"
+  // `native` se résout en arm64 lors d'un build sur le VPS Ampere.
+  // La cible explicite garantit la portabilité de l'image Docker (Debian/OpenSSL 3.0).
+  binaryTargets = ["native", "linux-arm64-openssl-3.0.x"]
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+/// Un serveur Discord (guild) connu du bot.
+model Guild {
+  /// Snowflake Discord du serveur.
+  id           String   @id
+  /// Langue par défaut du serveur (i18n). Ex. "fr", "en".
+  locale       String   @default("fr")
+  /// Liste JSON des rôles "staff" configurables (IDs de rôles Discord).
+  staffRoleIds String   @default("[]")
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  moduleConfigs ModuleConfig[]
+}
+
+/// Configuration d'un module pour un serveur donné.
+model ModuleConfig {
+  id        String   @id @default(cuid())
+  guildId   String
+  /// Identifiant stable du module (BotModule.name), ex. "levels".
+  module    String
+  /// Le module est-il activé sur ce serveur ?
+  enabled   Boolean  @default(false)
+  /// Réglages spécifiques au module, en JSON sérialisé (validés par zod côté code).
+  config    String   @default("{}")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  guild Guild @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  @@unique([guildId, module])
+  @@index([guildId])
+}
+
+/// Ticket de support (module « Tickets »). Un salon privé par ticket ouvert.
+model Ticket {
+  id        String    @id @default(cuid())
+  guildId   String
+  channelId String
+  openerId  String
+  /// Identifiant du type de ticket (voir la config du module).
+  typeId    String?
+  /// Statut : open | closed.
+  status    String    @default("open")
+  closedBy  String?
+  closedAt  DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([guildId, openerId, status])
+  @@index([channelId])
+}
+
+/// Salon vocal temporaire créé à la volée (module « Salons vocaux temporaires »).
+/// Une ligne par salon actif : permet de retrouver le propriétaire et de
+/// nettoyer les salons vides (y compris après un redémarrage du bot).
+model TempVoiceChannel {
+  /// Snowflake Discord du salon vocal temporaire.
+  id             String   @id
+  guildId        String
+  /// Hub (salon générateur) à l'origine de ce salon.
+  hubChannelId   String
+  /// Membre propriétaire (mutable : transfert / revendication).
+  ownerId        String
+  /// Message du panneau de contrôle (pour le rafraîchir au changement de proprio).
+  panelMessageId String?
+  /// Etat runtime JSON (liste blanche/noire explicite du salon).
+  stateData      String   @default("{}")
+  createdAt      DateTime @default(now())
+
+  @@index([guildId])
+}
+
+/// Réglages globaux de l'instance (clé/valeur), modifiables par le propriétaire
+/// du bot (droit /maj). Ex. : plafond d'objets par serveur (« items.maxPerGuild »).
+model AppSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+/// Un point de l'historique du monitoring : l'état de l'instance à la fin d'un
+/// intervalle d'échantillonnage.
+///
+/// La table existe pour que les courbes **survivent au redémarrage** : un
+/// tampon mémoire répond à « qu'est-ce qui se passe ? », jamais à « est-ce que
+/// la mémoire montait déjà avant le plantage d'hier soir ? ». Une ligne toutes
+/// les quinze secondes, purgée au-delà de `METRICS_RETENTION_DAYS`.
+///
+/// Les colonnes se lisent en deux familles : les **jauges** (`rss`, `heap`,
+/// `cpu`, `lag`, `ping`, `guilds`, `members`) valent à l'instant de la mesure et
+/// se moyennent quand on regroupe plusieurs lignes ; les **compteurs**
+/// (`commands`, `interactions`, `errors`, `logInfo`…) comptent ce qui s'est
+/// produit PENDANT l'intervalle et s'additionnent. Confondre les deux donnerait
+/// des courbes fausses dès qu'on regarde une période large.
+model MetricSample {
+  id           Int      @id @default(autoincrement())
+  /// Fin de l'intervalle mesuré.
+  at           DateTime
+  /// Nombre de mesures brutes fondues dans cette ligne.
+  ///
+  /// Vaut 1 tant que la ligne est fraîche. Au-delà de 24 heures, la compaction
+  /// fusionne les mesures par tranches de cinq minutes : un mois d'historique
+  /// tient alors en une dizaine de milliers de lignes au lieu de 170 000. Les
+  /// jauges se moyennent **pondérées par ce poids**, sinon une ligne fondue
+  /// pèserait autant qu'une mesure isolée.
+  span         Int      @default(1)
+  /// Mémoire résidente du process, en octets.
+  rss          Int
+  /// Tas V8 utilisé, en octets.
+  heap         Int
+  /// Part de CPU consommée, en % d'un cœur (100 = un cœur plein).
+  cpu          Int
+  /// Retard moyen de la boucle d'évènements, en millisecondes.
+  lag          Float
+  /// Latence de la passerelle Discord. Null tant qu'aucun heartbeat n'est revenu.
+  ping         Int?
+  guilds       Int
+  members      Int
+  commands     Int
+  /// Commandes terminées en erreur pendant l'intervalle.
+  commandFails Int      @default(0)
+  interactions Int
+  components   Int      @default(0)
+  modals       Int      @default(0)
+  autocomplete Int      @default(0)
+  /// Requêtes envoyées à l'API Discord pendant l'intervalle.
+  rest         Int
+  rateLimits   Int
+  logTrace     Int      @default(0)
+  logDebug     Int      @default(0)
+  logInfo      Int      @default(0)
+  /// Lignes `warn` de l'intervalle (le panneau les appelle « alertes »).
+  logWarn      Int      @default(0)
+  logError     Int      @default(0)
+  logFatal     Int      @default(0)
+
+  @@index([at])
+}
+
+/// Statistiques cumulées d'une slash command, tous serveurs confondus.
+///
+/// Contrairement aux échantillons, cette table n'est **jamais purgée** : elle
+/// répond à « quelles commandes servent vraiment ? », question qui n'a de sens
+/// que sur la durée. Une seule ligne par commande, mise à jour à la fin de
+/// chaque intervalle où la commande a tourné.
+model MetricCommand {
+  /// Nom de la commande, sans la barre oblique (`gacha`, `niveau`…).
+  name    String    @id
+  /// Module qui la fournit, quand on le connaît.
+  module  String?
+  count   Int       @default(0)
+  errors  Int       @default(0)
+  /// Temps d'exécution cumulé, en millisecondes. `Float` parce que des années
+  /// de service dépasseraient la capacité d'un entier 32 bits.
+  totalMs Float     @default(0)
+  lastAt  DateTime?
+}

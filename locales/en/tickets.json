@@ -1,0 +1,33 @@
+{
+  "modules": {
+    "tickets": {
+      "label": "Tickets",
+      "description": "Multiple ticket types; each type opens a private channel visible to the chosen roles.",
+      "welcomeTitle": "🎫 Ticket opened",
+      "welcome": "Hello {user}, your “{type}” ticket is open. Describe your request here, the team will reply. Click “Close ticket” once it’s resolved.",
+      "opened": "✅ Your ticket has been opened: {channel}",
+      "feedback": {
+        "disabled": "❌ This module is disabled on this server."
+      },
+      "error": {
+        "notype": "❌ This ticket type no longer exists.",
+        "max": "❌ You already have {max} open ticket(s). Close it before opening a new one.",
+        "noperm": "❌ I lack the “Manage Channels” permission to create the ticket.",
+        "create": "❌ Could not create the ticket channel. Check my permissions and the category."
+      },
+      "close": {
+        "button": "🔒 Close ticket",
+        "confirm": "Close this ticket? The channel will be deleted.",
+        "confirmButton": "🔒 Confirm close",
+        "closing": "🔒 Closing the ticket…",
+        "closingArchive": "🔒 Archiving the conversation then closing…",
+        "notFound": "❌ This ticket cannot be found or is already closed.",
+        "cantClose": "⛔ Only the author, the type staff or an admin can close it."
+      },
+      "archive": {
+        "title": "📦 Ticket archive",
+        "header": "Type: {type}\nAuthor: {opener}\nClosed by: {closedBy}\nMessages: {count}"
+      }
+    }
+  }
+}

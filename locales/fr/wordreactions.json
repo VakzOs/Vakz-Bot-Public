@@ -1,0 +1,15 @@
+{
+  "modules": {
+    "wordreactions": {
+      "label": "Réactions de mots",
+      "description": "Ajoute automatiquement des emojis en réaction aux messages contenant certains mots-clés.",
+      "match": {
+        "contains": "Contient",
+        "word": "Mot entier",
+        "exact": "Exact",
+        "startsWith": "Commence par",
+        "endsWith": "Finit par"
+      }
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "modules": {
+    "reminders": {
+      "label": "Rappels",
+      "description": "Planifie des rappels persistants en salon ou en message privé.",
+      "invalidDuration": "❌ Durée invalide. Indique un nombre de minutes (minimum 1 minute, maximum {days} jour(s)).",
+      "emptyText": "❌ Le texte du rappel ne peut pas être vide.",
+      "dmDisabled": "❌ Les rappels en MP sont désactivés sur ce serveur.",
+      "created": "⏰ Rappel enregistré : {duration} (prochaine exécution {time}).",
+      "delivery": "⏰ {target}, rappel : {text}",
+      "weekdays": {
+        "1": "lundi",
+        "2": "mardi",
+        "3": "mercredi",
+        "4": "jeudi",
+        "5": "vendredi",
+        "6": "samedi",
+        "7": "dimanche"
+      }
+    }
+  }
+}

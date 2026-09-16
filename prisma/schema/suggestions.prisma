@@ -1,0 +1,39 @@
+// Schéma du module « suggestions », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/suggestions/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Suggestion soumise par un membre (module « Suggestions »).
+model Suggestion {
+  id        String           @id @default(cuid())
+  guildId   String
+  channelId String
+  messageId String?
+  authorId  String
+  content   String
+  /// Statut : pending | approved | rejected | considered.
+  status    String           @default("pending")
+  /// Modérateur ayant statué (le cas échéant).
+  decidedBy String?
+  reason    String?
+  /// Métadonnées optionnelles (ex. jeu Steam : nom, prix, image…) en JSON sérialisé.
+  metadata  String?
+  createdAt DateTime         @default(now())
+  votes     SuggestionVote[]
+
+  @@index([guildId, status])
+}
+
+/// Vote (pour/contre) d'un membre sur une suggestion.
+model SuggestionVote {
+  id           String     @id @default(cuid())
+  suggestionId String
+  userId       String
+  /// Valeur : up | down.
+  value        String
+  suggestion   Suggestion @relation(fields: [suggestionId], references: [id], onDelete: Cascade)
+
+  @@unique([suggestionId, userId])
+  @@index([suggestionId])
+}

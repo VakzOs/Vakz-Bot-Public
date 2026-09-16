@@ -1,0 +1,23 @@
+// Schéma du module « games », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/games/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Statistiques de jeu d'un membre pour un jeu donné (module « Jeux »). Une
+/// ligne par (serveur, membre, jeu). Sert au classement et à `/statsjeux`.
+model GameStat {
+  id        String   @id @default(cuid())
+  guildId   String
+  userId    String
+  /// Identifiant du jeu (ex. "pfc").
+  game      String
+  wins      Int      @default(0)
+  losses    Int      @default(0)
+  draws     Int      @default(0)
+  plays     Int      @default(0)
+  updatedAt DateTime @updatedAt
+
+  @@unique([guildId, userId, game])
+  @@index([guildId, game])
+}

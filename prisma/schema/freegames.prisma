@@ -1,0 +1,20 @@
+// Schéma du module « freegames », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/freegames/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Jeu gratuit déjà annoncé sur un serveur (module « Jeux gratuits »). Évite
+/// d'annoncer deux fois la même promo (par appid Steam).
+model FreeGameAnnouncement {
+  id          String   @id @default(cuid())
+  guildId     String
+  /// Plateforme d'origine : "steam", "epic" ou "gog".
+  source      String   @default("steam")
+  /// Identifiant du jeu sur sa plateforme (appid Steam, id d'offre Epic, id GOG).
+  gameId      String
+  announcedAt DateTime @default(now())
+
+  @@unique([guildId, source, gameId])
+  @@index([guildId])
+}

@@ -1,0 +1,8 @@
+{
+  "modules": {
+    "stickymessages": {
+      "label": "Sticky messages",
+      "description": "Keeps a message always at the bottom of a channel: it is re-posted on every new discussion."
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "modules": {
+    "info": {
+      "label": "Commandes d'informations",
+      "description": "Commandes utilitaires : infos sur un membre, le serveur, un rôle, ou l'avatar de quelqu'un.",
+      "opt": {
+        "member": "Le membre concerné (par défaut : toi).",
+        "role": "Le rôle concerné.",
+        "emoji": "L'emoji à agrandir (personnalisé, :nom: ou unicode)."
+      },
+      "yes": "✅ Oui",
+      "no": "⛔ Non",
+      "field": {
+        "id": "Identifiant",
+        "bot": "Bot",
+        "created": "Compte créé",
+        "joined": "A rejoint",
+        "roles": "Rôles ({count})",
+        "boosting": "Booste depuis",
+        "owner": "Propriétaire",
+        "members": "Membres",
+        "boosts": "Boosts",
+        "channels": "Salons",
+        "emojis": "Emojis",
+        "color": "Couleur",
+        "position": "Position"
+      },
+      "boostValue": "**{count}** (niveau {tier})",
+      "channelValue": "💬 {text} · 🔊 {voice} · 📁 {categories}",
+      "userinfo": {
+        "description": "Affiche les informations d'un membre.",
+        "title": "Informations sur {user}"
+      },
+      "serverinfo": {
+        "description": "Affiche les informations du serveur.",
+        "title": "Informations sur {server}"
+      },
+      "avatar": {
+        "description": "Affiche l'avatar d'un membre en grand.",
+        "title": "Avatar de {user}",
+        "link": "Lien",
+        "serverLink": "Avatar du serveur"
+      },
+      "roleinfo": {
+        "description": "Affiche les informations d'un rôle.",
+        "title": "Informations sur {role}",
+        "hoisted": "Affiché à part",
+        "mentionable": "Mentionnable",
+        "managed": "Géré (bot/intégration)",
+        "permissions": "Permissions",
+        "admin": "👑 Administrateur",
+        "permCount": "{count} permission(s)"
+      },
+      "emoji": {
+        "description": "Affiche un emoji en grand (téléchargeable).",
+        "download": "Téléchargement",
+        "animated": "🎞️ Animé",
+        "static": "🖼️ Statique",
+        "notEmoji": "❌ Ce n'est pas un emoji valide. Donne un emoji personnalisé, un `:nom:` du serveur, ou un emoji unicode."
+      }
+    }
+  }
+}

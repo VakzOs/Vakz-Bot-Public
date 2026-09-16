@@ -1,0 +1,23 @@
+{
+  "modules": {
+    "streamer": {
+      "label": "Streamer mode",
+      "description": "A panel where members deafen themselves (without muting their mic) to stream a game to friends.",
+      "button": "Enable / Disable",
+      "embed": {
+        "roleField": "{role} — {count} member(s)",
+        "noMembers": "No member"
+      },
+      "feedback": {
+        "disabled": "❌ Streamer mode is disabled on this server.",
+        "notConfigured": "❌ No Streaming role is configured (an admin must set it on the dashboard).",
+        "roleGone": "❌ The Streaming role no longer exists.",
+        "cannot": "⚠️ I can't: I'm missing « Deafen Members » or « Manage Roles », or the Streaming role is above mine.",
+        "notInVoice": "❌ Join a voice channel first.",
+        "enabledUser": "🎙️ **Streamer mode enabled.** You no longer hear Discord, but your mic keeps broadcasting.",
+        "disabledUser": "🔊 **Streamer mode disabled.** You can hear Discord again.",
+        "error": "❌ An error occurred (check my permissions)."
+      }
+    }
+  }
+}

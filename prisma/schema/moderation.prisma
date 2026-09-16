@@ -1,0 +1,24 @@
+// Schéma du module « moderation », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/moderation/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Sanction de modération appliquée à un membre (module « Modération »).
+model Sanction {
+  id          String    @id @default(cuid())
+  guildId     String
+  /// Membre sanctionné.
+  userId      String
+  /// Modérateur à l'origine de la sanction.
+  moderatorId String
+  /// Type : warn | kick | ban | unban | timeout | untimeout.
+  type        String
+  reason      String?
+  /// Fin d'effet (timeout) le cas échéant.
+  expiresAt   DateTime?
+  createdAt   DateTime  @default(now())
+
+  @@index([guildId, userId])
+  @@index([guildId])
+}

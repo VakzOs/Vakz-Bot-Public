@@ -1,0 +1,10 @@
+{
+  "modules": {
+    "starboard": {
+      "label": "Starboard",
+      "description": "Reposts messages that get enough star ⭐ reactions to a channel.",
+      "jump": "Jump to message",
+      "header": "{emoji} **{count}** · {channel}"
+    }
+  }
+}

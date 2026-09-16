@@ -1,0 +1,18 @@
+// Schéma du module « advent », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/advent/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Porte du calendrier de l'Avent ouverte par un membre : une seule par jour et
+/// par membre (module « Calendrier de l'Avent »). `day` = 1 à 24.
+model AdventClaim {
+  id        String   @id @default(cuid())
+  guildId   String
+  userId    String
+  day       Int
+  claimedAt DateTime @default(now())
+
+  @@unique([guildId, userId, day])
+  @@index([guildId, userId])
+}

@@ -1,0 +1,32 @@
+// Schéma du module « bingo », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/bingo/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Carton de Bingo d'un membre. `numbers` = JSON des 25 cases (0 = case libre).
+model BingoCard {
+  id        String    @id @default(cuid())
+  gameId    String
+  guildId   String
+  userId    String
+  numbers   String
+  createdAt DateTime  @default(now())
+  game      BingoGame @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([gameId, userId])
+  @@index([gameId])
+}
+
+/// Partie de Bingo d'un serveur (une seule active à la fois). `drawn` = JSON
+/// des numéros tirés ; `mode` = ligne | carton.
+model BingoGame {
+  id        String      @id @default(cuid())
+  guildId   String      @unique
+  status    String      @default("open")
+  mode      String      @default("line")
+  drawn     String      @default("[]")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  cards     BingoCard[]
+}

@@ -1,0 +1,28 @@
+{
+  "modules": {
+    "streamalerts": {
+      "label": "Alertes stream & flux",
+      "description": "Annonce dans un salon les lives, vidéos et nouveautés de flux (Twitch, YouTube, Reddit, RSS, Dealabs).",
+      "platform": {
+        "twitch": "Twitch",
+        "youtube": "YouTube",
+        "reddit": "Reddit",
+        "rss": "Flux RSS",
+        "dealabs": "Dealabs"
+      },
+      "embed": {
+        "twitchTitle": "🔴 {name} est en live !",
+        "youtubeTitle": "📺 Nouvelle vidéo de {name} !",
+        "game": "Catégorie",
+        "redditTitle": "🟠 Nouveau post sur {name} !",
+        "rssTitle": "📰 Nouvel article — {name}",
+        "dealabsTitle": "🏷️ Nouveau deal — {name}",
+        "price": "🏷️ Prix",
+        "temperature": "🌡️ Température",
+        "merchant": "🏪 Marchand"
+      },
+      "announceTwitch": "🔴 **{name}** est en live sur Twitch ! {url}",
+      "announceYoutube": "📺 **{name}** vient de publier une vidéo ! {url}"
+    }
+  }
+}

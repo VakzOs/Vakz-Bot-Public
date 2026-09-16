@@ -1,0 +1,10 @@
+[Unit]
+Description=Surveille la demande de mise à jour de Vakz-Bot (/maj)
+
+[Path]
+# Adapter le chemin au volume partagé avec le conteneur.
+PathExists=/opt/vakzbot/data/deploy.request
+Unit=vakzbot-update.service
+
+[Install]
+WantedBy=multi-user.target

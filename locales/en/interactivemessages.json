@@ -1,0 +1,16 @@
+{
+  "modules": {
+    "interactivemessages": {
+      "label": "Interactive messages",
+      "description": "Build reusable embeds (title, description, colour) posted in a channel, with role buttons (click = add/remove) and link buttons.",
+      "feedback": {
+        "disabled": "❌ This module is disabled on this server.",
+        "roleGone": "❌ This role no longer exists.",
+        "cannotAssign": "⚠️ I can't manage this role (missing “Manage Roles” permission, or the role is above mine).",
+        "added": "✅ Role {role} added.",
+        "removed": "➖ Role {role} removed.",
+        "error": "❌ Something went wrong."
+      }
+    }
+  }
+}

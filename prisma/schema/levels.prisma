@@ -1,0 +1,23 @@
+// Schéma du module « levels », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/levels/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// XP et niveau d'un membre sur un serveur (module « Niveaux »).
+model MemberLevel {
+  id        String   @id @default(cuid())
+  guildId   String
+  userId    String
+  /// XP total cumulé.
+  xp        Int      @default(0)
+  /// Niveau courant, dérivé de l'XP (stocké pour le tri et l'affichage).
+  level     Int      @default(0)
+  /// Dernier gain d'XP (pour le cooldown anti-spam).
+  lastXpAt  DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([guildId, userId])
+  @@index([guildId, xp])
+}

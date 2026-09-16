@@ -1,0 +1,144 @@
+{
+  "modules": {
+    "route": {
+      "label": "Endless Road",
+      "description": "A solo adventure: walk the road, face random events and earn coins and items.",
+      "opt": {
+        "member": "The target member (default: you)."
+      },
+      "commands": {
+        "move": "Take a step on the Endless Road.",
+        "profile": "Show a traveller's profile.",
+        "leaderboard": "Longest-distance leaderboard.",
+        "shop": "Buy a provision (instant effect on purchase)."
+      },
+      "noTraveler": "🧭 {user} hasn't hit the road yet (`/route avancer`).",
+      "profileTitle": "🧭 Traveller — {user}",
+      "moveTitle": "🧭 {user} walks the Endless Road",
+      "leaderboardEmpty": "No one has covered any distance yet.",
+      "leaderboardTitle": "🏆 Endless Road — longest distances",
+      "cooldown": "😮‍💨 You're tired. You can set off again {time}.",
+      "itemFound": "🎁 You get **{emoji} {name}**!",
+      "missedGift": {
+        "lines": "🕳️ …except no. Nothing. Zip. You leave empty-handed.|👁️👄👁️ STARE THIS GUY — promised you a gift, then walked off with it.|🎁➡️💨 The gift existed for about two seconds. Not for you, but it existed.|📦 Parcel lost. The Road's customer service stopped answering 400 years ago.|🤡 You hold out your hands. You receive air. Premium air, admittedly.|🎲 Randomness looked you dead in the eye and said no.|🧾 Out of stock. Come back in another life.|😐 Technically there was a gift. Technically you do not have it.|🚪 He showed you the parcel, smiled, and closed his bag. A classic.|🏆 You win a valuable life lesson. Market value: 0 coins.|🐌 Your gift is on its way. It will probably never arrive.|👏 No gift, but some mocking applause somewhere in the distance.|🧦 He rummaged and rummaged, found a single sock, and kept it.|📉 Your inventory stays exactly as empty as before. Impressive.|🙃 Good news: you lost nothing. Bad news: you gained nothing.|🥲 No gift for you. That is it. That is the whole message.|🪄 The gift turned into dust. Nobody saw that coming.|💀 He tripped and the parcel fell into a ravine. You watched it happen."
+      },
+      "fainted": "💀 You ran out of strength… you wake at the last camp (distance halved).",
+      "stats": {
+        "title": "Traveller status",
+        "body": "❤️ {bar} {health}/{maxHealth}\n⚡ Energy: {energy}/100\n📏 Distance: {distance}\n🪙 Coins earned: {coins}\n🎲 Events: {events}\n💀 Deaths: {deaths}"
+      },
+      "events": {
+        "path": "🥾 You walk a peaceful trail and make quiet progress.",
+        "treasure": "💰 You dig up a forgotten chest full of coins!",
+        "monster": "⚔️ A creature ambushes you! You fight it off and press on, worse for wear.",
+        "trap": "🪤 A trap snaps shut on you! You wriggle free.",
+        "merchant": "🧺 A wandering merchant crosses your path.",
+        "rest": "🏕️ You make camp and recover your strength.",
+        "shortcut": "🧭 You find a shortcut and stride ahead!",
+        "storm": "🌩️ A violent storm slows and exhausts you.",
+        "friend": "🤝 A fellow traveller shares food and coins with you.",
+        "abyss": "🕳️ You fall into a chasm… you barely climb out, battered but with full pockets.",
+        "oasis": "🌴 You stumble upon a hidden oasis and rest in the shade of the palms.",
+        "ruins": "🏛️ You explore ancient ruins and unearth a few treasures.",
+        "wolves": "🐺 A wolf pack gives chase! You escape, but not unscathed.",
+        "river": "🌊 You cross a raging river: exhausting, but you gain ground.",
+        "shrine": "⛩️ You pray at a mysterious shrine and feel reinvigorated.",
+        "mirage": "🏜️ A mirage leads you astray, wasting time and strength.",
+        "bandits": "🗡️ Bandits attack! You fend them off and take their loot.",
+        "volcano": "🌋 You skirt an erupting volcano: the heat scorches you, but the molten gold is worth it.",
+        "quicksand": "🏜️ You sink into quicksand! You crawl out exhausted, having lost precious ground.",
+        "landslide": "⛰️ A landslide sends you tumbling down the slope! You have to climb all the way back.",
+        "lost": "🌫️ A thick fog leads you completely astray… you unknowingly retrace your steps.",
+        "bog": "🐸 You get stuck in a stinking bog and waste ages pulling yourself free.",
+        "ravine": "🧗 You slip into a ravine and climb back out, bruised and demoralised.",
+        "curse": "💀 An ancient curse strikes you and hurls you violently backwards!",
+        "echo": "⏳ A time echo sends you far back… yet you feel strangely rested.",
+        "thief": "🦹 A pickpocket lifts some of your coins and vanishes!",
+        "gambler": "🎲 A gambler challenges you to a dice game: win or lose, fate decides.",
+        "sphinx": "🦁 A sphinx asks you a riddle. Right answer or humiliation? Total suspense.",
+        "ambush": "🏹 Goblins ambush you! You drive them off and keep their meagre loot.",
+        "bridge": "🌉 The suspension bridge gives way under your feet… sometimes you jump clear, sometimes you don't.",
+        "golem": "🗿 A stone golem blocks the way! You bring it down and plunder its hoard.",
+        "meteor": "☄️ A meteor crashes beside you! The crater is full of precious metals.",
+        "dragon": "🐉 A DRAGON! You survive its breath and grab part of its hoard.",
+        "caravan": "🐪 You join a merchant caravan: safety, supplies and good company.",
+        "herbalist": "🌿 A herbalist brews you a remedy that soothes your wounds.",
+        "waterfall": "⛲ You bathe under an icy waterfall and come out reinvigorated.",
+        "fireflies": "✨ Magical fireflies light your path and carry you onward.",
+        "well": "🪙 You toss a coin into a wishing well… and it pays you back a hundredfold!",
+        "hermit": "🧙 A wise hermit shares his soup and gives you an item from his collection.",
+        "eagle": "🦅 A giant eagle snatches you up and drops you miles down the road!",
+        "fairy": "🧚 A mischievous fairy sprinkles your road with magic dust.",
+        "portal": "🌀 An unstable portal swallows you and spits you out much further down the road!",
+        "fountain": "⛲✨ ULTRA RARE — The Fountain of Youth! You dive in and emerge fully regenerated. ❤️ FULL HEALTH!",
+        "elixir": "🌟 ULTRA RARE — You find the Celestial Elixir: body and mind fully restored. ❤️⚡ FULL EVERYTHING!",
+        "goldenvault": "🏆 ULTRA RARE — You crack open the Golden Vault: a mountain of coins is yours!",
+        "phoenix": "🔥 ULTRA RARE — A phoenix is reborn before your eyes and grants you its flames: nearly full health, plus a gift!",
+        "witch": "🧙‍♀️ A witch hands you a steaming potion… surprise effect: remedy or poison?",
+        "mimic": "🎁👅 A treasure chest! …It's a MIMIC! You fight it off and loot its guts.",
+        "ogre": "👹 An ogre blocks the path! It beats you up and picks your pockets before letting you through.",
+        "skeletons": "💀 Skeletons crawl out of an old graveyard! You smash them back to dust.",
+        "harpy": "🦅 A harpy swoops down screeching and flies off with your coin purse!",
+        "fog": "🌫️ Thick fog swallows the road. You wander in circles and lose ground.",
+        "willowisp": "🔥 A will-o'-the-wisp lures you off the trail… You chase it like a fool and get lost.",
+        "mermaid": "🧜‍♀️ A mermaid's song bewitches you. You wake up on the shore, behind where you were.",
+        "toll": "🌉 A troll guards the bridge: 'Toll!' You pay up, but you make fast progress beyond it.",
+        "smith": "⚒️ A traveling blacksmith patches you up and resupplies you for a few coins.",
+        "altar": "🩸 An ancient altar demands a blood offering… in exchange it spits out gold.",
+        "mushrooms": "🍄 You nibble on unknown mushrooms. Energy guaranteed… but were they edible?",
+        "wizard": "🧙 A wandering wizard teleports you with a snap of his fingers. Where to? Even he doesn't know.",
+        "raven": "🐦‍⬛ A messenger raven follows you for a while and drops a little gift.",
+        "giant": "🗿 A GIANT looms before you! You fight with all your might and plunder its stash.",
+        "griffin": "🦅✨ A griffin grabs you by the shoulder and drops you much further down the road!",
+        "timeloop": "⏳✨ ULTRA RARE — A time loop swallows you! You relive the same places… but emerge full of energy.",
+        "wishingstar": "🌠✨ ULTRA RARE — A shooting star grants your wish: fortune, strength and renewed spirit!",
+        "peddler": "🧳 A traveling peddler hails you! He offers his provisions at bargain prices — a deal to grab, it's him or the shop.",
+        "tavern": "🍺 You stop at a lively tavern: you eat, drink and set off refreshed (though the bill lightens your purse).",
+        "market": "🛒 A colourful market lines your path: you snag a useful item.",
+        "bear": "🐻 A bear bursts from the bushes! You escape, clawed but alive, and press on.",
+        "festival": "🎉 You stumble into a village festival: dancing, feasting and a few coins gifted!",
+        "serpent": "🐍 A giant serpent rears up in your path. The fight is fierce, but its scales are worth gold.",
+        "frost": "❄️ A biting cold sets in: you shiver, exhausted, and struggle to move forward.",
+        "oracle": "🔮 An oracle reveals a hidden shortcut: you gain a huge amount of ground.",
+        "knight": "⚔️ You find a fallen knight's hideout: his cache holds coins and an item.",
+        "ghost": "👻 A ghost haunts you and drives you back, chilled to the bone."
+      },
+      "goods": {
+        "potion": {
+          "name": "🧪 Healing potion",
+          "desc": "Instant +40 HP. Tastes awful, but it works."
+        },
+        "tonic": {
+          "name": "⚗️ Energy tonic",
+          "desc": "Instant +50 ⚡. Perfect against exhaustion."
+        },
+        "ration": {
+          "name": "🍖 Travel ration",
+          "desc": "Instant +15 HP and +20 ⚡. A walker's meal."
+        }
+      },
+      "shop": {
+        "title": "🧳 Road Shop",
+        "buyButton": "Buy {name}",
+        "bought": "✅ You buy and instantly use **{name}** ({effect}) for 🪙 **{price}**. New balance: 🪙 {balance}.",
+        "tooPoor": "❌ You need 🪙 **{price}** (current balance: {balance})."
+      },
+      "peddler": {
+        "notYours": "🛑 This peddler is dealing with another traveler.",
+        "buyButton": "Buy {name} • {price} 🪙"
+      },
+      "exhausted": "🥵 **Exhausted!** Your energy is negative: progress halved and damage amplified (×1.5). Rest up or use a provision.",
+      "duckling": {
+        "title": "🐥 A duckling is following you!",
+        "rates": "It takes **{steal}%** of your earnings, slows you by **{distance}%** and makes you take **{damage}%** more damage.",
+        "stole": "🪙 −{coins} stolen",
+        "slowed": "📏 −{distance} distance",
+        "bit": "❤️ −{damage} extra damage",
+        "nothing": "This time it got nothing from you.",
+        "turnsLeft": "**{turns}** more event(s) before it gets bored.",
+        "gone": "🎉 It finally gets bored and waddles away!",
+        "total": "Total loot since it started following you: **{coins}** coins."
+      }
+    }
+  }
+}

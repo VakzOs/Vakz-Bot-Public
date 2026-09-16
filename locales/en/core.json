@@ -1,0 +1,17 @@
+{
+  "modules": {
+    "core": {
+      "label": "Core",
+      "description": "Essential system commands (ping, configuration).",
+      "ping": {
+        "description": "Show the bot latency.",
+        "title": "🏓 Pong!",
+        "computing": "Measuring latency…",
+        "websocket": "Gateway (WebSocket)",
+        "roundtrip": "Round-trip",
+        "build": "Build",
+        "refresh": "Refresh"
+      }
+    }
+  }
+}

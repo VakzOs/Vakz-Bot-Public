@@ -1,0 +1,29 @@
+// Schéma du module « reminders », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/reminders/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Rappel planifié par un membre (module « Rappels »).
+model Reminder {
+  id           String    @id @default(cuid())
+  guildId      String
+  channelId    String?
+  /// Type de cible : user | role.
+  targetKind   String    @default("user")
+  targetId     String
+  message      String
+  dueAt        DateTime
+  deliverInDm  Boolean   @default(false)
+  /// Type de répétition : once | weekly.
+  repeatKind   String    @default("once")
+  /// Jour ISO (1=lundi ... 7=dimanche) si repeatKind=weekly.
+  repeatDay    Int?
+  repeatHour   Int?
+  repeatMinute Int?
+  deliveredAt  DateTime?
+  createdAt    DateTime  @default(now())
+
+  @@index([guildId, targetKind, targetId, dueAt])
+  @@index([dueAt, deliveredAt])
+}

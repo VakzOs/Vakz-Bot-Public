@@ -1,0 +1,103 @@
+{
+  "modules": {
+    "games": {
+      "label": "Games",
+      "description": "Fun mini-games: magic 8-ball, dice, coin flip, random pick, rock-paper-scissors, tic-tac-toe and Battleship (with stats). Can drop items when the “Items” module is configured.",
+      "drop": {
+        "announce": "🎁 {user} found {emoji} **{name}** ({rarity})!"
+      },
+      "opt": {
+        "question": "Your question for the magic 8-ball.",
+        "count": "Number of dice to roll (default: 1).",
+        "options": "The choices, separated by “|” or “,”.",
+        "move": "Your move.",
+        "member": "The target member (default: you).",
+        "opponent": "Opponent to challenge (leave empty to play the bot)."
+      },
+      "boule8": {
+        "description": "Ask the magic 8-ball a question.",
+        "title": "🎱 Magic 8-ball",
+        "questionField": "Question",
+        "answerField": "Answer",
+        "answers": "It is certain.|Without a doubt.|Yes, definitely.|You may rely on it.|Most likely.|Signs point to yes.|Maybe.|Hard to say, try again.|Don't count on it.|Concentrate and ask again.|My reply is no.|My sources say no.|Very doubtful.|Outlook not so good.|I strongly doubt it."
+      },
+      "dice": {
+        "description": "Roll one or more {faces}-sided dice."
+      },
+      "coin": {
+        "description": "Flip a coin.",
+        "title": "🪙 Coin flip",
+        "heads": "**Heads!**",
+        "tails": "**Tails!**"
+      },
+      "choose": {
+        "description": "The bot picks for you among several options.",
+        "title": "🤔 Choice",
+        "result": "I pick… **{choice}**!",
+        "needTwo": "Give at least two options, separated by “|” or “,”."
+      },
+      "pfc": {
+        "description": "Rock-paper-scissors (against the bot or a member).",
+        "title": "✊ Rock-Paper-Scissors",
+        "line": "You: {player} — Me: {bot}",
+        "win": "🎉 **You win!**",
+        "loss": "😈 **I win!**",
+        "draw": "🤝 **Draw!**",
+        "recordField": "Your record",
+        "record": "🏆 {wins} · 💀 {losses} · 🤝 {draws}",
+        "challenge": "{challenger} challenges {opponent}! {opponent}, pick your move 👇",
+        "duelExpired": "⌛ This challenge has expired.",
+        "notYourDuel": "❌ This challenge isn't for you.",
+        "duel": {
+          "challengerWins": "🎉 {challenger} wins the duel!",
+          "opponentWins": "🎉 {opponent} wins the duel!",
+          "draw": "🤝 Draw between {challenger} and {opponent}!"
+        }
+      },
+      "ttt": {
+        "description": "Play tic-tac-toe against the bot or a member.",
+        "title": "🎮 Tic-tac-toe",
+        "bot": "the computer",
+        "turn": "🎯 {user}'s turn.",
+        "botTurn": "🤖 My turn…",
+        "wins": "🎉 {user} wins the game!",
+        "botWins": "🤖 I win! 😎",
+        "draw": "🤝 It's a draw!",
+        "expired": "⌛ This game has expired.",
+        "notYourTurn": "❌ It's not your turn (or not your game)."
+      },
+      "bn": {
+        "description": "Play Battleship against the bot or a member.",
+        "title": "🚢 Battleship",
+        "bot": "the computer",
+        "fire": "Fire",
+        "coordLabel": "Coordinate (e.g. C7)",
+        "ownGrid": "Your fleet",
+        "targetGrid": "Your shots",
+        "myFleet": "My fleet",
+        "turn": "🎯 {user}'s turn to fire.",
+        "botTurn": "🤖 My turn to fire…",
+        "wins": "🎉 {user} wins the battle!",
+        "botWins": "🤖 I sank your whole fleet! 😎",
+        "remaining": "🚢 Ships sunk: {sunk}/{total}",
+        "expired": "⌛ This game has expired.",
+        "notYourTurn": "❌ It's not your turn (or not your game).",
+        "notPlayer": "❌ You're not part of this game.",
+        "invalidCoord": "❌ Invalid coordinate. One letter (A-H) and one number (1-8), e.g. C7.",
+        "alreadyShot": "❌ You already fired at that cell.",
+        "shotMiss": "🌊 {who} fires at {coord}: miss!",
+        "shotHit": "🎯 {who} fires at {coord}: hit!",
+        "shotSunk": "💥 {who} fires at {coord}: sunk!"
+      },
+      "stats": {
+        "description": "Show a member's game statistics.",
+        "title": "🎮 Game stats — {user}",
+        "none": "No game played yet.",
+        "value": "{plays} games · 🏆 {wins} · 💀 {losses} · 🤝 {draws} · {winrate}% win rate",
+        "pfcField": "✊ Rock-Paper-Scissors",
+        "morpionField": "🎮 Tic-tac-toe",
+        "batailleField": "🚢 Battleship"
+      }
+    }
+  }
+}

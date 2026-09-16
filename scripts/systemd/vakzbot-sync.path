@@ -1,0 +1,10 @@
+[Unit]
+Description=Surveille la demande de publication vers le miroir public de Vakz-Bot
+
+[Path]
+# Adapter le chemin au volume partagé avec le conteneur.
+PathExists=/opt/vakzbot/data/sync.request
+Unit=vakzbot-sync.service
+
+[Install]
+WantedBy=multi-user.target

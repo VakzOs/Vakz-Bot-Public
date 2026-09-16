@@ -1,0 +1,21 @@
+{
+  "modules": {
+    "freegames": {
+      "label": "Free games",
+      "description": "Announces games that become free to keep (Steam, Epic Games, GOG) in a channel.",
+      "embedDescription": "🎮 **Free to keep** on {store} for a limited time!\n[View on the store]({url})",
+      "priceField": "Price",
+      "free": "Free",
+      "command": {
+        "description": "Show the games that are currently free (Steam, Epic, GOG).",
+        "none": "🎮 No free-to-keep games right now.",
+        "title": "🎮 **{count}** free-to-keep game(s):"
+      },
+      "platform": {
+        "steam": "Steam",
+        "epic": "Epic Games",
+        "gog": "GOG"
+      }
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "modules": {
+    "customcommands": {
+      "label": "Commandes personnalisées",
+      "description": "Des auto-réponses déclenchées par des mots-clés : déclencheur → réponse (texte ou embed), avec salon, cooldown et suppression du message.",
+      "match": {
+        "contains": "Contient",
+        "exact": "Exact",
+        "startsWith": "Commence par",
+        "endsWith": "Finit par"
+      }
+    }
+  }
+}

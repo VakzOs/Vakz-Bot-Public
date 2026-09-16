@@ -1,0 +1,73 @@
+{
+  "modules": {
+    "music": {
+      "label": "Music",
+      "description": "Listen to music in voice channels (YouTube, SoundCloud, Spotify…) through a Lavalink server.",
+      "notConfigured": "❌ Music isn't configured on this host (no Lavalink server).",
+      "nodeDown": "❌ The Lavalink server is unreachable. Check it's running (`docker compose ps`) and that LAVALINK_HOST / LAVALINK_PASSWORD are correct.",
+      "joinFailed": "❌ Couldn't join your voice channel (missing Connect / Speak permissions?).",
+      "playError": "❌ Something went wrong during playback. Try again in a moment.",
+      "notInVoice": "❌ Join a voice channel first.",
+      "notSameChannel": "❌ You must be in the same voice channel as the bot.",
+      "nothingPlaying": "❌ Nothing is currently playing.",
+      "noPermission": "❌ Reserved to the DJ role (or “Manage Server”).",
+      "noResults": "❌ No results for that search.",
+      "addedTitle": "➕ Added to the queue",
+      "addedPlaylist": "➕ **{count}** tracks added to the queue (playlist “{name}”).",
+      "skipped": "⏭️ Track skipped.",
+      "skippedEnd": "⏭️ Last track skipped, end of the queue.",
+      "stopped": "⏹️ Playback stopped and queue cleared.",
+      "alreadyPaused": "⏸️ Playback is already paused.",
+      "paused": "⏸️ Playback paused.",
+      "notPaused": "▶️ Playback isn't paused.",
+      "resumed": "▶️ Playback resumed.",
+      "volumeSet": "🔊 Volume set to {volume}%.",
+      "loopSet": "🔁 Repeat: {mode}.",
+      "queueTooShort": "❌ Not enough tracks in the queue to shuffle.",
+      "shuffled": "🔀 Queue shuffled.",
+      "cannotSeek": "❌ Can't seek in this track (live or missing).",
+      "badPosition": "❌ Invalid position. E.g. `1:30`, `90` or `1m30s`.",
+      "seeked": "⏩ Position: {time}.",
+      "badIndex": "❌ Invalid track number.",
+      "removed": "🗑️ Removed from the queue: {title}.",
+      "left": "👋 Disconnected from the voice channel.",
+      "queueEmpty": "*Empty queue.*",
+      "queueEnded": "✅ Queue ended.",
+      "loopState": {
+        "off": "off",
+        "track": "track",
+        "queue": "queue"
+      },
+      "field": {
+        "author": "👤 Artist:",
+        "requestedBy": "🙋 Requested by:",
+        "nowPlaying": "Now playing",
+        "upNext": "Up next",
+        "andMore": "…and {count} more.",
+        "queueTitle": "🎶 Queue",
+        "playlist": "playlist"
+      },
+      "command": {
+        "play": "Play a track or add it to the queue (search or link).",
+        "playQuery": "Title to search or a link (YouTube, SoundCloud…).",
+        "playSource": "Search platform (when it isn't a link).",
+        "skip": "Skip to the next track.",
+        "stop": "Stop playback and clear the queue.",
+        "pause": "Pause playback.",
+        "resume": "Resume playback.",
+        "volume": "Set the playback volume.",
+        "volumeValue": "Volume as a percentage (0-150).",
+        "loop": "Change the repeat mode.",
+        "loopValue": "Repeat mode.",
+        "shuffle": "Shuffle the queue.",
+        "seek": "Seek to a position in the track.",
+        "seekValue": "Position, e.g. 1:30, 90 (s) or 1m30s.",
+        "remove": "Remove a track from the queue.",
+        "removeValue": "Track number in the queue.",
+        "disconnect": "Disconnect the bot from the voice channel.",
+        "queue": "Show the queue.",
+        "nowplaying": "Show the currently playing track."
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "modules": {
+    "welcome": {
+      "label": "Welcome & farewell",
+      "description": "Customizable join and leave messages.",
+      "state": {
+        "statusLabel": "Status",
+        "statusOn": "✅ Active",
+        "statusOff": "⛔ Paused",
+        "embedLabel": "Embed",
+        "yes": "Yes",
+        "no": "No",
+        "channelLabel": "Channel",
+        "channelNone": "*not set*",
+        "messageLabel": "Message",
+        "footerLabel": "Footer",
+        "placeholders": "Variables: {mention} · {username} · {server} · {count}",
+        "cardLabel": "Card",
+        "cardCustom": "✅ on (custom background)",
+        "cardDefault": "✅ on (default background)"
+      },
+      "card": {
+        "welcomeTitle": "Welcome!",
+        "leaveTitle": "Goodbye",
+        "memberCount": "Member #{count}"
+      }
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "modules": {
+    "tickets": {
+      "label": "Tickets",
+      "description": "Plusieurs types de tickets ; chaque type ouvre un salon privé visible par les rôles choisis.",
+      "welcomeTitle": "🎫 Ticket ouvert",
+      "welcome": "Bonjour {user}, ton ticket « {type} » est ouvert. Explique ta demande ici, l’équipe va te répondre. Clique sur « Fermer le ticket » quand c’est résolu.",
+      "opened": "✅ Ton ticket a été ouvert : {channel}",
+      "feedback": {
+        "disabled": "❌ Ce module est désactivé sur ce serveur."
+      },
+      "error": {
+        "notype": "❌ Ce type de ticket n’existe plus.",
+        "max": "❌ Tu as déjà {max} ticket(s) ouvert(s). Ferme-le avant d’en rouvrir un.",
+        "noperm": "❌ Je n’ai pas la permission « Gérer les salons » pour créer le ticket.",
+        "create": "❌ Impossible de créer le salon du ticket. Vérifie mes permissions et la catégorie."
+      },
+      "close": {
+        "button": "🔒 Fermer le ticket",
+        "confirm": "Confirmer la fermeture de ce ticket ? Le salon sera supprimé.",
+        "confirmButton": "🔒 Confirmer la fermeture",
+        "closing": "🔒 Fermeture du ticket…",
+        "closingArchive": "🔒 Archivage de la conversation puis fermeture…",
+        "notFound": "❌ Ce ticket est introuvable ou déjà fermé.",
+        "cantClose": "⛔ Seul l’auteur, le staff du type ou un admin peut le fermer."
+      },
+      "archive": {
+        "title": "📦 Archive de ticket",
+        "header": "Type : {type}\nAuteur : {opener}\nFermé par : {closedBy}\nMessages : {count}"
+      }
+    }
+  }
+}

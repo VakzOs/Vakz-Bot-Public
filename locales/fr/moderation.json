@@ -1,0 +1,87 @@
+{
+  "modules": {
+    "moderation": {
+      "label": "Modération",
+      "description": "Sanctions (warn, kick, ban, timeout), historique et journal.",
+      "commands": {
+        "warn": {
+          "description": "Avertit un membre."
+        },
+        "kick": {
+          "description": "Expulse un membre du serveur."
+        },
+        "ban": {
+          "description": "Bannit un membre (ou un utilisateur par son ID)."
+        },
+        "unban": {
+          "description": "Lève le bannissement d'un utilisateur."
+        },
+        "timeout": {
+          "description": "Réduit un membre au silence pour une durée (ex. 10m, 1h, 1j)."
+        },
+        "untimeout": {
+          "description": "Lève le silence d'un membre."
+        },
+        "history": {
+          "description": "Affiche le casier d'un membre."
+        }
+      },
+      "opt": {
+        "member": "Le membre concerné.",
+        "reason": "La raison de la sanction.",
+        "deleteDays": "Supprimer les messages des N derniers jours (0-7).",
+        "userId": "L'identifiant de l'utilisateur à débannir.",
+        "duration": "Durée (ex. 10m, 1h30m, 1j). Max 28 jours."
+      },
+      "types": {
+        "warn": "⚠️ Avertissement",
+        "kick": "👢 Expulsion",
+        "ban": "🔨 Bannissement",
+        "unban": "♻️ Débannissement",
+        "timeout": "🔇 Réduction au silence",
+        "untimeout": "🔊 Levée du silence"
+      },
+      "log": {
+        "user": "Membre",
+        "moderator": "Modérateur",
+        "executor": "Action faite par",
+        "reason": "Raison",
+        "noReason": "*aucune raison*",
+        "until": "Jusqu'au"
+      },
+      "dm": {
+        "warn": "⚠️ Tu as reçu un avertissement sur {guild}",
+        "kick": "👢 Tu as été expulsé de {guild}",
+        "ban": "🔨 Tu as été banni de {guild}",
+        "unban": "♻️ Ton bannissement sur {guild} a été levé",
+        "timeout": "🔇 Tu as été réduit au silence sur {guild}",
+        "untimeout": "🔊 Ton silence sur {guild} a été levé"
+      },
+      "result": {
+        "warn": "⚠️ {user} a été averti.",
+        "kick": "👢 {user} a été expulsé.",
+        "ban": "🔨 {user} a été banni.",
+        "unban": "♻️ {user} a été débanni.",
+        "timeout": "🔇 {user} a été réduit au silence pour {duration}.",
+        "untimeout": "🔊 Le silence de {user} a été levé."
+      },
+      "targetError": {
+        "self": "❌ Tu ne peux pas te sanctionner toi-même.",
+        "owner": "❌ Tu ne peux pas sanctionner le propriétaire du serveur.",
+        "bot": "❌ Je ne peux pas me sanctionner moi-même.",
+        "botHierarchy": "❌ Ce membre a un rôle supérieur ou égal au mien : je ne peux pas le sanctionner.",
+        "modHierarchy": "❌ Ce membre a un rôle supérieur ou égal au tien."
+      },
+      "notInGuild": "❌ Ce membre n'est pas sur le serveur.",
+      "botNoPerm": "❌ Il me manque la permission nécessaire pour cette action.",
+      "actionFailed": "❌ L'action a échoué (permissions ou hiérarchie).",
+      "invalidDuration": "❌ Durée invalide. Exemples : `10m`, `1h30m`, `2j`.",
+      "invalidUserId": "❌ Identifiant d'utilisateur invalide.",
+      "notBanned": "❌ Cet utilisateur n'est pas banni (ou l'ID est incorrect).",
+      "history": {
+        "empty": "✅ {user} n'a aucune sanction enregistrée.",
+        "title": "Casier de {user}"
+      }
+    }
+  }
+}

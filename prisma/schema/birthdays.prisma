@@ -1,0 +1,21 @@
+// Schéma du module « birthdays », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/birthdays/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Date d'anniversaire d'un membre sur un serveur (module « Anniversaires »).
+model Birthday {
+  id        String   @id @default(cuid())
+  guildId   String
+  userId    String
+  day       Int
+  month     Int
+  /// Année de naissance (optionnelle, pour calculer l'âge).
+  year      Int?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([guildId, userId])
+  @@index([guildId, month, day])
+}

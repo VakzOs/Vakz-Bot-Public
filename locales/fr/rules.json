@@ -1,0 +1,23 @@
+{
+  "modules": {
+    "rules": {
+      "label": "Règlement",
+      "description": "Publie le règlement du serveur et attribue un rôle d'accès à l'acceptation.",
+      "embed": {
+        "version": "Version {version}"
+      },
+      "feedback": {
+        "disabled": "❌ Ce module est désactivé sur ce serveur.",
+        "roleGone": "❌ Le rôle d'accès n'existe plus. Préviens un administrateur.",
+        "cannotAssign": "⚠️ Je ne peux pas attribuer le rôle d'accès (permission « Gérer les rôles » manquante ou rôle au-dessus du mien).",
+        "error": "❌ Une erreur est survenue. Réessaie plus tard.",
+        "alreadyUpToDate": "✅ Tu as déjà accepté la version actuelle du règlement.",
+        "accepted": "✅ Merci, tu as accepté le règlement ! Ton accès est débloqué.",
+        "revalidated": "🔄 Merci d'avoir validé la nouvelle version du règlement !"
+      },
+      "log": {
+        "accepted": "📜 {user} a accepté le règlement (version {version})."
+      }
+    }
+  }
+}

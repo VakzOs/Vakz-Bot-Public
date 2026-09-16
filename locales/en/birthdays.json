@@ -1,0 +1,36 @@
+{
+  "modules": {
+    "birthdays": {
+      "label": "Birthdays",
+      "description": "Wish members a happy birthday (message + role of the day).",
+      "command": {
+        "description": "Manage your birthday.",
+        "set": "Save your birthday.",
+        "remove": "Remove your birthday.",
+        "view": "Show a member's birthday.",
+        "upcoming": "Show upcoming birthdays."
+      },
+      "opt": {
+        "day": "Day (1-31).",
+        "month": "Month (1-12).",
+        "year": "Year (optional, to show age).",
+        "member": "The targeted member (default: you).",
+        "targetMember": "Set for another member (admin: Manage Server)."
+      },
+      "invalidDate": "❌ Invalid date.",
+      "noPermission": "❌ You don't have permission to manage another member's birthday.",
+      "set": "🎂 Your birthday is saved for {date}!",
+      "setOther": "🎂 {user}'s birthday is saved for {date}!",
+      "removed": "🗑️ Your birthday has been removed.",
+      "removedOther": "🗑️ {user}'s birthday has been removed.",
+      "none": "ℹ️ {user} hasn't saved a birthday.",
+      "today": "today! 🎉",
+      "inDays": "in {days} day(s)",
+      "view": {
+        "title": "🎂 {user}'s birthday"
+      },
+      "upcomingTitle": "🎂 Upcoming birthdays",
+      "upcomingEmpty": "No birthday saved yet."
+    }
+  }
+}

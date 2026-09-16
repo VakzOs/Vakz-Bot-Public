@@ -1,0 +1,38 @@
+{
+  "modules": {
+    "deploy": {
+      "label": "Update",
+      "description": "Updates the bot (git pull + rebuild). Owner only.",
+      "disabled": "❌ In-bot updates aren't configured (set `BOT_OWNER_ID`).",
+      "notOwner": "❌ Only the bot owner can trigger an update.",
+      "title": "🚀 Bot update",
+      "intro": "Confirm to run `git pull` then the Docker rebuild on the host.",
+      "statusField": "Last deployment",
+      "noResult": "*(no deployment recorded)*",
+      "lastResult": "{icon} {status} {when}{commit}",
+      "logField": "Log",
+      "confirm": "Update",
+      "cancel": "Cancel",
+      "cancelled": "Update cancelled.",
+      "requested": "🚀 Update of **`{branch}`** requested. The host will pull and rebuild — the bot will restart shortly.",
+      "requestFailed": "❌ Couldn't write the update request (check `DEPLOY_DIR` and permissions).",
+      "restarted": "{icon} Bot restarted. Update finished: `{status}`{commit}.",
+      "restartedNoResult": "✅ Bot restarted. The update result is not available yet.",
+      "currentStatusField": "Updater state",
+      "statusUnknown": "*(no updater state available)*",
+      "requestNotPicked": "⚠️ The host updater has not picked up the request yet. Last state: {status}\nCheck that `vakzbot-updater.sh loop` is running or that the systemd `.path` watches `DEPLOY_DIR`.",
+      "updateTimeout": "⚠️ No restart or result after {seconds}s. Last state: {status}\nCheck the host updater logs and Docker Compose.",
+      "updateFailed": "❌ Update failed before restart. Last state: {status}",
+      "updateFinishedNoRestart": "⚠️ The updater finished with `{status}` (commit `{commit}`), but the bot did not restart after {seconds}s. If Docker says \"no changes\", the image/container was probably not recreated.",
+      "branchField": "Branch to deploy",
+      "branchPlaceholder": "Choose the branch to deploy…",
+      "modeField": "Rebuild mode",
+      "modeFull": "🐢 **Full** — `docker compose up -d --build --force-recreate`: every container of the project is recreated, the bot always restarts.",
+      "modeCache": "⚡ **Fast** — `docker compose up -d --build bot`: Docker reuses its layers, only the `bot` service is targeted, and the container is recreated only if the image really changed. Other containers (flaresolverr, lavalink…) are left alone.",
+      "modeSwitchToCache": "Switch to fast mode",
+      "modeSwitchToFull": "Switch to full mode",
+      "requestedCache": "⚡ **Fast** update of **`{branch}`** requested. The host reuses the Docker cache: the bot will restart only if the image changed.",
+      "updateFinishedCache": "✅ Update finished with `{status}` (commit `{commit}`) without a restart. In fast mode that is the normal outcome when the image did not change: the bot kept running."
+    }
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "modules": {
+    "interserver": {
+      "label": "Interserveurs",
+      "description": "Relie des salons de serveurs différents : un message posté dans un salon lié est relayé (pseudo + avatar conservés) vers les autres salons du même réseau."
+    }
+  }
+}

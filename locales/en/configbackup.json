@@ -1,0 +1,47 @@
+{
+  "modules": {
+    "configbackup": {
+      "label": "Server backup",
+      "description": "Backs up everything the bot holds for the server — configuration, structure and data (currency, items, Endless Road, levels…) — on demand or on a schedule.",
+      "command": {
+        "description": "Export or restore a full backup of the server.",
+        "export": "Download a full server backup (config + data).",
+        "import": "Restore the server from a backup file."
+      },
+      "opt": {
+        "file": "The backup file to import (.json or .json.gz).",
+        "recreate": "Recreate missing channels/roles on this server (default: yes).",
+        "data": "Include member data: currency, items, Road… (default: yes).",
+        "restoreData": "Also restore member data — overwrites this server's data (default: yes)."
+      },
+      "export": {
+        "title": "💾 Server backup",
+        "done": "Here is the backup of **{count}** module(s). Keep this file safe: you can restore it with `/sauvegarde importer`.",
+        "structure": "🏗️ Structure included: **{channels}** channel(s) and **{roles}** role(s) referenced — they can be recreated on import to another server.",
+        "data": "📦 Data included: **{rows}** row(s) across **{tables}** table(s) — currency, items and inventories, Endless Road, levels, sanctions…",
+        "noData": "ℹ️ Member data **not included**: this file only holds the configuration.",
+        "shared": "🔗 Shared dependencies: **{rows}** row(s) of a common catalogue (gacha…) referenced by this data — so the restore holds on another bot instance."
+      },
+      "import": {
+        "title": "✅ Server restored",
+        "applied": "**{count}** module(s) restored: {list}",
+        "data": "📦 Data restored: **{rows}** row(s) across **{tables}** table(s).",
+        "dataSkipped": "ℹ️ The file contained member data: it was **not** restored (option disabled).",
+        "structure": "🏗️ Structure: **{channelsCreated}** channel(s) created · {channelsReused} reused — **{rolesCreated}** role(s) created · {rolesReused} reused.",
+        "structureFailed": "⚠️ **{failed}** item(s) could not be created — the bot needs the **Manage Roles** and **Manage Channels** permissions (and to be high enough in the hierarchy).",
+        "structureMissing": "ℹ️ This backup does not include the structure (channels/roles). Re-export it from the latest bot version to enable automatic recreation.",
+        "skippedUnknown": "⚠️ Unknown modules skipped: {list}",
+        "skippedInvalid": "⚠️ Invalid config skipped: {list}",
+        "otherGuild": "ℹ️ This backup comes from another server — double-check the settings afterwards.",
+        "tooLarge": "❌ The file is too large. It is probably not a valid backup.",
+        "downloadFailed": "❌ Could not download the attached file. Please try again.",
+        "invalidJson": "❌ The file is not valid JSON.",
+        "invalidShape": "❌ This file is not a valid Vakz-Bot backup.",
+        "shared": "🔗 Shared catalogue: **{added}** row(s) added, **{matched}** already present and re-matched."
+      },
+      "delivery": {
+        "content": "💾 Automatic backup of **{guild}** — {rows} data row(s)."
+      }
+    }
+  }
+}

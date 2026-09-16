@@ -1,0 +1,38 @@
+// Schéma du module « giveaways », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/giveaways/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Tirage au sort (module « Giveaways »).
+model Giveaway {
+  id             String          @id @default(cuid())
+  guildId        String
+  channelId      String
+  messageId      String?
+  hostId         String
+  prize          String
+  winnerCount    Int             @default(1)
+  requiredRoleId String?
+  endsAt         DateTime
+  /// Statut : active | ended.
+  status         String          @default("active")
+  /// Gagnants actuels (tableau JSON d'IDs de membres).
+  winnerIds      String          @default("[]")
+  createdAt      DateTime        @default(now())
+  entries        GiveawayEntry[]
+
+  @@index([status, endsAt])
+  @@index([guildId, status])
+}
+
+/// Participation d'un membre à un tirage au sort.
+model GiveawayEntry {
+  id         String   @id @default(cuid())
+  giveawayId String
+  userId     String
+  giveaway   Giveaway @relation(fields: [giveawayId], references: [id], onDelete: Cascade)
+
+  @@unique([giveawayId, userId])
+  @@index([giveawayId])
+}

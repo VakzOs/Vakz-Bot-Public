@@ -1,0 +1,29 @@
+// Schéma du module « reports », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/reports/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Signalement soumis par un membre et traité par le staff.
+model Report {
+  id              String    @id @default(cuid())
+  guildId         String
+  reporterId      String
+  targetId        String
+  reason          String
+  sourceChannelId String?
+  sourceMessageId String?
+  reportChannelId String?
+  reportMessageId String?
+  /// Statut : open | taken | resolved | ignored.
+  status          String    @default("open")
+  assigneeId      String?
+  resolvedBy      String?
+  resolvedAt      DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+
+  @@index([guildId, status])
+  @@index([guildId, targetId])
+  @@index([reporterId])
+}

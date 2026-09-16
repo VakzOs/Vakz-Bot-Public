@@ -1,0 +1,28 @@
+{
+  "modules": {
+    "streamalerts": {
+      "label": "Stream & feed alerts",
+      "description": "Announce lives, videos and feed items in a channel (Twitch, YouTube, Reddit, RSS, Dealabs).",
+      "platform": {
+        "twitch": "Twitch",
+        "youtube": "YouTube",
+        "reddit": "Reddit",
+        "rss": "RSS feed",
+        "dealabs": "Dealabs"
+      },
+      "embed": {
+        "twitchTitle": "🔴 {name} is live!",
+        "youtubeTitle": "📺 New video from {name}!",
+        "game": "Category",
+        "redditTitle": "🟠 New post on {name}!",
+        "rssTitle": "📰 New article — {name}",
+        "dealabsTitle": "🏷️ New deal — {name}",
+        "price": "🏷️ Price",
+        "temperature": "🌡️ Temperature",
+        "merchant": "🏪 Merchant"
+      },
+      "announceTwitch": "🔴 **{name}** is now live on Twitch! {url}",
+      "announceYoutube": "📺 **{name}** just posted a video! {url}"
+    }
+  }
+}

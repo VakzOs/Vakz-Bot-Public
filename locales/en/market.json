@@ -1,0 +1,55 @@
+{
+  "modules": {
+    "market": {
+      "label": "Marketplace",
+      "description": "Player market: list items for sale, buy from others.",
+      "command": {
+        "description": "Marketplace: buy and sell items between members.",
+        "browse": "Browse listings and buy.",
+        "sell": "Put an item up for sale.",
+        "optItem": "The item to list.",
+        "optPrice": "Unit price (per item).",
+        "optQty": "Quantity to sell (default: 1).",
+        "mine": "View and cancel your listings."
+      },
+      "browse": {
+        "title": "🏪 Marketplace",
+        "intro": "Pick a listing to buy one unit.",
+        "empty": "No listings yet. Be the first with `/hdv vendre`!",
+        "line": "**{n}.** {emoji} **{name}** ×{qty} — {unit}/ea — {seller}",
+        "footer": "Page {page}/{pages} · {total} listing(s)",
+        "buyPlaceholder": "Buy one unit…",
+        "buyOption": "Buy — {unit}/ea",
+        "mine": "📦 My listings"
+      },
+      "mine": {
+        "title": "📦 My listings",
+        "intro": "Pick a listing to cancel it (items are returned to you).",
+        "empty": "You have no active listings.",
+        "line": "**{n}.** {emoji} **{name}** ×{qty} — {unit}/ea",
+        "cancelPlaceholder": "Cancel a listing…",
+        "back": "◀ Back to listings"
+      },
+      "buy": {
+        "done": "🛒 You bought {qty}× {emoji} **{name}** from {seller} for {cost}. Balance: {balance}.",
+        "gone": "❌ This listing is no longer available.",
+        "ownListing": "❌ You can't buy your own listing (use “My listings” to cancel it).",
+        "insufficient": "❌ Insufficient balance for this purchase.",
+        "sellerNotice": "💰 **Sale on {guild}** — {buyer} bought {qty}× {emoji} **{name}** for {total}. You received {gain}.{tax}",
+        "taxNote": " ({tax} server tax)"
+      },
+      "cancel": {
+        "done": "↩️ Listing cancelled: {qty}× {emoji} **{name}** back in your inventory.",
+        "gone": "❌ This listing no longer exists.",
+        "notYours": "❌ This is not your listing."
+      },
+      "sell": {
+        "done": "🏷️ Listed: {qty}× {emoji} **{name}** at {unit}/ea. See it with `/hdv parcourir`.",
+        "notTradable": "❌ {emoji} {name} isn't tradable, it can't be sold here.",
+        "tooCheap": "❌ Price too low: minimum {min} per item.",
+        "tooMany": "❌ You reached the active listing limit ({max}).",
+        "notOwned": "❌ You don't own enough {emoji} {name}."
+      }
+    }
+  }
+}

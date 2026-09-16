@@ -1,0 +1,44 @@
+// Schéma du module « logs », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/logs/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Dernier état connu d'un message vu par le module Logs, utilisé si Discord
+/// envoie une suppression partielle sans contenu ni embeds.
+model LogMessageSnapshot {
+  /// Snowflake Discord du message.
+  id              String   @id
+  guildId         String
+  channelId       String
+  authorId        String?
+  authorName      String
+  authorTag       String?
+  authorAvatarUrl String?
+  content         String   @default("")
+  embeds          String   @default("[]")
+  attachments     String   @default("[]")
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([guildId, channelId])
+  @@index([updatedAt])
+}
+
+/// Snapshot utilisable depuis un bouton de log pour restaurer une suppression.
+model LogRollback {
+  id        String    @id @default(cuid())
+  guildId   String
+  /// Type : messageDelete | channelDelete | roleDelete.
+  kind      String
+  /// ID Discord de l'élément supprimé quand il existait.
+  targetId  String?
+  /// Snapshot JSON sérialisé, propre au type de rollback.
+  payload   String
+  usedBy    String?
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([guildId, kind])
+  @@index([createdAt])
+}

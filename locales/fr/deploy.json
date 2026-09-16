@@ -1,0 +1,38 @@
+{
+  "modules": {
+    "deploy": {
+      "label": "Mise à jour",
+      "description": "Met à jour le bot (git pull + rebuild). Réservé au propriétaire.",
+      "disabled": "❌ La mise à jour depuis le bot n'est pas configurée (définis `BOT_OWNER_ID`).",
+      "notOwner": "❌ Seul le propriétaire du bot peut lancer une mise à jour.",
+      "title": "🚀 Mise à jour du bot",
+      "intro": "Confirme pour lancer `git pull` puis la reconstruction Docker sur l'hôte.",
+      "statusField": "Dernier déploiement",
+      "noResult": "*(aucun déploiement enregistré)*",
+      "lastResult": "{icon} {status} {when}{commit}",
+      "logField": "Journal",
+      "confirm": "Mettre à jour",
+      "cancel": "Annuler",
+      "cancelled": "Mise à jour annulée.",
+      "requested": "🚀 Mise à jour de **`{branch}`** demandée. L'hôte va récupérer le code et reconstruire — le bot va redémarrer dans un instant.",
+      "requestFailed": "❌ Impossible d'écrire la demande de mise à jour (vérifie le dossier `DEPLOY_DIR` et les droits).",
+      "restarted": "{icon} Bot redémarré. Mise à jour terminée : `{status}`{commit}.",
+      "restartedNoResult": "✅ Bot redémarré. Le résultat de mise à jour n’est pas encore disponible.",
+      "currentStatusField": "Etat de l updater",
+      "statusUnknown": "*(aucun etat updater disponible)*",
+      "requestNotPicked": "⚠️ L updater hote n a pas encore pris la demande. Dernier etat : {status}\nVerifie que `vakzbot-updater.sh loop` tourne ou que le service systemd `.path` surveille bien `DEPLOY_DIR`.",
+      "updateTimeout": "⚠️ Aucun redemarrage ni resultat apres {seconds}s. Dernier etat : {status}\nVerifie les logs de l updater hote et Docker Compose.",
+      "updateFailed": "❌ Mise a jour echouee avant redemarrage. Dernier etat : {status}",
+      "updateFinishedNoRestart": "⚠️ L updater a termine en `{status}` (commit `{commit}`), mais le bot n a pas redemarre apres {seconds}s. Si Docker indique \"no changes\", c est probablement que l image/conteneur n a pas ete recree.",
+      "branchField": "Branche à déployer",
+      "branchPlaceholder": "Choisis la branche à déployer…",
+      "modeField": "Mode de reconstruction",
+      "modeFull": "🐢 **Complet** — `docker compose up -d --build --force-recreate` : tous les conteneurs du projet sont recréés, le bot redémarre à coup sûr.",
+      "modeCache": "⚡ **Rapide** — `docker compose up -d --build bot` : Docker réutilise ses couches, seul le service `bot` est visé, et le conteneur n'est recréé que si l'image a vraiment changé. Les autres conteneurs (flaresolverr, lavalink…) ne bougent pas.",
+      "modeSwitchToCache": "Passer en mode rapide",
+      "modeSwitchToFull": "Passer en mode complet",
+      "requestedCache": "⚡ Mise à jour **rapide** de **`{branch}`** demandée. L'hôte réutilise le cache Docker : le bot ne redémarrera que si l'image a changé.",
+      "updateFinishedCache": "✅ Mise à jour terminée en `{status}` (commit `{commit}`) sans redémarrage. En mode rapide c'est le résultat normal quand l'image n'a pas changé : le bot a continué à tourner."
+    }
+  }
+}

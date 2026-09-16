@@ -1,0 +1,33 @@
+{
+  "modules": {
+    "bingo": {
+      "label": "Bingo",
+      "description": "Server bingo: 5×5 cards, draws, line or full-card detection.",
+      "opt": {
+        "mode": "Win condition (default: one line)."
+      },
+      "modeLine": "One line",
+      "modeFull": "Full card",
+      "commands": {
+        "start": "Start a new bingo game (staff).",
+        "join": "Get your bingo card.",
+        "card": "Show your card.",
+        "draw": "Draw the next number (staff).",
+        "stop": "End the current game (staff)."
+      },
+      "staffOnly": "❌ Staff only (Manage Server permission).",
+      "noGame": "❌ No game in progress. Staff can start one with `/bingo demarrer`.",
+      "startedTitle": "🎲 Bingo started!",
+      "startedBody": "Mode: **{mode}**. Grab your card with `/bingo rejoindre`, then staff draws numbers with `/bingo tirer`.",
+      "joined": "🎫 Here's your card (★ = free space):",
+      "yourCard": "🎫 Your card:",
+      "noCard": "❌ You have no card. Join with `/bingo rejoindre`.",
+      "stopped": "🛑 Bingo game ended.",
+      "allDrawn": "All numbers have already been drawn!",
+      "drawTitle": "🎱 Draw",
+      "drawBody": "Number drawn: **{number}** ({count}/75). Check your cards!",
+      "winnersField": "🎉 BINGO!",
+      "myCardButton": "My card"
+    }
+  }
+}

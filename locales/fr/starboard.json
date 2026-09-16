@@ -1,0 +1,10 @@
+{
+  "modules": {
+    "starboard": {
+      "label": "Starboard",
+      "description": "Republie dans un salon les messages qui reçoivent assez d’étoiles ⭐.",
+      "jump": "Aller au message",
+      "header": "{emoji} **{count}** · {channel}"
+    }
+  }
+}

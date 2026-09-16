@@ -1,0 +1,58 @@
+{
+  "modules": {
+    "automod": {
+      "label": "Auto-moderation",
+      "description": "Automatically filters spam, ads, abuse, and honeypot messages.",
+      "actions": {
+        "delete": "Delete",
+        "warn": "Warn",
+        "timeout": "Timeout",
+        "ban": "Ban",
+        "kick": "Kick"
+      },
+      "rules": {
+        "spam": "Spam",
+        "invites": "Invites",
+        "links": "Links",
+        "badWords": "Blocked words",
+        "mentions": "Mentions",
+        "caps": "Caps",
+        "honeypot": "Honeypot"
+      },
+      "reason": {
+        "spam": "Auto-moderation: spam ({count} messages in {seconds}s).",
+        "invites": "Auto-moderation: unauthorized Discord invite.",
+        "links": "Auto-moderation: unauthorized link.",
+        "badWords": "Auto-moderation: blocked word.",
+        "mentions": "Auto-moderation: mention abuse.",
+        "caps": "Auto-moderation: caps abuse."
+      },
+      "detail": {
+        "spam": "{count} messages inside the {seconds}s window.",
+        "badWords": "Detected word: `{word}`",
+        "mentions": "{count} mentions in the message.",
+        "caps": "{percent}% uppercase letters."
+      },
+      "log": {
+        "title": "Auto-moderation",
+        "member": "Member",
+        "rule": "Rule",
+        "action": "Action",
+        "channel": "Channel",
+        "reason": "Reason",
+        "detail": "Detail",
+        "empty": "*empty content*"
+      },
+      "honeypot": {
+        "bans": "Bans",
+        "action": "Honeypot ban",
+        "topic": "Anti-compromised-account honeypot: do not send messages here.",
+        "createReason": "Vakz-Bot honeypot channel creation",
+        "embedTitle": "DO NOT SEND MESSAGES IN THIS CHANNEL",
+        "embedDescription": "This channel is used to catch compromised accounts. Any messages sent here will result in an immediate ban.",
+        "banReason": "Honeypot channel triggered",
+        "counter": "Bans: {count}"
+      }
+    }
+  }
+}

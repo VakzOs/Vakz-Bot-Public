@@ -1,0 +1,55 @@
+{
+  "modules": {
+    "market": {
+      "label": "Hôtel des ventes",
+      "description": "Marché entre membres : mets des objets en vente, achète ceux des autres.",
+      "command": {
+        "description": "Hôtel des ventes : achète et vends des objets entre membres.",
+        "browse": "Parcourir les annonces et acheter.",
+        "sell": "Mettre un objet en vente.",
+        "optItem": "L'objet à mettre en vente.",
+        "optPrice": "Prix unitaire (par objet).",
+        "optQty": "Quantité à vendre (défaut : 1).",
+        "mine": "Voir et annuler tes annonces."
+      },
+      "browse": {
+        "title": "🏪 Hôtel des ventes",
+        "intro": "Sélectionne une annonce pour en acheter un exemplaire.",
+        "empty": "Aucune annonce pour le moment. Sois le premier avec `/hdv vendre` !",
+        "line": "**{n}.** {emoji} **{name}** ×{qty} — {unit}/u — {seller}",
+        "footer": "Page {page}/{pages} · {total} annonce(s)",
+        "buyPlaceholder": "Acheter un exemplaire…",
+        "buyOption": "Acheter — {unit}/u",
+        "mine": "📦 Mes annonces"
+      },
+      "mine": {
+        "title": "📦 Mes annonces",
+        "intro": "Sélectionne une annonce pour l'annuler (les objets te reviennent).",
+        "empty": "Tu n'as aucune annonce active.",
+        "line": "**{n}.** {emoji} **{name}** ×{qty} — {unit}/u",
+        "cancelPlaceholder": "Annuler une annonce…",
+        "back": "◀ Retour aux annonces"
+      },
+      "buy": {
+        "done": "🛒 Tu as acheté {qty}× {emoji} **{name}** à {seller} pour {cost}. Solde : {balance}.",
+        "gone": "❌ Cette annonce n'est plus disponible.",
+        "ownListing": "❌ Tu ne peux pas acheter ta propre annonce (utilise « Mes annonces » pour l'annuler).",
+        "insufficient": "❌ Solde insuffisant pour cet achat.",
+        "sellerNotice": "💰 **Vente sur {guild}** — {buyer} a acheté {qty}× {emoji} **{name}** pour {total}. Tu reçois {gain}.{tax}",
+        "taxNote": " (dont {tax} de taxe serveur)"
+      },
+      "cancel": {
+        "done": "↩️ Annonce annulée : {qty}× {emoji} **{name}** de retour dans ton inventaire.",
+        "gone": "❌ Cette annonce n'existe plus.",
+        "notYours": "❌ Ce n'est pas ton annonce."
+      },
+      "sell": {
+        "done": "🏷️ En vente : {qty}× {emoji} **{name}** à {unit}/u. Vois-la avec `/hdv parcourir`.",
+        "notTradable": "❌ {emoji} {name} n'est pas échangeable, il ne peut pas être vendu ici.",
+        "tooCheap": "❌ Prix trop bas : minimum {min} par objet.",
+        "tooMany": "❌ Tu as atteint la limite d'annonces actives ({max}).",
+        "notOwned": "❌ Tu ne possèdes pas assez de {emoji} {name}."
+      }
+    }
+  }
+}

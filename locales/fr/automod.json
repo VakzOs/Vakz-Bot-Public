@@ -1,0 +1,58 @@
+{
+  "modules": {
+    "automod": {
+      "label": "Auto-modération",
+      "description": "Filtre automatiquement le spam, les pubs, les abus et les messages pièges.",
+      "actions": {
+        "delete": "Supprimer",
+        "warn": "Avertir",
+        "timeout": "Timeout",
+        "ban": "Ban",
+        "kick": "Expulser"
+      },
+      "rules": {
+        "spam": "Spam",
+        "invites": "Invitations",
+        "links": "Liens",
+        "badWords": "Mots interdits",
+        "mentions": "Mentions",
+        "caps": "Majuscules",
+        "honeypot": "Honeypot"
+      },
+      "reason": {
+        "spam": "Auto-modération : spam ({count} messages en {seconds}s).",
+        "invites": "Auto-modération : invitation Discord non autorisée.",
+        "links": "Auto-modération : lien non autorisé.",
+        "badWords": "Auto-modération : mot interdit.",
+        "mentions": "Auto-modération : abus de mentions.",
+        "caps": "Auto-modération : abus de majuscules."
+      },
+      "detail": {
+        "spam": "{count} messages dans la fenêtre de {seconds}s.",
+        "badWords": "Mot détecté : `{word}`",
+        "mentions": "{count} mentions dans le message.",
+        "caps": "{percent}% de lettres en majuscules."
+      },
+      "log": {
+        "title": "Auto-modération",
+        "member": "Membre",
+        "rule": "Règle",
+        "action": "Action",
+        "channel": "Salon",
+        "reason": "Raison",
+        "detail": "Détail",
+        "empty": "*contenu vide*"
+      },
+      "honeypot": {
+        "bans": "Bans",
+        "action": "Ban honeypot",
+        "topic": "Honeypot anti-compte compromis : ne pas envoyer de message ici.",
+        "createReason": "Création du salon honeypot Vakz-Bot",
+        "embedTitle": "NE PAS ENVOYER DE MESSAGES DANS CE SALON",
+        "embedDescription": "Ce salon sert à détecter les comptes compromis. Tout message envoyé ici entraînera un bannissement immédiat.",
+        "banReason": "Honeypot déclenché",
+        "counter": "Bans : {count}"
+      }
+    }
+  }
+}
