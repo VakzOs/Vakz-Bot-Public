@@ -3,6 +3,15 @@
     "suggestions": {
       "label": "Suggestions",
       "description": "Les membres proposent des idées (avec lien Steam), votées 👍/👎 et arbitrées par le staff.",
+      "noms": {
+        "classement": "classement",
+        "mot": "mot",
+        "rechercher": "rechercher",
+        "steam": "steam",
+        "suggestion": "suggestion",
+        "suggestions": "suggestions",
+        "texte": "texte"
+      },
       "command": {
         "description": "Proposer une suggestion au serveur.",
         "textOpt": "Le texte de ta suggestion.",
@@ -72,6 +81,55 @@
         "rankingTitle": "🏆 Suggestions les mieux notées",
         "noMatch": "Aucune suggestion ne correspond à « {keyword} ».",
         "searchTitle": "🔎 Résultats pour « {keyword} »"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelIds": {
+              "label": "Salons de suggestions",
+              "help": "Là où les suggestions sont publiées. Plusieurs salons sont permis — l'auteur choisit au moment de soumettre. Tant que la liste est vide, la commande refuse de publier : c'est le seul réglage réellement obligatoire."
+            },
+            "staffRoleId": {
+              "label": "Rôle staff",
+              "help": "Le rôle autorisé à approuver, refuser ou mettre à l'étude. Les boutons de décision restent visibles pour tous mais ne répondent qu'à lui ; les administrateurs du serveur y ont droit sans porter ce rôle."
+            },
+            "createThread": {
+              "label": "Créer un fil par suggestion",
+              "help": "Un fil de discussion est créé sous chaque suggestion publiée, pour en débattre sans noyer le salon. À éviter si le serveur approche de sa limite de fils actifs : la création échoue alors et la suggestion est publiée seule."
+            },
+            "maxPending": {
+              "label": "Limite de suggestions en attente / membre",
+              "help": "Combien un même membre peut en avoir de non traitées en même temps. Une fois la sienne approuvée ou refusée, la place se libère. 0 lève la limite — au risque qu'un seul membre remplisse la file."
+            },
+            "rewardCoins": {
+              "label": "Pièces offertes à l’approbation",
+              "help": "Versées à l'auteur quand sa suggestion est approuvée, une seule fois par suggestion. Demande le module Économie actif : sans lui, rien n'est versé et rien ne le signale. 0 pour ne rien donner."
+            },
+            "rewardItemId": {
+              "label": "Objet offert à l’approbation",
+              "help": "Identifiant d'un objet du catalogue, remis à l'auteur en plus des pièces. Un identifiant inconnu est ignoré en silence — le vérifier dans le catalogue avant de l'écrire. Vide pour ne rien remettre."
+            },
+            "dynamicColor": {
+              "label": "Couleur d’embed dynamique (selon les votes)",
+              "help": "Le cadre vire au vert ou au rouge au fil des votes, avant même toute décision du staff. Éteint, il garde une couleur neutre jusqu'à la décision — plus sobre, et cela évite qu'un vote serré ressemble à un refus."
+            },
+            "roleLimits": {
+              "label": "Limites par rôle",
+              "help": "Priment sur la limite générale ci-dessus. Un membre qui porte plusieurs de ces rôles reçoit la limite la plus haute — pas la plus basse : ces lignes servent à récompenser, pas à punir. Limite 0 = illimité.",
+              "addLabel": "Ajouter un rôle",
+              "item": {
+                "roleId": {
+                  "label": "Rôle"
+                },
+                "limit": {
+                  "label": "Limite"
+                }
+              }
+            }
+          },
+          "label": "💡 Suggestions",
+          "description": "Une suggestion soumise par /suggestion est publiée dans un salon dédié avec deux boutons de vote. Le staff l'approuve, la refuse ou la met à l'étude, avec une raison. Suggestions et votes sont conservés en base : les compteurs ne repartent pas de zéro après un redémarrage."
+        }
       }
     }
   }

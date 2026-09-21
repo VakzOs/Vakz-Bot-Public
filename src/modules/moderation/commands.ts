@@ -24,16 +24,23 @@ async function ephemeral(interaction: CachedInteraction, content: string): Promi
 
 /** `/warn` — avertit un membre (enregistré, journalisé, MP optionnel). */
 export const warn: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('warn')
-    .setDescription(t('modules.moderation.commands.warn.description'))
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
-    .addUserOption((o) =>
-      o.setName('membre').setDescription(t('modules.moderation.opt.member')).setRequired(true),
-    )
-    .addStringOption((o) =>
-      o.setName('raison').setDescription(t('modules.moderation.opt.reason')).setMaxLength(500),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.moderation.noms.warn'))
+      .setDescription(t('modules.moderation.commands.warn.description'))
+      .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
+      .addUserOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.membre'))
+          .setDescription(t('modules.moderation.opt.member'))
+          .setRequired(true),
+      )
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.raison'))
+          .setDescription(t('modules.moderation.opt.reason'))
+          .setMaxLength(500),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
     const user = interaction.options.getUser('membre', true);
@@ -59,16 +66,23 @@ export const warn: SlashCommand = {
 
 /** `/kick` — expulse un membre. */
 export const kick: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('kick')
-    .setDescription(t('modules.moderation.commands.kick.description'))
-    .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
-    .addUserOption((o) =>
-      o.setName('membre').setDescription(t('modules.moderation.opt.member')).setRequired(true),
-    )
-    .addStringOption((o) =>
-      o.setName('raison').setDescription(t('modules.moderation.opt.reason')).setMaxLength(500),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.moderation.noms.kick'))
+      .setDescription(t('modules.moderation.commands.kick.description'))
+      .setDefaultMemberPermissions(PermissionFlagsBits.KickMembers)
+      .addUserOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.membre'))
+          .setDescription(t('modules.moderation.opt.member'))
+          .setRequired(true),
+      )
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.raison'))
+          .setDescription(t('modules.moderation.opt.reason'))
+          .setMaxLength(500),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
     const user = interaction.options.getUser('membre', true);
@@ -102,23 +116,30 @@ export const kick: SlashCommand = {
 
 /** `/ban` — bannit un membre (ou un utilisateur par son ID). */
 export const ban: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('ban')
-    .setDescription(t('modules.moderation.commands.ban.description'))
-    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
-    .addUserOption((o) =>
-      o.setName('membre').setDescription(t('modules.moderation.opt.member')).setRequired(true),
-    )
-    .addStringOption((o) =>
-      o.setName('raison').setDescription(t('modules.moderation.opt.reason')).setMaxLength(500),
-    )
-    .addIntegerOption((o) =>
-      o
-        .setName('jours_messages')
-        .setDescription(t('modules.moderation.opt.deleteDays'))
-        .setMinValue(0)
-        .setMaxValue(7),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.moderation.noms.ban'))
+      .setDescription(t('modules.moderation.commands.ban.description'))
+      .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
+      .addUserOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.membre'))
+          .setDescription(t('modules.moderation.opt.member'))
+          .setRequired(true),
+      )
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.raison'))
+          .setDescription(t('modules.moderation.opt.reason'))
+          .setMaxLength(500),
+      )
+      .addIntegerOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.jours_messages'))
+          .setDescription(t('modules.moderation.opt.deleteDays'))
+          .setMinValue(0)
+          .setMaxValue(7),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
     const user = interaction.options.getUser('membre', true);
@@ -158,16 +179,23 @@ export const ban: SlashCommand = {
 
 /** `/unban` — lève le bannissement d'un utilisateur (par son ID). */
 export const unban: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('unban')
-    .setDescription(t('modules.moderation.commands.unban.description'))
-    .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
-    .addStringOption((o) =>
-      o.setName('utilisateur').setDescription(t('modules.moderation.opt.userId')).setRequired(true),
-    )
-    .addStringOption((o) =>
-      o.setName('raison').setDescription(t('modules.moderation.opt.reason')).setMaxLength(500),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.moderation.noms.unban'))
+      .setDescription(t('modules.moderation.commands.unban.description'))
+      .setDefaultMemberPermissions(PermissionFlagsBits.BanMembers)
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.utilisateur'))
+          .setDescription(t('modules.moderation.opt.userId'))
+          .setRequired(true),
+      )
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.raison'))
+          .setDescription(t('modules.moderation.opt.reason'))
+          .setMaxLength(500),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
     const userId = interaction.options.getString('utilisateur', true).trim();
@@ -199,19 +227,29 @@ export const unban: SlashCommand = {
 
 /** `/timeout` — réduit un membre au silence pour une durée (ex. 10m, 1h, 1j). */
 export const timeout: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('timeout')
-    .setDescription(t('modules.moderation.commands.timeout.description'))
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
-    .addUserOption((o) =>
-      o.setName('membre').setDescription(t('modules.moderation.opt.member')).setRequired(true),
-    )
-    .addStringOption((o) =>
-      o.setName('duree').setDescription(t('modules.moderation.opt.duration')).setRequired(true),
-    )
-    .addStringOption((o) =>
-      o.setName('raison').setDescription(t('modules.moderation.opt.reason')).setMaxLength(500),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.moderation.noms.timeout'))
+      .setDescription(t('modules.moderation.commands.timeout.description'))
+      .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
+      .addUserOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.membre'))
+          .setDescription(t('modules.moderation.opt.member'))
+          .setRequired(true),
+      )
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.duree'))
+          .setDescription(t('modules.moderation.opt.duration'))
+          .setRequired(true),
+      )
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.raison'))
+          .setDescription(t('modules.moderation.opt.reason'))
+          .setMaxLength(500),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
     const user = interaction.options.getUser('membre', true);
@@ -256,16 +294,23 @@ export const timeout: SlashCommand = {
 
 /** `/untimeout` — lève le silence d'un membre. */
 export const untimeout: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('untimeout')
-    .setDescription(t('modules.moderation.commands.untimeout.description'))
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
-    .addUserOption((o) =>
-      o.setName('membre').setDescription(t('modules.moderation.opt.member')).setRequired(true),
-    )
-    .addStringOption((o) =>
-      o.setName('raison').setDescription(t('modules.moderation.opt.reason')).setMaxLength(500),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.moderation.noms.untimeout'))
+      .setDescription(t('modules.moderation.commands.untimeout.description'))
+      .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
+      .addUserOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.membre'))
+          .setDescription(t('modules.moderation.opt.member'))
+          .setRequired(true),
+      )
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.raison'))
+          .setDescription(t('modules.moderation.opt.reason'))
+          .setMaxLength(500),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
     const user = interaction.options.getUser('membre', true);
@@ -290,15 +335,19 @@ export const untimeout: SlashCommand = {
   },
 };
 
-/** `/historique` — affiche le casier d'un membre. */
+/** `/sanctions` — affiche le casier d'un membre. */
 export const historique: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('historique')
-    .setDescription(t('modules.moderation.commands.history.description'))
-    .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
-    .addUserOption((o) =>
-      o.setName('membre').setDescription(t('modules.moderation.opt.member')).setRequired(true),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.moderation.noms.sanctions'))
+      .setDescription(t('modules.moderation.commands.history.description'))
+      .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
+      .addUserOption((o) =>
+        o
+          .setName(t('modules.moderation.noms.membre'))
+          .setDescription(t('modules.moderation.opt.member'))
+          .setRequired(true),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
     const user = interaction.options.getUser('membre', true);

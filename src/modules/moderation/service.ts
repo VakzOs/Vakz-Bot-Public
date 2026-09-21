@@ -56,9 +56,17 @@ interface SanctionData {
   moderatorId: string;
   reason: string | null;
   expiresAt?: Date | null;
+  /** Règle d'automod à l'origine de la sanction, quand ce n'est pas un humain. */
+  rule?: string;
 }
 
-/** Enregistre la sanction en base et la journalise dans le salon de logs. */
+/**
+ * Enregistre la sanction en base et la journalise dans le salon de logs.
+ *
+ * **Point de passage unique de toutes les sanctions** — commandes de modération
+ * comme automod — donc le seul endroit où la ligne de journal a sa place : la
+ * poser chez chaque appelant la rendrait deux fois pour la même sanction.
+ */
 export async function recordSanction(
   ctx: BotContext,
   guild: Guild,
@@ -74,6 +82,21 @@ export async function recordSanction(
       expiresAt: data.expiresAt ?? null,
     },
   });
+
+  // Le cœur ne journalise que « Commande exécutée » : il ne sait ni qui a été
+  // sanctionné ni comment, et il ne voit rien du tout quand c'est l'automod qui
+  // frappe. Le motif reste dehors — c'est du texte écrit par un modérateur, pas
+  // une donnée d'exploitation, et le salon de logs du serveur l'a déjà.
+  ctx.logger.info(
+    {
+      guildId: guild.id,
+      userId: data.userId,
+      moderatorId: data.moderatorId,
+      sanction: data.type,
+      ...(data.rule ? { regle: data.rule } : {}),
+    },
+    'Sanction appliquée',
+  );
 
   const config = await getModerationConfig(ctx, guild.id);
   if (!config.logChannelId) return;

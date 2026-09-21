@@ -72,8 +72,7 @@ export interface ConfigBackup {
 
 /** Résultat de l'analyse d'un fichier téléversé. */
 export type ParseResult =
-  | { ok: true; backup: ConfigBackup }
-  | { ok: false; reason: 'json' | 'shape' };
+  { ok: true; backup: ConfigBackup } | { ok: false; reason: 'json' | 'shape' };
 
 /** Bilan d'un import : ce qui a été appliqué et ce qui a été ignoré. */
 export interface ImportResult {

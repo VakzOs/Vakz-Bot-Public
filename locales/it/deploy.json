@@ -1,0 +1,41 @@
+{
+  "modules": {
+    "deploy": {
+      "label": "Aggiornamento",
+      "description": "Aggiorna il bot (git pull + ricostruzione). Riservato a chi lo possiede.",
+      "noms": {
+        "maj": "aggiorna"
+      },
+      "disabled": "❌ L'aggiornamento dal bot non è configurato (definisci `BOT_OWNER_ID`).",
+      "notOwner": "❌ Solo chi possiede il bot può avviare un aggiornamento.",
+      "title": "🚀 Aggiornamento del bot",
+      "intro": "Conferma per avviare `git pull` e poi la ricostruzione Docker sull'host.",
+      "statusField": "Ultimo rilascio",
+      "noResult": "*(nessun rilascio registrato)*",
+      "lastResult": "{icon} {status} {when}{commit}",
+      "logField": "Registro",
+      "confirm": "Aggiorna",
+      "cancel": "Annulla",
+      "cancelled": "Aggiornamento annullato.",
+      "requested": "🚀 Aggiornamento di **`{branch}`** richiesto. L'host recupererà il codice e ricostruirà — il bot si riavvierà tra poco.",
+      "requestFailed": "❌ Impossibile scrivere la richiesta di aggiornamento (controlla la cartella `DEPLOY_DIR` e i permessi).",
+      "restarted": "{icon} Bot riavviato. Aggiornamento completato: `{status}`{commit}.",
+      "restartedNoResult": "✅ Bot riavviato. Il risultato dell'aggiornamento non è ancora disponibile.",
+      "currentStatusField": "Stato dell'updater",
+      "statusUnknown": "*(nessuno stato dell'updater disponibile)*",
+      "requestNotPicked": "⚠️ L'updater dell'host non ha ancora preso in carico la richiesta. Ultimo stato: {status}\nControlla che `vakzbot-updater.sh loop` sia in esecuzione o che il servizio systemd `.path` sorvegli davvero `DEPLOY_DIR`.",
+      "updateTimeout": "⚠️ Nessun riavvio né risultato dopo {seconds} s. Ultimo stato: {status}\nControlla i registri dell'updater dell'host e di Docker Compose.",
+      "updateFailed": "❌ Aggiornamento non riuscito prima del riavvio. Ultimo stato: {status}",
+      "updateFinishedNoRestart": "⚠️ L'updater ha terminato in `{status}` (commit `{commit}`), ma il bot non si è riavviato dopo {seconds} s. Se Docker indica \"no changes\", probabilmente l'immagine o il contenitore non sono stati ricreati.",
+      "branchField": "Branch da rilasciare",
+      "branchPlaceholder": "Scegli il branch da rilasciare…",
+      "modeField": "Modalità di ricostruzione",
+      "modeFull": "🐢 **Completa** — `docker compose up -d --build --force-recreate`: tutti i contenitori del progetto vengono ricreati, il bot si riavvia di sicuro.",
+      "modeCache": "⚡ **Rapida** — `docker compose up -d --build bot`: Docker riusa i suoi livelli, viene toccato solo il servizio `bot` e il contenitore viene ricreato solo se l'immagine è davvero cambiata. Gli altri contenitori (flaresolverr, lavalink…) restano fermi.",
+      "modeSwitchToCache": "Passa alla modalità rapida",
+      "modeSwitchToFull": "Passa alla modalità completa",
+      "requestedCache": "⚡ Aggiornamento **rapido** di **`{branch}`** richiesto. L'host riusa la cache Docker: il bot si riavvierà solo se l'immagine è cambiata.",
+      "updateFinishedCache": "✅ Aggiornamento completato in `{status}` (commit `{commit}`) senza riavvio. In modalità rapida è il risultato normale quando l'immagine non è cambiata: il bot ha continuato a funzionare."
+    }
+  }
+}

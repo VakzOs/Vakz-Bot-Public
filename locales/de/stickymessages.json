@@ -1,0 +1,46 @@
+{
+  "modules": {
+    "stickymessages": {
+      "label": "Klebende Nachrichten",
+      "description": "Hält eine Nachricht stets am Ende eines Kanals: Sie wird bei jeder neuen Unterhaltung erneut gepostet.",
+      "ui": {
+        "g0": {
+          "label": "📌 Klebende Nachrichten",
+          "description": "Eine Nachricht, die beim Reden automatisch wieder ans Ende des Kanals gepostet wird.",
+          "champs": {
+            "stickies": {
+              "label": "Nachrichten",
+              "addLabel": "Nachricht hinzufügen",
+              "item": {
+                "channelId": {
+                  "label": "Kanal"
+                },
+                "content": {
+                  "label": "Inhalt"
+                },
+                "embed": {
+                  "label": "Als Embed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "repost": {
+          "label": "Nachricht erneut posten",
+          "help": "Löscht die alte klebende Nachricht und postet sie erneut am Ende des Kanals.",
+          "champs": {
+            "channelId": "Kanal"
+          },
+          "msg": {
+            "done": "Klebende Nachricht erneut gepostet."
+          }
+        },
+        "msg": {
+          "pickChannel": "Wähle einen Kanal mit einer klebenden Nachricht."
+        }
+      }
+    }
+  }
+}

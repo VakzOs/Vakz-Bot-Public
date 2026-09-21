@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, verificationConfigSchema, verificationDefaultConfig } from './config.js';
 import { verificationComponent } from './component.js';
 import { publishVerification } from './service.js';
@@ -21,26 +22,63 @@ export default defineModule({
   emoji: '\u{2705}',
   configSchema: verificationConfigSchema,
   defaultConfig: verificationDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '🔐 Vérification',
-      description: 'Après modification, republie le panneau avec le bouton « Publier ».',
+      label: t('modules.verification.ui.g0.label'),
+      description: t('modules.verification.ui.g0.description'),
       fields: [
-        { key: 'channelId', label: 'Salon de vérification', type: 'channel' },
-        { key: 'roleId', label: 'Rôle attribué une fois vérifié', type: 'role' },
+        {
+          key: 'channelId',
+          label: t('modules.verification.ui.g0.champs.channelId.label'),
+          type: 'channel',
+          help: t('modules.verification.ui.g0.champs.channelId.help'),
+        },
+        {
+          key: 'roleId',
+          label: t('modules.verification.ui.g0.champs.roleId.label'),
+          type: 'role',
+          help: t('modules.verification.ui.g0.champs.roleId.help'),
+        },
         {
           key: 'method',
-          label: 'Méthode',
+          label: t('modules.verification.ui.g0.champs.method.label'),
           type: 'select',
+          help: t('modules.verification.ui.g0.champs.method.help'),
           options: [
-            { value: 'button', label: 'Simple bouton' },
-            { value: 'captcha', label: 'Captcha image' },
+            {
+              value: 'button',
+              label: t('modules.verification.ui.g0.champs.method.opt.button.label'),
+            },
+            {
+              value: 'captcha',
+              label: t('modules.verification.ui.g0.champs.method.opt.captcha.label'),
+            },
           ],
         },
-        { key: 'title', label: 'Titre', type: 'text' },
-        { key: 'content', label: 'Contenu', type: 'textarea' },
-        { key: 'buttonLabel', label: 'Libellé du bouton', type: 'text' },
-        { key: 'logChannelId', label: 'Salon des logs', type: 'channel' },
+        {
+          key: 'title',
+          label: t('modules.verification.ui.g0.champs.title.label'),
+          type: 'text',
+          help: t('modules.verification.ui.g0.champs.title.help'),
+        },
+        {
+          key: 'content',
+          label: t('modules.verification.ui.g0.champs.content.label'),
+          type: 'textarea',
+          help: t('modules.verification.ui.g0.champs.content.help'),
+        },
+        {
+          key: 'buttonLabel',
+          label: t('modules.verification.ui.g0.champs.buttonLabel.label'),
+          type: 'text',
+          help: t('modules.verification.ui.g0.champs.buttonLabel.help'),
+        },
+        {
+          key: 'logChannelId',
+          label: t('modules.verification.ui.g0.champs.logChannelId.label'),
+          type: 'channel',
+          help: t('modules.verification.ui.g0.champs.logChannelId.help'),
+        },
       ],
     },
   ],

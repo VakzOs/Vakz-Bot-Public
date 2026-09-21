@@ -1,0 +1,43 @@
+{
+  "modules": {
+    "streamer": {
+      "label": "Modo streamer",
+      "description": "Un panel donde los miembros se ensordecen (sin silenciar su micrófono) para retransmitir una partida a sus amistades.",
+      "button": "Activar / Desactivar",
+      "embed": {
+        "roleField": "{role} — {count} miembro(s)",
+        "noMembers": "Ningún miembro"
+      },
+      "feedback": {
+        "disabled": "❌ El modo streamer está desactivado en este servidor.",
+        "notConfigured": "❌ No hay ningún rol de Streaming configurado (la administración debe ajustarlo en el panel).",
+        "roleGone": "❌ El rol de Streaming ya no existe.",
+        "cannot": "⚠️ No puedo: me falta «Ensordecer miembros» o «Gestionar roles», o el rol de Streaming está por encima del mío.",
+        "notInVoice": "❌ Únete primero a un canal de voz.",
+        "enabledUser": "🎙️ **Modo streamer activado.** Ya no oyes Discord, pero tu micrófono sigue emitiendo.",
+        "disabledUser": "🔊 **Modo streamer desactivado.** Vuelves a oír Discord.",
+        "error": "❌ Se ha producido un error (comprueba mis permisos)."
+      },
+      "ui": {
+        "g0": {
+          "label": "🎥 Modo streamer",
+          "description": "Tras cualquier cambio, vuelve a publicar el panel con el botón «Publicar».",
+          "champs": {
+            "roleId": {
+              "label": "Rol «en directo»"
+            },
+            "channelId": {
+              "label": "Canal del panel"
+            },
+            "title": {
+              "label": "Título del panel"
+            },
+            "description": {
+              "label": "Descripción del panel"
+            }
+          }
+        }
+      }
+    }
+  }
+}

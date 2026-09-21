@@ -1,0 +1,101 @@
+{
+  "modules": {
+    "info": {
+      "label": "Comandi di informazione",
+      "description": "Comandi utili: informazioni su un membro, il server, un ruolo o l'avatar di qualcuno.",
+      "noms": {
+        "avatar": "avatar",
+        "emoji": "emoji",
+        "infos-membre": "info-membro",
+        "infos-role": "info-ruolo",
+        "infos-serveur": "info-server",
+        "membre": "membro",
+        "role": "ruolo"
+      },
+      "opt": {
+        "member": "Il membro interessato (predefinito: tu).",
+        "role": "Il ruolo interessato.",
+        "emoji": "L'emoji da ingrandire (personalizzato, :nome: o unicode)."
+      },
+      "yes": "✅ Sì",
+      "no": "⛔ No",
+      "field": {
+        "id": "Identificatore",
+        "bot": "Bot",
+        "created": "Account creato",
+        "joined": "Entrato il",
+        "roles": "Ruoli ({count})",
+        "boosting": "Potenzia da",
+        "owner": "Proprietà",
+        "members": "Membri",
+        "boosts": "Boost",
+        "channels": "Canali",
+        "emojis": "Emoji",
+        "color": "Colore",
+        "position": "Posizione"
+      },
+      "boostValue": "**{count}** (livello {tier})",
+      "channelValue": "💬 {text} · 🔊 {voice} · 📁 {categories}",
+      "userinfo": {
+        "description": "Mostra le informazioni di un membro.",
+        "title": "Informazioni su {user}"
+      },
+      "serverinfo": {
+        "description": "Mostra le informazioni del server.",
+        "title": "Informazioni su {server}"
+      },
+      "avatar": {
+        "description": "Mostra in grande l'avatar di un membro.",
+        "title": "Avatar di {user}",
+        "link": "Link",
+        "serverLink": "Avatar del server"
+      },
+      "roleinfo": {
+        "description": "Mostra le informazioni di un ruolo.",
+        "title": "Informazioni su {role}",
+        "hoisted": "Mostrato a parte",
+        "mentionable": "Menzionabile",
+        "managed": "Gestito (bot/integrazione)",
+        "permissions": "Permessi",
+        "admin": "👑 Amministrazione",
+        "permCount": "{count} permesso/i"
+      },
+      "emoji": {
+        "description": "Mostra un emoji in grande (scaricabile).",
+        "download": "Download",
+        "animated": "🎞️ Animato",
+        "static": "🖼️ Statico",
+        "notEmoji": "❌ Questo non è un emoji valido. Fornisci un emoji personalizzato, un `:nome:` del server o un emoji unicode."
+      },
+      "ui": {
+        "g0": {
+          "label": "🪪 Registro dei profili",
+          "description": "Annota in un canale i cambi di identità dei membri (nome, foto del profilo, nome sul server). I comandi /info-membro, /info-server… restano sempre disponibili.",
+          "champs": {
+            "watchEnabled": {
+              "label": "Attivare il registro dei profili"
+            },
+            "watchChannelId": {
+              "label": "Canale del registro"
+            },
+            "watchUsername": {
+              "label": "Nome utente (@handle)"
+            },
+            "watchGlobalName": {
+              "label": "Nome mostrato"
+            },
+            "watchAvatar": {
+              "label": "Foto del profilo"
+            },
+            "watchNickname": {
+              "label": "Nome sul server"
+            },
+            "watchRoleIds": {
+              "label": "Limitare a questi ruoli (vuoto = tutti i membri)"
+            }
+          }
+        }
+      }
+    }
+  }
+}

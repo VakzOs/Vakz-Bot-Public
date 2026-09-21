@@ -10,6 +10,100 @@
         "added": "✅ Role {role} added.",
         "removed": "➖ Role {role} removed.",
         "error": "❌ Something went wrong."
+      },
+      "ui": {
+        "g0": {
+          "label": "🧩 Interactive messages",
+          "description": "After any change, republish the message with the “Publish a message” action.",
+          "champs": {
+            "panels": {
+              "label": "Messages",
+              "addLabel": "Add a message",
+              "item": {
+                "name": {
+                  "label": "Name (internal)"
+                },
+                "channelId": {
+                  "label": "Publication channel"
+                },
+                "title": {
+                  "label": "Embed title"
+                },
+                "description": {
+                  "label": "Embed description"
+                },
+                "buttons": {
+                  "label": "Buttons",
+                  "addLabel": "Add a button",
+                  "item": {
+                    "type": {
+                      "label": "Type",
+                      "opt": {
+                        "role": {
+                          "label": "Role (added/removed on click)"
+                        },
+                        "link": {
+                          "label": "Link (opens a URL)"
+                        }
+                      }
+                    },
+                    "label": {
+                      "label": "Button text"
+                    },
+                    "emoji": {
+                      "label": "Emoji"
+                    },
+                    "roleId": {
+                      "label": "Role (if type “Role”)"
+                    },
+                    "url": {
+                      "label": "URL (if type “Link”)",
+                      "placeholder": "https://…"
+                    },
+                    "style": {
+                      "label": "Style",
+                      "opt": {
+                        "primary": {
+                          "label": "Blue"
+                        },
+                        "secondary": {
+                          "label": "Grey"
+                        },
+                        "success": {
+                          "label": "Green"
+                        },
+                        "danger": {
+                          "label": "Red"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "help": "One row per button message. A « role » button grants or removes the role on click; a « link » button opens a URL and does not count towards interaction limits. Discord rejects the WHOLE message if a single URL is malformed or an emoji no longer exists. A panel edited here is not rewritten on Discord until it is republished."
+            }
+          }
+        }
+      },
+      "actions": {
+        "publish": {
+          "label": "Publish a message",
+          "help": "Publishes the chosen message, or updates the one already sent.",
+          "champs": {
+            "id": "Message"
+          },
+          "msg": {
+            "noGuild": "Server not found.",
+            "pickPanel": "Pick a saved message.",
+            "reason": {
+              "nochannel": "channel missing or not found",
+              "empty": "title and description are empty",
+              "refused": "sending refused by Discord"
+            },
+            "failed": "Cannot publish: {raison}.",
+            "done": "Message published."
+          }
+        }
       }
     }
   }

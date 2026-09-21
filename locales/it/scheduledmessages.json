@@ -1,0 +1,91 @@
+{
+  "modules": {
+    "scheduledmessages": {
+      "label": "Messaggi ricorrenti",
+      "description": "Pubblica automaticamente messaggi in un canale secondo una cadenza (giornaliera, settimanale o ogni N ore).",
+      "type": {
+        "daily": "Giornaliero",
+        "weekly": "Settimanale",
+        "interval": "A intervalli"
+      },
+      "weekday": {
+        "0": "Domenica",
+        "1": "Lunedì",
+        "2": "Martedì",
+        "3": "Mercoledì",
+        "4": "Giovedì",
+        "5": "Venerdì",
+        "6": "Sabato"
+      },
+      "describe": {
+        "daily": "Ogni giorno alle {time}",
+        "weekly": "Ogni {day} alle {time}",
+        "interval": "Ogni {hours} h"
+      },
+      "ui": {
+        "g0": {
+          "label": "🔁 Messaggi ricorrenti",
+          "description": "Orari nel fuso del bot (Europe/Paris).",
+          "champs": {
+            "messages": {
+              "label": "Messaggi",
+              "addLabel": "Aggiungi un messaggio",
+              "item": {
+                "channelId": {
+                  "label": "Canale"
+                },
+                "content": {
+                  "label": "Contenuto"
+                },
+                "asEmbed": {
+                  "label": "Come embed"
+                },
+                "schedule": {
+                  "type": {
+                    "label": "Cadenza",
+                    "opt": {
+                      "daily": {
+                        "label": "Ogni giorno"
+                      },
+                      "weekly": {
+                        "label": "Ogni settimana"
+                      },
+                      "interval": {
+                        "label": "Ogni X ore"
+                      }
+                    }
+                  },
+                  "time": {
+                    "label": "Ora (HH:MM) — giornaliero / settimanale",
+                    "placeholder": "12:00"
+                  },
+                  "weekday": {
+                    "label": "Giorno — settimanale (0 = domenica … 6 = sabato)"
+                  },
+                  "hours": {
+                    "label": "Intervallo in ore — tipo «ogni X ore»"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "sendNow": {
+          "label": "Invia ora",
+          "help": "Pubblica subito il messaggio scelto; la sua pianificazione resta invariata.",
+          "champs": {
+            "id": "Messaggio"
+          },
+          "msg": {
+            "noGuild": "Server non trovato.",
+            "pickMessage": "Scegli un messaggio pianificato.",
+            "done": "Messaggio inviato.",
+            "failed": "Invio impossibile (canale o permessi)."
+          }
+        }
+      }
+    }
+  }
+}

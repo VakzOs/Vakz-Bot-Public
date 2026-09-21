@@ -1,0 +1,113 @@
+{
+  "modules": {
+    "moderation": {
+      "label": "Moderazione",
+      "description": "Sanzioni (avvertimento, espulsione, ban, silenziamento), cronologia e registro.",
+      "noms": {
+        "ban": "banna",
+        "duree": "durata",
+        "jours_messages": "giorni_messaggi",
+        "kick": "espelli",
+        "membre": "membro",
+        "raison": "motivo",
+        "sanctions": "sanzioni",
+        "timeout": "silenzia",
+        "unban": "sbanna",
+        "untimeout": "desilenzia",
+        "utilisateur": "utente",
+        "warn": "avverti"
+      },
+      "commands": {
+        "warn": {
+          "description": "Avverte un membro."
+        },
+        "kick": {
+          "description": "Espelle un membro dal server."
+        },
+        "ban": {
+          "description": "Banna un membro (o una persona tramite il suo ID)."
+        },
+        "unban": {
+          "description": "Revoca il ban di una persona."
+        },
+        "timeout": {
+          "description": "Silenzia un membro per un certo tempo (es. 10m, 1h, 1j)."
+        },
+        "untimeout": {
+          "description": "Revoca il silenziamento di un membro."
+        },
+        "history": {
+          "description": "Mostra la fedina di un membro."
+        }
+      },
+      "opt": {
+        "member": "Il membro interessato.",
+        "reason": "Il motivo della sanzione.",
+        "deleteDays": "Eliminare i messaggi degli ultimi N giorni (0-7).",
+        "userId": "L'identificatore della persona da sbannare.",
+        "duration": "Durata (es. 10m, 1h30m, 1j). Massimo 28 giorni."
+      },
+      "types": {
+        "warn": "⚠️ Avvertimento",
+        "kick": "👢 Espulsione",
+        "ban": "🔨 Ban",
+        "unban": "♻️ Revoca del ban",
+        "timeout": "🔇 Silenziamento",
+        "untimeout": "🔊 Revoca del silenziamento"
+      },
+      "log": {
+        "user": "Membro",
+        "moderator": "Moderazione",
+        "executor": "Azione eseguita da",
+        "reason": "Motivo",
+        "noReason": "*nessun motivo*",
+        "until": "Fino al"
+      },
+      "dm": {
+        "warn": "⚠️ Hai ricevuto un avvertimento su {guild}",
+        "kick": "👢 Sei stato espulso da {guild}",
+        "ban": "🔨 Sei stato bannato da {guild}",
+        "unban": "♻️ Il tuo ban su {guild} è stato revocato",
+        "timeout": "🔇 Sei stato silenziato su {guild}",
+        "untimeout": "🔊 Il tuo silenziamento su {guild} è stato revocato"
+      },
+      "result": {
+        "warn": "⚠️ {user} ha ricevuto un avvertimento.",
+        "kick": "👢 {user} è stato espulso.",
+        "ban": "🔨 {user} è stato bannato.",
+        "unban": "♻️ {user} è stato sbannato.",
+        "timeout": "🔇 {user} è stato silenziato per {duration}.",
+        "untimeout": "🔊 Il silenziamento di {user} è stato revocato."
+      },
+      "targetError": {
+        "self": "❌ Non puoi sanzionare te stesso.",
+        "owner": "❌ Non puoi sanzionare chi possiede il server.",
+        "bot": "❌ Non posso sanzionare me stesso.",
+        "botHierarchy": "❌ Questo membro ha un ruolo superiore o uguale al mio: non posso sanzionarlo.",
+        "modHierarchy": "❌ Questo membro ha un ruolo superiore o uguale al tuo."
+      },
+      "notInGuild": "❌ Questo membro non è nel server.",
+      "botNoPerm": "❌ Mi manca il permesso necessario per questa azione.",
+      "actionFailed": "❌ L'azione non è riuscita (permessi o gerarchia).",
+      "invalidDuration": "❌ Durata non valida. Esempi: `10m`, `1h30m`, `2j`.",
+      "invalidUserId": "❌ Identificatore utente non valido.",
+      "notBanned": "❌ Questa persona non è bannata (o l'ID è errato).",
+      "history": {
+        "empty": "✅ {user} non ha nessuna sanzione registrata.",
+        "title": "Fedina di {user}"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "logChannelId": {
+              "label": "Canale dei registri di moderazione"
+            },
+            "dmOnSanction": {
+              "label": "Avvisare il membro in privato quando viene sanzionato"
+            }
+          }
+        }
+      }
+    }
+  }
+}

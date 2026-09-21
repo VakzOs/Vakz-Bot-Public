@@ -22,59 +22,68 @@ function whenLabel(days: number): string {
 
 /** `/anniversaire` — gestion de sa date d'anniversaire. */
 export const anniversaire: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('anniversaire')
-    .setDescription(t('modules.birthdays.command.description'))
-    .addSubcommand((s) =>
-      s
-        .setName('definir')
-        .setDescription(t('modules.birthdays.command.set'))
-        .addIntegerOption((o) =>
-          o
-            .setName('jour')
-            .setDescription(t('modules.birthdays.opt.day'))
-            .setRequired(true)
-            .setMinValue(1)
-            .setMaxValue(31),
-        )
-        .addIntegerOption((o) =>
-          o
-            .setName('mois')
-            .setDescription(t('modules.birthdays.opt.month'))
-            .setRequired(true)
-            .setMinValue(1)
-            .setMaxValue(12),
-        )
-        .addIntegerOption((o) =>
-          o
-            .setName('annee')
-            .setDescription(t('modules.birthdays.opt.year'))
-            .setMinValue(1900)
-            .setMaxValue(2100),
-        )
-        .addUserOption((o) =>
-          o.setName('membre').setDescription(t('modules.birthdays.opt.targetMember')),
-        ),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('retirer')
-        .setDescription(t('modules.birthdays.command.remove'))
-        .addUserOption((o) =>
-          o.setName('membre').setDescription(t('modules.birthdays.opt.targetMember')),
-        ),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('voir')
-        .setDescription(t('modules.birthdays.command.view'))
-        .addUserOption((o) =>
-          o.setName('membre').setDescription(t('modules.birthdays.opt.member')),
-        ),
-    )
-    .addSubcommand((s) =>
-      s.setName('prochains').setDescription(t('modules.birthdays.command.upcoming')),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.birthdays.noms.anniversaire'))
+      .setDescription(t('modules.birthdays.command.description'))
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.birthdays.noms.definir'))
+          .setDescription(t('modules.birthdays.command.set'))
+          .addIntegerOption((o) =>
+            o
+              .setName(t('modules.birthdays.noms.jour'))
+              .setDescription(t('modules.birthdays.opt.day'))
+              .setRequired(true)
+              .setMinValue(1)
+              .setMaxValue(31),
+          )
+          .addIntegerOption((o) =>
+            o
+              .setName(t('modules.birthdays.noms.mois'))
+              .setDescription(t('modules.birthdays.opt.month'))
+              .setRequired(true)
+              .setMinValue(1)
+              .setMaxValue(12),
+          )
+          .addIntegerOption((o) =>
+            o
+              .setName(t('modules.birthdays.noms.annee'))
+              .setDescription(t('modules.birthdays.opt.year'))
+              .setMinValue(1900)
+              .setMaxValue(2100),
+          )
+          .addUserOption((o) =>
+            o
+              .setName(t('modules.birthdays.noms.membre'))
+              .setDescription(t('modules.birthdays.opt.targetMember')),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.birthdays.noms.retirer'))
+          .setDescription(t('modules.birthdays.command.remove'))
+          .addUserOption((o) =>
+            o
+              .setName(t('modules.birthdays.noms.membre'))
+              .setDescription(t('modules.birthdays.opt.targetMember')),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.birthdays.noms.voir'))
+          .setDescription(t('modules.birthdays.command.view'))
+          .addUserOption((o) =>
+            o
+              .setName(t('modules.birthdays.noms.membre'))
+              .setDescription(t('modules.birthdays.opt.member')),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.birthdays.noms.prochains'))
+          .setDescription(t('modules.birthdays.command.upcoming')),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
     const guildId = interaction.guildId;

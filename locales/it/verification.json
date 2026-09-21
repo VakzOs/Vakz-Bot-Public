@@ -1,0 +1,61 @@
+{
+  "modules": {
+    "verification": {
+      "label": "Verifica",
+      "description": "Porta d'ingresso anti-bot: un pulsante o un captcha con immagine assegna il ruolo verificato che sblocca il server.",
+      "feedback": {
+        "disabled": "❌ La verifica è disattivata su questo server.",
+        "notConfigured": "❌ La verifica non è ancora pronta (nessun ruolo verificato definito). Avvisa chi amministra.",
+        "alreadyVerified": "✅ Sei già verificato!",
+        "cannotAssign": "❌ Non posso assegnarti il ruolo verificato. Chi amministra deve controllare i miei permessi (Gestire i ruoli + gerarchia).",
+        "captchaInstructions": "🔐 Ricopia il codice mostrato sull'immagine, poi premi «Inserisci il codice». Le maiuscole non contano.",
+        "captchaWrong": "❌ Codice errato. Riprova premendo «Inserisci il codice».",
+        "captchaExpired": "⌛ Il captcha è scaduto. Premi di nuovo «Verificami» per generarne uno nuovo.",
+        "success": "✅ Verifica superata, benvenuto! Ora hai accesso al server.",
+        "openButton": "Inserisci il codice",
+        "answerModalTitle": "Verifica",
+        "answerField": "Codice mostrato sull'immagine"
+      },
+      "log": {
+        "verified": "✅ {user} ha superato la verifica."
+      },
+      "ui": {
+        "g0": {
+          "label": "🔐 Verifica",
+          "description": "Dopo ogni modifica, ripubblica il pannello con il pulsante «Pubblica».",
+          "champs": {
+            "channelId": {
+              "label": "Canale di verifica"
+            },
+            "roleId": {
+              "label": "Ruolo assegnato dopo la verifica"
+            },
+            "method": {
+              "label": "Metodo",
+              "opt": {
+                "button": {
+                  "label": "Pulsante semplice"
+                },
+                "captcha": {
+                  "label": "Captcha con immagine"
+                }
+              }
+            },
+            "title": {
+              "label": "Titolo"
+            },
+            "content": {
+              "label": "Contenuto"
+            },
+            "buttonLabel": {
+              "label": "Etichetta del pulsante"
+            },
+            "logChannelId": {
+              "label": "Canale dei registri"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -9,71 +9,82 @@ const MAX_WINNERS = 20;
 
 /** `/giveaway` — lancer et gérer des tirages au sort (admin). */
 export const giveaway: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('giveaway')
-    .setDescription(t('modules.giveaways.command.description'))
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-    .addSubcommand((s) =>
-      s
-        .setName('lancer')
-        .setDescription(t('modules.giveaways.command.start'))
-        .addStringOption((o) =>
-          o
-            .setName('lot')
-            .setDescription(t('modules.giveaways.opt.prize'))
-            .setRequired(true)
-            .setMaxLength(200),
-        )
-        .addStringOption((o) =>
-          o
-            .setName('duree')
-            .setDescription(t('modules.giveaways.opt.duration'))
-            .setRequired(true)
-            .setMaxLength(30),
-        )
-        .addIntegerOption((o) =>
-          o
-            .setName('gagnants')
-            .setDescription(t('modules.giveaways.opt.winners'))
-            .setMinValue(1)
-            .setMaxValue(MAX_WINNERS),
-        )
-        .addChannelOption((o) =>
-          o
-            .setName('salon')
-            .setDescription(t('modules.giveaways.opt.channel'))
-            .addChannelTypes(ChannelType.GuildText, ChannelType.GuildAnnouncement),
-        )
-        .addRoleOption((o) => o.setName('role').setDescription(t('modules.giveaways.opt.role'))),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('terminer')
-        .setDescription(t('modules.giveaways.command.end'))
-        .addStringOption((o) =>
-          o
-            .setName('id')
-            .setDescription(t('modules.giveaways.opt.id'))
-            .setRequired(true)
-            .setAutocomplete(true),
-        ),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('relancer')
-        .setDescription(t('modules.giveaways.command.reroll'))
-        .addStringOption((o) =>
-          o
-            .setName('id')
-            .setDescription(t('modules.giveaways.opt.id'))
-            .setRequired(true)
-            .setAutocomplete(true),
-        )
-        .addUserOption((o) =>
-          o.setName('gagnant').setDescription(t('modules.giveaways.opt.winner')),
-        ),
-    )
-    .addSubcommand((s) => s.setName('liste').setDescription(t('modules.giveaways.command.list'))),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.giveaways.noms.giveaway'))
+      .setDescription(t('modules.giveaways.command.description'))
+      .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.giveaways.noms.lancer'))
+          .setDescription(t('modules.giveaways.command.start'))
+          .addStringOption((o) =>
+            o
+              .setName(t('modules.giveaways.noms.lot'))
+              .setDescription(t('modules.giveaways.opt.prize'))
+              .setRequired(true)
+              .setMaxLength(200),
+          )
+          .addStringOption((o) =>
+            o
+              .setName(t('modules.giveaways.noms.duree'))
+              .setDescription(t('modules.giveaways.opt.duration'))
+              .setRequired(true)
+              .setMaxLength(30),
+          )
+          .addIntegerOption((o) =>
+            o
+              .setName(t('modules.giveaways.noms.gagnants'))
+              .setDescription(t('modules.giveaways.opt.winners'))
+              .setMinValue(1)
+              .setMaxValue(MAX_WINNERS),
+          )
+          .addChannelOption((o) =>
+            o
+              .setName(t('modules.giveaways.noms.salon'))
+              .setDescription(t('modules.giveaways.opt.channel'))
+              .addChannelTypes(ChannelType.GuildText, ChannelType.GuildAnnouncement),
+          )
+          .addRoleOption((o) =>
+            o
+              .setName(t('modules.giveaways.noms.role'))
+              .setDescription(t('modules.giveaways.opt.role')),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.giveaways.noms.terminer'))
+          .setDescription(t('modules.giveaways.command.end'))
+          .addStringOption((o) =>
+            o
+              .setName(t('modules.giveaways.noms.id'))
+              .setDescription(t('modules.giveaways.opt.id'))
+              .setRequired(true)
+              .setAutocomplete(true),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.giveaways.noms.relancer'))
+          .setDescription(t('modules.giveaways.command.reroll'))
+          .addStringOption((o) =>
+            o
+              .setName(t('modules.giveaways.noms.id'))
+              .setDescription(t('modules.giveaways.opt.id'))
+              .setRequired(true)
+              .setAutocomplete(true),
+          )
+          .addUserOption((o) =>
+            o
+              .setName(t('modules.giveaways.noms.gagnant'))
+              .setDescription(t('modules.giveaways.opt.winner')),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.giveaways.noms.liste'))
+          .setDescription(t('modules.giveaways.command.list')),
+      ),
 
   async autocomplete(interaction, ctx) {
     const guildId = interaction.guildId;

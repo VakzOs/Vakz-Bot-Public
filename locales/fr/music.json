@@ -3,6 +3,27 @@
     "music": {
       "label": "Musique",
       "description": "Écoute de la musique dans les salons vocaux (YouTube, SoundCloud, Spotify…) via un serveur Lavalink.",
+      "noms": {
+        "disconnect": "disconnect",
+        "loop": "loop",
+        "mode": "mode",
+        "niveau": "niveau",
+        "nowplaying": "nowplaying",
+        "numero": "numero",
+        "pause": "pause",
+        "play": "play",
+        "position": "position",
+        "queue": "queue",
+        "recherche": "recherche",
+        "remove": "remove",
+        "resume": "resume",
+        "seek": "seek",
+        "shuffle": "shuffle",
+        "skip": "skip",
+        "source": "source",
+        "stop": "stop",
+        "volume": "volume"
+      },
       "notConfigured": "❌ La musique n'est pas configurée sur cet hébergement (serveur Lavalink absent).",
       "nodeDown": "❌ Le serveur Lavalink est injoignable. Vérifie qu'il tourne (`docker compose ps`) et que LAVALINK_HOST / LAVALINK_PASSWORD sont corrects.",
       "joinFailed": "❌ Impossible de rejoindre ton salon vocal (permissions « Se connecter » / « Parler » manquantes ?).",
@@ -67,6 +88,43 @@
         "disconnect": "Déconnecte le bot du salon vocal.",
         "queue": "Affiche la file d'attente.",
         "nowplaying": "Affiche la piste en cours de lecture."
+      },
+      "plateformes": {
+        "ytsearch": "YouTube",
+        "ytmsearch": "YouTube Music",
+        "scsearch": "SoundCloud",
+        "spsearch": "Spotify (LavaSrc — identifiants requis)",
+        "dzsearch": "Deezer (LavaSrc)"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "djRoleId": {
+              "label": "Rôle DJ (contrôle réservé — vide = tout le monde)",
+              "help": "Restreint les commandes qui affectent tout le monde — passer, arrêter, vider la file — aux porteurs de ce rôle. Vide, n'importe quel membre peut couper ce que les autres écoutent."
+            },
+            "defaultSearch": {
+              "label": "Plateforme de recherche par défaut",
+              "help": "La plateforme interrogée quand la demande est un titre et non un lien. Un lien collé est toujours lu tel quel, quelle que soit cette valeur. Spotify demande des identifiants côté serveur (SPOTIFY_CLIENT_*) : sans eux, la recherche échoue silencieusement et la file reste vide."
+            },
+            "defaultVolume": {
+              "label": "Volume par défaut (1-100)",
+              "help": "Le volume appliqué à chaque nouvelle connexion du bot. Le monter ne rend pas le son meilleur, seulement plus saturé : au-delà de 100, l'audio est amplifié après mixage."
+            },
+            "maxVolume": {
+              "label": "Volume maximum (1-150)",
+              "help": "Le plafond que personne ne peut dépasser. C'est le garde-fou contre le membre qui monte à 150 pour faire une blague dans un vocal où tout le monde a un casque."
+            },
+            "requireSameChannel": {
+              "label": "Exiger d’être dans le même salon vocal pour contrôler",
+              "help": "Exige d'être dans le même salon vocal que le bot pour le commander. À laisser actif : sinon quelqu'un qui n'écoute pas peut passer les morceaux des autres depuis n'importe où."
+            },
+            "autoLeave": {
+              "label": "Quitter automatiquement en fin de file",
+              "help": "Le bot quitte le vocal quand la file est épuisée, au lieu d'y rester connecté. Le laisser actif : un bot immobile dans un salon vocal donne l'impression qu'il est occupé, et il consomme une connexion pour rien."
+            }
+          }
+        }
       }
     }
   }

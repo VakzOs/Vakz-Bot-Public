@@ -1,7 +1,7 @@
 import type { Client } from 'discord.js';
 import type { BotContext } from './module.js';
 import { db } from './db.js';
-import { createLogger, logger } from './logger.js';
+import { logger, loggerFor } from './logger.js';
 import { scheduler } from './scheduler.js';
 import { t } from './i18n.js';
 import { guildConfig } from './guild-config.js';
@@ -37,7 +37,7 @@ const perModule = new Map<string, BotContext>();
 export function contextFor(ctx: BotContext, moduleName: string): BotContext {
   const cached = perModule.get(moduleName);
   if (cached) return cached;
-  const derived: BotContext = { ...ctx, logger: createLogger(moduleName) };
+  const derived: BotContext = { ...ctx, logger: loggerFor(moduleName) };
   perModule.set(moduleName, derived);
   return derived;
 }

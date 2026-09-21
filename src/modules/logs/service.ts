@@ -112,6 +112,24 @@ export async function isLogCategoryEnabled(
   return Boolean(config.logChannelId && config[category]);
 }
 
+/**
+ * Sous quelle catégorie publier une arrivée ou un départ.
+ *
+ * Le fait brut appartient aux « membres », mais il porte désormais
+ * l'invitation empruntée. Plutôt que deux embeds pour une même arrivée, on
+ * publie le seul qui existe sous la catégorie restée ouverte : un serveur qui
+ * n'a coché que « invitations » attend de voir passer qui a fait entrer qui.
+ */
+export async function memberLogCategory(
+  ctx: BotContext,
+  guildId: string,
+  hasInviteInfo: boolean,
+): Promise<LogCategory> {
+  if (!hasInviteInfo) return 'members';
+  const config = await getLogsConfig(ctx, guildId);
+  return config.members ? 'members' : 'invites';
+}
+
 export async function sendLog(
   ctx: BotContext,
   guild: Guild,

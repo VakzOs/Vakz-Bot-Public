@@ -1,5 +1,5 @@
 import type { EmbedBuilder, Guild, GuildMember } from 'discord.js';
-import type { BotContext } from '../../core/module.js';
+import type { BotContext, TaskReport } from '../../core/module.js';
 import { brandedEmbed, rankLabel } from '../../lib/embeds.js';
 import {
   type EconomyConfig,
@@ -8,6 +8,7 @@ import {
   getEconomyConfig,
   updateEconomyConfig,
 } from './config.js';
+import { useGuildLocale } from '../../core/guild-locale.js';
 
 const DAILY_COOLDOWN_MS = 86_400_000;
 
@@ -61,8 +62,7 @@ export async function setBalance(
 }
 
 export type DailyResult =
-  | { ok: true; amount: number; balance: number }
-  | { ok: false; nextAt: Date };
+  { ok: true; amount: number; balance: number } | { ok: false; nextAt: Date };
 
 export async function claimDaily(
   ctx: BotContext,
@@ -184,6 +184,12 @@ export function buildLeaderboardEmbed(
  * Gain de monnaie en vocal (à appeler chaque minute) : crédite les membres actifs
  * en vocal sur chaque serveur où le module et le vocal sont activés. Un salon doit
  * compter au moins deux membres actifs (non sourds/mute, non bots).
+ *
+ * **Volontairement sans compte-rendu** : payer le vocal à la minute est le
+ * fonctionnement normal du module, pas un évènement. Le rapporter rendrait une
+ * ligne d'`info` par minute tant qu'il y a du monde en vocal — exactement le
+ * bruit que le compte-rendu sert à supprimer. Ce qui s'est passé se lit sur les
+ * soldes, et le passage reste visible en `LOG_LEVEL=debug`.
  */
 export async function runVoiceMoney(ctx: BotContext): Promise<void> {
   const rows = await ctx.db.moduleConfig
@@ -213,8 +219,17 @@ export async function runVoiceMoney(ctx: BotContext): Promise<void> {
   }
 }
 
-/** Met à jour (ou publie) le classement auto des plus riches sur chaque serveur réglé. */
-export async function refreshLeaderboards(ctx: BotContext): Promise<void> {
+/**
+ * Met à jour (ou publie) le classement auto des plus riches sur chaque serveur
+ * réglé.
+ *
+ * Seules les publications et les échecs sont rapportés : rééditer le message
+ * est le travail normal de la tâche, et l'annoncer toutes les dix minutes ne
+ * dirait rien d'autre que « elle tourne ».
+ */
+export async function refreshLeaderboards(ctx: BotContext): Promise<TaskReport> {
+  let publies = 0;
+  let echecs = 0;
   const rows = await ctx.db.moduleConfig
     .findMany({ where: { module: MODULE_NAME, enabled: true } })
     .catch(() => []);
@@ -227,6 +242,8 @@ export async function refreshLeaderboards(ctx: BotContext): Promise<void> {
     const channel = await guild.channels.fetch(config.leaderboardChannelId).catch(() => null);
     if (!channel?.isTextBased()) continue;
 
+    // La tâche parcourt les serveurs : le classement sort dans SA langue.
+    await useGuildLocale(guild.id);
     const entries = await getLeaderboard(ctx, guild.id, 10);
     const embed = buildLeaderboardEmbed(guild, entries, config);
 
@@ -237,7 +254,22 @@ export async function refreshLeaderboards(ctx: BotContext): Promise<void> {
         continue;
       }
     }
-    const sent = await channel.send({ embeds: [embed] }).catch(() => null);
-    if (sent) await updateEconomyConfig(ctx, guild.id, { leaderboardMessageId: sent.id });
+    const sent = await channel.send({ embeds: [embed] }).catch((error: unknown) => {
+      // Un classement qui ne se publie jamais (permissions retirées sur le
+      // salon) n'avait aucune trace : la tâche passait, le salon restait vide.
+      ctx.logger.warn(
+        { err: error, guildId: guild.id, channelId: config.leaderboardChannelId },
+        'Classement des plus riches non publié',
+      );
+      return null;
+    });
+    if (sent) {
+      await updateEconomyConfig(ctx, guild.id, { leaderboardMessageId: sent.id });
+      publies += 1;
+    } else {
+      echecs += 1;
+    }
   }
+
+  return { publies, echecs };
 }

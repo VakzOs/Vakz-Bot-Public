@@ -3,6 +3,20 @@
     "moderation": {
       "label": "Modération",
       "description": "Sanctions (warn, kick, ban, timeout), historique et journal.",
+      "noms": {
+        "ban": "ban",
+        "duree": "duree",
+        "jours_messages": "jours_messages",
+        "kick": "kick",
+        "membre": "membre",
+        "raison": "raison",
+        "sanctions": "sanctions",
+        "timeout": "timeout",
+        "unban": "unban",
+        "untimeout": "untimeout",
+        "utilisateur": "utilisateur",
+        "warn": "warn"
+      },
       "commands": {
         "warn": {
           "description": "Avertit un membre."
@@ -81,6 +95,20 @@
       "history": {
         "empty": "✅ {user} n'a aucune sanction enregistrée.",
         "title": "Casier de {user}"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "logChannelId": {
+              "label": "Salon des logs de modération",
+              "help": "Le salon où chaque sanction est consignée, avec son auteur, sa cible et sa raison. Vide, les sanctions s'appliquent quand même — simplement, il n'en reste aucune trace consultable, et « qui a banni ce membre en mars ? » n'a plus de réponse."
+            },
+            "dmOnSanction": {
+              "label": "Prévenir le membre en MP lors d’une sanction",
+              "help": "Le membre sanctionné reçoit un message privé lui disant ce qui lui arrive et pourquoi. Discord refuse les MP d'un serveur qu'on a quitté et ceux d'un membre qui les a fermés : l'envoi échoue alors sans empêcher la sanction."
+            }
+          }
+        }
       }
     }
   }

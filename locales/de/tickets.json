@@ -1,0 +1,103 @@
+{
+  "modules": {
+    "tickets": {
+      "label": "Tickets",
+      "description": "Mehrere Ticketarten; jede öffnet einen privaten Kanal, den nur die gewählten Rollen sehen.",
+      "welcomeTitle": "🎫 Ticket geöffnet",
+      "welcome": "Hallo {user}, dein Ticket „{type}“ ist offen. Beschreibe dein Anliegen hier, das Team meldet sich. Klicke auf „Ticket schließen“, sobald es erledigt ist.",
+      "opened": "✅ Dein Ticket wurde geöffnet: {channel}",
+      "feedback": {
+        "disabled": "❌ Dieses Modul ist auf diesem Server deaktiviert."
+      },
+      "error": {
+        "notype": "❌ Diese Ticketart gibt es nicht mehr.",
+        "max": "❌ Du hast bereits {max} offene(s) Ticket(s). Schließe es, bevor du ein neues öffnest.",
+        "noperm": "❌ Mir fehlt die Berechtigung „Kanäle verwalten“, um das Ticket zu erstellen.",
+        "create": "❌ Der Ticket-Kanal konnte nicht erstellt werden. Prüfe meine Berechtigungen und die Kategorie."
+      },
+      "close": {
+        "button": "🔒 Ticket schließen",
+        "confirm": "Schließen dieses Tickets bestätigen? Der Kanal wird gelöscht.",
+        "confirmButton": "🔒 Schließen bestätigen",
+        "closing": "🔒 Ticket wird geschlossen…",
+        "closingArchive": "🔒 Unterhaltung wird archiviert, dann geschlossen…",
+        "notFound": "❌ Dieses Ticket wurde nicht gefunden oder ist schon geschlossen.",
+        "cantClose": "⛔ Nur die eröffnende Person, das Team dieser Art oder die Administration kann es schließen."
+      },
+      "archive": {
+        "title": "📦 Ticket-Archiv",
+        "header": "Art: {type}\nEröffnet von: {opener}\nGeschlossen von: {closedBy}\nNachrichten: {count}"
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ Allgemein",
+          "description": "Veröffentliche das Panel nach einer Änderung mit der Schaltfläche „Veröffentlichen“ erneut, damit die Schaltflächen aktualisiert werden.",
+          "champs": {
+            "title": {
+              "label": "Titel des Panels"
+            },
+            "description": {
+              "label": "Beschreibung des Panels"
+            },
+            "panelChannelId": {
+              "label": "Kanal des Panels",
+              "help": "Wo das Panel „Ticket öffnen“ veröffentlicht wird."
+            },
+            "mode": {
+              "label": "Art des Tickets",
+              "opt": {
+                "channel": {
+                  "label": "Privater Kanal (Kategorie)"
+                },
+                "thread": {
+                  "label": "Privater Thread"
+                }
+              }
+            },
+            "categoryId": {
+              "label": "Kategorie der Kanäle (Kanal-Modus)"
+            },
+            "archiveChannelId": {
+              "label": "Kanal für die Archivierung der Mitschriften"
+            },
+            "nameFormat": {
+              "label": "Format des Namens",
+              "help": "Variablen: {type}, {number}, {count}, {user}, {id}."
+            },
+            "maxOpen": {
+              "label": "Gleichzeitig offene Tickets pro Mitglied",
+              "help": "Zwischen 1 und 10."
+            }
+          }
+        },
+        "g1": {
+          "label": "🎫 Ticketarten",
+          "description": "Jede Art = eine Schaltfläche des Panels, mit den Rollen, die sehen/übernehmen dürfen.",
+          "champs": {
+            "types": {
+              "label": "Arten",
+              "addLabel": "Art hinzufügen",
+              "item": {
+                "label": {
+                  "label": "Beschriftung der Schaltfläche"
+                },
+                "emoji": {
+                  "label": "Emoji",
+                  "placeholder": "🎫"
+                },
+                "prefix": {
+                  "label": "Präfix der Kanäle",
+                  "help": "Z. B. „sup“ → sup-0001. Leer = art-name.",
+                  "placeholder": "sup"
+                },
+                "roleIds": {
+                  "label": "Berechtigte Rollen"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

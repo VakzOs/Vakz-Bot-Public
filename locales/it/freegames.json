@@ -1,0 +1,65 @@
+{
+  "modules": {
+    "freegames": {
+      "label": "Giochi gratis",
+      "description": "Annuncia in un canale i giochi che diventano gratis da tenere (Steam, Epic Games, GOG).",
+      "noms": {
+        "jeux-gratuits": "giochi-gratis"
+      },
+      "embedDescription": "🎮 **Gratis da riscattare** su {store} per un tempo limitato!\n[Guarda nel negozio]({url})",
+      "priceField": "Prezzo",
+      "free": "Gratis",
+      "command": {
+        "description": "Mostra i giochi attualmente gratis (Steam, Epic, GOG).",
+        "none": "🎮 Per ora non c'è nessun gioco gratis da riscattare.",
+        "title": "🎮 **{count}** gioco/giochi gratis da riscattare:"
+      },
+      "platform": {
+        "steam": "Steam",
+        "epic": "Epic Games",
+        "gog": "GOG"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Canale degli annunci"
+            },
+            "roleId": {
+              "label": "Ruolo da menzionare"
+            },
+            "platforms": {
+              "label": "Piattaforme seguite",
+              "opt": {
+                "steam": {
+                  "label": "Steam"
+                },
+                "epic": {
+                  "label": "Epic Games"
+                },
+                "gog": {
+                  "label": "GOG"
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "announceNow": {
+          "label": "Annuncia le offerte in corso",
+          "help": "Ripubblica i giochi attualmente gratis sulle piattaforme selezionate e li segna come annunciati.",
+          "msg": {
+            "noChannel": "Nessun canale degli annunci configurato.",
+            "noPlatform": "Nessuna piattaforma selezionata.",
+            "badChannel": "Canale non trovato o non testuale.",
+            "noPermission": "Permessi mancanti nel canale.",
+            "noOffer": "Nessuna offerta gratuita al momento.",
+            "nothingSent": "Non è stato possibile inviare alcun annuncio.",
+            "done": "{n} offerta/e annunciata/e."
+          }
+        }
+      }
+    }
+  }
+}

@@ -3,6 +3,21 @@
     "games": {
       "label": "Games",
       "description": "Fun mini-games: magic 8-ball, dice, coin flip, random pick, rock-paper-scissors, tic-tac-toe and Battleship (with stats). Can drop items when the “Items” module is configured.",
+      "noms": {
+        "adversaire": "opponent",
+        "bataille": "battle",
+        "boule8": "8ball",
+        "choisir": "choose",
+        "coup": "move",
+        "membre": "member",
+        "morpion": "tictactoe",
+        "nombre": "number",
+        "options": "options",
+        "pfc": "rps",
+        "pileouface": "coinflip",
+        "question": "question",
+        "stats-jeux": "game-stats"
+      },
       "drop": {
         "announce": "🎁 {user} found {emoji} **{name}** ({rarity})!"
       },

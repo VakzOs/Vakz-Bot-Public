@@ -3,6 +3,16 @@
     "tempvoice": {
       "label": "Salons vocaux temporaires",
       "description": "Rejoindre un salon générateur crée un salon vocal perso, supprimé quand il se vide.",
+      "noms": {
+        "limite": "limite",
+        "membre": "membre",
+        "nom": "nom",
+        "nombre": "nombre",
+        "panneau": "panneau",
+        "revendiquer": "revendiquer",
+        "transferer": "transferer",
+        "voc": "voc"
+      },
       "createReason": "Salon vocal temporaire de {user}",
       "autoTransfer": "👑 {user} devient le nouveau propriétaire du salon.",
       "command": {
@@ -80,6 +90,48 @@
         "deleting": "🗑️ Suppression du salon…",
         "ownerLine": "Propriétaire du salon : {owner}",
         "wlRolePlaceholder": "Rôles toujours autorisés à rejoindre"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "showControlPanel": {
+              "label": "Afficher le panneau de contrôle dans les salons créés",
+              "help": "À la création de son salon, le membre reçoit un panneau de boutons pour le renommer, le verrouiller, en limiter l'accès ou en changer la taille. Éteint, le salon est créé nu : il n'y a plus aucun moyen pour le membre de le régler lui-même, tout passe par le staff."
+            }
+          }
+        },
+        "g1": {
+          "label": "🔊 Hubs (salons créateurs)",
+          "description": "Rejoindre un hub crée automatiquement un salon vocal temporaire.",
+          "champs": {
+            "hubs": {
+              "label": "Hubs",
+              "addLabel": "Ajouter un hub",
+              "item": {
+                "channelId": {
+                  "label": "Salon créateur (vocal)"
+                },
+                "categoryId": {
+                  "label": "Catégorie des salons créés"
+                },
+                "nameTemplate": {
+                  "label": "Modèle de nom",
+                  "help": "Ex. « Salon de {user} »."
+                },
+                "userLimit": {
+                  "label": "Limite d’utilisateurs (0 = aucune)"
+                },
+                "lockedByDefault": {
+                  "label": "Verrouillé par défaut"
+                },
+                "inheritPermissions": {
+                  "label": "Hériter des permissions du hub"
+                }
+              },
+              "help": "Une ligne par salon générateur : le rejoindre crée un salon temporaire et y déplace le membre ; le salon disparaît dès qu'il se vide. Le générateur lui-même reste toujours vide, c'est normal. Le bot a besoin de « Gérer les salons » et de « Déplacer les membres », sinon le membre reste bloqué dans le générateur sans explication."
+            }
+          }
+        }
       }
     }
   }

@@ -17,6 +17,30 @@
         "enabledUser": "🎙️ **Mode streameur activé.** Tu n'entends plus Discord, mais ton micro continue de diffuser.",
         "disabledUser": "🔊 **Mode streameur désactivé.** Tu entends de nouveau Discord.",
         "error": "❌ Une erreur est survenue (vérifie mes permissions)."
+      },
+      "ui": {
+        "g0": {
+          "label": "🎥 Mode streameur",
+          "description": "Après modification, republie le panneau avec le bouton « Publier ».",
+          "champs": {
+            "roleId": {
+              "label": "Rôle « en stream »",
+              "help": "Porté par les membres qui ont activé le mode streameur, et retiré quand ils le coupent. Il sert d'indicateur visible dans la liste des membres, et permet de savoir qui est en train de diffuser."
+            },
+            "channelId": {
+              "label": "Salon du panneau",
+              "help": "Le salon où le panneau à bouton est publié. Le panneau n'apparaît pas tout seul : après avoir choisi le salon, il faut l'envoyer avec le bouton « Publier le panneau »."
+            },
+            "title": {
+              "label": "Titre du panneau",
+              "help": "Le titre du panneau. Modifié, il ne change pas le panneau déjà publié : il faut le republier pour que le message existant soit réécrit."
+            },
+            "description": {
+              "label": "Description du panneau",
+              "help": "Le texte du panneau, sous le titre. C'est là qu'on explique ce que fait le mode streameur — rendre sourd aux autres tout en continuant à diffuser son micro — avant que quelqu'un ne clique sans savoir."
+            }
+          }
+        }
       }
     }
   }

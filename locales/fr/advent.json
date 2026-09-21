@@ -3,6 +3,12 @@
     "advent": {
       "label": "Calendrier de l'Avent",
       "description": "Du 1er au 24 décembre, chaque membre ouvre une porte par jour et gagne des pièces et/ou un objet.",
+      "noms": {
+        "avent": "avent",
+        "calendrier": "calendrier",
+        "jour": "jour",
+        "ouvrir": "ouvrir"
+      },
       "announce": "🎄 La porte du **jour {day}** du calendrier de l'Avent est ouverte ! Utilise `/avent ouvrir` pour découvrir ta récompense.",
       "command": {
         "description": "Calendrier de l'Avent : ouvre ta porte du jour.",
@@ -29,6 +35,69 @@
         "nothing": "…mais la porte était vide cette fois.",
         "balance": "Solde : {balance} pièces",
         "linkButton": "🔗 Ouvrir le lien"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "announceChannelId": {
+              "label": "Salon des annonces",
+              "help": "Le salon où le bot annonce chaque matin qu'une nouvelle porte est ouverte. Vide, le calendrier fonctionne quand même — simplement, il faut penser à venir l'ouvrir."
+            },
+            "defaultCoins": {
+              "label": "Pièces par défaut par jour",
+              "help": "Ce que rapporte une porte pour laquelle aucune récompense n'a été définie ci-dessous. Évite d'avoir à remplir les 24 jours pour que le calendrier soit jouable."
+            },
+            "testMode": {
+              "label": "Mode test (ouvre toutes les cases)",
+              "help": "Ouvre toutes les portes hors décembre, pour vérifier les récompenses avant le 1er. À ÉTEINDRE avant l'ouverture réelle : laissé actif, les 24 portes sont réclamables d'un coup."
+            }
+          }
+        },
+        "g1": {
+          "label": "🎁 Récompenses jour par jour",
+          "description": "Une ligne par porte à personnaliser. Les jours absents de la liste offrent les pièces par défaut.",
+          "champs": {
+            "rewards": {
+              "label": "Portes personnalisées",
+              "addLabel": "Ajouter un jour",
+              "item": {
+                "day": {
+                  "label": "Jour (1 à 25)"
+                },
+                "coins": {
+                  "label": "Pièces offertes"
+                },
+                "items": {
+                  "label": "Objets offerts",
+                  "help": "Identifiants d’objets du catalogue, un par puce."
+                },
+                "itemQty": {
+                  "label": "Quantité par objet"
+                },
+                "message": {
+                  "label": "Message d’ouverture"
+                },
+                "link": {
+                  "label": "Lien offert (bouton)"
+                }
+              },
+              "help": "Une ligne par jour à personnaliser ; les jours absents retombent sur les pièces par défaut. Les objets sont désignés par leur identifiant de catalogue — un identifiant inconnu est ignoré en silence, et la porte ne rend que les pièces. La quantité s'applique à chaque objet de la ligne."
+            }
+          }
+        }
+      },
+      "actions": {
+        "resetMyClaims": {
+          "label": "Réinitialiser mes ouvertures",
+          "help": "Supprime uniquement TES ouvertures de portes, pour retester le calendrier.",
+          "confirm": "Effacer tes propres ouvertures de portes sur ce serveur ?",
+          "msg": {
+            "done": "{n} ouverture(s) effacée(s)."
+          }
+        },
+        "msg": {
+          "noActor": "Acteur inconnu."
+        }
       }
     }
   }

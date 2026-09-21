@@ -1,5 +1,5 @@
 import { EmbedBuilder, type Guild } from 'discord.js';
-import type { BotContext } from '../../core/module.js';
+import type { BotContext, TaskReport } from '../../core/module.js';
 import { Colors } from '../../lib/embeds.js';
 import {
   MODULE_NAME,
@@ -9,6 +9,7 @@ import {
   getScheduledmessagesConfig,
   updateScheduledmessagesConfig,
 } from './config.js';
+import { useGuildLocale } from '../../core/guild-locale.js';
 
 /** `lastPosted` initial d'un message selon sa cadence (voir isDue). */
 function initialLastPosted(schedule: Schedule): number {
@@ -72,23 +73,29 @@ export async function sendNow(
  * Passe en revue tous les serveurs où le module est activé et envoie les
  * messages arrivés à échéance, en mettant à jour leur `lastPosted`.
  */
-export async function runScheduledMessages(ctx: BotContext): Promise<void> {
+export async function runScheduledMessages(ctx: BotContext): Promise<TaskReport> {
   const rows = await ctx.db.moduleConfig
     .findMany({ where: { module: MODULE_NAME, enabled: true } })
     .catch(() => []);
   const now = new Date();
 
+  let postes = 0;
+  let echecs = 0;
   for (const row of rows) {
     const guild = ctx.client.guilds.cache.get(row.guildId);
     if (!guild) continue;
 
     const config = await getScheduledmessagesConfig(ctx, row.guildId);
     if (config.messages.length === 0) continue;
+    await useGuildLocale(row.guildId);
 
     let changed = false;
     for (const message of config.messages) {
       if (!isDue(message, now)) continue;
-      await post(ctx, guild, message);
+      // Le passage compte même quand l'envoi échoue : un salon supprimé ne doit
+      // pas faire repartir le même message à chaque minute.
+      if (await post(ctx, guild, message)) postes += 1;
+      else echecs += 1;
       message.lastPosted = now.getTime();
       changed = true;
     }
@@ -96,6 +103,8 @@ export async function runScheduledMessages(ctx: BotContext): Promise<void> {
       await updateScheduledmessagesConfig(ctx, row.guildId, { messages: config.messages });
     }
   }
+
+  return { postes, echecs };
 }
 
 /**

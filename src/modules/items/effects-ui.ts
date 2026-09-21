@@ -22,13 +22,7 @@ import type { ItemEffect } from './effects-schema.js';
  * - `select`   : liste de choix fixes fournie par `options`.
  */
 export type EffectFieldType =
-  | 'number'
-  | 'percent'
-  | 'text'
-  | 'textarea'
-  | 'role'
-  | 'item'
-  | 'select';
+  'number' | 'percent' | 'text' | 'textarea' | 'role' | 'item' | 'select';
 
 /** Un champ éditable d'un effet (rendu par le dashboard). */
 export interface EffectField {

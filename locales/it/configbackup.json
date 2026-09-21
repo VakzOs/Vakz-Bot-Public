@@ -1,0 +1,55 @@
+{
+  "modules": {
+    "configbackup": {
+      "label": "Backup del server",
+      "description": "Salva tutto ciò che il bot conserva del server — configurazione, struttura e dati (denaro, oggetti, Strada dell'Infinito, livelli…) — su richiesta o automaticamente.",
+      "noms": {
+        "donnees": "dati",
+        "exporter": "esporta",
+        "fichier": "file",
+        "importer": "importa",
+        "recreer": "ricrea",
+        "sauvegarde": "backup"
+      },
+      "command": {
+        "description": "Esporta o ripristina il backup completo del server.",
+        "export": "Scarica un backup completo del server (configurazione + dati).",
+        "import": "Ripristina il server da un file di backup."
+      },
+      "opt": {
+        "file": "Il file di backup da importare (.json o .json.gz).",
+        "recreate": "Ricreare i canali/ruoli mancanti su questo server (predefinito: sì).",
+        "data": "Includere i dati dei membri: denaro, oggetti, Strada… (predefinito: sì).",
+        "restoreData": "Ripristinare anche i dati dei membri — sovrascrive quelli del server (predefinito: sì)."
+      },
+      "export": {
+        "title": "💾 Backup del server",
+        "done": "Ecco il backup di **{count}** modulo/i. Conserva bene questo file: potrai reimportarlo con `/backup importa`.",
+        "structure": "🏗️ Struttura inclusa: **{channels}** canale/i e **{roles}** ruolo/i referenziati — potranno essere ricreati all'importazione su un altro server.",
+        "data": "📦 Dati inclusi: **{rows}** riga/righe su **{tables}** tabella/e — denaro, oggetti e inventari, Strada dell'Infinito, livelli, sanzioni…",
+        "noData": "ℹ️ Dati dei membri **non inclusi**: questo file contiene solo la configurazione.",
+        "shared": "🔗 Dipendenze condivise: **{rows}** riga/righe di un catalogo comune (gacha…) a cui questi dati fanno riferimento — perché il ripristino regga su un'altra istanza del bot."
+      },
+      "import": {
+        "title": "✅ Server ripristinato",
+        "applied": "**{count}** modulo/i ripristinato/i: {list}",
+        "data": "📦 Dati ripristinati: **{rows}** riga/righe su **{tables}** tabella/e.",
+        "dataSkipped": "ℹ️ Il file conteneva dati dei membri: **non** sono stati ripristinati (opzione disattivata).",
+        "structure": "🏗️ Struttura: **{channelsCreated}** canale/i creato/i · {channelsReused} riutilizzato/i — **{rolesCreated}** ruolo/i creato/i · {rolesReused} riutilizzato/i.",
+        "structureFailed": "⚠️ **{failed}** elemento/i non hanno potuto essere creati — il bot ha bisogno dei permessi **Gestire i ruoli** e **Gestire i canali** (e di stare abbastanza in alto nella gerarchia).",
+        "structureMissing": "ℹ️ Questo backup non contiene la struttura (canali/ruoli). Riesportalo dall'ultima versione del bot per permettere la ricreazione automatica.",
+        "skippedUnknown": "⚠️ Moduli sconosciuti ignorati: {list}",
+        "skippedInvalid": "⚠️ Configurazione non valida ignorata: {list}",
+        "otherGuild": "ℹ️ Questo backup proviene da un altro server — controlla le impostazioni dopo.",
+        "tooLarge": "❌ Il file è troppo grande. Probabilmente non è un backup valido.",
+        "downloadFailed": "❌ Impossibile scaricare il file allegato. Riprova.",
+        "invalidJson": "❌ Il file non è un JSON valido.",
+        "invalidShape": "❌ Questo file non è un backup valido di Vakz-Bot.",
+        "shared": "🔗 Catalogo condiviso: **{added}** riga/righe aggiunta/e, **{matched}** già presente/i e riabbinata/e."
+      },
+      "delivery": {
+        "content": "💾 Backup automatico di **{guild}** — {rows} riga/righe di dati."
+      }
+    }
+  }
+}

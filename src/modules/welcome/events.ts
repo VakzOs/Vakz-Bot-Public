@@ -10,7 +10,7 @@ export const onMemberAdd = defineEvent({
     if (member.user.bot) return;
     if (!(await ctx.config.isEnabled(member.guild.id, MODULE_NAME))) return;
     const config = await getWelcomeConfig(ctx, member.guild.id);
-    await sendGreeting(member, config.welcome, 'welcome');
+    await sendGreeting(ctx, member, config.welcome, 'welcome');
   },
 });
 
@@ -21,6 +21,6 @@ export const onMemberRemove = defineEvent({
     if (member.user?.bot) return;
     if (!(await ctx.config.isEnabled(member.guild.id, MODULE_NAME))) return;
     const config = await getWelcomeConfig(ctx, member.guild.id);
-    await sendGreeting(member, config.leave, 'leave');
+    await sendGreeting(ctx, member, config.leave, 'leave');
   },
 });

@@ -1,0 +1,70 @@
+{
+  "modules": {
+    "patchnotes": {
+      "label": "Note di aggiornamento",
+      "description": "Sorveglia le note di aggiornamento di giochi e software e le pubblica nei canali scelti.",
+      "embed": {
+        "footer": "Note di aggiornamento · {source}",
+        "noDescription": "Nessun riassunto disponibile. Apri il link per leggere la nota completa."
+      },
+      "categories": {
+        "riot": "Riot Games",
+        "fps": "FPS",
+        "mmo": "MMO e GDR",
+        "survie": "Sopravvivenza e sandbox",
+        "strategie": "Strategia",
+        "logiciels": "Software"
+      },
+      "ui": {
+        "g0": {
+          "label": "Abbonamenti",
+          "description": "Una riga per gioco o software seguito: il bot pubblica ogni nuova nota di aggiornamento nel canale scelto.",
+          "champs": {
+            "subscriptions": {
+              "label": "Fonti seguite",
+              "addLabel": "Aggiungi una fonte",
+              "item": {
+                "sourceId": {
+                  "label": "Fonte"
+                },
+                "channelId": {
+                  "label": "Canale di pubblicazione"
+                },
+                "roleId": {
+                  "label": "Ruolo da menzionare",
+                  "help": "Facoltativo: menzionato a ogni nuova nota."
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "publishLatest": {
+          "label": "Pubblica l'ultima nota",
+          "help": "Invia subito l'ultima nota di aggiornamento della fonte scelta nel suo canale.",
+          "champs": {
+            "sourceId": {
+              "label": "Fonte",
+              "help": "Deve corrispondere a un abbonamento già registrato qui sopra."
+            }
+          },
+          "raisons": {
+            "missingSource": "fonte sconosciuta",
+            "missingChannel": "nessun canale configurato",
+            "channelUnavailable": "canale non trovato o non testuale",
+            "missingPermissions": "permessi mancanti nel canale",
+            "noNotes": "nessuna nota trovata sulla fonte",
+            "unknown": "invio impossibile"
+          },
+          "msg": {
+            "pickSource": "Scegli una fonte valida.",
+            "noSubscription": "Questa fonte non ha ancora un abbonamento registrato.",
+            "nothing": "Niente pubblicato: {raison}.",
+            "done": "{n} nota pubblicata."
+          }
+        }
+      }
+    }
+  }
+}

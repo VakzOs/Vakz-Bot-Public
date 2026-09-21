@@ -23,6 +23,17 @@ export interface LogRecord {
   msg: string;
   /** Message de l'erreur attachée, quand la ligne en porte une. */
   err?: string;
+  /**
+   * Les champs structurés de la ligne, mis à plat (`task=deliver remis=3 ms=8`).
+   *
+   * Un log pino porte son sens dans ses champs, pas dans son message : `'Tâche
+   * terminée'` et `'Commande exécutée'` sont les mêmes mots pour tous les
+   * modules et tous les passages. Sans eux, le hublot affichait quarante fois
+   * la même phrase sans jamais dire de quelle tâche, de quel serveur ni de
+   * quelle commande il parlait — et la recherche ne pouvait pas trouver un nom
+   * de tâche qu'elle n'avait pas.
+   */
+  details?: string;
 }
 
 /**
@@ -95,6 +106,63 @@ function redact(text: string): string {
 }
 
 /**
+ * Champs que le record porte déjà en propre, ou qui n'apprennent rien à un
+ * lecteur du dashboard : ils ne repassent pas dans `details`.
+ */
+const PLAIN_FIELDS = new Set(['time', 'level', 'msg', 'err', 'scope', 'pid', 'hostname', 'v']);
+
+/**
+ * Longueur maximale de `details`.
+ *
+ * Le tampon garde cinq cents lignes en mémoire et l'archive les grave un mois :
+ * un champ resté sans bornes (un tableau d'identifiants, un corps de réponse
+ * HTTP…) les ferait grossir sans rien apprendre de plus. Deux cents caractères
+ * tiennent les champs qu'on écrit vraiment.
+ */
+const DETAILS_MAX = 200;
+
+/**
+ * Une valeur de champ, rendue courte et lisible.
+ *
+ * Les espaces d'une chaîne sont ramenés à un seul : un champ multiligne (une
+ * sortie de commande, un corps de réponse) casserait sinon la mise en page
+ * d'une liste où chaque ligne de log tient sur une ligne.
+ */
+function detailValue(value: unknown): string | null {
+  if (value === null || value === undefined) return null;
+  if (typeof value === 'string') return value.replace(/\s+/g, ' ').trim();
+  if (typeof value === 'number' || typeof value === 'boolean') return String(value);
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Met à plat les champs structurés d'une ligne pino.
+ *
+ * On écrit `clé=valeur` plutôt que du JSON : c'est ce que le lecteur veut lire
+ * d'un coup d'œil dans une liste, et ça se cherche au mot.
+ */
+function flattenDetails(raw: Record<string, unknown>): string | undefined {
+  const parts: string[] = [];
+  let length = 0;
+  for (const [key, value] of Object.entries(raw)) {
+    if (PLAIN_FIELDS.has(key)) continue;
+    const rendered = detailValue(value);
+    if (rendered === null || rendered === '') continue;
+    const part = `${key}=${rendered}`;
+    // On s'arrête au premier champ qui déborde plutôt que de couper au milieu
+    // d'une valeur : une ligne tronquée en `guildId=1234` mentirait.
+    if (length + part.length + (parts.length > 0 ? 1 : 0) > DETAILS_MAX) break;
+    length += part.length + (parts.length > 0 ? 1 : 0);
+    parts.push(part);
+  }
+  return parts.length > 0 ? redact(parts.join(' ')) : undefined;
+}
+
+/**
  * Normalise une ligne JSON émise par pino (ou relue depuis l'archive).
  *
  * Rend `null` pour une ligne illisible ou vide de sens : un fichier tronqué par
@@ -122,12 +190,18 @@ export function parseLogRecord(line: string): LogRecord | null {
         : undefined;
   if (!msg && !errMessage) return null;
 
+  // Une ligne relue depuis l'archive porte déjà son `details` tout fait : on le
+  // reprend tel quel plutôt que de le remettre à plat une seconde fois, sinon
+  // il reviendrait sous la forme `details=task=deliver remis=3`.
+  const details = typeof raw.details === 'string' ? redact(raw.details) : flattenDetails(raw);
+
   return {
     time: typeof raw.time === 'number' ? raw.time : Date.now(),
     level: typeof raw.level === 'number' ? raw.level : 30,
     ...(typeof raw.scope === 'string' ? { scope: raw.scope } : {}),
     msg,
     ...(errMessage ? { err: errMessage } : {}),
+    ...(details ? { details } : {}),
   };
 }
 
@@ -151,13 +225,15 @@ export interface RecentLogsOptions {
   minLevel?: number;
   /** Niveaux nommés retenus. Vide ou absent = tous. */
   levels?: LogLevelName[];
-  /** Filtre plein texte, insensible à la casse, sur le module, le message et l'erreur. */
+  /** Filtre plein texte, insensible à la casse, sur le module, le message, l'erreur et les champs. */
   search?: string;
 }
 
-/** Vrai si la ligne contient le texte cherché (module, message ou erreur). */
+/** Vrai si la ligne contient le texte cherché (module, message, erreur ou champs). */
 export function matchesSearch(record: LogRecord, needle: string): boolean {
-  return `${record.scope ?? ''} ${record.msg} ${record.err ?? ''}`.toLowerCase().includes(needle);
+  return `${record.scope ?? ''} ${record.msg} ${record.err ?? ''} ${record.details ?? ''}`
+    .toLowerCase()
+    .includes(needle);
 }
 
 /**

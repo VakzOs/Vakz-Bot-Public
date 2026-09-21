@@ -3,6 +3,28 @@
     "items": {
       "label": "Items & inventories",
       "description": "Per-server item catalog: buy with the currency, inventory, use (role reward) and trade between members.",
+      "noms": {
+        "acheter": "buy",
+        "augmenter": "increase",
+        "boutique-objets": "shop-items",
+        "cible": "target",
+        "de": "by",
+        "definir": "set",
+        "donner": "give",
+        "donner-objet": "give-item",
+        "inventaire": "inventory",
+        "membre": "member",
+        "nombre": "number",
+        "objet": "item",
+        "objets-admin": "items-admin",
+        "objets-limite": "items-limit",
+        "quantité": "quantity",
+        "reduire": "decrease",
+        "retirer": "remove",
+        "utiliser": "use",
+        "vendre": "sell",
+        "voir": "view"
+      },
       "opt": {
         "item": "The item.",
         "quantity": "Quantity (default: 1).",
@@ -103,9 +125,9 @@
           "amount": "Number of items to add / remove."
         },
         "unlimited": "unlimited",
-        "notOwner": "❌ Bot owner only (/maj permission).",
+        "notOwner": "❌ Bot owner only (/update permission).",
         "current": "📦 Per-server item cap: **{value}**.",
-        "currentlyUnlimited": "ℹ️ The cap is currently **unlimited**. Use `/objets-limite definir` to set a value.",
+        "currentlyUnlimited": "ℹ️ The cap is currently **unlimited**. Use `/items-limit set` to set a value.",
         "updated": "✅ Per-server item cap updated: **{value}**."
       },
       "commands": {
@@ -120,7 +142,7 @@
           "empty": "🛒 No items in the catalog yet.",
           "title": "🛒 Item catalog",
           "notForSale": "not for sale",
-          "footer": "✨ = usable · 🔁 = tradable · /acheter to buy",
+          "footer": "✨ = usable · 🔁 = tradable · /buy to buy",
           "footerPaged": "{base} • Page {page}/{pages}"
         },
         "buy": {
@@ -162,6 +184,72 @@
           "noValue": "❌ {emoji} {name} has no market value (shop price is 0).",
           "notOwned": "❌ You don't own {emoji} {name}.",
           "done": "🗑️ You sold {qty}× {emoji} **{name}** to the server ({percent}%) → +{total}. Balance: {balance}."
+        }
+      },
+      "ui": {
+        "g0": {
+          "description": "Items are created in the server's “Catalogue” tab.",
+          "champs": {
+            "tradingEnabled": {
+              "label": "Allow members to trade items",
+              "help": "Lets members give each other items. Turn it off if the economy matters: a freely circulating rare item routes around the shop, and alt accounts become storage chests."
+            }
+          }
+        },
+        "drops": {
+          "label": "🎁 Loot from mini-games",
+          "description": "Drops “droppable” items at the end of mini-games (RPS, tic-tac-toe, battleship), with a percentage per rarity. Rolled from the rarest to the most common.",
+          "champs": {
+            "enabled": {
+              "label": "Enable drops",
+              "help": "Makes items drop from mini-games. Only items flagged « droppable » in the catalogue can fall: with not one item so flagged, turning this on produces nothing."
+            },
+            "on": {
+              "label": "When to roll a drop",
+              "opt": {
+                "win": {
+                  "label": "On a win only"
+                },
+                "winDraw": {
+                  "label": "On a win or a draw"
+                },
+                "any": {
+                  "label": "Every game (whatever the outcome)"
+                }
+              },
+              "help": "Which game outcomes earn a roll. « Win only » rewards playing well; « any game » rewards running the command, which gets noticed fast."
+            },
+            "common": {
+              "label": "% drop — Common (0-100)",
+              "help": "Chance, in per cent, that a common item drops. The roll goes from the rarest tier down and stops at the first success: this is the last one tested. 0 = never."
+            },
+            "rare": {
+              "label": "% drop — Rare (0-100)",
+              "help": "Chance that a rare item drops, tested before commons. 0 = never."
+            },
+            "epic": {
+              "label": "% drop — Epic (0-100)",
+              "help": "Chance that an epic item drops, tested before rares. 0 = never."
+            },
+            "legendary": {
+              "label": "% drop — Legendary (0-100)",
+              "help": "Chance that a legendary item drops. It is tested first, so it wins: raising it to 100 means nothing but legendaries will ever drop."
+            }
+          }
+        },
+        "sell": {
+          "label": "🗑️ Quick sale back to the server",
+          "description": "Lets a member sell an item back to the server with /sell: the item is destroyed and the member gets a percentage of its shop price.",
+          "champs": {
+            "enabled": {
+              "label": "Enable the quick sale (/sell)",
+              "help": "Lets a member destroy an item for part of its price. It is the escape hatch for a full inventory — and the only way to take an item out of circulation."
+            },
+            "percent": {
+              "label": "% of the price paid back on a sale (0-100)",
+              "help": "The share of the shop price paid back on sale. Must stay well under 100: at 100, buying then selling is free, and the item has no cost. Above that, you are minting money on demand."
+            }
+          }
         }
       }
     }

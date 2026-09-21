@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { stickymessagesActions } from './actions.js';
 import {
   MODULE_NAME,
@@ -23,20 +24,33 @@ export default defineModule({
   emoji: '\u{1F4CC}',
   configSchema: stickymessagesConfigSchema,
   defaultConfig: stickymessagesDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '📌 Messages épinglés',
-      description: 'Un message re-posté automatiquement en bas du salon à chaque discussion.',
+      label: t('modules.stickymessages.ui.g0.label'),
+      description: t('modules.stickymessages.ui.g0.description'),
       fields: [
         {
           key: 'stickies',
-          label: 'Messages',
+          label: t('modules.stickymessages.ui.g0.champs.stickies.label'),
           type: 'list',
-          addLabel: 'Ajouter un message',
+          help: t('modules.stickymessages.ui.g0.champs.stickies.help'),
+          addLabel: t('modules.stickymessages.ui.g0.champs.stickies.addLabel'),
           item: [
-            { key: 'channelId', label: 'Salon', type: 'channel' },
-            { key: 'content', label: 'Contenu', type: 'textarea' },
-            { key: 'embed', label: 'En embed', type: 'boolean' },
+            {
+              key: 'channelId',
+              label: t('modules.stickymessages.ui.g0.champs.stickies.item.channelId.label'),
+              type: 'channel',
+            },
+            {
+              key: 'content',
+              label: t('modules.stickymessages.ui.g0.champs.stickies.item.content.label'),
+              type: 'textarea',
+            },
+            {
+              key: 'embed',
+              label: t('modules.stickymessages.ui.g0.champs.stickies.item.embed.label'),
+              type: 'boolean',
+            },
           ],
         },
       ],

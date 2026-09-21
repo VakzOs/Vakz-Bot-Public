@@ -2,7 +2,46 @@
   "modules": {
     "stickymessages": {
       "label": "Messages épinglés",
-      "description": "Garde un message toujours en bas d'un salon : il est re-posté à chaque nouvelle discussion."
+      "description": "Garde un message toujours en bas d'un salon : il est re-posté à chaque nouvelle discussion.",
+      "ui": {
+        "g0": {
+          "label": "📌 Messages épinglés",
+          "description": "Un message re-posté automatiquement en bas du salon à chaque discussion.",
+          "champs": {
+            "stickies": {
+              "label": "Messages",
+              "addLabel": "Ajouter un message",
+              "item": {
+                "channelId": {
+                  "label": "Salon"
+                },
+                "content": {
+                  "label": "Contenu"
+                },
+                "embed": {
+                  "label": "En embed"
+                }
+              },
+              "help": "Une ligne par salon : un message que le bot maintient toujours en dernière position. À chaque nouveau message, il supprime le sien et le republie en bas — un salon très actif le fait donc défiler sans arrêt, et chaque repost est une notification de moins pour ceux qui suivent le salon. À réserver aux salons calmes où une consigne doit rester sous les yeux."
+            }
+          }
+        }
+      },
+      "actions": {
+        "repost": {
+          "label": "Republier un message",
+          "help": "Supprime l’ancien message collant et le republie en bas du salon.",
+          "champs": {
+            "channelId": "Salon"
+          },
+          "msg": {
+            "done": "Message collant republié."
+          }
+        },
+        "msg": {
+          "pickChannel": "Choisis un salon disposant d’un message collant."
+        }
+      }
     }
   }
 }

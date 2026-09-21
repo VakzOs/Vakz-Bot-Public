@@ -9,6 +9,50 @@
         "exact": "Exact",
         "startsWith": "Starts with",
         "endsWith": "Ends with"
+      },
+      "ui": {
+        "g0": {
+          "label": "💬 Automatic reactions",
+          "champs": {
+            "rules": {
+              "label": "Rules",
+              "addLabel": "Add a rule",
+              "item": {
+                "trigger": {
+                  "label": "Trigger"
+                },
+                "match": {
+                  "label": "Matching",
+                  "opt": {
+                    "contains": {
+                      "label": "Contains"
+                    },
+                    "word": {
+                      "label": "Whole word"
+                    },
+                    "exact": {
+                      "label": "Exact"
+                    },
+                    "startsWith": {
+                      "label": "Starts with"
+                    },
+                    "endsWith": {
+                      "label": "Ends with"
+                    }
+                  }
+                },
+                "emojis": {
+                  "label": "Emojis to add",
+                  "placeholder": "An emoji then Enter"
+                },
+                "channelId": {
+                  "label": "Channel (optional)"
+                }
+              },
+              "help": "One row per rule: a watched word, and up to three emojis the bot adds as reactions. A server emoji must be written in full as `<:name:id>`; an emoji deleted from the server makes the reaction fail silently. « Whole word » stops « cat » from reacting to « category »."
+            }
+          }
+        }
       }
     }
   }

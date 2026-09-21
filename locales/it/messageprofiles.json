@@ -1,0 +1,48 @@
+{
+  "modules": {
+    "messageprofiles": {
+      "label": "Profili di messaggio",
+      "description": "Fa parlare il bot con un nome e un avatar personalizzati tramite /dire (staff).",
+      "noms": {
+        "dire": "dire",
+        "message": "messaggio",
+        "profil": "profilo",
+        "salon": "canale"
+      },
+      "command": {
+        "description": "Pubblica un messaggio con l'identità di un profilo configurato.",
+        "profileOpt": "Profilo con cui parlare",
+        "messageOpt": "Messaggio da pubblicare",
+        "channelOpt": "Canale dove pubblicare (predefinito: il canale attuale)",
+        "unknownProfile": "❌ Profilo non trovato. Configuralo nella dashboard → Profili di messaggio.",
+        "badChannel": "❌ Canale non valido.",
+        "result": {
+          "ok": "✅ Messaggio pubblicato in {channel} come «{name}».",
+          "noperm": "❌ Mi manca il permesso «Gestire i webhook» in questo canale.",
+          "fail": "❌ Invio non riuscito. Riprova più tardi."
+        }
+      },
+      "ui": {
+        "g0": {
+          "label": "🗨️ Profili di messaggio",
+          "description": "Personaggi (nome + avatar) utilizzabili con il comando /dire.",
+          "champs": {
+            "profiles": {
+              "label": "Profili",
+              "addLabel": "Aggiungi un profilo",
+              "item": {
+                "name": {
+                  "label": "Nome"
+                },
+                "avatarUrl": {
+                  "label": "URL dell'avatar",
+                  "placeholder": "https://…"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

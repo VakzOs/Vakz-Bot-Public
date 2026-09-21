@@ -1,0 +1,87 @@
+{
+  "modules": {
+    "welcome": {
+      "label": "Llegadas y despedidas",
+      "description": "Mensajes de bienvenida y de despedida personalizables.",
+      "state": {
+        "statusLabel": "Estado",
+        "statusOn": "✅ Activo",
+        "statusOff": "⛔ En pausa",
+        "embedLabel": "Embed",
+        "yes": "Sí",
+        "no": "No",
+        "channelLabel": "Canal",
+        "channelNone": "*sin definir*",
+        "messageLabel": "Mensaje",
+        "footerLabel": "Pie de página",
+        "placeholders": "Variables: {mention} · {username} · {server} · {count}",
+        "cardLabel": "Tarjeta",
+        "cardCustom": "✅ activada (fondo personalizado)",
+        "cardDefault": "✅ activada (fondo por defecto)"
+      },
+      "card": {
+        "welcomeTitle": "¡Bienvenida o bienvenido!",
+        "leaveTitle": "Hasta pronto",
+        "memberCount": "Miembro n.º {count}"
+      },
+      "ui": {
+        "welcome": {
+          "label": "👋 Mensaje de bienvenida",
+          "description": "Variables: {mention}, {username}, {server}, {count}. Se envía cuando llega un miembro.",
+          "champs": {
+            "enabled": {
+              "label": "Activar el mensaje de bienvenida"
+            },
+            "channelId": {
+              "label": "Canal"
+            },
+            "message": {
+              "label": "Mensaje"
+            },
+            "embed": {
+              "label": "Mostrar como embed"
+            },
+            "footer": {
+              "label": "Pie de página (embed)"
+            },
+            "card": {
+              "label": "Tarjeta con imagen (avatar + nombre)"
+            },
+            "cardBackground": {
+              "label": "Imagen de fondo de la tarjeta (URL)",
+              "placeholder": "https://…"
+            }
+          }
+        },
+        "leave": {
+          "label": "🚪 Mensaje de despedida",
+          "description": "Variables: {username}, {server}. Se envía cuando un miembro se va.",
+          "champs": {
+            "enabled": {
+              "label": "Activar el mensaje de despedida"
+            },
+            "channelId": {
+              "label": "Canal"
+            },
+            "message": {
+              "label": "Mensaje"
+            },
+            "embed": {
+              "label": "Mostrar como embed"
+            },
+            "footer": {
+              "label": "Pie de página (embed)"
+            },
+            "card": {
+              "label": "Tarjeta con imagen (avatar + nombre)"
+            },
+            "cardBackground": {
+              "label": "Imagen de fondo de la tarjeta (URL)",
+              "placeholder": "https://…"
+            }
+          }
+        }
+      }
+    }
+  }
+}

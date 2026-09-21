@@ -243,12 +243,14 @@ async function prismaPathsFor(name: string): Promise<string[]> {
   // autres.
   const pattern = new RegExp(`^\\d+_${name}(_|$)`);
   try {
-    const entries = await readdir(join(repoRoot(), 'prisma', 'migrations'), {
+    // Les migrations vivent DANS le dossier de schéma : c'est là que Prisma
+    // les cherche quand le schéma est un dossier (voir `prisma/schema/`).
+    const entries = await readdir(join(repoRoot(), 'prisma', 'schema', 'migrations'), {
       withFileTypes: true,
     });
     for (const entry of entries) {
       if (entry.isDirectory() && pattern.test(entry.name)) {
-        found.push(`prisma/migrations/${entry.name}`);
+        found.push(`prisma/schema/migrations/${entry.name}`);
       }
     }
   } catch {

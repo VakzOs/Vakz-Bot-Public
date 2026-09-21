@@ -3,6 +3,12 @@
     "reports": {
       "label": "Signalements",
       "description": "Permet aux membres de signaler un comportement au staff.",
+      "noms": {
+        "membre": "membre",
+        "message": "message",
+        "raison": "raison",
+        "report": "report"
+      },
       "command": {
         "description": "Signaler un membre au staff.",
         "member": "Le membre à signaler.",
@@ -46,7 +52,21 @@
       "invalidMessageLink": "❌ Le lien du message est invalide ou ne vient pas de ce serveur.",
       "submittedWithThread": "✅ Signalement envoyé au staff. Tu as accès au fil privé {thread}.",
       "threadIntro": "{reporter}, ton signalement concernant {target} est ouvert ici. Seul le staff autorisé peut suivre ce fil avec toi.",
-      "staffThreadLine": "Fil privé reporter/staff : {thread}"
+      "staffThreadLine": "Fil privé reporter/staff : {thread}",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Salon des signalements",
+              "help": "Le salon où arrivent les signalements des membres. À réserver au staff : un signalement nomme la personne visée et cite ses messages. Vide, la commande refuse de transmettre."
+            },
+            "staffRoleId": {
+              "label": "Rôle staff notifié",
+              "help": "Le rôle mentionné à chaque signalement, pour que quelqu'un le voie arriver. Sans rôle, le signalement est publié sans notifier personne — et attend qu'on pense à ouvrir le salon."
+            }
+          }
+        }
+      }
     }
   }
 }

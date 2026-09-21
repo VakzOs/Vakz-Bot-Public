@@ -10,6 +10,100 @@
         "added": "✅ Rôle {role} ajouté.",
         "removed": "➖ Rôle {role} retiré.",
         "error": "❌ Une erreur est survenue."
+      },
+      "ui": {
+        "g0": {
+          "label": "🧩 Messages interactifs",
+          "description": "Après modification, republie le message avec l’action « Publier un message ».",
+          "champs": {
+            "panels": {
+              "label": "Messages",
+              "addLabel": "Ajouter un message",
+              "item": {
+                "name": {
+                  "label": "Nom (interne)"
+                },
+                "channelId": {
+                  "label": "Salon de publication"
+                },
+                "title": {
+                  "label": "Titre de l’embed"
+                },
+                "description": {
+                  "label": "Description de l’embed"
+                },
+                "buttons": {
+                  "label": "Boutons",
+                  "addLabel": "Ajouter un bouton",
+                  "item": {
+                    "type": {
+                      "label": "Type",
+                      "opt": {
+                        "role": {
+                          "label": "Rôle (ajout/retrait au clic)"
+                        },
+                        "link": {
+                          "label": "Lien (ouvre une URL)"
+                        }
+                      }
+                    },
+                    "label": {
+                      "label": "Texte du bouton"
+                    },
+                    "emoji": {
+                      "label": "Emoji"
+                    },
+                    "roleId": {
+                      "label": "Rôle (si type « Rôle »)"
+                    },
+                    "url": {
+                      "label": "URL (si type « Lien »)",
+                      "placeholder": "https://…"
+                    },
+                    "style": {
+                      "label": "Style",
+                      "opt": {
+                        "primary": {
+                          "label": "Bleu"
+                        },
+                        "secondary": {
+                          "label": "Gris"
+                        },
+                        "success": {
+                          "label": "Vert"
+                        },
+                        "danger": {
+                          "label": "Rouge"
+                        }
+                      }
+                    }
+                  }
+                }
+              },
+              "help": "Une ligne par message à boutons. Un bouton « rôle » donne ou retire le rôle au clic ; un bouton « lien » ouvre une URL et n'est pas compté dans les limites d'interaction. Discord refuse le message ENTIER si une seule URL est mal formée ou si un emoji n'existe plus. Un panneau modifié ici n'est pas réécrit sur Discord tant qu'il n'est pas republié."
+            }
+          }
+        }
+      },
+      "actions": {
+        "publish": {
+          "label": "Publier un message",
+          "help": "Publie le message choisi, ou met à jour celui déjà envoyé.",
+          "champs": {
+            "id": "Message"
+          },
+          "msg": {
+            "noGuild": "Serveur introuvable.",
+            "pickPanel": "Choisis un message enregistré.",
+            "reason": {
+              "nochannel": "salon manquant ou introuvable",
+              "empty": "titre et description vides",
+              "refused": "envoi refusé par Discord"
+            },
+            "failed": "Publication impossible : {raison}.",
+            "done": "Message publié."
+          }
+        }
       }
     }
   }

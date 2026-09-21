@@ -3,6 +3,14 @@
     "configbackup": {
       "label": "Sauvegarde du serveur",
       "description": "Sauvegarde tout ce que le bot détient du serveur — configuration, structure et données (argent, objets, Route de l'Infini, niveaux…) — à la demande ou automatiquement.",
+      "noms": {
+        "donnees": "donnees",
+        "exporter": "exporter",
+        "fichier": "fichier",
+        "importer": "importer",
+        "recreer": "recreer",
+        "sauvegarde": "sauvegarde"
+      },
       "command": {
         "description": "Exporte ou restaure la sauvegarde complète du serveur.",
         "export": "Télécharge une sauvegarde complète du serveur (config + données).",

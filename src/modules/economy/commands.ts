@@ -14,10 +14,13 @@ import {
 
 /** `/solde` — affiche le solde d'un membre. */
 export const solde: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('solde')
-    .setDescription(t('modules.economy.commands.balance.description'))
-    .addUserOption((o) => o.setName('membre').setDescription(t('modules.economy.opt.member'))),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.economy.noms.solde'))
+      .setDescription(t('modules.economy.commands.balance.description'))
+      .addUserOption((o) =>
+        o.setName(t('modules.economy.noms.membre')).setDescription(t('modules.economy.opt.member')),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
     const target = interaction.options.getUser('membre') ?? interaction.user;
@@ -34,9 +37,10 @@ export const solde: SlashCommand = {
 
 /** `/daily` — réclame la récompense quotidienne. */
 export const daily: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('daily')
-    .setDescription(t('modules.economy.commands.daily.description')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.economy.noms.daily'))
+      .setDescription(t('modules.economy.commands.daily.description')),
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
     const config = await getEconomyConfig(ctx, interaction.guildId);
@@ -67,19 +71,23 @@ export const daily: SlashCommand = {
 
 /** `/payer` — transfère de la monnaie à un autre membre. */
 export const payer: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('payer')
-    .setDescription(t('modules.economy.commands.pay.description'))
-    .addUserOption((o) =>
-      o.setName('membre').setDescription(t('modules.economy.opt.member')).setRequired(true),
-    )
-    .addIntegerOption((o) =>
-      o
-        .setName('montant')
-        .setDescription(t('modules.economy.opt.amount'))
-        .setRequired(true)
-        .setMinValue(1),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.economy.noms.payer'))
+      .setDescription(t('modules.economy.commands.pay.description'))
+      .addUserOption((o) =>
+        o
+          .setName(t('modules.economy.noms.membre'))
+          .setDescription(t('modules.economy.opt.member'))
+          .setRequired(true),
+      )
+      .addIntegerOption((o) =>
+        o
+          .setName(t('modules.economy.noms.montant'))
+          .setDescription(t('modules.economy.opt.amount'))
+          .setRequired(true)
+          .setMinValue(1),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
     const target = interaction.options.getUser('membre', true);
@@ -113,9 +121,10 @@ export const payer: SlashCommand = {
 
 /** `/riches` — classement des plus riches. */
 export const riches: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('riches')
-    .setDescription(t('modules.economy.commands.leaderboard.description')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.economy.noms.riches'))
+      .setDescription(t('modules.economy.commands.leaderboard.description')),
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
     const config = await getEconomyConfig(ctx, interaction.guildId);
@@ -144,55 +153,65 @@ export const riches: SlashCommand = {
 
 /** `/argent-admin` — gestion administrative des soldes (donner / retirer / definir). */
 export const argentAdmin: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('argent-admin')
-    .setDescription(t('modules.economy.commands.admin.description'))
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-    .addSubcommand((s) =>
-      s
-        .setName('donner')
-        .setDescription(t('modules.economy.commands.admin.give'))
-        .addUserOption((o) =>
-          o.setName('membre').setDescription(t('modules.economy.opt.member')).setRequired(true),
-        )
-        .addIntegerOption((o) =>
-          o
-            .setName('montant')
-            .setDescription(t('modules.economy.opt.amount'))
-            .setRequired(true)
-            .setMinValue(1),
-        ),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('retirer')
-        .setDescription(t('modules.economy.commands.admin.take'))
-        .addUserOption((o) =>
-          o.setName('membre').setDescription(t('modules.economy.opt.member')).setRequired(true),
-        )
-        .addIntegerOption((o) =>
-          o
-            .setName('montant')
-            .setDescription(t('modules.economy.opt.amount'))
-            .setRequired(true)
-            .setMinValue(1),
-        ),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('definir')
-        .setDescription(t('modules.economy.commands.admin.set'))
-        .addUserOption((o) =>
-          o.setName('membre').setDescription(t('modules.economy.opt.member')).setRequired(true),
-        )
-        .addIntegerOption((o) =>
-          o
-            .setName('montant')
-            .setDescription(t('modules.economy.opt.amount'))
-            .setRequired(true)
-            .setMinValue(0),
-        ),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.economy.noms.argent-admin'))
+      .setDescription(t('modules.economy.commands.admin.description'))
+      .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.economy.noms.donner'))
+          .setDescription(t('modules.economy.commands.admin.give'))
+          .addUserOption((o) =>
+            o
+              .setName(t('modules.economy.noms.membre'))
+              .setDescription(t('modules.economy.opt.member'))
+              .setRequired(true),
+          )
+          .addIntegerOption((o) =>
+            o
+              .setName(t('modules.economy.noms.montant'))
+              .setDescription(t('modules.economy.opt.amount'))
+              .setRequired(true)
+              .setMinValue(1),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.economy.noms.retirer'))
+          .setDescription(t('modules.economy.commands.admin.take'))
+          .addUserOption((o) =>
+            o
+              .setName(t('modules.economy.noms.membre'))
+              .setDescription(t('modules.economy.opt.member'))
+              .setRequired(true),
+          )
+          .addIntegerOption((o) =>
+            o
+              .setName(t('modules.economy.noms.montant'))
+              .setDescription(t('modules.economy.opt.amount'))
+              .setRequired(true)
+              .setMinValue(1),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.economy.noms.definir'))
+          .setDescription(t('modules.economy.commands.admin.set'))
+          .addUserOption((o) =>
+            o
+              .setName(t('modules.economy.noms.membre'))
+              .setDescription(t('modules.economy.opt.member'))
+              .setRequired(true),
+          )
+          .addIntegerOption((o) =>
+            o
+              .setName(t('modules.economy.noms.montant'))
+              .setDescription(t('modules.economy.opt.amount'))
+              .setRequired(true)
+              .setMinValue(0),
+          ),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
     const sub = interaction.options.getSubcommand();

@@ -16,6 +16,7 @@ Le projet couvre aujourd'hui le socle, la communauté, la modération, la sécur
 - [Musique (Lavalink)](#musique-lavalink)
 - [Commandes slash](#commandes-slash)
 - [Modules configurables](#modules-configurables)
+- [Langues](#langues)
 - [Permissions et intents](#permissions-et-intents)
 - [Données persistantes](#données-persistantes)
 - [Scripts npm](#scripts-npm)
@@ -48,13 +49,13 @@ Le détail des fonctionnalités vit dans
 | Domaine          | Choix                                |
 | ---------------- | ------------------------------------ |
 | Langage          | TypeScript strict                    |
-| Runtime          | Node.js 20+                          |
+| Runtime          | Node.js 24+                          |
 | Discord          | discord.js v14                       |
 | Base de données  | SQLite via Prisma                    |
 | Scheduler        | node-cron                            |
 | Validation env   | dotenv + zod                         |
 | Logs applicatifs | pino                                 |
-| Qualité          | ESLint + Prettier                    |
+| Qualité          | oxlint + Prettier                    |
 | Déploiement      | Docker Compose, compatible VPS ARM64 |
 
 ## Architecture
@@ -66,7 +67,7 @@ src/
   lib/        helpers partagés
   index.ts    bootstrap du bot
 prisma/       schema + migrations
-locales/      fr.json, en.json
+locales/      un dossier par langue, un fichier par module
 ```
 
 Chaque module exporte ses commandes, listeners, tâches planifiées, handlers de composants, champs de configuration (`configUI`) et actions (`actions`) rendus par le dashboard. Le loader découvre les modules au démarrage.
@@ -135,7 +136,7 @@ franchement qu'un process qui s'entête en silence.
 
 > 🖥️ **Architectures** : fonctionne sur **x86_64** et **ARM64** (aarch64). Le
 > `docker compose up --build` construit l'image **nativement** pour ta machine —
-> l'image de base `node:20-slim`, `@napi-rs/canvas` et Prisma fournissent les
+> l'image de base `node:24-bookworm-slim`, `@napi-rs/canvas` et Prisma fournissent les
 > binaires des deux architectures. Aucun réglage spécifique à prévoir (le projet
 > tourne en prod sur un VPS ARM Oracle Ampere).
 
@@ -199,10 +200,20 @@ Le panneau `/maj` porte un bouton qui bascule entre deux façons de reconstruire
 Le mode **complet** reste celui par défaut : on ne change rien tant qu'on n'a pas
 cliqué.
 
-| Mode                    | Ce que l'updater lance                          | Effet                                                                                                                                       |
-| ----------------------- | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
-| 🐢 **Complet** (défaut) | `docker compose up -d --build --force-recreate` | Tous les conteneurs du projet sont recréés. Le bot redémarre à coup sûr.                                                                    |
-| ⚡ **Rapide**           | `docker compose up -d --build bot`              | Seul le service `bot` est visé et le conteneur n'est recréé **que si l'image a changé**. Flaresolverr & co. ne sont pas balayés au passage. |
+| Mode                    | Ce que l'updater lance                               | Effet                                                                                                                                       |
+| ----------------------- | ---------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| 🐢 **Complet** (défaut) | `docker compose build` puis `up -d --force-recreate` | Tous les conteneurs du projet sont recréés. Le bot redémarre à coup sûr.                                                                    |
+| ⚡ **Rapide**           | `docker compose build bot` puis `up -d bot`          | Seul le service `bot` est visé et le conteneur n'est recréé **que si l'image a changé**. Flaresolverr & co. ne sont pas balayés au passage. |
+
+Le build est lancé **séparément** du démarrage, et ce n'est pas un détail de
+présentation : `docker compose up -d --build` a été pris à sortir en **0** sur
+un build raté (constructeur bake, 18/09/2026). L'updater déclarait alors la
+mise à jour réussie, le conteneur continuait sur l'ancienne image, et trois
+mises à jour se sont perdues sans que rien ne le signale. `docker compose
+build` propage son code de sortie, lui — et par prudence l'updater relit aussi
+sa sortie, parce qu'on sait maintenant qu'un code de sortie peut mentir. Le
+conteneur n'est démarré que si les deux sont d'accord, et son état est vérifié
+après coup.
 
 Le cache de couches Docker sert dans les deux cas — c'est le comportement normal
 de `--build`. Ce que le mode rapide enlève, c'est le `--force-recreate` : une
@@ -314,7 +325,8 @@ le bot quitte le serveur).
 L'API vérifie deux niveaux : le **token** partagé (« le site parle ») **et**
 l'identité de l'utilisateur (en-tête `x-actor-id`) que le bot recoupe avec ses
 propres droits (propriétaire du serveur / « Gérer le serveur » / propriétaire du
-bot). On ne délègue donc pas l'autorisation au seul site.
+bot, plus les **grades** ci-dessous). On ne délègue donc pas l'autorisation au
+seul site.
 
 Le dashboard dialogue avec une petite **API HTTP** exposée par le bot :
 
@@ -333,6 +345,85 @@ Le dashboard dialogue avec une petite **API HTTP** exposée par le bot :
 2. Chaque module déclare les champs éditables depuis le web via `configUI`
    (sélecteurs de salon/rôle, textes, booléens, listes…). Toute config reçue est
    **revalidée par zod** avant d'être persistée.
+
+### Grades : déléguer une partie du dashboard (Réglages → Équipe)
+
+L'entrée du dashboard était binaire : le propriétaire du serveur et les membres
+qui ont **Gérer le serveur** pouvaient **tout** régler, les autres rien. Un
+serveur qui voulait laisser ses modérateurs toucher à l'auto-modération devait
+donc leur donner « Gérer le serveur » — c'est-à-dire aussi la sauvegarde, la
+purge et les réglages du serveur Discord lui-même.
+
+Le panneau **Équipe** (Réglages du serveur) laisse le propriétaire ou un
+administrateur créer des **grades** : un nom qu'il choisit, ce que le grade
+ouvre, et ce qui le confère. Les trois sont indépendants.
+
+- **Un grade n'est pas un rôle Discord et n'en crée aucun.** Il se confère par
+  des rôles Discord (le porter, c'est l'avoir ; le perdre, c'est le perdre), par
+  des membres nommés un par un, ou par les deux. Un grade sans rôle ni membre
+  existe et ne confère rien : c'est un brouillon.
+- **Ce qu'il ouvre se compte à quatre mailles**, de la plus large à la plus
+  fine :
+  1. le **module** entier — `module:moderation` ;
+  2. un **bloc de réglages** — `module:automod/spam` n'ouvre que l'anti-spam.
+     Les blocs sont les groupes que le module déclare dans son `configUI` ;
+  3. un **verbe** dans un bloc — `module:stickymessages/@0:creer` laisse
+     ajouter un message épinglé sans toucher à ceux des autres. Six verbes, du
+     plus inoffensif au plus lourd :
+
+     | verbe        | ce qu'il ouvre                                 | quand il est proposé            |
+     | ------------ | ---------------------------------------------- | ------------------------------- |
+     | `lire`       | voir le bloc, sans rien enregistrer            | toujours                        |
+     | `modifier`   | écrire ses champs et le contenu de ses lignes  | toujours                        |
+     | `creer`      | ajouter une ligne                              | le bloc porte une liste         |
+     | `supprimer`  | en retirer une                                 | le bloc porte une liste         |
+     | `reordonner` | changer l'ordre des lignes                     | la liste déclare un `idKey`     |
+     | `basculer`   | activer/désactiver une ligne, sans la réécrire | une ligne porte un interrupteur |
+
+     Ils se **déduisent de la forme du bloc** : proposer `reordonner` là où les
+     lignes n'ont pas d'identifiant serait promettre un réglage inapplicable —
+     l'ordre y est leur seule identité ;
+
+  4. un **bouton** — `module:stickymessages@repost` laisse republier un message
+     sans rien pouvoir régler. Deux identifiants réservés : `@publier` (le
+     panneau du module, `publishPanel`) et `@activer` (son interrupteur).
+
+  S'y ajoutent deux portées transversales : `serveur.langue` (la langue dans
+  laquelle le bot parle ici) et `serveur.sauvegarde`. Tout ce vocabulaire se
+  **déduit du code chargé** : un module ajouté, un bloc renommé, un bouton
+  nouveau apparaissent dans le panneau sans que rien ne les nomme ici.
+
+- **L'interrupteur ne se déduit d'aucun bloc** : il allume ou éteint pour tout
+  le serveur, et se délègue donc sous son propre nom (`@activer`) — de quoi
+  laisser une équipe couper l'auto-modération pendant un raid sans lui confier
+  une seule virgule de ses réglages.
+- **Ce qui distribue le pouvoir ou l'exerce sans retour ne se délègue pas** : le
+  panneau Équipe lui-même et la **purge** restent au propriétaire du serveur et
+  aux administrateurs. Un gradé ne peut donc pas s'élargir.
+- **Aucun grade = comportement d'avant, à l'identique.**
+
+Les gardes sont **côté bot**, pas seulement côté site : `GET
+/api/guilds/:id/modules` ne sert que les modules délégués à l'acteur, amputés
+des blocs, des valeurs et des boutons qu'il n'a pas. Et l'enregistrement d'une
+config ne refuse pas : il **repart de la config en place** et n'y rejoue que les
+gestes permis — une ligne ajoutée sans le droit de créer est ignorée, une ligne
+retirée sans le droit de supprimer revient, une ligne réécrite sans le droit de
+modifier retrouve son texte. Quoi que contienne le corps de la requête. Masquer
+un bouton dans le dashboard ne protégerait rien : une server action reste un
+endpoint HTTP.
+
+Les lignes s'apparient par leur `idKey` quand la liste en déclare un — exact
+même après un réordonnancement. Sans identifiant, elles n'ont d'autre identité
+que leur rang : retirer une ligne au milieu se lit alors comme « les suivantes
+ont été réécrites, la dernière supprimée ». Le compte y est, les droits aussi ;
+seul le récit diffère. `npm run check:acces` éprouve tout cela sur une base
+jetable.
+
+```
+POST /api/access/me          { guildIds }  -> ce que l'acteur ouvre, serveur par serveur
+GET  /api/guilds/:id/grades               -> ses droits ici, le vocabulaire, les grades
+POST /api/guilds/:id/grades  { grades }   -> remplace les grades (admins seulement)
+```
 
 ### Réglages d'instance (onglet « Réglages », propriétaire du bot)
 
@@ -865,12 +956,13 @@ le **même salon** vocal que le bot, et **quitter automatiquement** en fin de fi
 | `/classement`                                                            | Niveaux                   | Classement XP du serveur.                                                              |
 | `/warn`, `/kick`, `/ban`, `/unban`                                       | Modération                | Sanctions et levée de ban.                                                             |
 | `/timeout`, `/untimeout`                                                 | Modération                | Timeout Discord et retrait du timeout.                                                 |
-| `/historique`                                                            | Modération                | Casier de sanctions d'un membre.                                                       |
-| `/clear`                                                                 | Logs                      | Supprime des messages récents, avec logs.                                              |
+| `/sanctions`                                                             | Modération                | Casier de sanctions d'un membre.                                                       |
+| `/purger`                                                                | Logs                      | Supprime des messages récents, avec logs.                                              |
+| `/invitations`                                                           | Logs                      | Qui a invité qui : classement ou bilan d'un membre. Permission : gérer le serveur.     |
 | `/report`                                                                | Signalements              | Signale un membre au staff, avec raison et lien de message optionnel.                  |
-| `/jeuxgratuits`                                                          | Jeux gratuits             | Liste les jeux actuellement gratuits à garder (Steam, Epic, GOG).                      |
+| `/jeux-gratuits`                                                         | Jeux gratuits             | Liste les jeux actuellement gratuits à garder (Steam, Epic, GOG).                      |
 | `/dire`                                                                  | Profils de messages       | Fait parler le bot sous un profil (pseudo + avatar) via webhook (staff).               |
-| `/solde`, `/daily`, `/payer`, `/riches`, `/boutique`                     | Économie                  | Monnaie virtuelle, récompense quotidienne, paiement, classement et boutique.           |
+| `/solde`, `/daily`, `/payer`, `/riches`, `/boutique-roles`               | Économie                  | Monnaie virtuelle, récompense quotidienne, paiement, classement et boutique.           |
 | `/argent-admin donner`, `/argent-admin retirer`, `/argent-admin definir` | Économie                  | Administration des soldes (ajout, retrait, définition). Permission : gérer le serveur. |
 | `/anniversaire definir`, `/retirer`, `/voir`, `/prochains`               | Anniversaires             | Gestion des anniversaires.                                                             |
 | `/suggestion`                                                            | Suggestions               | Crée une suggestion, avec lien Steam optionnel.                                        |
@@ -879,17 +971,17 @@ le **même salon** vocal que le bot, et **quitter automatiquement** en fin de fi
 | `/avent ouvrir`, `/avent calendrier`                                     | Calendrier de l'Avent     | Ouvre la porte du jour (décembre) et affiche sa progression.                           |
 | `/voc panneau`, `/nom`, `/limite`, `/transferer`, `/revendiquer`         | Salons vocaux temporaires | Pilote son salon vocal temporaire.                                                     |
 | `/sauvegarde exporter`, `/importer`                                      | Sauvegarde du serveur     | Sauvegarde complète (config + données) et restauration.                                |
-| `/userinfo`, `/serverinfo`, `/avatar`, `/roleinfo`, `/emoji`             | Commandes d'informations  | Infos membre, serveur, avatar, rôle et emoji.                                          |
+| `/infos-membre`, `/infos-serveur`, `/avatar`, `/infos-role`, `/emoji`    | Commandes d'informations  | Infos membre, serveur, avatar, rôle et emoji.                                          |
 | `/boule8`, `/pileouface`, `/choisir`                                     | Jeux                      | Mini-jeux rapides.                                                                     |
 | `/d4`, `/d6`, `/d8`, `/d10`, `/d12`, `/d20`, `/d100`                     | Jeux                      | Lance un ou plusieurs dés dédiés.                                                      |
 | `/pfc`                                                                   | Jeux                      | Pierre-feuille-ciseaux contre le bot ou un membre.                                     |
 | `/morpion`                                                               | Jeux                      | Morpion contre le bot ou un membre.                                                    |
 | `/bataille`                                                              | Jeux                      | Bataille navale (image + saisie, flotte privée) contre le bot ou un membre.            |
-| `/statsjeux`                                                             | Jeux                      | Statistiques de jeux d'un membre.                                                      |
+| `/stats-jeux`                                                            | Jeux                      | Statistiques de jeux d'un membre.                                                      |
 | `/route avancer`, `/profil`, `/classement`, `/boutique`                  | Route de l'Infini         | Aventure solo : événements aléatoires, PV/énergie/distance, récompenses.               |
 | `/bingo demarrer`, `/rejoindre`, `/carte`, `/tirer`, `/terminer`         | Bingo                     | Bingo de serveur : cartons 5×5, tirages, détection ligne/carton.                       |
 | `/inventaire`                                                            | Objets & inventaires      | Affiche l'inventaire d'un membre.                                                      |
-| `/objets`                                                                | Objets & inventaires      | Liste le catalogue d'objets du serveur.                                                |
+| `/boutique-objets`                                                       | Objets & inventaires      | Liste le catalogue d'objets du serveur.                                                |
 | `/acheter`, `/vendre`, `/utiliser`, `/donner-objet`                      | Objets & inventaires      | Achat, revente au serveur, utilisation (rôle-récompense), échange entre membres.       |
 | `/objets-admin donner`, `/retirer`                                       | Objets & inventaires      | Attribue ou retire des objets. Permission : gérer le serveur.                          |
 | `/objets-limite voir`, `/definir`, `/augmenter`, `/reduire`              | Objets & inventaires      | Plafond global d'objets par serveur. Propriétaire du bot uniquement.                   |
@@ -906,47 +998,47 @@ Tous ces modules se règlent depuis le
 et publication directe des panneaux pour tickets, rôles-réactions, règlement,
 vérification et mode streameur).
 
-| Module                    | Ce qu'il fait                                                                                                                                                                                                                                                                               |
-| ------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Arrivées & départs        | Messages de bienvenue/départ, embed ou texte, carte-image générée avec image de fond personnalisée, variables `{mention}`, `{username}`, `{server}`, `{count}`.                                                                                                                             |
-| Niveaux                   | XP par message et en vocal, cooldown, boosters (multiplicateur), salons/rôles ignorés, niveau max, courbe réglable, annonce, rôles récompense, carte de rang (couleur), classement auto.                                                                                                    |
-| Rôles-réactions           | Menu par réactions façon DraftBot : le bot pose une réaction par rôle, réagir attribue/retire le rôle.                                                                                                                                                                                      |
-| Messages interactifs      | Embeds réutilisables (titre, description, couleur) publiés dans un salon, avec boutons de rôle (clic = ajout/retrait) et boutons lien.                                                                                                                                                      |
-| Interserveurs             | Relie des salons de serveurs différents via un code de réseau ; les messages sont relayés par webhook (pseudo + avatar conservés).                                                                                                                                                          |
-| Messages épinglés         | Message « collant » qui reste toujours en bas d'un salon (texte ou embed) : re-posté automatiquement à chaque nouvelle discussion.                                                                                                                                                          |
-| Rôles automatiques        | Rôles donnés à l'arrivée (humains/bots séparés) et rôle attribué tant qu'un membre est connecté en vocal.                                                                                                                                                                                   |
-| Profils de messages       | Identités (pseudo + avatar) sous lesquelles le staff fait parler le bot via `/dire` (webhook du salon).                                                                                                                                                                                     |
-| Mode streameur            | Panneau pour se rendre sourd temporairement sans couper son micro.                                                                                                                                                                                                                          |
-| Auto-modération           | Anti-spam, invitations Discord, liens, mots interdits, mentions abusives, majuscules, actions automatiques. Inclut le **honeypot** (fonction du module, pas un module à part) : salon piège avec embed FR et compteur de bans, tout message non-staff entraîne un ban.                      |
-| Modération                | Logs de sanctions, DM au membre sanctionné, historique.                                                                                                                                                                                                                                     |
-| Économie                  | Monnaie, gains par message et en vocal, salons/rôles ignorés, daily, boutiques multiples (stock limité, bannière), classement auto, administration.                                                                                                                                         |
-| Calendrier de l'Avent     | Du 1er au 24 décembre, une porte par jour et par membre : pièces et/ou objet configurables, annonce quotidienne, mode test.                                                                                                                                                                 |
-| Anniversaires             | Annonce quotidienne, rôle du jour optionnel, message personnalisable.                                                                                                                                                                                                                       |
-| Rappels                   | Rappels persistants ponctuels ou récurrents, salon ou MP.                                                                                                                                                                                                                                   |
-| Règlement                 | Publication d'un règlement avec bouton d'acceptation et rôle d'accès.                                                                                                                                                                                                                       |
-| Suggestions               | Votes, statut staff, fils de discussion, enrichissement Steam, limites par membre/rôle, classement & recherche, récompenses à l'approbation, couleur dynamique.                                                                                                                             |
-| Starboard                 | Republie les messages qui atteignent un seuil de réactions.                                                                                                                                                                                                                                 |
-| Logs                      | Messages, membres, salons, rôles, modération, clear, boutons rollback selon l'événement.                                                                                                                                                                                                    |
-| Tickets                   | Plusieurs types de tickets, rôles par type, salon privé **ou fil privé**, format de nom personnalisable (`{type}`/`{number}`/`{user}`), archivage en fil.                                                                                                                                   |
-| Giveaways                 | Logs gagnants, messages de victoire/no winner personnalisables, participation par bouton.                                                                                                                                                                                                   |
-| Signalements              | Salon staff, rôle staff optionnel, thread ouvert au reporter, actions prendre/résoudre/ignorer.                                                                                                                                                                                             |
-| Salons vocaux temporaires | Hubs join-to-create, héritage des permissions du générateur, salon perso, panel complet, whitelist/blacklist, transfert, sauvegarde préférences.                                                                                                                                            |
-| Alertes stream & flux     | Annonce lives Twitch, vidéos YouTube, posts Reddit, articles RSS/Atom et deals Dealabs (filtre par mot-clé, variables `{prix}`/`{temperature}`), rôle mentionné, message custom.                                                                                                            |
-| Jeux gratuits             | Annonce les jeux gratuits à garder sur Steam, Epic Games et GOG (plateformes sélectionnables, contrôle toutes les 30 min), salon + rôle configurables ; `/jeuxgratuits` liste les offres.                                                                                                   |
-| Patch Notes               | Surveille les notes de patch de jeux/logiciels (catalogue de sources) et les publie dans les salons choisis, avec rôle mentionné.                                                                                                                                                           |
-| Compteurs de serveur      | Salons vocaux renommés avec membres, bots, boosts, rôles, salons ou membres d'un rôle.                                                                                                                                                                                                      |
-| Vérification              | Bouton ou captcha image pour attribuer le rôle vérifié.                                                                                                                                                                                                                                     |
-| Commandes personnalisées  | Auto-réponses texte ou embed, variables, cooldown, suppression optionnelle du message.                                                                                                                                                                                                      |
-| Messages récurrents       | Publications automatiques quotidiennes, hebdomadaires ou par intervalle.                                                                                                                                                                                                                    |
-| Réactions de mots         | Ajoute des réactions sur mots-clés avec plusieurs modes de correspondance.                                                                                                                                                                                                                  |
-| Jeux                      | Active/désactive les mini-jeux et les stats de parties. Les parties (PFC, morpion, bataille navale) peuvent faire tomber des objets (drops) — voir « Objets & inventaires ».                                                                                                                |
-| Objets & inventaires      | Catalogue d'objets par serveur (nom, emoji, rareté, prix, rôle-récompense), achat avec la monnaie, inventaire, utilisation et échange entre membres. **Drops en jeu** : un pourcentage de drop par rareté (défini manuellement) fait tomber des objets à la fin des mini-jeux.              |
-| Route de l'Infini         | Aventure solo à événements aléatoires (trésor, monstre, tempête, oasis, ruines, loups, sanctuaire, bandits, volcan…) : PV, énergie, distance, pièces (économie), objets trouvés (barème de drop propre) et compteur de morts. Cooldown réglable.                                            |
-| Bingo                     | Partie de Bingo par serveur : cartons 5×5 (1-75, centre libre), tirages par le staff, détection automatique de ligne ou de carton plein.                                                                                                                                                    |
-| Hôtel des ventes          | Marché entre membres (`/hdv`) : mise en vente d'objets de l'inventaire (séquestrés le temps de l'annonce), achat atomique, taxe serveur, prix plancher (fixe ou % du prix boutique), plafond d'annonces, notification MP au vendeur.                                                        |
-| Commandes d'informations  | Commandes en lecture seule (`/userinfo`, `/serverinfo`, `/avatar`, `/roleinfo`, `/emoji`) **et** un _journal des profils_ optionnel : note dans un salon les changements de profil des membres (nom, nom affiché, photo de profil avec avant/après, pseudo serveur), avec filtre par rôles. |
-| Sauvegarde du serveur     | Sauvegarde complète — configuration, structure et données (argent, objets, Route de l'Infini, niveaux…) — à la demande ou planifiée (cron) depuis le dashboard, avec rétention, dépôt dans un salon, et restauration avec recréation/remappage des salons et rôles manquants.               |
-| Musique                   | Lecture audio dans les salons vocaux via Lavalink (YouTube, SoundCloud, Bandcamp… et Spotify/Deezer avec le plugin LavaSrc) : file d'attente, répétition, mélange, volume, seek, rôle DJ. Nécessite un serveur Lavalink (voir [Musique](#musique-lavalink)).                                |
+| Module                    | Ce qu'il fait                                                                                                                                                                                                                                                                                        |
+| ------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Arrivées & départs        | Messages de bienvenue/départ, embed ou texte, carte-image générée avec image de fond personnalisée, variables `{mention}`, `{username}`, `{server}`, `{count}`.                                                                                                                                      |
+| Niveaux                   | XP par message et en vocal, cooldown, boosters (multiplicateur), salons/rôles ignorés, niveau max, courbe réglable, annonce, rôles récompense, carte de rang (couleur), classement auto.                                                                                                             |
+| Rôles-réactions           | Menu par réactions façon DraftBot : le bot pose une réaction par rôle, réagir attribue/retire le rôle.                                                                                                                                                                                               |
+| Messages interactifs      | Embeds réutilisables (titre, description, couleur) publiés dans un salon, avec boutons de rôle (clic = ajout/retrait) et boutons lien.                                                                                                                                                               |
+| Interserveurs             | Relie des salons de serveurs différents via un code de réseau ; les messages sont relayés par webhook (pseudo + avatar conservés).                                                                                                                                                                   |
+| Messages épinglés         | Message « collant » qui reste toujours en bas d'un salon (texte ou embed) : re-posté automatiquement à chaque nouvelle discussion.                                                                                                                                                                   |
+| Rôles automatiques        | Rôles donnés à l'arrivée (humains/bots séparés) et rôle attribué tant qu'un membre est connecté en vocal.                                                                                                                                                                                            |
+| Profils de messages       | Identités (pseudo + avatar) sous lesquelles le staff fait parler le bot via `/dire` (webhook du salon).                                                                                                                                                                                              |
+| Mode streameur            | Panneau pour se rendre sourd temporairement sans couper son micro.                                                                                                                                                                                                                                   |
+| Auto-modération           | Anti-spam, invitations Discord, liens, mots interdits, mentions abusives, majuscules, actions automatiques. Inclut le **honeypot** (fonction du module, pas un module à part) : salon piège avec embed FR et compteur de bans, tout message non-staff entraîne un ban.                               |
+| Modération                | Logs de sanctions, DM au membre sanctionné, historique.                                                                                                                                                                                                                                              |
+| Économie                  | Monnaie, gains par message et en vocal, salons/rôles ignorés, daily, boutiques multiples (stock limité, bannière), classement auto, administration.                                                                                                                                                  |
+| Calendrier de l'Avent     | Du 1er au 24 décembre, une porte par jour et par membre : pièces et/ou objet configurables, annonce quotidienne, mode test.                                                                                                                                                                          |
+| Anniversaires             | Annonce quotidienne, rôle du jour optionnel, message personnalisable.                                                                                                                                                                                                                                |
+| Rappels                   | Rappels persistants ponctuels ou récurrents, salon ou MP.                                                                                                                                                                                                                                            |
+| Règlement                 | Publication d'un règlement avec bouton d'acceptation et rôle d'accès.                                                                                                                                                                                                                                |
+| Suggestions               | Votes, statut staff, fils de discussion, enrichissement Steam, limites par membre/rôle, classement & recherche, récompenses à l'approbation, couleur dynamique.                                                                                                                                      |
+| Starboard                 | Republie les messages qui atteignent un seuil de réactions.                                                                                                                                                                                                                                          |
+| Logs                      | Messages, membres, salons, rôles, modération, clear, boutons rollback selon l'événement, suivi des invitations (qui a invité qui, `/invitations`).                                                                                                                                                   |
+| Tickets                   | Plusieurs types de tickets, rôles par type, salon privé **ou fil privé**, format de nom personnalisable (`{type}`/`{number}`/`{user}`), archivage en fil.                                                                                                                                            |
+| Giveaways                 | Logs gagnants, messages de victoire/no winner personnalisables, participation par bouton.                                                                                                                                                                                                            |
+| Signalements              | Salon staff, rôle staff optionnel, thread ouvert au reporter, actions prendre/résoudre/ignorer.                                                                                                                                                                                                      |
+| Salons vocaux temporaires | Hubs join-to-create, héritage des permissions du générateur, salon perso, panel complet, whitelist/blacklist, transfert, sauvegarde préférences.                                                                                                                                                     |
+| Alertes stream & flux     | Annonce lives Twitch, vidéos YouTube, posts Reddit, articles RSS/Atom et deals Dealabs (filtre par mot-clé, variables `{prix}`/`{temperature}`), rôle mentionné, message custom.                                                                                                                     |
+| Jeux gratuits             | Annonce les jeux gratuits à garder sur Steam, Epic Games et GOG (plateformes sélectionnables, contrôle toutes les 30 min), salon + rôle configurables ; `/jeux-gratuits` liste les offres.                                                                                                           |
+| Patch Notes               | Surveille les notes de patch de jeux/logiciels (catalogue de sources) et les publie dans les salons choisis, avec rôle mentionné.                                                                                                                                                                    |
+| Compteurs de serveur      | Salons vocaux renommés avec membres, bots, boosts, rôles, salons ou membres d'un rôle.                                                                                                                                                                                                               |
+| Vérification              | Bouton ou captcha image pour attribuer le rôle vérifié.                                                                                                                                                                                                                                              |
+| Commandes personnalisées  | Auto-réponses texte ou embed, variables, cooldown, suppression optionnelle du message.                                                                                                                                                                                                               |
+| Messages récurrents       | Publications automatiques quotidiennes, hebdomadaires ou par intervalle.                                                                                                                                                                                                                             |
+| Réactions de mots         | Ajoute des réactions sur mots-clés avec plusieurs modes de correspondance.                                                                                                                                                                                                                           |
+| Jeux                      | Active/désactive les mini-jeux et les stats de parties. Les parties (PFC, morpion, bataille navale) peuvent faire tomber des objets (drops) — voir « Objets & inventaires ».                                                                                                                         |
+| Objets & inventaires      | Catalogue d'objets par serveur (nom, emoji, rareté, prix, rôle-récompense), achat avec la monnaie, inventaire, utilisation et échange entre membres. **Drops en jeu** : un pourcentage de drop par rareté (défini manuellement) fait tomber des objets à la fin des mini-jeux.                       |
+| Route de l'Infini         | Aventure solo à événements aléatoires (trésor, monstre, tempête, oasis, ruines, loups, sanctuaire, bandits, volcan…) : PV, énergie, distance, pièces (économie), objets trouvés (barème de drop propre) et compteur de morts. Cooldown réglable.                                                     |
+| Bingo                     | Partie de Bingo par serveur : cartons 5×5 (1-75, centre libre), tirages par le staff, détection automatique de ligne ou de carton plein.                                                                                                                                                             |
+| Hôtel des ventes          | Marché entre membres (`/hdv`) : mise en vente d'objets de l'inventaire (séquestrés le temps de l'annonce), achat atomique, taxe serveur, prix plancher (fixe ou % du prix boutique), plafond d'annonces, notification MP au vendeur.                                                                 |
+| Commandes d'informations  | Commandes en lecture seule (`/infos-membre`, `/infos-serveur`, `/avatar`, `/infos-role`, `/emoji`) **et** un _journal des profils_ optionnel : note dans un salon les changements de profil des membres (nom, nom affiché, photo de profil avec avant/après, pseudo serveur), avec filtre par rôles. |
+| Sauvegarde du serveur     | Sauvegarde complète — configuration, structure et données (argent, objets, Route de l'Infini, niveaux…) — à la demande ou planifiée (cron) depuis le dashboard, avec rétention, dépôt dans un salon, et restauration avec recréation/remappage des salons et rôles manquants.                        |
+| Musique                   | Lecture audio dans les salons vocaux via Lavalink (YouTube, SoundCloud, Bandcamp… et Spotify/Deezer avec le plugin LavaSrc) : file d'attente, répétition, mélange, volume, seek, rôle DJ. Nécessite un serveur Lavalink (voir [Musique](#musique-lavalink)).                                         |
 
 ## Points importants par module
 
@@ -980,7 +1072,7 @@ Le honeypot peut créer/publier un salon piège avec image, texte FR et bouton c
 
 ### Jeux
 
-Les dés dédiés existent pour D4, D6, D8, D10, D12, D20 et D100, avec option `nombre`. Les sorties sont compactes, par exemple `D8 (x2) : 10 (4+6)`. PFC, morpion et bataille navale fonctionnent contre le bot ou en duel contre un membre ; les parties alimentent `/statsjeux`. La bataille navale se joue sur une grille 8×8 dessinée en image : un bouton **Tirer** ouvre une zone de saisie pour indiquer la case visée (ex. `C7`). Contre le bot, l'image montre ta flotte et ta grille de tir. En duel contre un membre, l'image publique n'affiche que la grille de tir (navires adverses cachés) et chaque joueur consulte sa propre flotte en privé via le bouton **Ma flotte**, sans jamais voir celle de l'autre.
+Les dés dédiés existent pour D4, D6, D8, D10, D12, D20 et D100, avec option `nombre`. Les sorties sont compactes, par exemple `D8 (x2) : 10 (4+6)`. PFC, morpion et bataille navale fonctionnent contre le bot ou en duel contre un membre ; les parties alimentent `/stats-jeux`. La bataille navale se joue sur une grille 8×8 dessinée en image : un bouton **Tirer** ouvre une zone de saisie pour indiquer la case visée (ex. `C7`). Contre le bot, l'image montre ta flotte et ta grille de tir. En duel contre un membre, l'image publique n'affiche que la grille de tir (navires adverses cachés) et chaque joueur consulte sa propre flotte en privé via le bouton **Ma flotte**, sans jamais voir celle de l'autre.
 
 #### Drops d'objets
 
@@ -1021,6 +1113,72 @@ Les sauvegardes automatiques sont écrites sur le disque du bot (`BACKUP_DIR`, `
 
 `npm run check:backup` rejoue tout le cycle export → purge → restauration sur une base jetable.
 
+## Langues
+
+Le bot parle la langue choisie **par serveur**, depuis le dashboard
+(« Langue du bot » sur la page du serveur). Le réglage vaut pour tout ce que les
+membres voient : réponses de commandes, panneaux, annonces des tâches
+planifiées, et jusqu'aux **slash commands elles-mêmes** — un serveur réglé en
+anglais tape `/rank member:@toto` là où son voisin garde `/rang membre:@toto`.
+Un serveur qui n'a jamais choisi suit la langue que Discord déclare pour lui, et
+retombe sur le français sinon.
+
+C'est bien la langue **du serveur** qui décide, pas celle de chaque membre : un
+francophone sur un serveur anglophone voit les commandes en anglais, comme le
+reste de la communauté. Le changement prend effet tout de suite — le bot
+redéploie les commandes du serveur dès que le dashboard change sa langue. Cela
+suppose le déploiement par serveur (`DEPLOY_COMMANDS_ON_START=true`, le réglage
+recommandé) : un déploiement **global** ne vise aucun serveur en particulier et
+reste donc en français.
+
+Les textes vivent dans `locales/<langue>/<module>.json` — un dossier par langue,
+un fichier par module, fusionnés au chargement. Une clé absente d'une langue
+retombe sur le français : une traduction partielle reste utilisable.
+
+### Ajouter une langue
+
+Rien à écrire dans le code, ni ici, ni dans le dashboard : ce qui est dans
+`locales/` est chargé au démarrage.
+
+1. Créez le dossier de la langue, nommé par son code — `locales/ch/` pour du
+   suisse allemand (la casse est sans importance : `CH` et `ch` sont la même).
+2. Copiez-y les fichiers de `locales/fr/` que vous voulez traduire. Vous pouvez
+   n'en traduire qu'un : le reste restera en français.
+3. Dans `commun.json`, déclarez ce que la langue dit d'elle-même — **c'est ce
+   bloc qui la fait apparaître dans le sélecteur, avec son drapeau** :
+
+   ```json
+   {
+     "langue": {
+       "nom": "Schwiizerdütsch",
+       "drapeau": "🇨🇭",
+       "discord": "de-CH|de"
+     }
+   }
+   ```
+
+   Le bloc `noms` d'un fichier de module, lui, porte les noms de commandes :
+   `"membre": "member"` fait apparaître l'option sous ce nom sur les serveurs
+   réglés dans cette langue. Un nom doit rester un nom de commande Discord —
+   minuscules, ni espace ni point, 32 caractères au plus — et
+   `npm run commandes:check` le vérifie pour toutes les langues déposées.
+
+   `nom` s'écrit dans la langue elle-même, `drapeau` est un emoji, et `discord`
+   liste les codes de langue Discord correspondants (séparés par `|`) : ils
+   servent à deviner la langue d'un serveur qui n'a rien réglé.
+
+4. `npm run i18n:check` vérifie le tout, `npm run commandes:check` s'assure que
+   les noms de commandes traduits sont déployables, et `npm run reglages:check`
+   que les formulaires de réglage se construisent dans la nouvelle langue. Le
+   premier n'exige pas qu'une langue ajoutée soit complète — il affiche sa
+   couverture — mais il refuse une clé qui n'existe pas en français (faute de
+   frappe, renommage oublié) et une langue sans nom ni drapeau.
+5. Redémarrez le bot : la langue apparaît dans `GET /api/locales`, donc dans le
+   sélecteur du dashboard.
+
+Le site a ses propres textes, dans son propre dépôt : y ajouter la même langue
+se fait de la même façon (voir son README).
+
 ## Permissions et intents
 
 Permissions souvent nécessaires au bot :
@@ -1046,7 +1204,52 @@ Intents recommandés côté portail Discord :
 | SQLite         | `dev.db`           | `/app/data/prod.db`, via le bind mount `./data:/app/data` |
 | Assets générés | `assets/generated` | `/app/assets/generated`, dans le volume `vakzbot-assets`  |
 
-Les migrations Prisma vivent dans `prisma/migrations` et sont appliquées au démarrage Docker.
+Les migrations Prisma vivent dans **`prisma/schema/migrations`** — dans le
+dossier de schéma, parce que c'est là que Prisma les cherche quand le schéma est
+un dossier et non un fichier. Les ranger à côté (`prisma/migrations`) ne fait
+échouer personne : `migrate deploy` répond « No migration found », sort en
+**succès**, et la base cesse simplement d'évoluer. Ce chemin, comme celui du
+schéma, est déclaré explicitement dans **`prisma.config.ts`** : il n'est plus
+deviné. Elles sont appliquées au
+démarrage Docker, le conteneur lançant `prisma migrate deploy` **avant** le bot,
+et refusant de démarrer si elles échouent.
+
+### « the table X does not exist »
+
+Le bot démarre, puis un module tombe sur une table absente — et se referme,
+souvent sans que personne le voie. C'est que la base et l'image ont divergé :
+image reconstruite sans la migration, base restaurée d'ailleurs, `db push` passé
+à la main. Depuis, le bot **le dit au démarrage** : une ligne `fatal` du scope
+`db` nomme les tables manquantes.
+
+Le réflexe est de reconstruire (`docker compose up -d --build`), ce qui rejoue
+les migrations. `npx prisma migrate status` dit ce qui reste en attente.
+
+⚠️ **Après un `prisma db push` passé à la main**, la table existe mais la
+migration n'est pas enregistrée : au prochain démarrage, `migrate deploy`
+essaiera de la rejouer, échouera sur « table already exists » — et le conteneur
+tournera en boucle de redémarrage. Marque-la comme appliquée, une fois.
+
+`prisma` n'est **pas installé sur l'hôte** : il vit dans le conteneur, et
+toutes ces commandes s'y lancent, depuis le dossier du `docker-compose.yml`.
+
+```bash
+# Bot en marche — `exec` entre dans le conteneur qui tourne.
+docker compose exec bot \
+  npx prisma migrate resolve --applied 20260916120000_grades_dashboard
+
+# Conteneur qui ne démarre plus — `run` en crée un jetable.
+docker compose run --rm bot \
+  npx prisma migrate resolve --applied 20260916120000_grades_dashboard
+```
+
+Le nom est celui du **dossier** dans `prisma/schema/migrations`. L'entrypoint relaie
+toute commande qu'on lui passe **sans migrer d'abord** : c'est ce qui permet de
+réparer une migration cassée sans que la réparation bute sur l'erreur qu'elle
+vient corriger.
+
+C'est la raison pour laquelle `db push` n'a pas sa place en production : il
+change la base sans rien écrire dans l'historique des migrations.
 
 ## Intégrations externes
 
@@ -1069,23 +1272,30 @@ normalement ; seul Dealabs est indisponible.
 
 ## Scripts npm
 
-| Script                    | Rôle                                                       |
-| ------------------------- | ---------------------------------------------------------- |
-| `npm run dev`             | Lance le bot en développement avec `tsx watch`.            |
-| `npm run build`           | Compile TypeScript vers `dist/`.                           |
-| `npm start`               | Lance `dist/index.js`.                                     |
-| `npm run deploy`          | Déploie les slash commands en local/dev.                   |
-| `npm run deploy:prod`     | Déploie les slash commands depuis `dist/`.                 |
-| `npm run typecheck`       | Vérifie TypeScript sans émettre.                           |
-| `npm run lint`            | Lance ESLint.                                              |
-| `npm run lint:fix`        | Lance ESLint et corrige ce qui peut l'être.                |
-| `npm run format`          | Formate tout le repo avec Prettier.                        |
-| `npm run format:check`    | Vérifie le format sans modifier.                           |
-| `npm run check:backup`    | Rejoue export → purge → restauration sur une base jetable. |
-| `npm run prisma:migrate`  | Crée/applique une migration en dev.                        |
-| `npm run prisma:deploy`   | Applique les migrations en production.                     |
-| `npm run prisma:generate` | Régénère le client Prisma.                                 |
-| `npm run prisma:studio`   | Ouvre Prisma Studio sur la base courante.                  |
+| Script                      | Rôle                                                             |
+| --------------------------- | ---------------------------------------------------------------- |
+| `npm run dev`               | Lance le bot en développement avec `tsx watch`.                  |
+| `npm run build`             | Compile TypeScript vers `dist/`.                                 |
+| `npm start`                 | Lance `dist/index.js`.                                           |
+| `npm run deploy`            | Déploie les slash commands en local/dev.                         |
+| `npm run deploy:prod`       | Déploie les slash commands depuis `dist/`.                       |
+| `npm run typecheck`         | Vérifie TypeScript sans émettre.                                 |
+| `npm run lint`              | Lance oxlint.                                                    |
+| `npm run lint:fix`          | Lance oxlint et corrige ce qui peut l'être.                      |
+| `npm run format`            | Formate tout le repo avec Prettier.                              |
+| `npm run format:check`      | Vérifie le format sans modifier.                                 |
+| `npm run check:backup`      | Rejoue export → purge → restauration sur une base jetable.       |
+| `npm run check:acces`       | Vérifie les grades et l'écriture par bloc, base jetable.         |
+| `npm run check:invitations` | Éprouve « qui a invité qui » : déduction et comptage.            |
+| `npm run check:lint`        | Sème des violations connues et exige que le linter les voie.     |
+| `npm run check:updater`     | Éprouve les gardes de l'updater avec un faux Docker.             |
+| `npm run check:sync`        | Exige qu'une exclusion de publication retire bien quelque chose. |
+| `npm run commandes:check`   | Rejoue le déploiement des commandes dans toutes les langues.     |
+| `npm run reglages:check`    | Construit les réglages de chaque module dans toutes les langues. |
+| `npm run prisma:migrate`    | Crée/applique une migration en dev.                              |
+| `npm run prisma:deploy`     | Applique les migrations en production.                           |
+| `npm run prisma:generate`   | Régénère le client Prisma.                                       |
+| `npm run prisma:studio`     | Ouvre Prisma Studio sur la base courante.                        |
 
 Les commandes propres à un module (imports de catalogue, simulateurs…) ne
 figurent pas ici : elles vivent dans la fiche du module, sous
@@ -1109,7 +1319,7 @@ docker compose logs -f bot
 4. Honeypot : créer/publier le salon piège et vérifier l'affichage.
 5. Reports : `/report` avec lien de message, vérifier thread et accès reporter.
 6. Giveaways : lancer un tirage court, participer, attendre le tirage, relancer.
-7. Jeux : `/d8 nombre:2`, `/pfc`, `/morpion`, `/bataille`, `/statsjeux`.
+7. Jeux : `/d8 nombre:2`, `/pfc`, `/morpion`, `/bataille`, `/stats-jeux`.
 8. Tempvoice : rejoindre un hub, vérifier création/suppression et panneau.
 
 ## Sécurité des secrets

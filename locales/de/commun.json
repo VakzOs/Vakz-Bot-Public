@@ -1,0 +1,13 @@
+{
+  "langue": {
+    "nom": "Deutsch",
+    "drapeau": "🇩🇪",
+    "format": "de-DE",
+    "discord": "de"
+  },
+  "errors": {
+    "generic": "❌ Ein Fehler ist aufgetreten. Bitte versuche es später erneut.",
+    "guildOnly": "❌ Dieser Befehl kann nur auf einem Server verwendet werden.",
+    "moduleDisabled": "❌ Dieses Modul ist auf diesem Server deaktiviert. Eine Administratorin oder ein Administrator kann es im Dashboard aktivieren."
+  }
+}

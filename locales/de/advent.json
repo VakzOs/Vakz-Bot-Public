@@ -1,0 +1,100 @@
+{
+  "modules": {
+    "advent": {
+      "label": "Adventskalender",
+      "description": "Vom 1. bis 24. Dezember öffnet jedes Mitglied täglich ein Türchen und gewinnt Münzen und/oder einen Gegenstand.",
+      "noms": {
+        "avent": "advent",
+        "calendrier": "kalender",
+        "jour": "tag",
+        "ouvrir": "oeffnen"
+      },
+      "announce": "🎄 Das Türchen von **Tag {day}** des Adventskalenders ist offen! Nutze `/advent oeffnen`, um deine Belohnung zu entdecken.",
+      "command": {
+        "description": "Adventskalender: Öffne dein Türchen des Tages.",
+        "open": "Öffnet das Türchen des Tages (oder eines bestimmten Tages).",
+        "dayOption": "Zu öffnender Tag (1-24). Standard: heute.",
+        "calendar": "Zeigt deinen Fortschritt im Kalender."
+      },
+      "feedback": {
+        "disabled": "❌ Der Adventskalender ist auf diesem Server deaktiviert.",
+        "closed": "🎄 Der Kalender ist nicht geöffnet (nur vom 1. bis 24. Dezember).",
+        "locked": "🔒 Das Türchen von Tag {day} lässt sich noch nicht öffnen.",
+        "already": "🎁 Du hast das Türchen von Tag {day} schon geöffnet."
+      },
+      "calendar": {
+        "title": "🎄 Adventskalender",
+        "footerOpen": "Tag {day} · {opened}/24 Türchen geöffnet",
+        "footerClosed": "Komm vom 1. bis 24. Dezember wieder!",
+        "testBadge": "🧪 **Testmodus aktiv** — alle Türchen lassen sich öffnen (auch außerhalb des Dezembers)."
+      },
+      "reward": {
+        "title": "🎁 Türchen {day} geöffnet!",
+        "coins": "💰 +{coins} Münzen",
+        "item": "🎁 +{qty}× {item}",
+        "nothing": "…aber das Türchen war diesmal leer.",
+        "balance": "Kontostand: {balance} Münzen",
+        "linkButton": "🔗 Link öffnen"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "announceChannelId": {
+              "label": "Ankündigungskanal"
+            },
+            "defaultCoins": {
+              "label": "Standardmünzen pro Tag"
+            },
+            "testMode": {
+              "label": "Testmodus (öffnet alle Felder)"
+            }
+          }
+        },
+        "g1": {
+          "label": "🎁 Belohnungen Tag für Tag",
+          "description": "Eine Zeile pro Türchen zum Anpassen. Fehlende Tage geben die Standardmünzen.",
+          "champs": {
+            "rewards": {
+              "label": "Angepasste Türchen",
+              "addLabel": "Tag hinzufügen",
+              "item": {
+                "day": {
+                  "label": "Tag (1 bis 25)"
+                },
+                "coins": {
+                  "label": "Geschenkte Münzen"
+                },
+                "items": {
+                  "label": "Geschenkte Gegenstände",
+                  "help": "Kennungen von Gegenständen aus dem Katalog, eine pro Punkt."
+                },
+                "itemQty": {
+                  "label": "Menge pro Gegenstand"
+                },
+                "message": {
+                  "label": "Nachricht beim Öffnen"
+                },
+                "link": {
+                  "label": "Geschenkter Link (Schaltfläche)"
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "resetMyClaims": {
+          "label": "Meine Öffnungen zurücksetzen",
+          "help": "Löscht nur DEINE geöffneten Türchen, um den Kalender erneut zu testen.",
+          "confirm": "Deine eigenen geöffneten Türchen auf diesem Server löschen?",
+          "msg": {
+            "done": "{n} Öffnung(en) gelöscht."
+          }
+        },
+        "msg": {
+          "noActor": "Unbekannte handelnde Person."
+        }
+      }
+    }
+  }
+}

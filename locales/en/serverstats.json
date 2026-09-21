@@ -20,6 +20,56 @@
         "roles": "🏷️ {count} roles",
         "channels": "📁 {count} channels",
         "role": "⭐ {count}"
+      },
+      "compteurs": {
+        "members": "Members",
+        "humans": "Humans",
+        "bots": "Bots",
+        "boosts": "Boosts",
+        "roles": "Role count",
+        "channels": "Channel count",
+        "role": "Members of a role"
+      },
+      "ui": {
+        "g0": {
+          "label": "📊 Counters",
+          "description": "Each counter renames a voice channel with a server statistic.",
+          "champs": {
+            "counters": {
+              "label": "Counters",
+              "addLabel": "Add a counter",
+              "item": {
+                "channelId": {
+                  "label": "Channel (voice)"
+                },
+                "type": {
+                  "label": "Type"
+                },
+                "roleId": {
+                  "label": "Role (“Members of a role” type)"
+                },
+                "template": {
+                  "label": "Name template",
+                  "help": "{count} = the counter's value."
+                }
+              },
+              "help": "One row per counter channel: its type, and a name template where {count} is replaced by the value. The bot renames the channel periodically — Discord rate-limits channel renames hard (twice per ten minutes), so a counter refreshes within minutes, not seconds. Voice channels locked to 0 connections make the best counters: nobody can enter, everybody sees them."
+            }
+          }
+        }
+      },
+      "actions": {
+        "refreshAll": {
+          "label": "Refresh the counters",
+          "help": "Immediately renames every counter channel with its current value.",
+          "msg": {
+            "done": "{n} counter(s) refreshed."
+          }
+        },
+        "msg": {
+          "noGuild": "Server not found.",
+          "noCounter": "No counter configured."
+        }
       }
     }
   }

@@ -3,6 +3,14 @@
     "configbackup": {
       "label": "Server backup",
       "description": "Backs up everything the bot holds for the server — configuration, structure and data (currency, items, Endless Road, levels…) — on demand or on a schedule.",
+      "noms": {
+        "donnees": "data",
+        "exporter": "export",
+        "fichier": "file",
+        "importer": "import",
+        "recreer": "recreate",
+        "sauvegarde": "backup"
+      },
       "command": {
         "description": "Export or restore a full backup of the server.",
         "export": "Download a full server backup (config + data).",
@@ -16,7 +24,7 @@
       },
       "export": {
         "title": "💾 Server backup",
-        "done": "Here is the backup of **{count}** module(s). Keep this file safe: you can restore it with `/sauvegarde importer`.",
+        "done": "Here is the backup of **{count}** module(s). Keep this file safe: you can restore it with `/backup import`.",
         "structure": "🏗️ Structure included: **{channels}** channel(s) and **{roles}** role(s) referenced — they can be recreated on import to another server.",
         "data": "📦 Data included: **{rows}** row(s) across **{tables}** table(s) — currency, items and inventories, Endless Road, levels, sanctions…",
         "noData": "ℹ️ Member data **not included**: this file only holds the configuration.",

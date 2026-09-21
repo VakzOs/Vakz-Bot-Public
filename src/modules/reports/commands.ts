@@ -5,22 +5,29 @@ import { getReportsConfig, MODULE_NAME } from './config.js';
 import { buildReportComponents, buildReportEmbed, parseMessageLink } from './service.js';
 
 export const report: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('report')
-    .setDescription(t('modules.reports.command.description'))
-    .addUserOption((o) =>
-      o.setName('membre').setDescription(t('modules.reports.command.member')).setRequired(true),
-    )
-    .addStringOption((o) =>
-      o
-        .setName('raison')
-        .setDescription(t('modules.reports.command.reason'))
-        .setRequired(true)
-        .setMaxLength(1000),
-    )
-    .addStringOption((o) =>
-      o.setName('message').setDescription(t('modules.reports.command.message')).setMaxLength(200),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.reports.noms.report'))
+      .setDescription(t('modules.reports.command.description'))
+      .addUserOption((o) =>
+        o
+          .setName(t('modules.reports.noms.membre'))
+          .setDescription(t('modules.reports.command.member'))
+          .setRequired(true),
+      )
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.reports.noms.raison'))
+          .setDescription(t('modules.reports.command.reason'))
+          .setRequired(true)
+          .setMaxLength(1000),
+      )
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.reports.noms.message'))
+          .setDescription(t('modules.reports.command.message'))
+          .setMaxLength(200),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
 

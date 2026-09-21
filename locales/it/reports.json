@@ -1,0 +1,70 @@
+{
+  "modules": {
+    "reports": {
+      "label": "Segnalazioni",
+      "description": "Permette ai membri di segnalare un comportamento allo staff.",
+      "noms": {
+        "membre": "membro",
+        "message": "messaggio",
+        "raison": "motivo",
+        "report": "segnala"
+      },
+      "command": {
+        "description": "Segnalare un membro allo staff.",
+        "member": "Il membro da segnalare.",
+        "reason": "Il motivo della segnalazione.",
+        "message": "Link Discord al messaggio interessato (facoltativo)."
+      },
+      "status": {
+        "open": "Aperta",
+        "taken": "Presa in carico",
+        "resolved": "Risolta",
+        "ignored": "Ignorata"
+      },
+      "button": {
+        "take": "Prendi in carico",
+        "resolve": "Risolta",
+        "ignore": "Ignora"
+      },
+      "embed": {
+        "title": "Segnalazione",
+        "target": "Membro segnalato",
+        "reporter": "Segnalato da",
+        "status": "Stato",
+        "source": "Origine",
+        "assignee": "Presa da",
+        "resolvedBy": "Trattata da",
+        "jump": "Vedi il messaggio",
+        "none": "*non indicato*",
+        "footer": "Segnalazione {id}"
+      },
+      "feedback": {
+        "staffOnly": "⛔ Solo lo staff può trattare questa segnalazione.",
+        "gone": "❌ Questa segnalazione non è stata trovata.",
+        "closed": "ℹ️ Questa segnalazione è già chiusa."
+      },
+      "notConfigured": "❌ Nessun canale delle segnalazioni è configurato. Chi amministra deve definirlo dalla dashboard.",
+      "channelGone": "❌ Il canale delle segnalazioni non è stato trovato. Avvisa chi amministra.",
+      "selfReport": "❌ Non puoi segnalare te stesso.",
+      "submitted": "✅ Segnalazione inviata allo staff.",
+      "sendError": "❌ Impossibile inviare la segnalazione. Controlla i miei permessi nel canale configurato (Vedere il canale, Inviare messaggi, Creare thread privati, Gestire i thread).",
+      "threadName": "Segnalazione {id}",
+      "invalidMessageLink": "❌ Il link del messaggio non è valido o non proviene da questo server.",
+      "submittedWithThread": "✅ Segnalazione inviata allo staff. Hai accesso al thread privato {thread}.",
+      "threadIntro": "{reporter}, la tua segnalazione su {target} è aperta qui. Solo lo staff autorizzato può seguire questo thread con te.",
+      "staffThreadLine": "Thread privato segnalante/staff: {thread}",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Canale delle segnalazioni"
+            },
+            "staffRoleId": {
+              "label": "Ruolo dello staff avvisato"
+            }
+          }
+        }
+      }
+    }
+  }
+}

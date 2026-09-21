@@ -2,7 +2,14 @@
   "modules": {
     "logs": {
       "label": "Logs",
-      "description": "Journalise les actions importantes du serveur et ajoute la commande /clear.",
+      "description": "Journalise les actions importantes du serveur, suit les invitations et ajoute la commande /purger.",
+      "noms": {
+        "invitations": "invitations",
+        "membre": "membre",
+        "nombre": "nombre",
+        "purger": "purger",
+        "raison": "raison"
+      },
       "fields": {
         "channel": "Salon",
         "author": "Auteur",
@@ -19,8 +26,17 @@
         "change": "Changement",
         "unknown": "*inconnu*",
         "unavailable": "*indisponible*",
+        "empty": "*vide*",
+        "embedCount": "{count} embed(s)",
+        "fileCount": "{count} fichier(s)",
         "noReason": "*aucune raison fournie*",
-        "everyone": "Tous"
+        "everyone": "Tous",
+        "inviter": "Invité par",
+        "invite": "Invitation",
+        "inviterTotal": "Compte de l’inviteur",
+        "maxUses": "Utilisations max",
+        "expires": "Expire",
+        "joinedAt": "Arrivé"
       },
       "events": {
         "messageDelete": {
@@ -58,6 +74,12 @@
         },
         "clear": {
           "title": "Messages nettoyés"
+        },
+        "inviteCreate": {
+          "title": "Invitation créée"
+        },
+        "inviteDelete": {
+          "title": "Invitation supprimée"
         }
       },
       "clear": {
@@ -82,6 +104,72 @@
         "unsupported": "❌ Ce type de rollback n’est pas supporté.",
         "noPermission": "❌ Je n’ai pas les permissions nécessaires pour restaurer cet élément.",
         "failed": "❌ Impossible de restaurer cet élément. Vérifie mes permissions et la hiérarchie."
+      },
+      "sources": {
+        "invite": "invitation",
+        "vanity": "URL personnalisée du serveur",
+        "bot": "ajout d’un bot",
+        "unknown": "*origine inconnue*"
+      },
+      "invites": {
+        "uses": "{count} utilisation(s)",
+        "tally": "{total} membre(s) — {present} encore présent(s)",
+        "unlimited": "illimitées",
+        "never": "jamais"
+      },
+      "invitations": {
+        "description": "Voir qui a invité qui sur ce serveur.",
+        "opt": {
+          "member": "Le bilan d’un membre plutôt que le classement."
+        },
+        "disabled": "❌ Le suivi des invitations est désactivé sur ce serveur.",
+        "gone": "parti",
+        "member": {
+          "title": "Invitations — {user}",
+          "invitedBy": "Arrivé par",
+          "invited": "A fait entrer",
+          "recent": "Dernières arrivées",
+          "untracked": "*arrivé avant le suivi des invitations*"
+        },
+        "top": {
+          "title": "Classement des invitations",
+          "empty": "Aucune arrivée suivie pour l’instant.",
+          "tracked": "{count} arrivée(s) suivie(s)"
+        }
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "logChannelId": {
+              "label": "Salon des logs",
+              "help": "Où sont publiés les journaux du serveur."
+            },
+            "messages": {
+              "label": "Journaliser les messages",
+              "help": "Journalise les messages supprimés et modifiés : auteur, salon, ancien et nouveau texte. Une suppression est accompagnée d'un bouton qui republie le message. Demande l'intent privilégié « Message Content » : sans lui la ligne est écrite, mais le texte y manque."
+            },
+            "members": {
+              "label": "Journaliser les membres (arrivées/départs)",
+              "help": "Journalise les arrivées et les départs, avec l'ancienneté du compte — c'est le premier signe d'une vague de faux comptes. Le bot ne distingue pas un départ volontaire d'une exclusion ; l'exclusion, elle, passe par la catégorie modération."
+            },
+            "channels": {
+              "label": "Journaliser les salons",
+              "help": "Journalise les salons créés, supprimés et renommés, ainsi que leurs changements de permissions. Une suppression est accompagnée d'un bouton qui recrée le salon avec ses réglages — mais pas ses messages, que Discord ne rend pas."
+            },
+            "roles": {
+              "label": "Journaliser les rôles",
+              "help": "Journalise les rôles créés, supprimés et modifiés — nom, couleur, et surtout permissions. C'est la catégorie qui montre qu'un rôle vient de recevoir « Administrateur », ce qui ne se remarque autrement qu'une fois le mal fait."
+            },
+            "moderation": {
+              "label": "Journaliser la modération",
+              "help": "Journalise les sanctions : exclusions, bannissements, expulsions de vocal, mises en sourdine, avec leur auteur et leur raison. L'auteur est lu dans le journal d'audit de Discord : le bot a donc besoin de la permission « Voir les logs d'audit », sinon la sanction est journalisée sans dire qui l'a prise."
+            },
+            "invites": {
+              "label": "Suivre les invitations (qui a invité qui)",
+              "help": "Rattache chaque arrivée à l’invitation qui l’a amenée et alimente /invitations. Demande la permission « Gérer le serveur »."
+            }
+          }
+        }
       }
     }
   }

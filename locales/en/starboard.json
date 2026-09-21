@@ -4,7 +4,31 @@
       "label": "Starboard",
       "description": "Reposts messages that get enough star ⭐ reactions to a channel.",
       "jump": "Jump to message",
-      "header": "{emoji} **{count}** · {channel}"
+      "header": "{emoji} **{count}** · {channel}",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Starboard channel",
+              "help": "The channel where copies are posted. While it is empty, the module reposts nothing. Best left read-only for members: anything written there by hand is not tracked."
+            },
+            "emoji": {
+              "label": "Trigger emoji",
+              "help": "The one reaction that counts: every other emoji on a message is ignored. A server emoji works — but if it is deleted later, reactions already placed stop being recognised."
+            },
+            "threshold": {
+              "label": "Reactions required",
+              "help": "How many times the emoji must be added for a message to reach the board. This number decides how rare it feels: too low and the board becomes a second general channel. Size it against your busy channels, not against the server."
+            },
+            "ignoreBots": {
+              "label": "Ignore messages from bots",
+              "help": "Stops messages written by a bot from reaching the board, even when they collect enough reactions. Best left on: otherwise an automated announcement that gathers stars gets reposted twice."
+            }
+          },
+          "label": "⭐ Starboard",
+          "description": "The bot watches reactions in every channel it can read: as soon as a message hits the threshold, it reposts a copy into the board channel. The copy tracks the original — its counter updates, and it disappears if the message falls back below the threshold or is deleted."
+        }
+      }
     }
   }
 }

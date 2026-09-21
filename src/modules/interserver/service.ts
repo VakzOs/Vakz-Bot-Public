@@ -48,8 +48,7 @@ export async function unlinkChannel(ctx: BotContext, channelId: string): Promise
 }
 
 export type LinkResult =
-  | { ok: true; network: string }
-  | { ok: false; error: 'code' | 'perm' | 'fail' };
+  { ok: true; network: string } | { ok: false; error: 'code' | 'perm' | 'fail' };
 
 /**
  * Lie un salon à un réseau : crée un webhook (réutilisé pour les relais) et

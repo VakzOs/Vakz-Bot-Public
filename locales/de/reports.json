@@ -1,0 +1,70 @@
+{
+  "modules": {
+    "reports": {
+      "label": "Meldungen",
+      "description": "Erlaubt Mitgliedern, ein Verhalten beim Team zu melden.",
+      "noms": {
+        "membre": "mitglied",
+        "message": "nachricht",
+        "raison": "grund",
+        "report": "melden"
+      },
+      "command": {
+        "description": "Ein Mitglied beim Team melden.",
+        "member": "Das zu meldende Mitglied.",
+        "reason": "Der Grund der Meldung.",
+        "message": "Discord-Link zur betroffenen Nachricht (optional)."
+      },
+      "status": {
+        "open": "Offen",
+        "taken": "Übernommen",
+        "resolved": "Erledigt",
+        "ignored": "Ignoriert"
+      },
+      "button": {
+        "take": "Übernehmen",
+        "resolve": "Erledigt",
+        "ignore": "Ignorieren"
+      },
+      "embed": {
+        "title": "Meldung",
+        "target": "Gemeldetes Mitglied",
+        "reporter": "Gemeldet von",
+        "status": "Status",
+        "source": "Quelle",
+        "assignee": "Übernommen von",
+        "resolvedBy": "Bearbeitet von",
+        "jump": "Nachricht ansehen",
+        "none": "*nicht angegeben*",
+        "footer": "Meldung {id}"
+      },
+      "feedback": {
+        "staffOnly": "⛔ Nur das Team kann diese Meldung bearbeiten.",
+        "gone": "❌ Diese Meldung wurde nicht gefunden.",
+        "closed": "ℹ️ Diese Meldung ist bereits geschlossen."
+      },
+      "notConfigured": "❌ Es ist kein Meldungskanal eingerichtet. Die Administration muss ihn im Dashboard festlegen.",
+      "channelGone": "❌ Der Meldungskanal wurde nicht gefunden. Sag der Administration Bescheid.",
+      "selfReport": "❌ Du kannst dich nicht selbst melden.",
+      "submitted": "✅ Meldung an das Team gesendet.",
+      "sendError": "❌ Meldung konnte nicht gesendet werden. Prüfe meine Berechtigungen im eingerichteten Kanal (Kanal ansehen, Nachrichten senden, Private Threads erstellen, Threads verwalten).",
+      "threadName": "Meldung {id}",
+      "invalidMessageLink": "❌ Der Nachrichtenlink ist ungültig oder stammt nicht von diesem Server.",
+      "submittedWithThread": "✅ Meldung an das Team gesendet. Du hast Zugang zum privaten Thread {thread}.",
+      "threadIntro": "{reporter}, deine Meldung zu {target} ist hier offen. Nur das berechtigte Team kann diesen Thread mit dir verfolgen.",
+      "staffThreadLine": "Privater Thread meldende Person/Team: {thread}",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Kanal der Meldungen"
+            },
+            "staffRoleId": {
+              "label": "Benachrichtigte Team-Rolle"
+            }
+          }
+        }
+      }
+    }
+  }
+}

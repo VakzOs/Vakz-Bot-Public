@@ -3,6 +3,17 @@
     "birthdays": {
       "label": "Anniversaires",
       "description": "Souhaite les anniversaires des membres (message + rôle du jour).",
+      "noms": {
+        "annee": "annee",
+        "anniversaire": "anniversaire",
+        "definir": "definir",
+        "jour": "jour",
+        "membre": "membre",
+        "mois": "mois",
+        "prochains": "prochains",
+        "retirer": "retirer",
+        "voir": "voir"
+      },
       "command": {
         "description": "Gère ta date d'anniversaire.",
         "set": "Enregistre ta date d'anniversaire.",
@@ -30,7 +41,33 @@
         "title": "🎂 Anniversaire de {user}"
       },
       "upcomingTitle": "🎂 Prochains anniversaires",
-      "upcomingEmpty": "Aucun anniversaire enregistré pour le moment."
+      "upcomingEmpty": "Aucun anniversaire enregistré pour le moment.",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Salon des annonces",
+              "help": "Le salon où l'anniversaire est souhaité. Vide, rien n'est annoncé : les dates continuent d'être enregistrées, mais personne ne les voit passer."
+            },
+            "roleId": {
+              "label": "Rôle « anniversaire du jour »",
+              "help": "Un rôle porté par le membre pendant sa journée d'anniversaire, puis retiré automatiquement. Lui donner une couleur le rend visible dans la liste des membres. Il doit être sous le rôle du bot pour être attribuable."
+            },
+            "message": {
+              "label": "Message",
+              "help": "Variables : {mention}, {username}."
+            },
+            "announceHour": {
+              "label": "Heure d’annonce (0-23)",
+              "help": "L'heure de l'annonce, dans le fuseau **du bot**, pas dans celui du membre. Un serveur dont la communauté vit ailleurs a intérêt à la décaler : à 9 h serveur, une partie des membres dort encore."
+            },
+            "announceMinute": {
+              "label": "Minute d’annonce (0-59)",
+              "help": "La minute de l'annonce. Le bot regarde une fois par minute : à 9 h 00, tous les anniversaires du jour partent ensemble."
+            }
+          }
+        }
+      }
     }
   }
 }

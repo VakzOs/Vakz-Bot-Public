@@ -1,5 +1,5 @@
 import type { APIEmbed, Message, PartialMessage } from 'discord.js';
-import type { BotContext } from '../../core/module.js';
+import type { BotContext, TaskReport } from '../../core/module.js';
 import {
   buildMessageRollback,
   messageRollbackHasData,
@@ -81,16 +81,27 @@ export async function deleteMessageSnapshot(ctx: BotContext, messageId: string):
 }
 
 /**
- * Durée de rétention des snapshots de messages. Un snapshot ne sert qu'à
- * restaurer un message supprimé peu après ; au-delà, il n'a plus d'utilité et
- * ne ferait qu'alourdir la base (et conserver du contenu inutilement).
+ * Durée de rétention des copies de messages.
+ *
+ * Une copie sert deux fois : restaurer un message supprimé, et dire ce que
+ * disait un message édité que le cache de discord.js a oublié — sans elle, le
+ * journal ne saurait montrer que l'après. Au-delà, elle n'a plus d'utilité et
+ * ne ferait qu'alourdir la base (et garder du contenu de membres inutilement) :
+ * une semaine couvre le délai où l'on vient encore demander des comptes à une
+ * modification, pas davantage.
  */
-export const SNAPSHOT_RETENTION_MS = 48 * 60 * 60 * 1000;
+export const SNAPSHOT_RETENTION_MS = 7 * 24 * 60 * 60 * 1000;
 
 /** Purge les snapshots de messages plus vieux que la durée de rétention. */
-export async function pruneMessageSnapshots(ctx: BotContext): Promise<void> {
+export async function pruneMessageSnapshots(ctx: BotContext): Promise<TaskReport> {
   const cutoff = new Date(Date.now() - SNAPSHOT_RETENTION_MS);
-  await ctx.db.logMessageSnapshot
+  const removed = await ctx.db.logMessageSnapshot
     .deleteMany({ where: { updatedAt: { lt: cutoff } } })
-    .catch(() => undefined);
+    .catch((error: unknown) => {
+      // La purge tenait la table en respect en silence : quand elle échoue, la
+      // seule chose qu'on finissait par voir était une base qui grossit.
+      ctx.logger.warn({ err: error }, 'Purge des copies de messages impossible');
+      return null;
+    });
+  return { purges: removed?.count ?? 0 };
 }

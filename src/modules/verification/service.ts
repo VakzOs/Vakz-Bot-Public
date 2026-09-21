@@ -49,8 +49,7 @@ export function buildOpenRow(): ActionRowBuilder<MessageActionRowComponentBuilde
 }
 
 export type PublishResult =
-  | { ok: true; messageId: string }
-  | { ok: false; error: 'nochannel' | 'send' };
+  { ok: true; messageId: string } | { ok: false; error: 'nochannel' | 'send' };
 
 /** Publie (ou met à jour) le message de vérification dans le salon configuré. */
 export async function publishVerification(

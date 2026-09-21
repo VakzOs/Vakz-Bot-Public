@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, rulesConfigSchema, rulesDefaultConfig } from './config.js';
 import { rulesComponent } from './component.js';
 import { publishRules } from './service.js';
@@ -20,17 +21,47 @@ export default defineModule({
   emoji: '\u{1F4D8}',
   configSchema: rulesConfigSchema,
   defaultConfig: rulesDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '📜 Règlement',
-      description: 'Après modification, republie le règlement avec le bouton « Publier ».',
+      label: t('modules.rules.ui.g0.label'),
+      description: t('modules.rules.ui.g0.description'),
       fields: [
-        { key: 'channelId', label: 'Salon du règlement', type: 'channel' },
-        { key: 'roleId', label: 'Rôle d’accès (à l’acceptation)', type: 'role' },
-        { key: 'title', label: 'Titre', type: 'text' },
-        { key: 'content', label: 'Contenu du règlement', type: 'textarea' },
-        { key: 'buttonLabel', label: 'Libellé du bouton d’acceptation', type: 'text' },
-        { key: 'logChannelId', label: 'Salon des logs d’acceptation', type: 'channel' },
+        {
+          key: 'channelId',
+          label: t('modules.rules.ui.g0.champs.channelId.label'),
+          type: 'channel',
+          help: t('modules.rules.ui.g0.champs.channelId.help'),
+        },
+        {
+          key: 'roleId',
+          label: t('modules.rules.ui.g0.champs.roleId.label'),
+          type: 'role',
+          help: t('modules.rules.ui.g0.champs.roleId.help'),
+        },
+        {
+          key: 'title',
+          label: t('modules.rules.ui.g0.champs.title.label'),
+          type: 'text',
+          help: t('modules.rules.ui.g0.champs.title.help'),
+        },
+        {
+          key: 'content',
+          label: t('modules.rules.ui.g0.champs.content.label'),
+          type: 'textarea',
+          help: t('modules.rules.ui.g0.champs.content.help'),
+        },
+        {
+          key: 'buttonLabel',
+          label: t('modules.rules.ui.g0.champs.buttonLabel.label'),
+          type: 'text',
+          help: t('modules.rules.ui.g0.champs.buttonLabel.help'),
+        },
+        {
+          key: 'logChannelId',
+          label: t('modules.rules.ui.g0.champs.logChannelId.label'),
+          type: 'channel',
+          help: t('modules.rules.ui.g0.champs.logChannelId.help'),
+        },
       ],
     },
   ],

@@ -69,8 +69,7 @@ interface RoleRollbackPayload {
 }
 
 export type RollbackResult =
-  | { ok: true }
-  | { ok: false; error: 'missing' | 'unsupported' | 'noPermission' | 'failed' };
+  { ok: true } | { ok: false; error: 'missing' | 'unsupported' | 'noPermission' | 'failed' };
 
 type WebhookCapableChannel = GuildTextBasedChannel & {
   createWebhook(options: ChannelWebhookCreateOptions): Promise<Webhook<WebhookType.Incoming>>;

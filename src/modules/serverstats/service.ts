@@ -1,5 +1,5 @@
 import type { Guild } from 'discord.js';
-import type { BotContext } from '../../core/module.js';
+import type { BotContext, TaskReport } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
 import {
   type CounterType,
@@ -7,6 +7,7 @@ import {
   type ServerCounter,
   getServerstatsConfig,
 } from './config.js';
+import { useGuildLocale } from '../../core/guild-locale.js';
 
 /** Types nécessitant le cache complet des membres. */
 const MEMBER_TYPES: CounterType[] = ['humans', 'bots', 'role'];
@@ -40,7 +41,9 @@ export function computeValue(guild: Guild, counter: ServerCounter): number {
 
 /** Nom de salon final : `template` avec `{count}` remplacé (borné à 100). */
 export function formatName(counter: ServerCounter, value: number): string {
-  return counter.template.replace('{count}', value.toLocaleString('fr-FR')).slice(0, 100);
+  return counter.template
+    .replace('{count}', value.toLocaleString(t('langue.format')))
+    .slice(0, 100);
 }
 
 /**
@@ -51,26 +54,40 @@ export function formatName(counter: ServerCounter, value: number): string {
  */
 const pendingRenames = new Set<string>();
 
-/** Met à jour le nom d'un salon-compteur (rien si le nom n'a pas changé). */
+/**
+ * Met à jour le nom d'un salon-compteur (rien si le nom n'a pas changé).
+ *
+ * Rend `false` quand le renommage a été tenté et refusé — c'est la seule chose
+ * que la tâche rapporte : réaligner les noms est son travail normal, l'échec
+ * est l'évènement.
+ */
 export async function updateCounter(
   ctx: BotContext,
   guild: Guild,
   counter: ServerCounter,
-): Promise<void> {
-  if (!counter.channelId) return;
+): Promise<boolean> {
+  if (!counter.channelId) return true;
   const channel =
     guild.channels.cache.get(counter.channelId) ??
     (await guild.channels.fetch(counter.channelId).catch(() => null));
-  if (!channel) return;
+  if (!channel) return true;
   const name = formatName(counter, computeValue(guild, counter));
-  if (channel.name === name) return;
-  if (pendingRenames.has(channel.id)) return;
+  if (channel.name === name) return true;
+  if (pendingRenames.has(channel.id)) return true;
 
   pendingRenames.add(channel.id);
   try {
     await channel.setName(name);
-  } catch {
-    // Ignoré : permissions manquantes ou rate limit — la tâche périodique réessaiera.
+    return true;
+  } catch (error) {
+    // Un compteur qui ne bouge plus (permission « Gérer les salons » retirée)
+    // était parfaitement muet : le salon gardait son ancien nombre et rien
+    // n'expliquait pourquoi. Le rate limit, lui, se rattrape au passage suivant.
+    ctx.logger.warn(
+      { err: error, guildId: guild.id, channelId: channel.id, compteur: counter.type },
+      'Salon-compteur non renommé',
+    );
+    return false;
   } finally {
     pendingRenames.delete(channel.id);
   }
@@ -90,26 +107,39 @@ export async function refreshCounter(
   await updateCounter(ctx, guild, counter);
 }
 
-/** Met à jour tous les compteurs d'un serveur (récupère les membres si besoin). */
-export async function updateGuildCounters(ctx: BotContext, guild: Guild): Promise<void> {
+/**
+ * Met à jour tous les compteurs d'un serveur (récupère les membres si besoin).
+ * Rend le nombre de renommages refusés.
+ */
+export async function updateGuildCounters(ctx: BotContext, guild: Guild): Promise<number> {
   const config = await getServerstatsConfig(ctx, guild.id);
-  if (config.counters.length === 0) return;
+  if (config.counters.length === 0) return 0;
 
   if (config.counters.some((counter) => MEMBER_TYPES.includes(counter.type))) {
     await guild.members.fetch().catch(() => undefined);
   }
+  let echecs = 0;
   for (const counter of config.counters) {
-    await updateCounter(ctx, guild, counter);
+    if (!(await updateCounter(ctx, guild, counter))) echecs += 1;
   }
+  return echecs;
 }
 
 /** Met à jour les compteurs de tous les serveurs où le module est activé. */
-export async function updateAllGuilds(ctx: BotContext): Promise<void> {
+export async function updateAllGuilds(ctx: BotContext): Promise<TaskReport> {
   const rows = await ctx.db.moduleConfig
     .findMany({ where: { module: MODULE_NAME, enabled: true } })
     .catch(() => []);
+  let echecs = 0;
   for (const row of rows) {
     const guild = ctx.client.guilds.cache.get(row.guildId);
-    if (guild) await updateGuildCounters(ctx, guild);
+    if (!guild) continue;
+    // Les gabarits de compteurs passent par `t()` : un serveur en anglais doit
+    // voir ses salons nommés en anglais.
+    await useGuildLocale(row.guildId);
+    echecs += await updateGuildCounters(ctx, guild);
   }
+  // Rien n'est rapporté quand tout s'est bien passé : réaligner les noms toutes
+  // les dix minutes est le travail normal de la tâche, pas une nouvelle.
+  return { echecs };
 }

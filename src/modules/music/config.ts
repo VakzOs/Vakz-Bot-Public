@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { t } from '../../core/i18n.js';
 import type { BotContext } from '../../core/module.js';
 
 /** Identifiant stable du module (clé en base). */
@@ -11,14 +12,22 @@ export const MODULE_NAME = 'music';
  * fournie) ; Spotify nécessite en plus des identifiants (SPOTIFY_CLIENT_*).
  */
 export const SEARCH_PLATFORMS = [
-  { value: 'ytsearch', label: 'YouTube' },
-  { value: 'ytmsearch', label: 'YouTube Music' },
-  { value: 'scsearch', label: 'SoundCloud' },
-  { value: 'spsearch', label: 'Spotify (LavaSrc — identifiants requis)' },
-  { value: 'dzsearch', label: 'Deezer (LavaSrc)' },
+  'ytsearch',
+  'ytmsearch',
+  'scsearch',
+  'spsearch',
+  'dzsearch',
 ] as const;
 
-const SEARCH_VALUES = SEARCH_PLATFORMS.map((platform) => platform.value);
+/**
+ * Le libellé d'une plateforme, dans la langue ambiante. Le nom de marque ne
+ * change pas ; ce qui l'accompagne (« identifiants requis ») se traduit.
+ */
+export function searchPlatformLabel(platform: (typeof SEARCH_PLATFORMS)[number]): string {
+  return t(`modules.music.plateformes.${platform}`);
+}
+
+const SEARCH_VALUES = SEARCH_PLATFORMS;
 
 export const musicConfigSchema = z.object({
   /** Rôle « DJ » : seul à pouvoir contrôler la lecture (skip, stop…). Null = tout le monde. */

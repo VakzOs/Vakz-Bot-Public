@@ -213,7 +213,7 @@ export interface ArchiveQuery {
   day: string;
   /** Niveaux retenus. Vide ou absent = tous. */
   levels?: LogLevelName[];
-  /** Filtre plein texte, insensible à la casse, sur le message et l'erreur. */
+  /** Filtre plein texte, insensible à la casse, sur le message, l'erreur et les champs. */
   search?: string;
   limit?: number;
 }
@@ -250,7 +250,8 @@ export async function readArchive(query: ArchiveQuery): Promise<LogRecord[]> {
     if (!record) continue;
     if (levels && !levels.has(levelBucket(record.level))) continue;
     if (needle) {
-      const haystack = `${record.msg} ${record.err ?? ''} ${record.scope ?? ''}`.toLowerCase();
+      const haystack =
+        `${record.msg} ${record.err ?? ''} ${record.scope ?? ''} ${record.details ?? ''}`.toLowerCase();
       if (!haystack.includes(needle)) continue;
     }
     kept.push(record);

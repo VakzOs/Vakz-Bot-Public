@@ -3,6 +3,19 @@
     "economy": {
       "label": "Économie",
       "description": "Monnaie virtuelle, gains, classement et boutique de rôles.",
+      "noms": {
+        "argent-admin": "argent-admin",
+        "boutique-roles": "boutique-roles",
+        "daily": "daily",
+        "definir": "definir",
+        "donner": "donner",
+        "membre": "membre",
+        "montant": "montant",
+        "payer": "payer",
+        "retirer": "retirer",
+        "riches": "riches",
+        "solde": "solde"
+      },
       "opt": {
         "member": "Le membre concerné.",
         "amount": "Le montant."
@@ -53,6 +66,91 @@
         "stock": "stock : {n}",
         "switch": "Changer de boutique…",
         "outOfStock": "❌ Cet article est épuisé."
+      },
+      "ui": {
+        "g0": {
+          "label": "💰 Général",
+          "champs": {
+            "currencyName": {
+              "label": "Nom de la monnaie",
+              "help": "Le nom de la monnaie, au pluriel, tel qu'il apparaît dans tous les messages du bot. Purement cosmétique : le changer ne touche pas aux soldes."
+            },
+            "currencySymbol": {
+              "label": "Symbole de la monnaie",
+              "help": "Le symbole accolé aux montants. Un emoji du serveur s'écrit sous sa forme complète `<:nom:id>` — supprimé du serveur plus tard, ce code s'affichera tel quel à la place de l'image."
+            },
+            "messageMin": {
+              "label": "Gain minimum par message",
+              "help": "Le plancher du gain tiré au hasard à chaque message retenu. Le hasard empêche de calculer le nombre exact de messages à écrire pour s'offrir un rôle."
+            },
+            "messageMax": {
+              "label": "Gain maximum par message",
+              "help": "Le plafond de ce même tirage. À rapprocher des prix de la boutique : c'est le rapport entre les deux qui décide du temps qu'il faut pour s'offrir quelque chose."
+            },
+            "messageCooldown": {
+              "label": "Cooldown entre gains (s)",
+              "help": "Pendant ce délai, les messages suivants d'un même membre ne rapportent rien. À 0, dix messages d'un mot paient dix fois, et l'économie récompense le bruit."
+            },
+            "dailyAmount": {
+              "label": "Montant de la commande /daily",
+              "help": "Ce que rapporte la récompense quotidienne, réclamable une fois par jour. C'est le revenu de base : un membre qui ne fait que la réclamer doit progresser, mais lentement, sinon écrire ne sert plus à rien."
+            },
+            "voiceEnabled": {
+              "label": "Gains en vocal",
+              "help": "Paie aussi le temps passé en salon vocal. Un membre seul, sourd ou en sourdine ne gagne rien : sans cela, laisser un onglet ouvert la nuit suffirait à s'enrichir."
+            },
+            "voicePerMinute": {
+              "label": "Gain par minute en vocal",
+              "help": "Ce que rapporte chaque minute passée en vocal accompagné. Attention au cumul : soixante minutes de vocal passif ne devraient pas valoir une journée d'écrit."
+            },
+            "ignoredChannelIds": {
+              "label": "Salons ignorés",
+              "help": "Aucun gain n'y est compté, ni par message ni en vocal. À réserver aux salons de bot, de test et de spam — là où écrire beaucoup ne veut rien dire."
+            },
+            "ignoredRoleIds": {
+              "label": "Rôles ignorés",
+              "help": "Les membres portant l'un de ces rôles ne gagnent plus rien. Sert aux bots secondaires, et c'est la sanction la plus discrète contre qui gonfle son solde."
+            },
+            "leaderboardChannelId": {
+              "label": "Salon du classement",
+              "help": "Le bot y tient un unique message de classement des plus riches, réécrit régulièrement plutôt que republié. Vide, il n'y a pas de classement permanent — la commande reste disponible."
+            }
+          }
+        },
+        "g1": {
+          "label": "🏪 Boutiques de rôles",
+          "description": "Chaque boutique vend des rôles contre la monnaie du serveur.",
+          "champs": {
+            "shops": {
+              "label": "Boutiques",
+              "addLabel": "Ajouter une boutique",
+              "item": {
+                "name": {
+                  "label": "Nom de la boutique"
+                },
+                "bannerUrl": {
+                  "label": "Bannière (URL)"
+                },
+                "items": {
+                  "label": "Rôles en vente",
+                  "addLabel": "Ajouter un rôle",
+                  "item": {
+                    "roleId": {
+                      "label": "Rôle"
+                    },
+                    "price": {
+                      "label": "Prix"
+                    },
+                    "stock": {
+                      "label": "Stock (-1 = illimité)"
+                    }
+                  }
+                }
+              },
+              "help": "Une boutique par ligne, 25 articles chacune, où l'on achète des RÔLES avec la monnaie. Le bot doit pouvoir attribuer ces rôles : ils doivent être SOUS son propre rôle, sinon l'achat débite le membre et échoue à lui donner quoi que ce soit. Un stock à -1 est illimité, 0 affiche l'article épuisé."
+            }
+          }
+        }
       }
     }
   }

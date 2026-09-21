@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { interactiveMessagesActions } from './actions.js';
 import {
   MODULE_NAME,
@@ -21,58 +22,131 @@ export default defineModule({
   emoji: '\u{1F9E9}',
   configSchema: interactiveMessagesConfigSchema,
   defaultConfig: interactiveMessagesDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '🧩 Messages interactifs',
-      description: 'Après modification, republie le message avec l’action « Publier un message ».',
+      label: t('modules.interactivemessages.ui.g0.label'),
+      description: t('modules.interactivemessages.ui.g0.description'),
       fields: [
         {
           key: 'panels',
-          label: 'Messages',
+          label: t('modules.interactivemessages.ui.g0.champs.panels.label'),
           type: 'list',
+          help: t('modules.interactivemessages.ui.g0.champs.panels.help'),
           idKey: 'id',
-          addLabel: 'Ajouter un message',
+          addLabel: t('modules.interactivemessages.ui.g0.champs.panels.addLabel'),
           item: [
-            { key: 'name', label: 'Nom (interne)', type: 'text' },
-            { key: 'channelId', label: 'Salon de publication', type: 'channel' },
-            { key: 'title', label: 'Titre de l’embed', type: 'text' },
-            { key: 'description', label: 'Description de l’embed', type: 'textarea' },
+            {
+              key: 'name',
+              label: t('modules.interactivemessages.ui.g0.champs.panels.item.name.label'),
+              type: 'text',
+            },
+            {
+              key: 'channelId',
+              label: t('modules.interactivemessages.ui.g0.champs.panels.item.channelId.label'),
+              type: 'channel',
+            },
+            {
+              key: 'title',
+              label: t('modules.interactivemessages.ui.g0.champs.panels.item.title.label'),
+              type: 'text',
+            },
+            {
+              key: 'description',
+              label: t('modules.interactivemessages.ui.g0.champs.panels.item.description.label'),
+              type: 'textarea',
+            },
             {
               key: 'buttons',
-              label: 'Boutons',
+              label: t('modules.interactivemessages.ui.g0.champs.panels.item.buttons.label'),
               type: 'list',
               idKey: 'id',
-              addLabel: 'Ajouter un bouton',
+              addLabel: t('modules.interactivemessages.ui.g0.champs.panels.item.buttons.addLabel'),
               item: [
                 {
                   key: 'type',
-                  label: 'Type',
+                  label: t(
+                    'modules.interactivemessages.ui.g0.champs.panels.item.buttons.item.type.label',
+                  ),
                   type: 'select',
                   default: 'role',
                   options: [
-                    { value: 'role', label: 'Rôle (ajout/retrait au clic)' },
-                    { value: 'link', label: 'Lien (ouvre une URL)' },
+                    {
+                      value: 'role',
+                      label: t(
+                        'modules.interactivemessages.ui.g0.champs.panels.item.buttons.item.type.opt.role.label',
+                      ),
+                    },
+                    {
+                      value: 'link',
+                      label: t(
+                        'modules.interactivemessages.ui.g0.champs.panels.item.buttons.item.type.opt.link.label',
+                      ),
+                    },
                   ],
                 },
-                { key: 'label', label: 'Texte du bouton', type: 'text' },
-                { key: 'emoji', label: 'Emoji', type: 'text' },
-                { key: 'roleId', label: 'Rôle (si type « Rôle »)', type: 'role' },
+                {
+                  key: 'label',
+                  label: t(
+                    'modules.interactivemessages.ui.g0.champs.panels.item.buttons.item.label.label',
+                  ),
+                  type: 'text',
+                },
+                {
+                  key: 'emoji',
+                  label: t(
+                    'modules.interactivemessages.ui.g0.champs.panels.item.buttons.item.emoji.label',
+                  ),
+                  type: 'text',
+                },
+                {
+                  key: 'roleId',
+                  label: t(
+                    'modules.interactivemessages.ui.g0.champs.panels.item.buttons.item.roleId.label',
+                  ),
+                  type: 'role',
+                },
                 {
                   key: 'url',
-                  label: 'URL (si type « Lien »)',
+                  label: t(
+                    'modules.interactivemessages.ui.g0.champs.panels.item.buttons.item.url.label',
+                  ),
                   type: 'text',
-                  placeholder: 'https://…',
+                  placeholder: t(
+                    'modules.interactivemessages.ui.g0.champs.panels.item.buttons.item.url.placeholder',
+                  ),
                 },
                 {
                   key: 'style',
-                  label: 'Style',
+                  label: t(
+                    'modules.interactivemessages.ui.g0.champs.panels.item.buttons.item.style.label',
+                  ),
                   type: 'select',
                   default: 'secondary',
                   options: [
-                    { value: 'primary', label: 'Bleu' },
-                    { value: 'secondary', label: 'Gris' },
-                    { value: 'success', label: 'Vert' },
-                    { value: 'danger', label: 'Rouge' },
+                    {
+                      value: 'primary',
+                      label: t(
+                        'modules.interactivemessages.ui.g0.champs.panels.item.buttons.item.style.opt.primary.label',
+                      ),
+                    },
+                    {
+                      value: 'secondary',
+                      label: t(
+                        'modules.interactivemessages.ui.g0.champs.panels.item.buttons.item.style.opt.secondary.label',
+                      ),
+                    },
+                    {
+                      value: 'success',
+                      label: t(
+                        'modules.interactivemessages.ui.g0.champs.panels.item.buttons.item.style.opt.success.label',
+                      ),
+                    },
+                    {
+                      value: 'danger',
+                      label: t(
+                        'modules.interactivemessages.ui.g0.champs.panels.item.buttons.item.style.opt.danger.label',
+                      ),
+                    },
                   ],
                 },
               ],

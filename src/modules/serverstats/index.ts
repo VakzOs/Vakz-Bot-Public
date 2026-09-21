@@ -1,8 +1,9 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { serverstatsActions } from './actions.js';
 import {
   COUNTER_TYPES,
-  COUNTER_TYPE_LABELS,
+  counterTypeLabel,
   MODULE_NAME,
   type ServerstatsConfig,
   serverstatsConfigSchema,
@@ -25,35 +26,44 @@ export default defineModule({
   emoji: '\u{1F4CA}',
   configSchema: serverstatsConfigSchema,
   defaultConfig: serverstatsDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '📊 Compteurs',
-      description: 'Chaque compteur renomme un salon vocal avec une statistique du serveur.',
+      label: t('modules.serverstats.ui.g0.label'),
+      description: t('modules.serverstats.ui.g0.description'),
       fields: [
         {
           key: 'counters',
-          label: 'Compteurs',
+          label: t('modules.serverstats.ui.g0.champs.counters.label'),
           type: 'list',
+          help: t('modules.serverstats.ui.g0.champs.counters.help'),
           idKey: 'id',
-          addLabel: 'Ajouter un compteur',
+          addLabel: t('modules.serverstats.ui.g0.champs.counters.addLabel'),
           item: [
-            { key: 'channelId', label: 'Salon (vocal)', type: 'voiceChannel' },
+            {
+              key: 'channelId',
+              label: t('modules.serverstats.ui.g0.champs.counters.item.channelId.label'),
+              type: 'voiceChannel',
+            },
             {
               key: 'type',
-              label: 'Type',
+              label: t('modules.serverstats.ui.g0.champs.counters.item.type.label'),
               type: 'select',
               options: COUNTER_TYPES.map((type) => ({
                 value: type,
-                label: COUNTER_TYPE_LABELS[type],
+                label: counterTypeLabel(type),
               })),
             },
-            { key: 'roleId', label: 'Rôle (type « Membres d’un rôle »)', type: 'role' },
+            {
+              key: 'roleId',
+              label: t('modules.serverstats.ui.g0.champs.counters.item.roleId.label'),
+              type: 'role',
+            },
             {
               key: 'template',
-              label: 'Modèle de nom',
+              label: t('modules.serverstats.ui.g0.champs.counters.item.template.label'),
               type: 'text',
               default: '{count}',
-              help: '{count} = valeur du compteur.',
+              help: t('modules.serverstats.ui.g0.champs.counters.item.template.help'),
             },
           ],
         },

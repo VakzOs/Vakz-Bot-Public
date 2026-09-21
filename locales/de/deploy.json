@@ -1,0 +1,41 @@
+{
+  "modules": {
+    "deploy": {
+      "label": "Aktualisierung",
+      "description": "Aktualisiert den Bot (git pull + Neubau). Nur für die Besitzerin oder den Besitzer.",
+      "noms": {
+        "maj": "update"
+      },
+      "disabled": "❌ Die Aktualisierung aus dem Bot heraus ist nicht eingerichtet (setze `BOT_OWNER_ID`).",
+      "notOwner": "❌ Nur die Besitzerin oder der Besitzer des Bots kann eine Aktualisierung starten.",
+      "title": "🚀 Aktualisierung des Bots",
+      "intro": "Bestätige, um `git pull` und danach den Docker-Neubau auf dem Host zu starten.",
+      "statusField": "Letzte Bereitstellung",
+      "noResult": "*(keine Bereitstellung gespeichert)*",
+      "lastResult": "{icon} {status} {when}{commit}",
+      "logField": "Protokoll",
+      "confirm": "Aktualisieren",
+      "cancel": "Abbrechen",
+      "cancelled": "Aktualisierung abgebrochen.",
+      "requested": "🚀 Aktualisierung von **`{branch}`** angefordert. Der Host holt den Code und baut neu — der Bot startet gleich neu.",
+      "requestFailed": "❌ Die Aktualisierungsanfrage konnte nicht geschrieben werden (prüfe den Ordner `DEPLOY_DIR` und die Rechte).",
+      "restarted": "{icon} Bot neu gestartet. Aktualisierung beendet: `{status}`{commit}.",
+      "restartedNoResult": "✅ Bot neu gestartet. Das Ergebnis der Aktualisierung liegt noch nicht vor.",
+      "currentStatusField": "Zustand des Updaters",
+      "statusUnknown": "*(kein Zustand des Updaters verfügbar)*",
+      "requestNotPicked": "⚠️ Der Updater auf dem Host hat die Anfrage noch nicht aufgegriffen. Letzter Zustand: {status}\nPrüfe, ob `vakzbot-updater.sh loop` läuft oder ob der systemd-Dienst `.path` wirklich `DEPLOY_DIR` überwacht.",
+      "updateTimeout": "⚠️ Kein Neustart und kein Ergebnis nach {seconds} s. Letzter Zustand: {status}\nPrüfe die Protokolle des Host-Updaters und von Docker Compose.",
+      "updateFailed": "❌ Aktualisierung vor dem Neustart fehlgeschlagen. Letzter Zustand: {status}",
+      "updateFinishedNoRestart": "⚠️ Der Updater endete mit `{status}` (Commit `{commit}`), der Bot ist aber nach {seconds} s nicht neu gestartet. Wenn Docker \"no changes\" meldet, wurde das Image bzw. der Container wahrscheinlich nicht neu erstellt.",
+      "branchField": "Zu verteilender Branch",
+      "branchPlaceholder": "Wähle den zu verteilenden Branch…",
+      "modeField": "Modus des Neubaus",
+      "modeFull": "🐢 **Vollständig** — `docker compose up -d --build --force-recreate`: Alle Container des Projekts werden neu erstellt, der Bot startet sicher neu.",
+      "modeCache": "⚡ **Schnell** — `docker compose up -d --build bot`: Docker nutzt seine Schichten wieder, nur der Dienst `bot` ist betroffen, und der Container wird nur neu erstellt, wenn sich das Image wirklich geändert hat. Die anderen Container (flaresolverr, lavalink…) bleiben unberührt.",
+      "modeSwitchToCache": "In den schnellen Modus wechseln",
+      "modeSwitchToFull": "In den vollständigen Modus wechseln",
+      "requestedCache": "⚡ **Schnelle** Aktualisierung von **`{branch}`** angefordert. Der Host nutzt den Docker-Cache wieder: Der Bot startet nur neu, wenn sich das Image geändert hat.",
+      "updateFinishedCache": "✅ Aktualisierung mit `{status}` beendet (Commit `{commit}`), ohne Neustart. Im schnellen Modus ist das normal, wenn sich das Image nicht geändert hat: Der Bot lief einfach weiter."
+    }
+  }
+}

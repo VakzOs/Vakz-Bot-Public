@@ -1,9 +1,14 @@
 import { type Interaction, MessageFlags } from 'discord.js';
-import { logger } from './logger.js';
+import { logger, loggerFor } from './logger.js';
 import { t } from './i18n.js';
 
 /** Contexte de log attaché à une exécution protégée. */
 export type RunContext = Record<string, unknown>;
+
+/** Le logger du module nommé par le contexte, ou le logger racine à défaut. */
+function moduleLogger(context: RunContext): ReturnType<typeof loggerFor> {
+  return loggerFor(typeof context.module === 'string' ? context.module : undefined);
+}
 
 /**
  * Exécute une fonction en capturant toute erreur : on log proprement via pino
@@ -13,7 +18,10 @@ export async function safeRun(fn: () => Promise<void> | void, context: RunContex
   try {
     await fn();
   } catch (error) {
-    logger.error({ err: error, ...context }, 'Erreur capturée');
+    // La ligne part sur le logger du module quand le contexte le nomme : un
+    // module qui ne vit que par ses évènements n'apparaissait sinon nulle part
+    // dans la colonne « module » du dashboard, pas même quand il échouait.
+    moduleLogger(context).error({ err: error, ...context }, 'Erreur capturée');
   }
 }
 
@@ -30,7 +38,7 @@ export async function handleInteractionError(
    */
   context: RunContext = {},
 ): Promise<void> {
-  logger.error(
+  moduleLogger(context).error(
     {
       err: error,
       interactionType: interaction.type,
@@ -43,8 +51,11 @@ export async function handleInteractionError(
 
   if (!interaction.isRepliable()) return;
 
-  const locale = interaction.guild?.preferredLocale ?? undefined;
-  const message = t('errors.generic', undefined, locale?.startsWith('fr') ? 'fr' : undefined);
+  // Pas de langue passée : le routeur d'interactions a déjà posé celle du
+  // serveur autour de tout le traitement, celle-ci comprise. La déduire ici de
+  // `preferredLocale` contredirait le choix fait dans le dashboard — un serveur
+  // réglé en anglais recevait ses erreurs en français.
+  const message = t('errors.generic');
 
   try {
     if (interaction.replied || interaction.deferred) {

@@ -1,0 +1,70 @@
+{
+  "modules": {
+    "reports": {
+      "label": "Denuncias",
+      "description": "Permite a los miembros denunciar un comportamiento al personal.",
+      "noms": {
+        "membre": "miembro",
+        "message": "mensaje",
+        "raison": "motivo",
+        "report": "denunciar"
+      },
+      "command": {
+        "description": "Denunciar a un miembro al personal.",
+        "member": "El miembro que denunciar.",
+        "reason": "El motivo de la denuncia.",
+        "message": "Enlace de Discord al mensaje en cuestión (opcional)."
+      },
+      "status": {
+        "open": "Abierta",
+        "taken": "Asumida",
+        "resolved": "Resuelta",
+        "ignored": "Ignorada"
+      },
+      "button": {
+        "take": "Asumir",
+        "resolve": "Resuelta",
+        "ignore": "Ignorar"
+      },
+      "embed": {
+        "title": "Denuncia",
+        "target": "Miembro denunciado",
+        "reporter": "Denunciado por",
+        "status": "Estado",
+        "source": "Origen",
+        "assignee": "Asumida por",
+        "resolvedBy": "Tratada por",
+        "jump": "Ver el mensaje",
+        "none": "*sin indicar*",
+        "footer": "Denuncia {id}"
+      },
+      "feedback": {
+        "staffOnly": "⛔ Solo el personal puede tratar esta denuncia.",
+        "gone": "❌ No se encuentra esta denuncia.",
+        "closed": "ℹ️ Esta denuncia ya está cerrada."
+      },
+      "notConfigured": "❌ No hay ningún canal de denuncias configurado. La administración debe definirlo en el panel.",
+      "channelGone": "❌ No se encuentra el canal de denuncias. Avisa a la administración.",
+      "selfReport": "❌ No puedes denunciarte a ti mismo.",
+      "submitted": "✅ Denuncia enviada al personal.",
+      "sendError": "❌ No se ha podido enviar la denuncia. Comprueba mis permisos en el canal configurado (Ver el canal, Enviar mensajes, Crear hilos privados, Gestionar hilos).",
+      "threadName": "Denuncia {id}",
+      "invalidMessageLink": "❌ El enlace del mensaje no es válido o no procede de este servidor.",
+      "submittedWithThread": "✅ Denuncia enviada al personal. Tienes acceso al hilo privado {thread}.",
+      "threadIntro": "{reporter}, tu denuncia sobre {target} queda abierta aquí. Solo el personal autorizado puede seguir este hilo contigo.",
+      "staffThreadLine": "Hilo privado denunciante/personal: {thread}",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Canal de las denuncias"
+            },
+            "staffRoleId": {
+              "label": "Rol del personal al que avisar"
+            }
+          }
+        }
+      }
+    }
+  }
+}

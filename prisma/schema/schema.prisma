@@ -22,9 +22,12 @@ generator client {
   binaryTargets = ["native", "linux-arm64-openssl-3.0.x"]
 }
 
+// L'URL ne vit plus ici : depuis Prisma 7, un schéma décrit la FORME des
+// données, pas la façon de s'y connecter. Elle est déclarée dans
+// `prisma.config.ts` pour la CLI (`migrate`, `studio`), et fournie au client
+// par l'adaptateur de `src/core/db.ts` pour le bot.
 datasource db {
   provider = "sqlite"
-  url      = env("DATABASE_URL")
 }
 
 /// Un serveur Discord (guild) connu du bot.
@@ -39,6 +42,43 @@ model Guild {
   updatedAt    DateTime @updatedAt
 
   moduleConfigs ModuleConfig[]
+  grades        GuildGrade[]
+}
+
+/// Un « grade » : un nom donné par le serveur, et ce qu'il ouvre du dashboard.
+///
+/// Sans grade, rien ne change : seuls le propriétaire du serveur et les membres
+/// qui ont « Gérer le serveur » entrent, et ils entrent partout. Un grade
+/// délègue une part NOMMÉE de ce pouvoir — « Modération » ne voit que
+/// l'auto-modération et les sanctions.
+///
+/// Un grade n'est PAS un rôle Discord et n'en crée aucun : le serveur choisit
+/// ce qui le confère. Des rôles Discord (le porter, c'est l'avoir — et le
+/// perdre, c'est le perdre), des membres nommément désignés, ou les deux. Un
+/// grade sans l'un ni l'autre existe et ne confère rien : c'est un brouillon,
+/// pas une faille.
+model GuildGrade {
+  id          String   @id @default(cuid())
+  guildId     String
+  /// Nom affiché, choisi par le serveur (« Modérateur », « Animation »).
+  name        String
+  /// Rôles Discord qui confèrent ce grade, séparés par « | ». Peut être vide.
+  roleIds     String   @default("")
+  /// Membres qui portent ce grade nominativement, séparés par « | ».
+  memberIds   String   @default("")
+  /// Permissions accordées, séparées par « | ». Vocabulaire dans
+  /// `src/core/guild-access.ts` : `module:<nom>` pour un module entier,
+  /// `module:<nom>/<bloc>` pour un seul bloc de ses réglages, `serveur.<clé>`
+  /// pour un réglage transversal.
+  permissions String   @default("")
+  /// Ordre d'affichage dans le dashboard.
+  position    Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  guild Guild @relation(fields: [guildId], references: [id], onDelete: Cascade)
+
+  @@index([guildId])
 }
 
 /// Configuration d'un module pour un serveur donné.

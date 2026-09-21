@@ -3,14 +3,18 @@ import type { SlashCommand } from '../../../core/module.js';
 import { t } from '../../../core/i18n.js';
 import { Emojis, infoEmbed } from '../../../lib/embeds.js';
 
-/** `/roleinfo` — informations sur un rôle. */
+/** `/infos-role` — informations sur un rôle. */
 export const roleinfo: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('roleinfo')
-    .setDescription(t('modules.info.roleinfo.description'))
-    .addRoleOption((o) =>
-      o.setName('role').setDescription(t('modules.info.opt.role')).setRequired(true),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.info.noms.infos-role'))
+      .setDescription(t('modules.info.roleinfo.description'))
+      .addRoleOption((o) =>
+        o
+          .setName(t('modules.info.noms.role'))
+          .setDescription(t('modules.info.opt.role'))
+          .setRequired(true),
+      ),
   async execute(interaction) {
     if (!interaction.inCachedGuild()) return;
     const role = interaction.options.getRole('role');

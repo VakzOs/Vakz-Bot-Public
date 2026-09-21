@@ -27,6 +27,82 @@
       "archive": {
         "title": "📦 Ticket archive",
         "header": "Type: {type}\nAuthor: {opener}\nClosed by: {closedBy}\nMessages: {count}"
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ General",
+          "description": "After any change, republish the panel with the “Publish” button to refresh its buttons.",
+          "champs": {
+            "title": {
+              "label": "Panel title",
+              "help": "The title of the ticket panel."
+            },
+            "description": {
+              "label": "Panel description",
+              "help": "The panel's body text. Saying what a ticket should contain — context, screenshots — saves one round trip on every request."
+            },
+            "panelChannelId": {
+              "label": "Panel channel",
+              "help": "Where the “Open a ticket” panel is published."
+            },
+            "mode": {
+              "label": "Ticket type",
+              "opt": {
+                "channel": {
+                  "label": "Private channel (category)"
+                },
+                "thread": {
+                  "label": "Private thread"
+                }
+              },
+              "help": "« Private channel » creates a real channel in the chosen category: it survives anything and archives cleanly, but counts against the server's 500-channel limit. « Private thread » creates a thread in the panel's channel: no practical limit, but Discord auto-archives idle threads and they are harder to find later."
+            },
+            "categoryId": {
+              "label": "Category for the channels (channel mode)",
+              "help": "The category tickets are created in. A Discord category holds only 50 channels: past that, opening fails. Has no effect in « private thread » mode."
+            },
+            "archiveChannelId": {
+              "label": "Channel where transcripts are archived",
+              "help": "When a ticket is closed, the bot drops the full transcript here before deleting the channel. Empty, the conversation disappears with the channel, for good — this is the setting people regret afterwards."
+            },
+            "nameFormat": {
+              "label": "Name format",
+              "help": "Variables: {type}, {number}, {count}, {user}, {id}."
+            },
+            "maxOpen": {
+              "label": "Tickets open at once / member",
+              "help": "Between 1 and 10."
+            }
+          }
+        },
+        "g1": {
+          "label": "🎫 Ticket types",
+          "description": "Each type = one button on the panel, with the roles allowed to see and handle it.",
+          "champs": {
+            "types": {
+              "label": "Types",
+              "addLabel": "Add a type",
+              "item": {
+                "label": {
+                  "label": "Button label"
+                },
+                "emoji": {
+                  "label": "Emoji",
+                  "placeholder": "🎫"
+                },
+                "prefix": {
+                  "label": "Channel prefix",
+                  "help": "E.g. “sup” → sup-0001. Empty = type-nickname.",
+                  "placeholder": "sup"
+                },
+                "roleIds": {
+                  "label": "Roles allowed"
+                }
+              },
+              "help": "One button per row on the panel, with the roles allowed to see and handle that type. This is what keeps a « billing » ticket out of sight of the whole moderation team. With no role on a row, only the author and administrators see the ticket. The prefix names the channels (`sup` → `sup-0001`)."
+            }
+          }
+        }
       }
     }
   }

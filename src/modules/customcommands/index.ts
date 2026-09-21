@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, customcommandsConfigSchema, customcommandsDefaultConfig } from './config.js';
 import { onMessage } from './events.js';
 
@@ -18,34 +19,79 @@ export default defineModule({
   emoji: '\u{1F5E3}\u{FE0F}',
   configSchema: customcommandsConfigSchema,
   defaultConfig: customcommandsDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '⌨️ Commandes personnalisées',
+      label: t('modules.customcommands.ui.g0.label'),
       fields: [
         {
           key: 'commands',
-          label: 'Commandes',
+          label: t('modules.customcommands.ui.g0.champs.commands.label'),
           type: 'list',
+          help: t('modules.customcommands.ui.g0.champs.commands.help'),
           idKey: 'id',
-          addLabel: 'Ajouter une commande',
+          addLabel: t('modules.customcommands.ui.g0.champs.commands.addLabel'),
           item: [
-            { key: 'trigger', label: 'Déclencheur', type: 'text' },
+            {
+              key: 'trigger',
+              label: t('modules.customcommands.ui.g0.champs.commands.item.trigger.label'),
+              type: 'text',
+            },
             {
               key: 'match',
-              label: 'Correspondance',
+              label: t('modules.customcommands.ui.g0.champs.commands.item.match.label'),
               type: 'select',
               options: [
-                { value: 'contains', label: 'Contient' },
-                { value: 'exact', label: 'Exact' },
-                { value: 'startsWith', label: 'Commence par' },
-                { value: 'endsWith', label: 'Finit par' },
+                {
+                  value: 'contains',
+                  label: t(
+                    'modules.customcommands.ui.g0.champs.commands.item.match.opt.contains.label',
+                  ),
+                },
+                {
+                  value: 'exact',
+                  label: t(
+                    'modules.customcommands.ui.g0.champs.commands.item.match.opt.exact.label',
+                  ),
+                },
+                {
+                  value: 'startsWith',
+                  label: t(
+                    'modules.customcommands.ui.g0.champs.commands.item.match.opt.startsWith.label',
+                  ),
+                },
+                {
+                  value: 'endsWith',
+                  label: t(
+                    'modules.customcommands.ui.g0.champs.commands.item.match.opt.endsWith.label',
+                  ),
+                },
               ],
             },
-            { key: 'response', label: 'Réponse', type: 'textarea' },
-            { key: 'asEmbed', label: 'En embed', type: 'boolean' },
-            { key: 'channelId', label: 'Salon (optionnel)', type: 'channel' },
-            { key: 'deleteTrigger', label: 'Supprimer le message déclencheur', type: 'boolean' },
-            { key: 'cooldown', label: 'Cooldown (s)', type: 'number' },
+            {
+              key: 'response',
+              label: t('modules.customcommands.ui.g0.champs.commands.item.response.label'),
+              type: 'textarea',
+            },
+            {
+              key: 'asEmbed',
+              label: t('modules.customcommands.ui.g0.champs.commands.item.asEmbed.label'),
+              type: 'boolean',
+            },
+            {
+              key: 'channelId',
+              label: t('modules.customcommands.ui.g0.champs.commands.item.channelId.label'),
+              type: 'channel',
+            },
+            {
+              key: 'deleteTrigger',
+              label: t('modules.customcommands.ui.g0.champs.commands.item.deleteTrigger.label'),
+              type: 'boolean',
+            },
+            {
+              key: 'cooldown',
+              label: t('modules.customcommands.ui.g0.champs.commands.item.cooldown.label'),
+              type: 'number',
+            },
           ],
         },
       ],

@@ -1,0 +1,61 @@
+{
+  "modules": {
+    "verification": {
+      "label": "Verificación",
+      "description": "Puerta de entrada antibots: un botón o un captcha de imagen asigna el rol verificado que desbloquea el servidor.",
+      "feedback": {
+        "disabled": "❌ La verificación está desactivada en este servidor.",
+        "notConfigured": "❌ La verificación todavía no está lista (no hay ningún rol verificado definido). Avisa a la administración.",
+        "alreadyVerified": "✅ ¡Ya estás verificado!",
+        "cannotAssign": "❌ No puedo asignarte el rol verificado. La administración debe comprobar mis permisos (Gestionar roles + jerarquía).",
+        "captchaInstructions": "🔐 Copia el código que aparece en la imagen y pulsa «Escribir el código». Las mayúsculas no importan.",
+        "captchaWrong": "❌ Código incorrecto. Inténtalo de nuevo pulsando «Escribir el código».",
+        "captchaExpired": "⌛ El captcha ha caducado. Vuelve a pulsar «Verificarme» para generar uno nuevo.",
+        "success": "✅ ¡Verificación superada, bienvenida o bienvenido! Ya tienes acceso al servidor.",
+        "openButton": "Escribir el código",
+        "answerModalTitle": "Verificación",
+        "answerField": "Código que aparece en la imagen"
+      },
+      "log": {
+        "verified": "✅ {user} ha superado la verificación."
+      },
+      "ui": {
+        "g0": {
+          "label": "🔐 Verificación",
+          "description": "Tras cualquier cambio, vuelve a publicar el panel con el botón «Publicar».",
+          "champs": {
+            "channelId": {
+              "label": "Canal de verificación"
+            },
+            "roleId": {
+              "label": "Rol asignado una vez verificado"
+            },
+            "method": {
+              "label": "Método",
+              "opt": {
+                "button": {
+                  "label": "Botón simple"
+                },
+                "captcha": {
+                  "label": "Captcha de imagen"
+                }
+              }
+            },
+            "title": {
+              "label": "Título"
+            },
+            "content": {
+              "label": "Contenido"
+            },
+            "buttonLabel": {
+              "label": "Texto del botón"
+            },
+            "logChannelId": {
+              "label": "Canal de los registros"
+            }
+          }
+        }
+      }
+    }
+  }
+}

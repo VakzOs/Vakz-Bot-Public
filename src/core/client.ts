@@ -21,6 +21,11 @@ import { env } from './env.js';
  * - `GuildVoiceStates` (non privilégié) : états vocaux des membres, requis pour
  *   le module « Mode streameur » (mettre un membre en sourdine) et pour la
  *   « Musique » (savoir dans quel salon vocal se connecter / rester).
+ * - `GuildInvites` (non privilégié) : créations et suppressions d'invitations,
+ *   pour le suivi « qui a invité qui » du module « Logs ». Sans lui, une
+ *   invitation créée puis empruntée dans la foulée n'a aucun compteur
+ *   « d'avant » à qui se comparer, et l'arrivée est rendue « origine
+ *   inconnue » — rien n'échoue, le suivi ment seulement par omission.
  *
  * Les phases suivantes ajouteront d'autres intents au besoin.
  */
@@ -33,6 +38,7 @@ export function createClient(): Client {
       GatewayIntentBits.GuildMessageReactions,
       GatewayIntentBits.MessageContent,
       GatewayIntentBits.GuildVoiceStates,
+      GatewayIntentBits.GuildInvites,
       // Optionnel (privilégié) : détecte les changements de profil global (nom /
       // photo) pour la surveillance. Activé via PRESENCE_INTENT=true + portail.
       ...(env.PRESENCE_INTENT ? [GatewayIntentBits.GuildPresences] : []),

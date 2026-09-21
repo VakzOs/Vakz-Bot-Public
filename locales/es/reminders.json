@@ -1,0 +1,76 @@
+{
+  "modules": {
+    "reminders": {
+      "label": "Recordatorios",
+      "description": "Programa recordatorios persistentes en un canal o por mensaje privado.",
+      "invalidDuration": "❌ Duración no válida. Indica un número de minutos (mínimo 1 minuto, máximo {days} día(s)).",
+      "emptyText": "❌ El texto del recordatorio no puede estar vacío.",
+      "dmDisabled": "❌ Los recordatorios por mensaje privado están desactivados en este servidor.",
+      "created": "⏰ Recordatorio registrado: {duration} (próxima ejecución {time}).",
+      "delivery": "⏰ {target}, recordatorio: {text}",
+      "weekdays": {
+        "1": "lunes",
+        "2": "martes",
+        "3": "miércoles",
+        "4": "jueves",
+        "5": "viernes",
+        "6": "sábado",
+        "7": "domingo"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "allowDm": {
+              "label": "Permitir los recordatorios por mensaje privado"
+            },
+            "maxDelayDays": {
+              "label": "Plazo máximo de un recordatorio (días)"
+            }
+          }
+        }
+      },
+      "actions": {
+        "create": {
+          "label": "Programar un recordatorio",
+          "champs": {
+            "repeatKind": {
+              "label": "Cadencia",
+              "opt": {
+                "once": "Una sola vez",
+                "weekly": "Cada semana"
+              }
+            },
+            "targetKind": {
+              "label": "Destinatario",
+              "opt": {
+                "user": "Un miembro",
+                "role": "Un rol"
+              }
+            },
+            "targetId": {
+              "label": "Identificador del miembro / rol",
+              "help": "Snowflake de Discord de la persona o del rol que notificar."
+            },
+            "channelId": {
+              "label": "Canal del recordatorio",
+              "help": "Déjalo vacío para enviarlo por mensaje privado (solo destinatario «miembro»)."
+            },
+            "message": "Mensaje",
+            "delayMinutes": "¿Dentro de cuántos minutos? (cadencia «una sola vez»)",
+            "weeklyDay": "Día (1 = lunes … 7 = domingo, cadencia semanal)",
+            "weeklyHour": "Hora (0-23, cadencia semanal)",
+            "weeklyMinute": "Minuto (0-59, cadencia semanal)"
+          },
+          "msg": {
+            "needMessage": "El mensaje es obligatorio.",
+            "badTarget": "Identificador de destinatario no válido.",
+            "roleNeedsChannel": "Un recordatorio de rol debe apuntar a un canal.",
+            "delayOutOfRange": "Plazo fuera de los límites (de 1 a {max} minutos).",
+            "dmDisabled": "Los recordatorios por mensaje privado están desactivados.",
+            "done": "Recordatorio programado para el {date}."
+          }
+        }
+      }
+    }
+  }
+}

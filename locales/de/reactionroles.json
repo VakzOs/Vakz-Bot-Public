@@ -1,0 +1,53 @@
+{
+  "modules": {
+    "reactionroles": {
+      "label": "Reaktionsrollen",
+      "description": "Vergibt Rollen, wenn Mitglieder auf eine Nachricht reagieren. Der Bot setzt eine Reaktion pro Rolle, wie DraftBot.",
+      "feedback": {
+        "disabled": "❌ Dieses Modul ist auf diesem Server deaktiviert.",
+        "roleGone": "❌ Diese Rolle gibt es nicht mehr.",
+        "cannotAssign": "⚠️ Ich kann diese Rolle nicht verwalten (Berechtigung „Rollen verwalten“ fehlt oder die Rolle steht über meiner).",
+        "added": "✅ Rolle {role} hinzugefügt.",
+        "removed": "➖ Rolle {role} entfernt.",
+        "error": "❌ Ein Fehler ist aufgetreten."
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ Panel",
+          "description": "Veröffentliche das Panel nach einer Änderung mit der Schaltfläche „Veröffentlichen“ erneut.",
+          "champs": {
+            "channelId": {
+              "label": "Kanal des Panels"
+            },
+            "title": {
+              "label": "Titel"
+            },
+            "description": {
+              "label": "Beschreibung"
+            }
+          }
+        },
+        "g1": {
+          "label": "🎭 Angebotene Rollen",
+          "champs": {
+            "roles": {
+              "label": "Rollen",
+              "addLabel": "Rolle hinzufügen",
+              "item": {
+                "roleId": {
+                  "label": "Rolle"
+                },
+                "label": {
+                  "label": "Beschriftung der Schaltfläche"
+                },
+                "emoji": {
+                  "label": "Emoji"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

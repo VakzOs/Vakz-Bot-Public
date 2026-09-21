@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, levelsConfigSchema, levelsDefaultConfig } from './config.js';
 import { classement, rang } from './commands.js';
 import { onMessage } from './events.js';
@@ -19,54 +20,127 @@ export default defineModule({
   emoji: '\u{1F4C8}',
   configSchema: levelsConfigSchema,
   defaultConfig: levelsDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '⚙️ Gain d’XP',
+      label: t('modules.levels.ui.g0.label'),
+      description: t('modules.levels.ui.g0.description'),
       fields: [
-        { key: 'xpMin', label: 'XP minimum par message', type: 'number' },
-        { key: 'xpMax', label: 'XP maximum par message', type: 'number' },
-        { key: 'cooldown', label: 'Cooldown entre gains (s)', type: 'number' },
-        { key: 'maxLevel', label: 'Niveau maximum (0 = illimité)', type: 'number' },
-        { key: 'ignoredChannelIds', label: 'Salons ignorés', type: 'channels' },
-        { key: 'ignoredRoleIds', label: 'Rôles ignorés', type: 'roles' },
-        { key: 'boosterRoleIds', label: 'Rôles avec bonus d’XP', type: 'roles' },
-        { key: 'boosterMultiplier', label: 'Multiplicateur du bonus', type: 'number' },
-        { key: 'voiceEnabled', label: 'XP en vocal', type: 'boolean' },
-        { key: 'voiceXpPerMinute', label: 'XP par minute en vocal', type: 'number' },
-        { key: 'leaderboardChannelId', label: 'Salon du classement', type: 'channel' },
+        {
+          key: 'xpMin',
+          label: t('modules.levels.ui.g0.champs.xpMin.label'),
+          type: 'number',
+          help: t('modules.levels.ui.g0.champs.xpMin.help'),
+        },
+        {
+          key: 'xpMax',
+          label: t('modules.levels.ui.g0.champs.xpMax.label'),
+          type: 'number',
+          help: t('modules.levels.ui.g0.champs.xpMax.help'),
+        },
+        {
+          key: 'cooldown',
+          label: t('modules.levels.ui.g0.champs.cooldown.label'),
+          type: 'number',
+          help: t('modules.levels.ui.g0.champs.cooldown.help'),
+        },
+        {
+          key: 'maxLevel',
+          label: t('modules.levels.ui.g0.champs.maxLevel.label'),
+          type: 'number',
+          help: t('modules.levels.ui.g0.champs.maxLevel.help'),
+        },
+        {
+          key: 'ignoredChannelIds',
+          label: t('modules.levels.ui.g0.champs.ignoredChannelIds.label'),
+          type: 'channels',
+          help: t('modules.levels.ui.g0.champs.ignoredChannelIds.help'),
+        },
+        {
+          key: 'ignoredRoleIds',
+          label: t('modules.levels.ui.g0.champs.ignoredRoleIds.label'),
+          type: 'roles',
+          help: t('modules.levels.ui.g0.champs.ignoredRoleIds.help'),
+        },
+        {
+          key: 'boosterRoleIds',
+          label: t('modules.levels.ui.g0.champs.boosterRoleIds.label'),
+          type: 'roles',
+          help: t('modules.levels.ui.g0.champs.boosterRoleIds.help'),
+        },
+        {
+          key: 'boosterMultiplier',
+          label: t('modules.levels.ui.g0.champs.boosterMultiplier.label'),
+          type: 'number',
+          help: t('modules.levels.ui.g0.champs.boosterMultiplier.help'),
+        },
+        {
+          key: 'voiceEnabled',
+          label: t('modules.levels.ui.g0.champs.voiceEnabled.label'),
+          type: 'boolean',
+          help: t('modules.levels.ui.g0.champs.voiceEnabled.help'),
+        },
+        {
+          key: 'voiceXpPerMinute',
+          label: t('modules.levels.ui.g0.champs.voiceXpPerMinute.label'),
+          type: 'number',
+          help: t('modules.levels.ui.g0.champs.voiceXpPerMinute.help'),
+        },
+        {
+          key: 'leaderboardChannelId',
+          label: t('modules.levels.ui.g0.champs.leaderboardChannelId.label'),
+          type: 'channel',
+          help: t('modules.levels.ui.g0.champs.leaderboardChannelId.help'),
+        },
       ],
     },
     {
-      label: '🏅 Récompenses de rôle',
-      description: 'Rôle attribué automatiquement lorsqu’un membre atteint le niveau indiqué.',
+      label: t('modules.levels.ui.g1.label'),
+      description: t('modules.levels.ui.g1.description'),
       fields: [
         {
           key: 'rewards',
-          label: 'Rôles par niveau',
+          label: t('modules.levels.ui.g1.champs.rewards.label'),
           type: 'list',
-          addLabel: 'Ajouter une récompense',
+          help: t('modules.levels.ui.g1.champs.rewards.help'),
+          addLabel: t('modules.levels.ui.g1.champs.rewards.addLabel'),
           item: [
-            { key: 'level', label: 'Niveau', type: 'number', default: 1 },
-            { key: 'roleId', label: 'Rôle', type: 'role' },
+            {
+              key: 'level',
+              label: t('modules.levels.ui.g1.champs.rewards.item.level.label'),
+              type: 'number',
+              default: 1,
+            },
+            {
+              key: 'roleId',
+              label: t('modules.levels.ui.g1.champs.rewards.item.roleId.label'),
+              type: 'role',
+            },
           ],
         },
       ],
     },
     {
       key: 'announce',
-      label: '📣 Annonce de passage de niveau',
+      label: t('modules.levels.ui.announce.label'),
+      description: t('modules.levels.ui.announce.description'),
       fields: [
-        { key: 'enabled', label: 'Activer l’annonce', type: 'boolean' },
+        {
+          key: 'enabled',
+          label: t('modules.levels.ui.announce.champs.enabled.label'),
+          type: 'boolean',
+          help: t('modules.levels.ui.announce.champs.enabled.help'),
+        },
         {
           key: 'channelId',
-          label: 'Salon (vide = salon du message)',
+          label: t('modules.levels.ui.announce.champs.channelId.label'),
           type: 'channel',
+          help: t('modules.levels.ui.announce.champs.channelId.help'),
         },
         {
           key: 'message',
-          label: 'Message',
+          label: t('modules.levels.ui.announce.champs.message.label'),
           type: 'textarea',
-          help: 'Variables : {mention}, {level}.',
+          help: t('modules.levels.ui.announce.champs.message.help'),
         },
       ],
     },

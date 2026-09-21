@@ -3,6 +3,15 @@
     "bingo": {
       "label": "Bingo",
       "description": "Server bingo: 5×5 cards, draws, line or full-card detection.",
+      "noms": {
+        "bingo": "bingo",
+        "carte": "card",
+        "demarrer": "start",
+        "mode": "mode",
+        "rejoindre": "join",
+        "terminer": "end",
+        "tirer": "draw"
+      },
       "opt": {
         "mode": "Win condition (default: one line)."
       },
@@ -16,18 +25,36 @@
         "stop": "End the current game (staff)."
       },
       "staffOnly": "❌ Staff only (Manage Server permission).",
-      "noGame": "❌ No game in progress. Staff can start one with `/bingo demarrer`.",
+      "noGame": "❌ No game in progress. Staff can start one with `/bingo start`.",
       "startedTitle": "🎲 Bingo started!",
-      "startedBody": "Mode: **{mode}**. Grab your card with `/bingo rejoindre`, then staff draws numbers with `/bingo tirer`.",
+      "startedBody": "Mode: **{mode}**. Grab your card with `/bingo join`, then staff draws numbers with `/bingo draw`.",
       "joined": "🎫 Here's your card (★ = free space):",
       "yourCard": "🎫 Your card:",
-      "noCard": "❌ You have no card. Join with `/bingo rejoindre`.",
+      "noCard": "❌ You have no card. Join with `/bingo join`.",
       "stopped": "🛑 Bingo game ended.",
       "allDrawn": "All numbers have already been drawn!",
       "drawTitle": "🎱 Draw",
       "drawBody": "Number drawn: **{number}** ({count}/75). Check your cards!",
       "winnersField": "🎉 BINGO!",
-      "myCardButton": "My card"
+      "myCardButton": "My card",
+      "ui": {
+        "g0": {
+          "champs": {
+            "defaultMode": {
+              "label": "Default winning mode",
+              "opt": {
+                "line": {
+                  "label": "One line"
+                },
+                "full": {
+                  "label": "Full card"
+                }
+              },
+              "help": "The win condition offered when a game is started without naming a mode: one full line, or the whole card. Whoever starts the game can still pick the other."
+            }
+          }
+        }
+      }
     }
   }
 }

@@ -1,0 +1,75 @@
+{
+  "modules": {
+    "serverstats": {
+      "label": "Contatori del server",
+      "description": "Canali il cui nome mostra una statistica del server, aggiornata automaticamente.",
+      "type": {
+        "members": "Membri",
+        "humans": "Umani",
+        "bots": "Bot",
+        "boosts": "Boost",
+        "roles": "Ruoli",
+        "channels": "Canali",
+        "role": "Membri di un ruolo"
+      },
+      "default": {
+        "members": "👥 {count} membri",
+        "humans": "🧑 {count} umani",
+        "bots": "🤖 {count} bot",
+        "boosts": "🚀 {count} boost",
+        "roles": "🏷️ {count} ruoli",
+        "channels": "📁 {count} canali",
+        "role": "⭐ {count}"
+      },
+      "compteurs": {
+        "members": "Membri",
+        "humans": "Umani",
+        "bots": "Bot",
+        "boosts": "Boost",
+        "roles": "Numero di ruoli",
+        "channels": "Numero di canali",
+        "role": "Membri di un ruolo"
+      },
+      "ui": {
+        "g0": {
+          "label": "📊 Contatori",
+          "description": "Ogni contatore rinomina un canale vocale con una statistica del server.",
+          "champs": {
+            "counters": {
+              "label": "Contatori",
+              "addLabel": "Aggiungi un contatore",
+              "item": {
+                "channelId": {
+                  "label": "Canale (vocale)"
+                },
+                "type": {
+                  "label": "Tipo"
+                },
+                "roleId": {
+                  "label": "Ruolo (tipo «Membri di un ruolo»)"
+                },
+                "template": {
+                  "label": "Modello di nome",
+                  "help": "{count} = valore del contatore."
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "refreshAll": {
+          "label": "Aggiorna i contatori",
+          "help": "Rinomina subito ogni canale contatore con il suo valore attuale.",
+          "msg": {
+            "done": "{n} contatore/i aggiornato/i."
+          }
+        },
+        "msg": {
+          "noGuild": "Server non trovato.",
+          "noCounter": "Nessun contatore configurato."
+        }
+      }
+    }
+  }
+}

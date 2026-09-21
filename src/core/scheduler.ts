@@ -35,16 +35,27 @@ export class Scheduler {
     log.debug({ name, expression, timezone: env.TZ }, 'Tâche planifiée enregistrée');
   }
 
-  /** Arrête une tâche par son nom. */
+  /**
+   * Arrête une tâche par son nom.
+   *
+   * `destroy()` et non `stop()` : depuis node-cron 4, la bibliothèque tient son
+   * PROPRE registre global des tâches, et `stop()` se contente de mettre en
+   * pause — l'entrée y reste, avec sa closure et son minuteur. Or les travaux
+   * de sauvegarde sont retirés puis réenregistrés à chaque écriture de config
+   * (`configbackup/schedule.ts`), donc plusieurs fois par serveur et par
+   * semaine : la fuite est lente, silencieuse, et ne se voit que des mois plus
+   * tard. Seul `destroy()` retire réellement l'entrée (mesuré : 50 cycles en
+   * `stop()` laissent 50 tâches mortes, en `destroy()` zéro).
+   */
   stop(name: string): void {
-    this.jobs.get(name)?.stop();
+    void this.jobs.get(name)?.destroy();
     this.jobs.delete(name);
   }
 
   /** Arrête toutes les tâches (arrêt propre du bot). */
   stopAll(): void {
     for (const job of this.jobs.values()) {
-      job.stop();
+      void job.destroy();
     }
     this.jobs.clear();
   }

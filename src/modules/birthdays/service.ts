@@ -1,6 +1,6 @@
 import { PermissionFlagsBits } from 'discord.js';
 import { env } from '../../core/env.js';
-import type { BotContext } from '../../core/module.js';
+import type { BotContext, TaskReport } from '../../core/module.js';
 import type { BirthdaysConfig } from './config.js';
 
 // Jours max par mois (février : 29 autorisé sans connaître l'année).
@@ -107,9 +107,13 @@ export async function runBirthdaysForGuild(
   config: BirthdaysConfig,
   day: number,
   month: number,
-): Promise<void> {
+): Promise<TaskReport> {
   const guild = ctx.client.guilds.cache.get(guildId);
-  if (!guild) return;
+  if (!guild) return {};
+
+  let annonces = 0;
+  let roles = 0;
+  let echecs = 0;
 
   const todays = await ctx.db.birthday.findMany({ where: { guildId, day, month } });
   const todayIds = new Set(todays.map((row) => row.userId));
@@ -132,6 +136,7 @@ export async function runBirthdaysForGuild(
         const member = await guild.members.fetch(row.userId).catch(() => null);
         if (member && !member.roles.cache.has(role.id)) {
           await member.roles.add(role).catch(() => undefined);
+          roles += 1;
         }
       }
     }
@@ -146,10 +151,23 @@ export async function runBirthdaysForGuild(
         const content = config.message
           .replaceAll('{mention}', `<@${row.userId}>`)
           .replaceAll('{age}', age);
-        await channel
+        const sent = await channel
           .send({ content, allowedMentions: { users: [row.userId] } })
-          .catch(() => undefined);
+          .catch((error: unknown) => {
+            // Un anniversaire manqué ne se rattrape pas le lendemain, et rien
+            // d'autre ne le dirait : le membre ne sait pas qu'on lui devait un
+            // message, et l'administrateur ne voit qu'un salon muet.
+            ctx.logger.warn(
+              { err: error, guildId, channelId: config.channelId },
+              'Anniversaire non annoncé',
+            );
+            return null;
+          });
+        if (sent) annonces += 1;
+        else echecs += 1;
       }
     }
   }
+
+  return { annonces, roles, echecs };
 }

@@ -1,0 +1,113 @@
+{
+  "modules": {
+    "moderation": {
+      "label": "Moderation",
+      "description": "Sanktionen (Verwarnung, Kick, Bann, Timeout), Verlauf und Protokoll.",
+      "noms": {
+        "ban": "bannen",
+        "duree": "dauer",
+        "jours_messages": "tage_nachrichten",
+        "kick": "kicken",
+        "membre": "mitglied",
+        "raison": "grund",
+        "sanctions": "sanktionen",
+        "timeout": "timeout",
+        "unban": "entbannen",
+        "untimeout": "untimeout",
+        "utilisateur": "benutzer",
+        "warn": "verwarnen"
+      },
+      "commands": {
+        "warn": {
+          "description": "Verwarnt ein Mitglied."
+        },
+        "kick": {
+          "description": "Wirft ein Mitglied vom Server."
+        },
+        "ban": {
+          "description": "Bannt ein Mitglied (oder eine Person über ihre ID)."
+        },
+        "unban": {
+          "description": "Hebt den Bann einer Person auf."
+        },
+        "timeout": {
+          "description": "Setzt ein Mitglied für eine Dauer auf stumm (z. B. 10m, 1h, 1j)."
+        },
+        "untimeout": {
+          "description": "Hebt die Stummschaltung eines Mitglieds auf."
+        },
+        "history": {
+          "description": "Zeigt die Akte eines Mitglieds."
+        }
+      },
+      "opt": {
+        "member": "Das betroffene Mitglied.",
+        "reason": "Der Grund der Sanktion.",
+        "deleteDays": "Nachrichten der letzten N Tage löschen (0-7).",
+        "userId": "Die Kennung der zu entbannenden Person.",
+        "duration": "Dauer (z. B. 10m, 1h30m, 1j). Höchstens 28 Tage."
+      },
+      "types": {
+        "warn": "⚠️ Verwarnung",
+        "kick": "👢 Rauswurf",
+        "ban": "🔨 Bann",
+        "unban": "♻️ Bannaufhebung",
+        "timeout": "🔇 Stummschaltung",
+        "untimeout": "🔊 Aufhebung der Stummschaltung"
+      },
+      "log": {
+        "user": "Mitglied",
+        "moderator": "Moderation",
+        "executor": "Aktion ausgeführt von",
+        "reason": "Grund",
+        "noReason": "*kein Grund*",
+        "until": "Bis"
+      },
+      "dm": {
+        "warn": "⚠️ Du hast eine Verwarnung auf {guild} erhalten",
+        "kick": "👢 Du wurdest von {guild} geworfen",
+        "ban": "🔨 Du wurdest von {guild} gebannt",
+        "unban": "♻️ Dein Bann auf {guild} wurde aufgehoben",
+        "timeout": "🔇 Du wurdest auf {guild} stummgeschaltet",
+        "untimeout": "🔊 Deine Stummschaltung auf {guild} wurde aufgehoben"
+      },
+      "result": {
+        "warn": "⚠️ {user} wurde verwarnt.",
+        "kick": "👢 {user} wurde hinausgeworfen.",
+        "ban": "🔨 {user} wurde gebannt.",
+        "unban": "♻️ {user} wurde entbannt.",
+        "timeout": "🔇 {user} wurde für {duration} stummgeschaltet.",
+        "untimeout": "🔊 Die Stummschaltung von {user} wurde aufgehoben."
+      },
+      "targetError": {
+        "self": "❌ Du kannst dich nicht selbst sanktionieren.",
+        "owner": "❌ Du kannst die Besitzerin oder den Besitzer des Servers nicht sanktionieren.",
+        "bot": "❌ Ich kann mich nicht selbst sanktionieren.",
+        "botHierarchy": "❌ Dieses Mitglied hat eine Rolle über oder gleich meiner: Ich kann es nicht sanktionieren.",
+        "modHierarchy": "❌ Dieses Mitglied hat eine Rolle über oder gleich deiner."
+      },
+      "notInGuild": "❌ Dieses Mitglied ist nicht auf dem Server.",
+      "botNoPerm": "❌ Mir fehlt die für diese Aktion nötige Berechtigung.",
+      "actionFailed": "❌ Die Aktion ist fehlgeschlagen (Berechtigungen oder Hierarchie).",
+      "invalidDuration": "❌ Ungültige Dauer. Beispiele: `10m`, `1h30m`, `2j`.",
+      "invalidUserId": "❌ Ungültige Benutzerkennung.",
+      "notBanned": "❌ Diese Person ist nicht gebannt (oder die ID stimmt nicht).",
+      "history": {
+        "empty": "✅ Für {user} ist keine Sanktion gespeichert.",
+        "title": "Akte von {user}"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "logChannelId": {
+              "label": "Kanal für Moderationsprotokolle"
+            },
+            "dmOnSanction": {
+              "label": "Mitglied bei einer Sanktion per Direktnachricht benachrichtigen"
+            }
+          }
+        }
+      }
+    }
+  }
+}

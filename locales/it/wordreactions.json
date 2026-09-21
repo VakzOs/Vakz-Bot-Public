@@ -1,0 +1,58 @@
+{
+  "modules": {
+    "wordreactions": {
+      "label": "Reazioni alle parole",
+      "description": "Aggiunge automaticamente emoji come reazione ai messaggi che contengono certe parole chiave.",
+      "match": {
+        "contains": "Contiene",
+        "word": "Parola intera",
+        "exact": "Esatto",
+        "startsWith": "Inizia con",
+        "endsWith": "Finisce con"
+      },
+      "ui": {
+        "g0": {
+          "label": "💬 Reazioni automatiche",
+          "champs": {
+            "rules": {
+              "label": "Regole",
+              "addLabel": "Aggiungi una regola",
+              "item": {
+                "trigger": {
+                  "label": "Attivatore"
+                },
+                "match": {
+                  "label": "Corrispondenza",
+                  "opt": {
+                    "contains": {
+                      "label": "Contiene"
+                    },
+                    "word": {
+                      "label": "Parola intera"
+                    },
+                    "exact": {
+                      "label": "Esatto"
+                    },
+                    "startsWith": {
+                      "label": "Inizia con"
+                    },
+                    "endsWith": {
+                      "label": "Finisce con"
+                    }
+                  }
+                },
+                "emojis": {
+                  "label": "Emoji da aggiungere",
+                  "placeholder": "Un emoji poi Invio"
+                },
+                "channelId": {
+                  "label": "Canale (facoltativo)"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

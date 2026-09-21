@@ -3,6 +3,20 @@
     "moderation": {
       "label": "Moderation",
       "description": "Sanctions (warn, kick, ban, timeout), history and log.",
+      "noms": {
+        "ban": "ban",
+        "duree": "duration",
+        "jours_messages": "message_days",
+        "kick": "kick",
+        "membre": "member",
+        "raison": "reason",
+        "sanctions": "sanctions",
+        "timeout": "timeout",
+        "unban": "unban",
+        "untimeout": "untimeout",
+        "utilisateur": "user",
+        "warn": "warn"
+      },
       "commands": {
         "warn": {
           "description": "Warn a member."
@@ -81,6 +95,20 @@
       "history": {
         "empty": "✅ {user} has no recorded sanction.",
         "title": "{user}'s record"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "logChannelId": {
+              "label": "Moderation log channel",
+              "help": "The channel where each sanction is recorded, with who issued it, against whom and why. Empty, sanctions still apply — there is simply no record left to consult, and « who banned this member in March? » has no answer."
+            },
+            "dmOnSanction": {
+              "label": "DM the member when they are sanctioned",
+              "help": "The sanctioned member gets a direct message telling them what happened and why. Discord refuses DMs from a server someone has left, and from members who have closed them: the send then fails without blocking the sanction."
+            }
+          }
+        }
       }
     }
   }

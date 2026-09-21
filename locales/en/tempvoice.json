@@ -3,6 +3,16 @@
     "tempvoice": {
       "label": "Temporary voice channels",
       "description": "Joining a generator channel creates a personal voice channel, deleted when empty.",
+      "noms": {
+        "limite": "limit",
+        "membre": "member",
+        "nom": "name",
+        "nombre": "number",
+        "panneau": "panel",
+        "revendiquer": "claim",
+        "transferer": "transfer",
+        "voc": "voice"
+      },
       "createReason": "Temporary voice channel for {user}",
       "autoTransfer": "👑 {user} is now the channel owner.",
       "command": {
@@ -80,6 +90,48 @@
         "deleting": "🗑️ Deleting the channel…",
         "ownerLine": "Channel owner: {owner}",
         "wlRolePlaceholder": "Roles always allowed to join"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "showControlPanel": {
+              "label": "Show the control panel in the created channels",
+              "help": "When their channel is created, the member gets a button panel to rename it, lock it, restrict access or change its size. Off, the channel is created bare: the member has no way to adjust it themselves any more, everything goes through staff."
+            }
+          }
+        },
+        "g1": {
+          "label": "🔊 Hubs (creator channels)",
+          "description": "Joining a hub automatically creates a temporary voice channel.",
+          "champs": {
+            "hubs": {
+              "label": "Hubs",
+              "addLabel": "Add a hub",
+              "item": {
+                "channelId": {
+                  "label": "Creator channel (voice)"
+                },
+                "categoryId": {
+                  "label": "Category for the created channels"
+                },
+                "nameTemplate": {
+                  "label": "Name template",
+                  "help": "E.g. “{user}'s channel”."
+                },
+                "userLimit": {
+                  "label": "User limit (0 = none)"
+                },
+                "lockedByDefault": {
+                  "label": "Locked by default"
+                },
+                "inheritPermissions": {
+                  "label": "Inherit the hub's permissions"
+                }
+              },
+              "help": "One row per generator channel: joining it creates a temporary channel and moves the member into it; the channel vanishes as soon as it empties. The generator itself always stays empty, which is expected. The bot needs « Manage Channels » and « Move Members », otherwise the member is left stuck in the generator with no explanation."
+            }
+          }
+        }
       }
     }
   }

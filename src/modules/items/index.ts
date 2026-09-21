@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, itemsConfigSchema, itemsDefaultConfig } from './config.js';
 import { itemsCommands } from './commands.js';
 import { tempNicknameTask } from './tempnick.js';
@@ -19,48 +20,83 @@ export default defineModule({
   emoji: '\u{1F392}',
   configSchema: itemsConfigSchema,
   defaultConfig: itemsDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      description: 'La création des objets se fait dans l’onglet « Catalogue » du serveur.',
+      description: t('modules.items.ui.g0.description'),
       fields: [
         {
           key: 'tradingEnabled',
-          label: 'Autoriser l’échange d’objets entre membres',
+          label: t('modules.items.ui.g0.champs.tradingEnabled.label'),
           type: 'boolean',
+          help: t('modules.items.ui.g0.champs.tradingEnabled.help'),
         },
       ],
     },
     {
       key: 'drops',
-      label: '🎁 Butin dans les mini-jeux',
-      description:
-        'Fait tomber des objets « droppable » à la fin des mini-jeux (PFC, morpion, bataille navale), avec un pourcentage par rareté. On tire de la plus rare à la plus commune.',
+      label: t('modules.items.ui.drops.label'),
+      description: t('modules.items.ui.drops.description'),
       fields: [
-        { key: 'enabled', label: 'Activer les drops', type: 'boolean' },
+        {
+          key: 'enabled',
+          label: t('modules.items.ui.drops.champs.enabled.label'),
+          type: 'boolean',
+          help: t('modules.items.ui.drops.champs.enabled.help'),
+        },
         {
           key: 'on',
-          label: 'Quand tirer un drop',
+          label: t('modules.items.ui.drops.champs.on.label'),
           type: 'select',
+          help: t('modules.items.ui.drops.champs.on.help'),
           options: [
-            { value: 'win', label: 'Victoire seulement' },
-            { value: 'winDraw', label: 'Victoire et égalité' },
-            { value: 'any', label: 'Chaque partie (peu importe l’issue)' },
+            { value: 'win', label: t('modules.items.ui.drops.champs.on.opt.win.label') },
+            { value: 'winDraw', label: t('modules.items.ui.drops.champs.on.opt.winDraw.label') },
+            { value: 'any', label: t('modules.items.ui.drops.champs.on.opt.any.label') },
           ],
         },
-        { key: 'common', label: '% drop — Commun (0-100)', type: 'number' },
-        { key: 'rare', label: '% drop — Rare (0-100)', type: 'number' },
-        { key: 'epic', label: '% drop — Épique (0-100)', type: 'number' },
-        { key: 'legendary', label: '% drop — Légendaire (0-100)', type: 'number' },
+        {
+          key: 'common',
+          label: t('modules.items.ui.drops.champs.common.label'),
+          type: 'number',
+          help: t('modules.items.ui.drops.champs.common.help'),
+        },
+        {
+          key: 'rare',
+          label: t('modules.items.ui.drops.champs.rare.label'),
+          type: 'number',
+          help: t('modules.items.ui.drops.champs.rare.help'),
+        },
+        {
+          key: 'epic',
+          label: t('modules.items.ui.drops.champs.epic.label'),
+          type: 'number',
+          help: t('modules.items.ui.drops.champs.epic.help'),
+        },
+        {
+          key: 'legendary',
+          label: t('modules.items.ui.drops.champs.legendary.label'),
+          type: 'number',
+          help: t('modules.items.ui.drops.champs.legendary.help'),
+        },
       ],
     },
     {
       key: 'sell',
-      label: '🗑️ Vente rapide au serveur',
-      description:
-        'Permet à un membre de vendre un objet au serveur via /vendre : l’objet est détruit et le membre reçoit un pourcentage de son prix boutique.',
+      label: t('modules.items.ui.sell.label'),
+      description: t('modules.items.ui.sell.description'),
       fields: [
-        { key: 'enabled', label: 'Activer la vente rapide (/vendre)', type: 'boolean' },
-        { key: 'percent', label: '% du prix reversé à la vente (0-100)', type: 'number' },
+        {
+          key: 'enabled',
+          label: t('modules.items.ui.sell.champs.enabled.label'),
+          type: 'boolean',
+          help: t('modules.items.ui.sell.champs.enabled.help'),
+        },
+        {
+          key: 'percent',
+          label: t('modules.items.ui.sell.champs.percent.label'),
+          type: 'number',
+          help: t('modules.items.ui.sell.champs.percent.help'),
+        },
       ],
     },
   ],

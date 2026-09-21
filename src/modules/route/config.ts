@@ -41,7 +41,7 @@ export const routeConfigSchema = z.object({
   /** Distribuer des objets trouvés (depuis le catalogue du serveur). */
   giveItems: z.boolean().default(true),
   /** Barème de drop propre à la Route (chances par rareté). */
-  drops: routeDropsSchema.default({}),
+  drops: routeDropsSchema.prefault({}),
   /** Régénération passive d'énergie par minute (0 = désactivée). */
   energyRegenRate: z.number().int().min(0).max(10).default(1),
   /** Plafond de la régénération passive (l'énergie remonte jusqu'à cette
@@ -49,7 +49,7 @@ export const routeConfigSchema = z.object({
    *  les provisions font monter l'énergie). */
   energyRegenCap: z.number().int().min(0).max(100).default(15),
   /** Prix d'achat des provisions à la boutique de la Route. */
-  shopPrices: routePricesSchema.default({}),
+  shopPrices: routePricesSchema.prefault({}),
   /** Prix de revente des provisions au marchand ambulant. */
   peddlerPrices: routePricesSchema.default({ potion: 60, tonic: 50, ration: 35 }),
   /**

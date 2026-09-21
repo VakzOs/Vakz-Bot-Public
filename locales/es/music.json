@@ -1,0 +1,125 @@
+{
+  "modules": {
+    "music": {
+      "label": "Música",
+      "description": "Escuchar música en los canales de voz (YouTube, SoundCloud, Spotify…) mediante un servidor Lavalink.",
+      "noms": {
+        "disconnect": "disconnect",
+        "loop": "loop",
+        "mode": "modo",
+        "niveau": "nivel",
+        "nowplaying": "nowplaying",
+        "numero": "numero",
+        "pause": "pause",
+        "play": "play",
+        "position": "posicion",
+        "queue": "queue",
+        "recherche": "busqueda",
+        "remove": "remove",
+        "resume": "resume",
+        "seek": "seek",
+        "shuffle": "shuffle",
+        "skip": "skip",
+        "source": "fuente",
+        "stop": "stop",
+        "volume": "volume"
+      },
+      "notConfigured": "❌ La música no está configurada en este alojamiento (falta el servidor Lavalink).",
+      "nodeDown": "❌ El servidor Lavalink no responde. Comprueba que está funcionando (`docker compose ps`) y que LAVALINK_HOST / LAVALINK_PASSWORD son correctos.",
+      "joinFailed": "❌ No puedo entrar en tu canal de voz (¿faltan los permisos «Conectar» / «Hablar»?).",
+      "playError": "❌ Se ha producido un error durante la reproducción. Inténtalo dentro de un momento.",
+      "notInVoice": "❌ Únete primero a un canal de voz.",
+      "notSameChannel": "❌ Tienes que estar en el mismo canal de voz que el bot.",
+      "nothingPlaying": "❌ No se está reproduciendo nada.",
+      "noPermission": "❌ Reservado al rol DJ (o a «Gestionar el servidor»).",
+      "noResults": "❌ Ningún resultado para esta búsqueda.",
+      "addedTitle": "➕ Añadido a la cola",
+      "addedPlaylist": "➕ **{count}** pistas añadidas a la cola (lista «{name}»).",
+      "skipped": "⏭️ Pista saltada.",
+      "skippedEnd": "⏭️ Última pista saltada, fin de la cola.",
+      "stopped": "⏹️ Reproducción detenida y cola vaciada.",
+      "alreadyPaused": "⏸️ La reproducción ya está en pausa.",
+      "paused": "⏸️ Reproducción en pausa.",
+      "notPaused": "▶️ La reproducción no está en pausa.",
+      "resumed": "▶️ Reproducción reanudada.",
+      "volumeSet": "🔊 Volumen ajustado al {volume} %.",
+      "loopSet": "🔁 Repetición: {mode}.",
+      "queueTooShort": "❌ No hay suficientes pistas en la cola para mezclar.",
+      "shuffled": "🔀 Cola mezclada.",
+      "cannotSeek": "❌ No se puede avanzar dentro de esta pista (en directo o ausente).",
+      "badPosition": "❌ Posición no válida. P. ej. `1:30`, `90` o `1m30s`.",
+      "seeked": "⏩ Posición: {time}.",
+      "badIndex": "❌ Número de pista no válido.",
+      "removed": "🗑️ Retirado de la cola: {title}.",
+      "left": "👋 Desconectado del canal de voz.",
+      "queueEmpty": "*Cola vacía.*",
+      "queueEnded": "✅ Cola terminada.",
+      "loopState": {
+        "off": "desactivada",
+        "track": "pista",
+        "queue": "cola"
+      },
+      "field": {
+        "author": "👤 Artista:",
+        "requestedBy": "🙋 Pedido por:",
+        "nowPlaying": "Sonando",
+        "upNext": "A continuación",
+        "andMore": "…y {count} más.",
+        "queueTitle": "🎶 Cola de espera",
+        "playlist": "lista"
+      },
+      "command": {
+        "play": "Reproduce una canción o la añade a la cola (búsqueda o enlace).",
+        "playQuery": "Título que buscar o enlace (YouTube, SoundCloud…).",
+        "playSource": "Plataforma de búsqueda (si no es un enlace).",
+        "skip": "Pasa a la pista siguiente.",
+        "stop": "Detiene la reproducción y vacía la cola.",
+        "pause": "Pone la reproducción en pausa.",
+        "resume": "Reanuda la reproducción.",
+        "volume": "Ajusta el volumen de reproducción.",
+        "volumeValue": "Volumen en porcentaje (0-150).",
+        "loop": "Cambia el modo de repetición.",
+        "loopValue": "Modo de repetición.",
+        "shuffle": "Mezcla la cola de espera.",
+        "seek": "Se desplaza a una posición de la pista.",
+        "seekValue": "Posición, p. ej. 1:30, 90 (s) o 1m30s.",
+        "remove": "Retira una pista de la cola.",
+        "removeValue": "Número de la pista en la cola.",
+        "disconnect": "Desconecta el bot del canal de voz.",
+        "queue": "Muestra la cola de espera.",
+        "nowplaying": "Muestra la pista que está sonando."
+      },
+      "plateformes": {
+        "ytsearch": "YouTube",
+        "ytmsearch": "YouTube Music",
+        "scsearch": "SoundCloud",
+        "spsearch": "Spotify (LavaSrc: requiere credenciales)",
+        "dzsearch": "Deezer (LavaSrc)"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "djRoleId": {
+              "label": "Rol DJ (control reservado; vacío = todo el mundo)"
+            },
+            "defaultSearch": {
+              "label": "Plataforma de búsqueda por defecto"
+            },
+            "defaultVolume": {
+              "label": "Volumen por defecto (1-100)"
+            },
+            "maxVolume": {
+              "label": "Volumen máximo (1-150)"
+            },
+            "requireSameChannel": {
+              "label": "Exigir estar en el mismo canal de voz para controlar"
+            },
+            "autoLeave": {
+              "label": "Salir automáticamente al final de la cola"
+            }
+          }
+        }
+      }
+    }
+  }
+}

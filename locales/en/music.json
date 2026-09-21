@@ -3,6 +3,27 @@
     "music": {
       "label": "Music",
       "description": "Listen to music in voice channels (YouTube, SoundCloud, Spotify…) through a Lavalink server.",
+      "noms": {
+        "disconnect": "disconnect",
+        "loop": "loop",
+        "mode": "mode",
+        "niveau": "level",
+        "nowplaying": "nowplaying",
+        "numero": "number",
+        "pause": "pause",
+        "play": "play",
+        "position": "position",
+        "queue": "queue",
+        "recherche": "search",
+        "remove": "remove",
+        "resume": "resume",
+        "seek": "seek",
+        "shuffle": "shuffle",
+        "skip": "skip",
+        "source": "source",
+        "stop": "stop",
+        "volume": "volume"
+      },
       "notConfigured": "❌ Music isn't configured on this host (no Lavalink server).",
       "nodeDown": "❌ The Lavalink server is unreachable. Check it's running (`docker compose ps`) and that LAVALINK_HOST / LAVALINK_PASSWORD are correct.",
       "joinFailed": "❌ Couldn't join your voice channel (missing Connect / Speak permissions?).",
@@ -67,6 +88,43 @@
         "disconnect": "Disconnect the bot from the voice channel.",
         "queue": "Show the queue.",
         "nowplaying": "Show the currently playing track."
+      },
+      "plateformes": {
+        "ytsearch": "YouTube",
+        "ytmsearch": "YouTube Music",
+        "scsearch": "SoundCloud",
+        "spsearch": "Spotify (LavaSrc — credentials required)",
+        "dzsearch": "Deezer (LavaSrc)"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "djRoleId": {
+              "label": "DJ role (control reserved — empty = everyone)",
+              "help": "Restricts the commands that affect everyone — skip, stop, clear the queue — to holders of this role. Empty, any member can cut off what the others are listening to."
+            },
+            "defaultSearch": {
+              "label": "Default search platform",
+              "help": "The platform queried when the request is a title rather than a link. A pasted link is always read as-is, whatever this value. Spotify needs server-side credentials (SPOTIFY_CLIENT_*): without them the search fails quietly and the queue stays empty."
+            },
+            "defaultVolume": {
+              "label": "Default volume (1-100)",
+              "help": "The volume applied each time the bot connects. Raising it does not improve the sound, only saturate it: above 100 the audio is amplified after mixing."
+            },
+            "maxVolume": {
+              "label": "Maximum volume (1-150)",
+              "help": "The ceiling nobody can go past. It is the guard against the member who jumps to 150 as a joke in a voice channel where everyone is wearing headphones."
+            },
+            "requireSameChannel": {
+              "label": "Require being in the same voice channel to control",
+              "help": "Requires being in the same voice channel as the bot to control it. Keep it on: otherwise someone who is not listening can skip other people's tracks from anywhere."
+            },
+            "autoLeave": {
+              "label": "Leave automatically when the queue ends",
+              "help": "The bot leaves the voice channel once the queue runs out, instead of idling there. Keep it on: a bot sitting in a voice channel looks busy to everyone, and holds a connection for nothing."
+            }
+          }
+        }
       }
     }
   }

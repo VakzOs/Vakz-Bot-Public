@@ -1,0 +1,43 @@
+{
+  "modules": {
+    "streamer": {
+      "label": "Modalità streamer",
+      "description": "Un pannello dove i membri si mettono in sordina (senza spegnere il microfono) per trasmettere una partita agli amici.",
+      "button": "Attiva / Disattiva",
+      "embed": {
+        "roleField": "{role} — {count} membro/i",
+        "noMembers": "Nessun membro"
+      },
+      "feedback": {
+        "disabled": "❌ La modalità streamer è disattivata su questo server.",
+        "notConfigured": "❌ Nessun ruolo Streaming è configurato (chi amministra deve impostarlo dalla dashboard).",
+        "roleGone": "❌ Il ruolo Streaming non esiste più.",
+        "cannot": "⚠️ Non posso: mi manca «Rendere sordi i membri» o «Gestire i ruoli», oppure il ruolo Streaming è sopra il mio.",
+        "notInVoice": "❌ Entra prima in un canale vocale.",
+        "enabledUser": "🎙️ **Modalità streamer attivata.** Non senti più Discord, ma il tuo microfono continua a trasmettere.",
+        "disabledUser": "🔊 **Modalità streamer disattivata.** Senti di nuovo Discord.",
+        "error": "❌ Si è verificato un errore (controlla i miei permessi)."
+      },
+      "ui": {
+        "g0": {
+          "label": "🎥 Modalità streamer",
+          "description": "Dopo ogni modifica, ripubblica il pannello con il pulsante «Pubblica».",
+          "champs": {
+            "roleId": {
+              "label": "Ruolo «in diretta»"
+            },
+            "channelId": {
+              "label": "Canale del pannello"
+            },
+            "title": {
+              "label": "Titolo del pannello"
+            },
+            "description": {
+              "label": "Descrizione del pannello"
+            }
+          }
+        }
+      }
+    }
+  }
+}

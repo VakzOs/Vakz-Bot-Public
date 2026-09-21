@@ -37,25 +37,28 @@ function calendarGrid(opened: Set<number>, today: number): string {
 }
 
 export const advent: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('avent')
-    .setDescription(t('modules.advent.command.description'))
-    .addSubcommand((sub) =>
-      sub
-        .setName('ouvrir')
-        .setDescription(t('modules.advent.command.open'))
-        .addIntegerOption((opt) =>
-          opt
-            .setName('jour')
-            .setDescription(t('modules.advent.command.dayOption'))
-            .setMinValue(1)
-            .setMaxValue(LAST_DAY)
-            .setRequired(false),
-        ),
-    )
-    .addSubcommand((sub) =>
-      sub.setName('calendrier').setDescription(t('modules.advent.command.calendar')),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.advent.noms.avent'))
+      .setDescription(t('modules.advent.command.description'))
+      .addSubcommand((sub) =>
+        sub
+          .setName(t('modules.advent.noms.ouvrir'))
+          .setDescription(t('modules.advent.command.open'))
+          .addIntegerOption((opt) =>
+            opt
+              .setName(t('modules.advent.noms.jour'))
+              .setDescription(t('modules.advent.command.dayOption'))
+              .setMinValue(1)
+              .setMaxValue(LAST_DAY)
+              .setRequired(false),
+          ),
+      )
+      .addSubcommand((sub) =>
+        sub
+          .setName(t('modules.advent.noms.calendrier'))
+          .setDescription(t('modules.advent.command.calendar')),
+      ),
 
   async execute(interaction, ctx: BotContext) {
     if (!interaction.inCachedGuild()) return;

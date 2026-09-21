@@ -1,0 +1,41 @@
+{
+  "modules": {
+    "deploy": {
+      "label": "Actualización",
+      "description": "Actualiza el bot (git pull + reconstrucción). Reservado a quien lo posee.",
+      "noms": {
+        "maj": "actualizar"
+      },
+      "disabled": "❌ La actualización desde el bot no está configurada (define `BOT_OWNER_ID`).",
+      "notOwner": "❌ Solo quien posee el bot puede lanzar una actualización.",
+      "title": "🚀 Actualización del bot",
+      "intro": "Confirma para lanzar `git pull` y después la reconstrucción de Docker en el anfitrión.",
+      "statusField": "Último despliegue",
+      "noResult": "*(no hay ningún despliegue registrado)*",
+      "lastResult": "{icon} {status} {when}{commit}",
+      "logField": "Registro",
+      "confirm": "Actualizar",
+      "cancel": "Cancelar",
+      "cancelled": "Actualización cancelada.",
+      "requested": "🚀 Actualización de **`{branch}`** solicitada. El anfitrión va a recuperar el código y reconstruir: el bot se reiniciará dentro de un momento.",
+      "requestFailed": "❌ No se ha podido escribir la solicitud de actualización (comprueba la carpeta `DEPLOY_DIR` y los permisos).",
+      "restarted": "{icon} Bot reiniciado. Actualización terminada: `{status}`{commit}.",
+      "restartedNoResult": "✅ Bot reiniciado. El resultado de la actualización todavía no está disponible.",
+      "currentStatusField": "Estado del actualizador",
+      "statusUnknown": "*(no hay ningún estado del actualizador disponible)*",
+      "requestNotPicked": "⚠️ El actualizador del anfitrión todavía no ha recogido la solicitud. Último estado: {status}\nComprueba que `vakzbot-updater.sh loop` está funcionando o que el servicio systemd `.path` vigila bien `DEPLOY_DIR`.",
+      "updateTimeout": "⚠️ Ningún reinicio ni resultado después de {seconds} s. Último estado: {status}\nComprueba los registros del actualizador del anfitrión y de Docker Compose.",
+      "updateFailed": "❌ Actualización fallida antes del reinicio. Último estado: {status}",
+      "updateFinishedNoRestart": "⚠️ El actualizador ha terminado en `{status}` (commit `{commit}`), pero el bot no se ha reiniciado después de {seconds} s. Si Docker indica \"no changes\", probablemente la imagen o el contenedor no se han vuelto a crear.",
+      "branchField": "Rama que desplegar",
+      "branchPlaceholder": "Elige la rama que desplegar…",
+      "modeField": "Modo de reconstrucción",
+      "modeFull": "🐢 **Completo**: `docker compose up -d --build --force-recreate`; se vuelven a crear todos los contenedores del proyecto y el bot se reinicia con seguridad.",
+      "modeCache": "⚡ **Rápido**: `docker compose up -d --build bot`; Docker reutiliza sus capas, solo se apunta al servicio `bot` y el contenedor solo se vuelve a crear si la imagen ha cambiado de verdad. Los demás contenedores (flaresolverr, lavalink…) no se tocan.",
+      "modeSwitchToCache": "Pasar al modo rápido",
+      "modeSwitchToFull": "Pasar al modo completo",
+      "requestedCache": "⚡ Actualización **rápida** de **`{branch}`** solicitada. El anfitrión reutiliza la caché de Docker: el bot solo se reiniciará si la imagen ha cambiado.",
+      "updateFinishedCache": "✅ Actualización terminada en `{status}` (commit `{commit}`) sin reinicio. En modo rápido es el resultado normal cuando la imagen no ha cambiado: el bot ha seguido funcionando."
+    }
+  }
+}

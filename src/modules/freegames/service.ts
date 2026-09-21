@@ -1,9 +1,10 @@
 import { EmbedBuilder } from 'discord.js';
-import type { BotContext } from '../../core/module.js';
+import type { BotContext, TaskReport } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
 import { createLogger } from '../../core/logger.js';
 import { fetchWithTimeout } from '../../lib/http.js';
 import { MODULE_NAME, type FreegamesConfig, type Platform, getFreegamesConfig } from './config.js';
+import { useGuildLocale } from '../../core/guild-locale.js';
 
 const log = createLogger('freegames');
 
@@ -411,7 +412,10 @@ async function fetchSteamSearchFreeGames(): Promise<FreeGame[]> {
       const info = details ? parseSteamAppInfo(row.appId, details) : null;
       if (info?.name) fallback.name = info.name;
       if (info?.image) fallback.image = info.image;
-      log.info(
+      // `debug` et non `info` : ce repli est le cas courant, pas un incident, et
+      // la tâche relève toutes les trente minutes — en `info`, il occuperait à
+      // lui seul le hublot sans jamais rien apprendre à personne.
+      log.debug(
         { source: 'steam:appdetails', appId: row.appId },
         `Jeux gratuits : ${fallback.name} — prix lu sur la recherche (${reason})`,
       );
@@ -419,7 +423,9 @@ async function fetchSteamSearchFreeGames(): Promise<FreeGame[]> {
     }),
   );
   const kept = games.filter((game): game is FreeGame => game !== null);
-  log.info(
+  // Compte-rendu de relevé, pas évènement : ce qui mérite l'`info`, c'est le
+  // jeu effectivement annoncé, et la tâche le rapporte au cœur.
+  log.debug(
     { source: 'steam:search', found: rows.length, kept: kept.length },
     `Jeux gratuits : steam:search → ${rows.length} résultat(s), ${kept.length} retenu(s)`,
   );
@@ -694,11 +700,12 @@ async function announceForGuild(
   guildId: string,
   config: FreegamesConfig,
   games: FreeGame[],
-): Promise<void> {
-  if (!config.channelId) return;
+): Promise<number> {
+  if (!config.channelId) return 0;
   const channel = await ctx.client.channels.fetch(config.channelId).catch(() => null);
-  if (!channel?.isTextBased() || !('send' in channel)) return;
+  if (!channel?.isTextBased() || !('send' in channel)) return 0;
 
+  let annonces = 0;
   for (const game of games) {
     if (!config.platforms.includes(game.platform)) continue;
     // La contrainte d'unicité (guildId, source, gameId) sert de dédup.
@@ -714,18 +721,22 @@ async function announceForGuild(
         embeds: [buildFreeGameEmbed(game)],
         allowedMentions: config.roleId ? { roles: [config.roleId] } : { parse: [] },
       })
+      .then(() => {
+        annonces += 1;
+      })
       .catch((error: unknown) =>
         ctx.logger.warn({ err: error, guildId }, 'Annonce de jeu gratuit échouée'),
       );
   }
+  return annonces;
 }
 
 /** Contrôle périodique : annonce les nouveaux jeux gratuits sur les serveurs actifs. */
-export async function pollFreeGames(ctx: BotContext): Promise<void> {
+export async function pollFreeGames(ctx: BotContext): Promise<TaskReport> {
   const rows = await ctx.db.moduleConfig
     .findMany({ where: { module: MODULE_NAME, enabled: true } })
     .catch(() => []);
-  if (rows.length === 0) return;
+  if (rows.length === 0) return {};
 
   const configs = await Promise.all(
     rows.map(async (row) => ({
@@ -737,12 +748,19 @@ export async function pollFreeGames(ctx: BotContext): Promise<void> {
   // On ne récupère que les plateformes réellement utilisées par au moins un serveur.
   const used = new Set<Platform>();
   for (const { config } of configs) for (const p of config.platforms) used.add(p);
-  if (used.size === 0) return;
+  if (used.size === 0) return {};
 
   const games = await fetchFreeGames([...used]);
-  if (games.length === 0) return;
+  if (games.length === 0) return {};
 
+  let annonces = 0;
   for (const { guildId, config } of configs) {
-    await announceForGuild(ctx, guildId, config, games);
+    // Les jeux sont récupérés une fois pour tous ; l'annonce, elle, se fait
+    // dans la langue de chaque serveur.
+    await useGuildLocale(guildId);
+    annonces += await announceForGuild(ctx, guildId, config, games);
   }
+  // `releves` n'est rapporté que s'il y a eu une annonce : un relevé qui ne
+  // trouve rien de neuf est le cas de quarante-sept passages sur quarante-huit.
+  return annonces > 0 ? { annonces, releves: games.length } : {};
 }

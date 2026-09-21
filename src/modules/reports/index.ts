@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { report } from './commands.js';
 import { reportsComponent } from './component.js';
 import { MODULE_NAME, reportsConfigSchema, reportsDefaultConfig } from './config.js';
@@ -11,11 +12,21 @@ export default defineModule({
   emoji: '\u{1F6A9}',
   configSchema: reportsConfigSchema,
   defaultConfig: reportsDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
       fields: [
-        { key: 'channelId', label: 'Salon des signalements', type: 'channel' },
-        { key: 'staffRoleId', label: 'Rôle staff notifié', type: 'role' },
+        {
+          key: 'channelId',
+          label: t('modules.reports.ui.g0.champs.channelId.label'),
+          type: 'channel',
+          help: t('modules.reports.ui.g0.champs.channelId.help'),
+        },
+        {
+          key: 'staffRoleId',
+          label: t('modules.reports.ui.g0.champs.staffRoleId.label'),
+          type: 'role',
+          help: t('modules.reports.ui.g0.champs.staffRoleId.help'),
+        },
       ],
     },
   ],

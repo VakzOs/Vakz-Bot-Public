@@ -1,0 +1,100 @@
+{
+  "modules": {
+    "advent": {
+      "label": "Calendario de Adviento",
+      "description": "Del 1 al 24 de diciembre, cada miembro abre una puerta al día y gana monedas y/o un objeto.",
+      "noms": {
+        "avent": "adviento",
+        "calendrier": "calendario",
+        "jour": "dia",
+        "ouvrir": "abrir"
+      },
+      "announce": "🎄 ¡La puerta del **día {day}** del calendario de Adviento está abierta! Usa `/adviento abrir` para descubrir tu recompensa.",
+      "command": {
+        "description": "Calendario de Adviento: abre tu puerta del día.",
+        "open": "Abre la puerta del día (o de un día concreto).",
+        "dayOption": "Día que abrir (1-24). Por defecto: hoy.",
+        "calendar": "Muestra tu progreso en el calendario."
+      },
+      "feedback": {
+        "disabled": "❌ El calendario de Adviento está desactivado en este servidor.",
+        "closed": "🎄 El calendario no está abierto (solo del 1 al 24 de diciembre).",
+        "locked": "🔒 La puerta del día {day} todavía no se puede abrir.",
+        "already": "🎁 Ya has abierto la puerta del día {day}."
+      },
+      "calendar": {
+        "title": "🎄 Calendario de Adviento",
+        "footerOpen": "Día {day} · {opened}/24 puertas abiertas",
+        "footerClosed": "¡Vuelve del 1 al 24 de diciembre!",
+        "testBadge": "🧪 **Modo de prueba activo**: todas las puertas se pueden abrir (también fuera de diciembre)."
+      },
+      "reward": {
+        "title": "🎁 ¡Puerta {day} abierta!",
+        "coins": "💰 +{coins} monedas",
+        "item": "🎁 +{qty}× {item}",
+        "nothing": "…pero esta vez la puerta estaba vacía.",
+        "balance": "Saldo: {balance} monedas",
+        "linkButton": "🔗 Abrir el enlace"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "announceChannelId": {
+              "label": "Canal de los anuncios"
+            },
+            "defaultCoins": {
+              "label": "Monedas por defecto al día"
+            },
+            "testMode": {
+              "label": "Modo de prueba (abre todas las casillas)"
+            }
+          }
+        },
+        "g1": {
+          "label": "🎁 Recompensas día a día",
+          "description": "Una línea por puerta que personalizar. Los días ausentes de la lista dan las monedas por defecto.",
+          "champs": {
+            "rewards": {
+              "label": "Puertas personalizadas",
+              "addLabel": "Añadir un día",
+              "item": {
+                "day": {
+                  "label": "Día (del 1 al 25)"
+                },
+                "coins": {
+                  "label": "Monedas regaladas"
+                },
+                "items": {
+                  "label": "Objetos regalados",
+                  "help": "Identificadores de objetos del catálogo, uno por viñeta."
+                },
+                "itemQty": {
+                  "label": "Cantidad por objeto"
+                },
+                "message": {
+                  "label": "Mensaje de apertura"
+                },
+                "link": {
+                  "label": "Enlace regalado (botón)"
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "resetMyClaims": {
+          "label": "Reiniciar mis aperturas",
+          "help": "Borra únicamente TUS aperturas de puertas, para volver a probar el calendario.",
+          "confirm": "¿Borrar tus propias aperturas de puertas en este servidor?",
+          "msg": {
+            "done": "{n} apertura(s) borrada(s)."
+          }
+        },
+        "msg": {
+          "noActor": "Autor desconocido."
+        }
+      }
+    }
+  }
+}

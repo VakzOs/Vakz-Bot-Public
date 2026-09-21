@@ -22,7 +22,79 @@
         "merchant": "🏪 Marchand"
       },
       "announceTwitch": "🔴 **{name}** est en live sur Twitch ! {url}",
-      "announceYoutube": "📺 **{name}** vient de publier une vidéo ! {url}"
+      "announceYoutube": "📺 **{name}** vient de publier une vidéo ! {url}",
+      "ui": {
+        "g0": {
+          "label": "📡 Abonnements",
+          "description": "Pour Dealabs, l’identifiant sert de mot-clé de filtre.",
+          "champs": {
+            "subscriptions": {
+              "label": "Abonnements",
+              "addLabel": "Ajouter un abonnement",
+              "item": {
+                "platform": {
+                  "label": "Plateforme",
+                  "opt": {
+                    "twitch": {
+                      "label": "Twitch"
+                    },
+                    "youtube": {
+                      "label": "YouTube"
+                    },
+                    "reddit": {
+                      "label": "Reddit"
+                    },
+                    "rss": {
+                      "label": "Flux RSS"
+                    },
+                    "dealabs": {
+                      "label": "Dealabs"
+                    }
+                  },
+                  "help": "Décide de la façon dont l'identifiant est lu, et de ce qui déclenche une annonce : un passage en live pour Twitch, une nouvelle publication pour les autres."
+                },
+                "identifier": {
+                  "label": "Identifiant / URL",
+                  "help": "Nom de chaîne, sous-reddit, URL du flux…"
+                },
+                "displayName": {
+                  "label": "Nom affiché",
+                  "help": "Le nom repris dans l'annonce et dans le sélecteur du bouton de test. Laissé vide, le bot le remplit lui-même au premier contrôle réussi."
+                },
+                "channelId": {
+                  "label": "Salon des annonces",
+                  "help": "Sans salon, l'abonnement est suivi mais rien n'est publié : c'est la façon de mettre une source en pause sans perdre son réglage."
+                },
+                "roleId": {
+                  "label": "Rôle à mentionner",
+                  "help": "Mentionné en tête de l'annonce. Un rôle mentionnable par tous suffit — le bot n'a pas besoin de la permission « mentionner @everyone » pour un rôle ordinaire."
+                },
+                "message": {
+                  "label": "Message personnalisé",
+                  "help": "Remplace le texte par défaut de la plateforme. Variables : {name} pour la source, {title} pour le titre de l'élément, {url} pour son lien, {game} pour la catégorie Twitch. Vide, le texte par défaut est utilisé."
+                }
+              },
+              "help": "Une ligne par source. L'ordre des lignes n'a pas d'importance — chacune est contrôlée pour son compte, toutes les deux minutes. Twitch demande TWITCH_CLIENT_ID et TWITCH_CLIENT_SECRET dans le .env du bot ; les autres plateformes fonctionnent sans clé."
+            }
+          }
+        }
+      },
+      "actions": {
+        "test": {
+          "label": "Tester un abonnement",
+          "help": "Poste le dernier élément de la source dans son salon, sans attendre le prochain contrôle.",
+          "champs": {
+            "id": "Abonnement"
+          },
+          "msg": {
+            "pickSubscription": "Choisis un abonnement enregistré.",
+            "done": "Annonce de test envoyée.",
+            "noChannel": "Cet abonnement n’a pas de salon.",
+            "unreachable": "Source injoignable (URL ou blocage réseau).",
+            "noItem": "Aucun élément trouvé sur la source."
+          }
+        }
+      }
     }
   }
 }

@@ -30,40 +30,47 @@ async function sellableAutocomplete(
 }
 
 export const hdv: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('hdv')
-    .setDescription(t('modules.market.command.description'))
-    .addSubcommand((s) => s.setName('parcourir').setDescription(t('modules.market.command.browse')))
-    .addSubcommand((s) =>
-      s
-        .setName('vendre')
-        .setDescription(t('modules.market.command.sell'))
-        .addStringOption((o) =>
-          o
-            .setName('objet')
-            .setDescription(t('modules.market.command.optItem'))
-            .setRequired(true)
-            .setAutocomplete(true),
-        )
-        .addIntegerOption((o) =>
-          o
-            .setName('prix')
-            .setDescription(t('modules.market.command.optPrice'))
-            .setRequired(true)
-            .setMinValue(1)
-            .setMaxValue(1_000_000),
-        )
-        .addIntegerOption((o) =>
-          o
-            .setName('quantité')
-            .setDescription(t('modules.market.command.optQty'))
-            .setMinValue(1)
-            .setMaxValue(10_000),
-        ),
-    )
-    .addSubcommand((s) =>
-      s.setName('mes-annonces').setDescription(t('modules.market.command.mine')),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.market.noms.hdv'))
+      .setDescription(t('modules.market.command.description'))
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.market.noms.parcourir'))
+          .setDescription(t('modules.market.command.browse')),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.market.noms.vendre'))
+          .setDescription(t('modules.market.command.sell'))
+          .addStringOption((o) =>
+            o
+              .setName(t('modules.market.noms.objet'))
+              .setDescription(t('modules.market.command.optItem'))
+              .setRequired(true)
+              .setAutocomplete(true),
+          )
+          .addIntegerOption((o) =>
+            o
+              .setName(t('modules.market.noms.prix'))
+              .setDescription(t('modules.market.command.optPrice'))
+              .setRequired(true)
+              .setMinValue(1)
+              .setMaxValue(1_000_000),
+          )
+          .addIntegerOption((o) =>
+            o
+              .setName(t('modules.market.noms.quantité'))
+              .setDescription(t('modules.market.command.optQty'))
+              .setMinValue(1)
+              .setMaxValue(10_000),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.market.noms.mes-annonces'))
+          .setDescription(t('modules.market.command.mine')),
+      ),
 
   async autocomplete(interaction, ctx) {
     await sellableAutocomplete(interaction, ctx);

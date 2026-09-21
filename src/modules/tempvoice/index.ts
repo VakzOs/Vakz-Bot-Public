@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, tempvoiceConfigSchema, tempvoiceDefaultConfig } from './config.js';
 import { voc } from './commands.js';
 import { tempvoiceComponent } from './component.js';
@@ -20,37 +21,59 @@ export default defineModule({
   emoji: '\u{1F399}\u{FE0F}',
   configSchema: tempvoiceConfigSchema,
   defaultConfig: tempvoiceDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
       fields: [
         {
           key: 'showControlPanel',
-          label: 'Afficher le panneau de contrôle dans les salons créés',
+          label: t('modules.tempvoice.ui.g0.champs.showControlPanel.label'),
           type: 'boolean',
+          help: t('modules.tempvoice.ui.g0.champs.showControlPanel.help'),
         },
       ],
     },
     {
-      label: '🔊 Hubs (salons créateurs)',
-      description: 'Rejoindre un hub crée automatiquement un salon vocal temporaire.',
+      label: t('modules.tempvoice.ui.g1.label'),
+      description: t('modules.tempvoice.ui.g1.description'),
       fields: [
         {
           key: 'hubs',
-          label: 'Hubs',
+          label: t('modules.tempvoice.ui.g1.champs.hubs.label'),
           type: 'list',
-          addLabel: 'Ajouter un hub',
+          help: t('modules.tempvoice.ui.g1.champs.hubs.help'),
+          addLabel: t('modules.tempvoice.ui.g1.champs.hubs.addLabel'),
           item: [
-            { key: 'channelId', label: 'Salon créateur (vocal)', type: 'voiceChannel' },
-            { key: 'categoryId', label: 'Catégorie des salons créés', type: 'category' },
+            {
+              key: 'channelId',
+              label: t('modules.tempvoice.ui.g1.champs.hubs.item.channelId.label'),
+              type: 'voiceChannel',
+            },
+            {
+              key: 'categoryId',
+              label: t('modules.tempvoice.ui.g1.champs.hubs.item.categoryId.label'),
+              type: 'category',
+            },
             {
               key: 'nameTemplate',
-              label: 'Modèle de nom',
+              label: t('modules.tempvoice.ui.g1.champs.hubs.item.nameTemplate.label'),
               type: 'text',
-              help: 'Ex. « Salon de {user} ».',
+              help: t('modules.tempvoice.ui.g1.champs.hubs.item.nameTemplate.help'),
             },
-            { key: 'userLimit', label: 'Limite d’utilisateurs (0 = aucune)', type: 'number' },
-            { key: 'lockedByDefault', label: 'Verrouillé par défaut', type: 'boolean' },
-            { key: 'inheritPermissions', label: 'Hériter des permissions du hub', type: 'boolean' },
+            {
+              key: 'userLimit',
+              label: t('modules.tempvoice.ui.g1.champs.hubs.item.userLimit.label'),
+              type: 'number',
+            },
+            {
+              key: 'lockedByDefault',
+              label: t('modules.tempvoice.ui.g1.champs.hubs.item.lockedByDefault.label'),
+              type: 'boolean',
+            },
+            {
+              key: 'inheritPermissions',
+              label: t('modules.tempvoice.ui.g1.champs.hubs.item.inheritPermissions.label'),
+              type: 'boolean',
+            },
           ],
         },
       ],

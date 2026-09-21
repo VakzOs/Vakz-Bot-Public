@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { t } from '../../core/i18n.js';
 import type { BotContext } from '../../core/module.js';
 
 /** Identifiant stable du module (clé en base). */
@@ -17,15 +18,15 @@ export const counterTypeSchema = z.enum([
 export type CounterType = z.infer<typeof counterTypeSchema>;
 
 /** Libellés des types de compteur, affichés dans le dashboard. */
-export const COUNTER_TYPE_LABELS: Record<CounterType, string> = {
-  members: 'Membres',
-  humans: 'Humains',
-  bots: 'Bots',
-  boosts: 'Boosts',
-  roles: 'Nombre de rôles',
-  channels: 'Nombre de salons',
-  role: 'Membres d’un rôle',
-};
+/**
+ * Le libellé d'un type de compteur, dans la langue ambiante.
+ *
+ * Une FONCTION et non une table : une table serait figée au chargement du
+ * module, donc en français pour tout le monde.
+ */
+export function counterTypeLabel(type: CounterType): string {
+  return t(`modules.serverstats.compteurs.${type}`);
+}
 
 export const COUNTER_TYPES: CounterType[] = [
   'members',

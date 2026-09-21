@@ -1,0 +1,87 @@
+{
+  "modules": {
+    "welcome": {
+      "label": "Arrivi e addii",
+      "description": "Messaggi di benvenuto e di addio personalizzabili.",
+      "state": {
+        "statusLabel": "Stato",
+        "statusOn": "✅ Attivo",
+        "statusOff": "⛔ In pausa",
+        "embedLabel": "Embed",
+        "yes": "Sì",
+        "no": "No",
+        "channelLabel": "Canale",
+        "channelNone": "*non definito*",
+        "messageLabel": "Messaggio",
+        "footerLabel": "Piè di pagina",
+        "placeholders": "Variabili: {mention} · {username} · {server} · {count}",
+        "cardLabel": "Scheda",
+        "cardCustom": "✅ attivata (sfondo personalizzato)",
+        "cardDefault": "✅ attivata (sfondo predefinito)"
+      },
+      "card": {
+        "welcomeTitle": "Benvenuto!",
+        "leaveTitle": "Arrivederci",
+        "memberCount": "{count}° membro"
+      },
+      "ui": {
+        "welcome": {
+          "label": "👋 Messaggio di benvenuto",
+          "description": "Variabili: {mention}, {username}, {server}, {count}. Inviato all'arrivo di un membro.",
+          "champs": {
+            "enabled": {
+              "label": "Attivare il messaggio di benvenuto"
+            },
+            "channelId": {
+              "label": "Canale"
+            },
+            "message": {
+              "label": "Messaggio"
+            },
+            "embed": {
+              "label": "Mostrare come embed"
+            },
+            "footer": {
+              "label": "Piè di pagina (embed)"
+            },
+            "card": {
+              "label": "Scheda-immagine (avatar + nome)"
+            },
+            "cardBackground": {
+              "label": "Immagine di sfondo della scheda (URL)",
+              "placeholder": "https://…"
+            }
+          }
+        },
+        "leave": {
+          "label": "🚪 Messaggio di addio",
+          "description": "Variabili: {username}, {server}. Inviato quando un membro se ne va.",
+          "champs": {
+            "enabled": {
+              "label": "Attivare il messaggio di addio"
+            },
+            "channelId": {
+              "label": "Canale"
+            },
+            "message": {
+              "label": "Messaggio"
+            },
+            "embed": {
+              "label": "Mostrare come embed"
+            },
+            "footer": {
+              "label": "Piè di pagina (embed)"
+            },
+            "card": {
+              "label": "Scheda-immagine (avatar + nome)"
+            },
+            "cardBackground": {
+              "label": "Immagine di sfondo della scheda (URL)",
+              "placeholder": "https://…"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "modules": {
+    "suggestions": {
+      "label": "Suggerimenti",
+      "description": "I membri propongono idee (con link Steam), votate 👍/👎 e arbitrate dallo staff.",
+      "noms": {
+        "classement": "classifica",
+        "mot": "parola",
+        "rechercher": "cerca",
+        "steam": "steam",
+        "suggestion": "suggerimento",
+        "suggestions": "suggerimenti",
+        "texte": "testo"
+      },
+      "command": {
+        "description": "Proporre un suggerimento al server.",
+        "textOpt": "Il testo del tuo suggerimento.",
+        "steamOpt": "Link Steam del gioco da proporre (facoltativo)."
+      },
+      "notConfigured": "❌ Nessun canale dei suggerimenti è configurato. Chi amministra deve definirne uno dalla dashboard.",
+      "channelGone": "❌ Il canale dei suggerimenti non è stato trovato. Avvisa chi amministra.",
+      "wrongChannel": "❌ Usa `/suggerimento` in un canale dei suggerimenti: {channels}",
+      "invalidSteam": "❌ Link Steam non valido. Esempio: https://store.steampowered.com/app/730",
+      "steamFetchFailed": "❌ Impossibile recuperare le informazioni del gioco su Steam. Riprova più tardi.",
+      "submitted": "✅ Il tuo suggerimento è stato pubblicato! {url}",
+      "sendError": "❌ Impossibile pubblicare il suggerimento (controlla i miei permessi nel canale).",
+      "threadName": "Suggerimento {id}",
+      "status": {
+        "pending": "⏳ In attesa",
+        "approved": "✅ Approvato",
+        "rejected": "❌ Rifiutato",
+        "considered": "🤔 In esame"
+      },
+      "button": {
+        "approve": "✅ Approva",
+        "reject": "❌ Rifiuta",
+        "consider": "🤔 In esame"
+      },
+      "modal": {
+        "approve": "Approvare il suggerimento",
+        "reject": "Rifiutare il suggerimento",
+        "consider": "Mettere in esame",
+        "reasonField": "Motivo (facoltativo)"
+      },
+      "feedback": {
+        "disabled": "❌ Questo modulo è disattivato su questo server.",
+        "gone": "❌ Questo suggerimento non esiste più.",
+        "staffOnly": "⛔ Solo lo staff può decidere sui suggerimenti.",
+        "decided": "✅ Decisione registrata: {status}."
+      },
+      "steam": {
+        "gameField": "🎮 Gioco",
+        "aboutField": "📝 Informazioni",
+        "free": "Gratis",
+        "unknownPrice": "Prezzo non disponibile"
+      },
+      "embed": {
+        "title": "💡 Suggerimento",
+        "author": "Proposto da",
+        "status": "Stato",
+        "votes": "Voti",
+        "votesFor": "👍 A favore ({count})",
+        "votesAgainst": "👎 Contro ({count})",
+        "footer": "ID {id}",
+        "decision": "Decisione dello staff",
+        "decisionValue": "Da {moderator}\n{reason}",
+        "noReason": "*nessun motivo fornito*"
+      },
+      "limitReached": "❌ Hai raggiunto il tuo limite di {max} suggerimento/i in attesa.",
+      "reward": {
+        "coins": "💰 {coins} monete",
+        "item": "🎁 {item}",
+        "granted": "🎉 Ricompensa inviata a chi l'ha proposto: {reward}"
+      },
+      "list": {
+        "description": "Classifica e ricerca dei suggerimenti.",
+        "rankingDescription": "Mostra i suggerimenti più votati.",
+        "searchDescription": "Cerca suggerimenti per parola chiave.",
+        "keywordOpt": "Parola chiave da cercare.",
+        "empty": "Per ora nessun suggerimento.",
+        "rankingTitle": "🏆 Suggerimenti più votati",
+        "noMatch": "Nessun suggerimento corrisponde a «{keyword}».",
+        "searchTitle": "🔎 Risultati per «{keyword}»"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelIds": {
+              "label": "Canali dei suggerimenti",
+              "help": "Canali dove vengono pubblicati i suggerimenti."
+            },
+            "staffRoleId": {
+              "label": "Ruolo dello staff"
+            },
+            "createThread": {
+              "label": "Creare un thread per suggerimento"
+            },
+            "maxPending": {
+              "label": "Limite di suggerimenti in attesa per membro",
+              "help": "0 = illimitato."
+            },
+            "rewardCoins": {
+              "label": "Monete regalate all'approvazione",
+              "help": "0 = nessuna ricompensa."
+            },
+            "rewardItemId": {
+              "label": "Oggetto regalato all'approvazione",
+              "help": "Identificatore di un oggetto del catalogo. Vuoto = nessun oggetto."
+            },
+            "dynamicColor": {
+              "label": "Colore dell'embed dinamico (secondo i voti)"
+            },
+            "roleLimits": {
+              "label": "Limiti per ruolo",
+              "help": "Prevalgono sul limite predefinito. Limite 0 = illimitato.",
+              "addLabel": "Aggiungi un ruolo",
+              "item": {
+                "roleId": {
+                  "label": "Ruolo"
+                },
+                "limit": {
+                  "label": "Limite"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

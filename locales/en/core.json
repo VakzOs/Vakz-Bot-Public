@@ -3,6 +3,9 @@
     "core": {
       "label": "Core",
       "description": "Essential system commands (ping, configuration).",
+      "noms": {
+        "ping": "ping"
+      },
       "ping": {
         "description": "Show the bot latency.",
         "title": "🏓 Pong!",

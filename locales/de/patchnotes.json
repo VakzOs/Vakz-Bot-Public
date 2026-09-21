@@ -1,0 +1,70 @@
+{
+  "modules": {
+    "patchnotes": {
+      "label": "Patchnotes",
+      "description": "Verfolgt die Patchnotes von Spielen und Software und veröffentlicht sie in den gewählten Kanälen.",
+      "embed": {
+        "footer": "Patchnotes · {source}",
+        "noDescription": "Keine Zusammenfassung verfügbar. Öffne den Link, um die vollständige Note zu lesen."
+      },
+      "categories": {
+        "riot": "Riot Games",
+        "fps": "Shooter",
+        "mmo": "MMO & RPG",
+        "survie": "Survival & Sandbox",
+        "strategie": "Strategie",
+        "logiciels": "Software"
+      },
+      "ui": {
+        "g0": {
+          "label": "Abonnements",
+          "description": "Eine Zeile pro verfolgtem Spiel oder Programm: Der Bot veröffentlicht jede neue Patchnote im gewählten Kanal.",
+          "champs": {
+            "subscriptions": {
+              "label": "Verfolgte Quellen",
+              "addLabel": "Quelle hinzufügen",
+              "item": {
+                "sourceId": {
+                  "label": "Quelle"
+                },
+                "channelId": {
+                  "label": "Kanal für die Veröffentlichung"
+                },
+                "roleId": {
+                  "label": "Zu erwähnende Rolle",
+                  "help": "Optional: wird bei jeder neuen Note erwähnt."
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "publishLatest": {
+          "label": "Neueste Note veröffentlichen",
+          "help": "Sendet die neueste Patchnote der gewählten Quelle sofort in ihren Kanal.",
+          "champs": {
+            "sourceId": {
+              "label": "Quelle",
+              "help": "Muss einem oben bereits gespeicherten Abonnement entsprechen."
+            }
+          },
+          "raisons": {
+            "missingSource": "unbekannte Quelle",
+            "missingChannel": "kein Kanal eingerichtet",
+            "channelUnavailable": "Kanal nicht gefunden oder kein Textkanal",
+            "missingPermissions": "fehlende Berechtigungen im Kanal",
+            "noNotes": "keine Note bei der Quelle gefunden",
+            "unknown": "Senden nicht möglich"
+          },
+          "msg": {
+            "pickSource": "Wähle eine gültige Quelle.",
+            "noSubscription": "Für diese Quelle ist noch kein Abonnement gespeichert.",
+            "nothing": "Nichts veröffentlicht: {raison}.",
+            "done": "{n} Note veröffentlicht."
+          }
+        }
+      }
+    }
+  }
+}

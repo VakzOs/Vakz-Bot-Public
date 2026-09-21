@@ -8,6 +8,55 @@
         "exact": "Exact",
         "startsWith": "Starts with",
         "endsWith": "Ends with"
+      },
+      "ui": {
+        "g0": {
+          "label": "⌨️ Custom commands",
+          "champs": {
+            "commands": {
+              "label": "Commands",
+              "addLabel": "Add a command",
+              "item": {
+                "trigger": {
+                  "label": "Trigger"
+                },
+                "match": {
+                  "label": "Matching",
+                  "opt": {
+                    "contains": {
+                      "label": "Contains"
+                    },
+                    "exact": {
+                      "label": "Exact"
+                    },
+                    "startsWith": {
+                      "label": "Starts with"
+                    },
+                    "endsWith": {
+                      "label": "Ends with"
+                    }
+                  }
+                },
+                "response": {
+                  "label": "Response"
+                },
+                "asEmbed": {
+                  "label": "As an embed"
+                },
+                "channelId": {
+                  "label": "Channel (optional)"
+                },
+                "deleteTrigger": {
+                  "label": "Delete the triggering message"
+                },
+                "cooldown": {
+                  "label": "Cooldown (s)"
+                }
+              },
+              "help": "One row per auto-reply: a trigger, how it is matched against the message, and the bot's answer. Matching ignores case. « Contains » also catches the word inside another one — use « whole word » for short triggers, or the bot answers « kitten » because you were watching for « kit ». The anti-spam delay is per channel, not per member."
+            }
+          }
+        }
       }
     }
   }

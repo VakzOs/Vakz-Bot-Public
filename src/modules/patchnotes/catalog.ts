@@ -1,3 +1,5 @@
+import { t } from '../../core/i18n.js';
+
 export type PatchSourceKind = 'riot' | 'steam' | 'rss' | 'html';
 
 export interface PatchSource {
@@ -415,4 +417,23 @@ export function getPatchSource(id: string): PatchSource | undefined {
 
 export function patchSourceLabel(id: string): string {
   return getPatchSource(id)?.name ?? id;
+}
+
+/**
+ * Le nom affiché d'une catégorie, dans la langue ambiante.
+ *
+ * La catégorie reste écrite en toutes lettres dans le catalogue — c'est elle
+ * qui fait office de clé, et la retyper en identifiants aurait touché les
+ * quarante sources pour rien. Seul son AFFICHAGE passe par les locales.
+ */
+export function patchCategoryLabel(category: PatchSource['category']): string {
+  const slug: Record<PatchSource['category'], string> = {
+    'Riot Games': 'riot',
+    FPS: 'fps',
+    'MMO & RPG': 'mmo',
+    'Survie & sandbox': 'survie',
+    Strategy: 'strategie',
+    Software: 'logiciels',
+  };
+  return t(`modules.patchnotes.categories.${slug[category]}`);
 }

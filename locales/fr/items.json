@@ -3,6 +3,28 @@
     "items": {
       "label": "Objets & inventaires",
       "description": "Catalogue d'objets par serveur : achat avec la monnaie, inventaire, utilisation (rôle-récompense) et échange entre membres.",
+      "noms": {
+        "acheter": "acheter",
+        "augmenter": "augmenter",
+        "boutique-objets": "boutique-objets",
+        "cible": "cible",
+        "de": "de",
+        "definir": "definir",
+        "donner": "donner",
+        "donner-objet": "donner-objet",
+        "inventaire": "inventaire",
+        "membre": "membre",
+        "nombre": "nombre",
+        "objet": "objet",
+        "objets-admin": "objets-admin",
+        "objets-limite": "objets-limite",
+        "quantité": "quantité",
+        "reduire": "reduire",
+        "retirer": "retirer",
+        "utiliser": "utiliser",
+        "vendre": "vendre",
+        "voir": "voir"
+      },
       "opt": {
         "item": "L'objet concerné.",
         "quantity": "Quantité (défaut : 1).",
@@ -162,6 +184,72 @@
           "noValue": "❌ {emoji} {name} n'a pas de valeur marchande (prix boutique à 0).",
           "notOwned": "❌ Tu ne possèdes pas {emoji} {name}.",
           "done": "🗑️ Tu as vendu {qty}× {emoji} **{name}** au serveur ({percent} %) → +{total}. Solde : {balance}."
+        }
+      },
+      "ui": {
+        "g0": {
+          "description": "La création des objets se fait dans l’onglet « Catalogue » du serveur.",
+          "champs": {
+            "tradingEnabled": {
+              "label": "Autoriser l’échange d’objets entre membres",
+              "help": "Autorise les membres à se donner des objets. À couper si l'économie compte : un objet rare qui circule librement permet de contourner la boutique, et les comptes secondaires deviennent des coffres."
+            }
+          }
+        },
+        "drops": {
+          "label": "🎁 Butin dans les mini-jeux",
+          "description": "Fait tomber des objets « droppable » à la fin des mini-jeux (PFC, morpion, bataille navale), avec un pourcentage par rareté. On tire de la plus rare à la plus commune.",
+          "champs": {
+            "enabled": {
+              "label": "Activer les drops",
+              "help": "Fait tomber des objets à l'issue des mini-jeux. Seuls les objets marqués « Drop en jeu » dans le catalogue peuvent tomber : sans un seul objet ainsi marqué, activer ceci ne produit rien."
+            },
+            "on": {
+              "label": "Quand tirer un drop",
+              "opt": {
+                "win": {
+                  "label": "Victoire seulement"
+                },
+                "winDraw": {
+                  "label": "Victoire et égalité"
+                },
+                "any": {
+                  "label": "Chaque partie (peu importe l’issue)"
+                }
+              },
+              "help": "Quelles issues de partie donnent droit à un tirage. « Victoire seulement » récompense le jeu ; « toute partie » récompense le fait de lancer la commande, ce qui se remarque vite."
+            },
+            "common": {
+              "label": "% drop — Commun (0-100)",
+              "help": "Chance, en pour cent, qu'un objet commun tombe. Le tirage va de la rareté la plus haute à la plus basse et s'arrête au premier succès : c'est donc la dernière chance testée. 0 = jamais."
+            },
+            "rare": {
+              "label": "% drop — Rare (0-100)",
+              "help": "Chance qu'un objet rare tombe, testée avant les communs. 0 = jamais."
+            },
+            "epic": {
+              "label": "% drop — Épique (0-100)",
+              "help": "Chance qu'un objet épique tombe, testée avant les rares. 0 = jamais."
+            },
+            "legendary": {
+              "label": "% drop — Légendaire (0-100)",
+              "help": "Chance qu'un objet légendaire tombe. C'est la première testée, donc celle qui prime : la monter à 100 ne fera jamais tomber autre chose que du légendaire."
+            }
+          }
+        },
+        "sell": {
+          "label": "🗑️ Vente rapide au serveur",
+          "description": "Permet à un membre de vendre un objet au serveur via /vendre : l’objet est détruit et le membre reçoit un pourcentage de son prix boutique.",
+          "champs": {
+            "enabled": {
+              "label": "Activer la vente rapide (/vendre)",
+              "help": "Permet de détruire un objet contre une part de son prix. C'est la sortie de secours d'un inventaire saturé — et la seule façon de retirer un objet de la circulation."
+            },
+            "percent": {
+              "label": "% du prix reversé à la vente (0-100)",
+              "help": "La part du prix boutique rendue à la vente. Doit rester bien sous 100 : à 100, acheter puis revendre est neutre, et l'objet n'a plus de coût. Au-delà, on fabrique de la monnaie à volonté."
+            }
+          }
         }
       }
     }

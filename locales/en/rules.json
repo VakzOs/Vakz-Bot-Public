@@ -17,6 +17,38 @@
       },
       "log": {
         "accepted": "📜 {user} accepted the rules (version {version})."
+      },
+      "ui": {
+        "g0": {
+          "label": "📜 Rules",
+          "description": "After any change, republish the rules with the “Publish” button.",
+          "champs": {
+            "channelId": {
+              "label": "Rules channel",
+              "help": "The channel the rules are posted in. Make it readable by everyone and writable by no one: it is often the only channel an unverified newcomer can see."
+            },
+            "roleId": {
+              "label": "Access role (granted on acceptance)",
+              "help": "The role given to a member who accepts. It is what should open the rest of the server: with no role here, the button records the acceptance but unlocks nothing."
+            },
+            "title": {
+              "label": "Title",
+              "help": "The title of the rules message."
+            },
+            "content": {
+              "label": "Rules content",
+              "help": "The rules text, up to 4,000 characters. Editing it does NOT ask those who already accepted to accept again — that is what the version number is for, when a rule changes enough to require re-acceptance."
+            },
+            "buttonLabel": {
+              "label": "Accept button label",
+              "help": "The accept button's text. Word it in the first person (« I accept »): it is what the member declares by clicking."
+            },
+            "logChannelId": {
+              "label": "Acceptance log channel",
+              "help": "A channel recording each acceptance, with who and when. It is the only record that answers « had they accepted the rules? » the day the question comes up. Empty, nothing is kept."
+            }
+          }
+        }
       }
     }
   }

@@ -1,4 +1,5 @@
 import { AttachmentBuilder, type GuildMember, type PartialGuildMember } from 'discord.js';
+import type { BotContext } from '../../core/module.js';
 import { Colors, Emojis, errorEmbed, successEmbed } from '../../lib/embeds.js';
 import { t } from '../../core/i18n.js';
 import type { GreetConfig, GreetKind } from './config.js';
@@ -57,6 +58,7 @@ export function formatGreeting(template: string, member: AnyMember): string {
  * Ne fait rien si le sous-module est désactivé ou si aucun salon n'est défini.
  */
 export async function sendGreeting(
+  ctx: BotContext,
   member: AnyMember,
   greet: GreetConfig,
   kind: GreetKind,
@@ -64,7 +66,17 @@ export async function sendGreeting(
   if (!greet.enabled || !greet.channelId) return;
 
   const channel = await member.guild.channels.fetch(greet.channelId).catch(() => null);
-  if (!channel || !channel.isTextBased()) return;
+  if (!channel || !channel.isTextBased()) {
+    // Salon supprimé ou devenu invisible au bot : l'accueil s'arrêtait ici sans
+    // un mot. Côté serveur, le module est « activé », le salon est réglé, et
+    // personne n'est jamais accueilli — un symptôme impossible à diagnostiquer
+    // sans cette ligne.
+    ctx.logger.warn(
+      { guildId: member.guild.id, channelId: greet.channelId, type: kind },
+      'Salon d’accueil introuvable, message non envoyé',
+    );
+    return;
+  }
 
   const content = formatGreeting(greet.message, member);
   const card = greet.card ? await buildGreetCard(member, greet, kind) : null;

@@ -1,0 +1,145 @@
+{
+  "modules": {
+    "economy": {
+      "label": "Economía",
+      "description": "Moneda virtual, ganancias, clasificación y tienda de roles.",
+      "noms": {
+        "argent-admin": "dinero-admin",
+        "boutique-roles": "tienda-roles",
+        "daily": "daily",
+        "definir": "definir",
+        "donner": "dar",
+        "membre": "miembro",
+        "montant": "cantidad",
+        "payer": "pagar",
+        "retirer": "quitar",
+        "riches": "ricos",
+        "solde": "saldo"
+      },
+      "opt": {
+        "member": "El miembro en cuestión.",
+        "amount": "La cantidad."
+      },
+      "commands": {
+        "balance": {
+          "description": "Muestra el saldo de un miembro.",
+          "title": "Saldo de {user}",
+          "line": "Saldo"
+        },
+        "daily": {
+          "description": "Reclama tu recompensa diaria.",
+          "claimed": "🎁 ¡Has recibido {amount}! Nuevo saldo: {balance}.",
+          "cooldown": "⏳ Ya has reclamado tu recompensa. Vuelve {time}."
+        },
+        "pay": {
+          "description": "Transfiere moneda a otro miembro.",
+          "invalidTarget": "❌ Destinatario no válido.",
+          "insufficient": "❌ Saldo insuficiente.",
+          "done": "✅ Has enviado {amount} a {user}."
+        },
+        "leaderboard": {
+          "description": "Muestra la clasificación de quienes más tienen.",
+          "empty": "Todavía nadie tiene {currency}.",
+          "title": "💰 Los más ricos"
+        },
+        "admin": {
+          "description": "Gestiona los saldos de los miembros (admin).",
+          "give": "Añade moneda a un miembro.",
+          "take": "Quita moneda a un miembro.",
+          "set": "Define el saldo de un miembro.",
+          "done": "✅ Saldo de {user}: {balance}."
+        },
+        "shop": {
+          "description": "Muestra la tienda de roles."
+        }
+      },
+      "shop": {
+        "title": "🛒 Tienda de roles",
+        "empty": "*La tienda está vacía.*",
+        "disabled": "❌ El módulo Economía está desactivado.",
+        "unavailable": "❌ Este artículo ya no está disponible.",
+        "alreadyOwned": "❌ Ya tienes este rol.",
+        "cannotAssign": "⚠️ No puedo asignar este rol (permiso o jerarquía).",
+        "tooPoor": "❌ Demasiado caro: {price} y solo tienes {balance}.",
+        "bought": "✅ Has comprado {role} por {price}.",
+        "soldOut": "agotado",
+        "stock": "existencias: {n}",
+        "switch": "Cambiar de tienda…",
+        "outOfStock": "❌ Este artículo está agotado."
+      },
+      "ui": {
+        "g0": {
+          "label": "💰 General",
+          "champs": {
+            "currencyName": {
+              "label": "Nombre de la moneda"
+            },
+            "currencySymbol": {
+              "label": "Símbolo de la moneda"
+            },
+            "messageMin": {
+              "label": "Ganancia mínima por mensaje"
+            },
+            "messageMax": {
+              "label": "Ganancia máxima por mensaje"
+            },
+            "messageCooldown": {
+              "label": "Enfriamiento entre ganancias (s)"
+            },
+            "dailyAmount": {
+              "label": "Cantidad del comando /daily"
+            },
+            "voiceEnabled": {
+              "label": "Ganancias en voz"
+            },
+            "voicePerMinute": {
+              "label": "Ganancia por minuto en voz"
+            },
+            "ignoredChannelIds": {
+              "label": "Canales ignorados"
+            },
+            "ignoredRoleIds": {
+              "label": "Roles ignorados"
+            },
+            "leaderboardChannelId": {
+              "label": "Canal de la clasificación"
+            }
+          }
+        },
+        "g1": {
+          "label": "🏪 Tiendas de roles",
+          "description": "Cada tienda vende roles a cambio de la moneda del servidor.",
+          "champs": {
+            "shops": {
+              "label": "Tiendas",
+              "addLabel": "Añadir una tienda",
+              "item": {
+                "name": {
+                  "label": "Nombre de la tienda"
+                },
+                "bannerUrl": {
+                  "label": "Banner (URL)"
+                },
+                "items": {
+                  "label": "Roles en venta",
+                  "addLabel": "Añadir un rol",
+                  "item": {
+                    "roleId": {
+                      "label": "Rol"
+                    },
+                    "price": {
+                      "label": "Precio"
+                    },
+                    "stock": {
+                      "label": "Existencias (-1 = ilimitadas)"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

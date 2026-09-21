@@ -4,12 +4,13 @@ import { t } from '../../core/i18n.js';
 import { ALL_PLATFORMS } from './config.js';
 import { buildFreeGameEmbed, fetchFreeGames } from './service.js';
 
-/** `/jeuxgratuits` — affiche les jeux actuellement gratuits (toutes plateformes). */
+/** `/jeux-gratuits` — affiche les jeux actuellement gratuits (toutes plateformes). */
 export const jeuxgratuits: SlashCommand = {
   guildOnly: false,
-  data: new SlashCommandBuilder()
-    .setName('jeuxgratuits')
-    .setDescription(t('modules.freegames.command.description')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.freegames.noms.jeux-gratuits'))
+      .setDescription(t('modules.freegames.command.description')),
   async execute(interaction) {
     await interaction.deferReply();
     const games = await fetchFreeGames(ALL_PLATFORMS);

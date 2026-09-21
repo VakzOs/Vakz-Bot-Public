@@ -1,0 +1,69 @@
+{
+  "modules": {
+    "birthdays": {
+      "label": "Compleanni",
+      "description": "Fa gli auguri di compleanno ai membri (messaggio + ruolo del giorno).",
+      "noms": {
+        "annee": "anno",
+        "anniversaire": "compleanno",
+        "definir": "imposta",
+        "jour": "giorno",
+        "membre": "membro",
+        "mois": "mese",
+        "prochains": "prossimi",
+        "retirer": "rimuovi",
+        "voir": "mostra"
+      },
+      "command": {
+        "description": "Gestisce la tua data di compleanno.",
+        "set": "Registra la tua data di compleanno.",
+        "remove": "Elimina la tua data di compleanno.",
+        "view": "Mostra il compleanno di un membro.",
+        "upcoming": "Mostra i prossimi compleanni."
+      },
+      "opt": {
+        "day": "Giorno (1-31).",
+        "month": "Mese (1-12).",
+        "year": "Anno (facoltativo, per mostrare l'età).",
+        "member": "Il membro interessato (predefinito: tu).",
+        "targetMember": "Imposta per un altro membro (admin: Gestire il server)."
+      },
+      "invalidDate": "❌ Data non valida.",
+      "noPermission": "❌ Non hai il permesso di gestire il compleanno di un altro membro.",
+      "set": "🎂 Il tuo compleanno è registrato al {date}!",
+      "setOther": "🎂 Il compleanno di {user} è registrato al {date}!",
+      "removed": "🗑️ Il tuo compleanno è stato eliminato.",
+      "removedOther": "🗑️ Il compleanno di {user} è stato eliminato.",
+      "none": "ℹ️ {user} non ha registrato alcun compleanno.",
+      "today": "oggi! 🎉",
+      "inDays": "tra {days} giorno/i",
+      "view": {
+        "title": "🎂 Compleanno di {user}"
+      },
+      "upcomingTitle": "🎂 Prossimi compleanni",
+      "upcomingEmpty": "Per ora nessun compleanno registrato.",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Canale degli annunci"
+            },
+            "roleId": {
+              "label": "Ruolo «compleanno del giorno»"
+            },
+            "message": {
+              "label": "Messaggio",
+              "help": "Variabili: {mention}, {username}."
+            },
+            "announceHour": {
+              "label": "Ora dell'annuncio (0-23)"
+            },
+            "announceMinute": {
+              "label": "Minuto dell'annuncio (0-59)"
+            }
+          }
+        }
+      }
+    }
+  }
+}

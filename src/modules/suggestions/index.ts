@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, suggestionsConfigSchema, suggestionsDefaultConfig } from './config.js';
 import { suggestion, suggestionsList } from './commands.js';
 import { suggestionsComponent } from './component.js';
@@ -17,49 +18,70 @@ export default defineModule({
   emoji: '\u{1F4A1}',
   configSchema: suggestionsConfigSchema,
   defaultConfig: suggestionsDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
+      label: t('modules.suggestions.ui.g0.label'),
+      description: t('modules.suggestions.ui.g0.description'),
       fields: [
         {
           key: 'channelIds',
-          label: 'Salons de suggestions',
+          label: t('modules.suggestions.ui.g0.champs.channelIds.label'),
           type: 'channels',
-          help: 'Salons où les suggestions sont publiées.',
+          help: t('modules.suggestions.ui.g0.champs.channelIds.help'),
         },
-        { key: 'staffRoleId', label: 'Rôle staff', type: 'role' },
-        { key: 'createThread', label: 'Créer un fil par suggestion', type: 'boolean' },
+        {
+          key: 'staffRoleId',
+          label: t('modules.suggestions.ui.g0.champs.staffRoleId.label'),
+          type: 'role',
+          help: t('modules.suggestions.ui.g0.champs.staffRoleId.help'),
+        },
+        {
+          key: 'createThread',
+          label: t('modules.suggestions.ui.g0.champs.createThread.label'),
+          type: 'boolean',
+          help: t('modules.suggestions.ui.g0.champs.createThread.help'),
+        },
         {
           key: 'maxPending',
-          label: 'Limite de suggestions en attente / membre',
+          label: t('modules.suggestions.ui.g0.champs.maxPending.label'),
           type: 'number',
-          help: '0 = illimité.',
+          help: t('modules.suggestions.ui.g0.champs.maxPending.help'),
         },
         {
           key: 'rewardCoins',
-          label: 'Pièces offertes à l’approbation',
+          label: t('modules.suggestions.ui.g0.champs.rewardCoins.label'),
           type: 'number',
-          help: '0 = aucune récompense.',
+          help: t('modules.suggestions.ui.g0.champs.rewardCoins.help'),
         },
         {
           key: 'rewardItemId',
-          label: 'Objet offert à l’approbation',
+          label: t('modules.suggestions.ui.g0.champs.rewardItemId.label'),
           type: 'text',
-          help: 'Identifiant d’un objet du catalogue. Vide = aucun objet offert.',
+          help: t('modules.suggestions.ui.g0.champs.rewardItemId.help'),
         },
         {
           key: 'dynamicColor',
-          label: 'Couleur d’embed dynamique (selon les votes)',
+          label: t('modules.suggestions.ui.g0.champs.dynamicColor.label'),
           type: 'boolean',
+          help: t('modules.suggestions.ui.g0.champs.dynamicColor.help'),
         },
         {
           key: 'roleLimits',
-          label: 'Limites par rôle',
+          label: t('modules.suggestions.ui.g0.champs.roleLimits.label'),
           type: 'list',
-          help: 'Priment sur la limite par défaut. Limite 0 = illimité.',
-          addLabel: 'Ajouter un rôle',
+          help: t('modules.suggestions.ui.g0.champs.roleLimits.help'),
+          addLabel: t('modules.suggestions.ui.g0.champs.roleLimits.addLabel'),
           item: [
-            { key: 'roleId', label: 'Rôle', type: 'role' },
-            { key: 'limit', label: 'Limite', type: 'number' },
+            {
+              key: 'roleId',
+              label: t('modules.suggestions.ui.g0.champs.roleLimits.item.roleId.label'),
+              type: 'role',
+            },
+            {
+              key: 'limit',
+              label: t('modules.suggestions.ui.g0.champs.roleLimits.item.limit.label'),
+              type: 'number',
+            },
           ],
         },
       ],

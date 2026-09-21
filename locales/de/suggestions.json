@@ -1,0 +1,131 @@
+{
+  "modules": {
+    "suggestions": {
+      "label": "Vorschläge",
+      "description": "Mitglieder schlagen Ideen vor (mit Steam-Link), die mit 👍/👎 bewertet und vom Team entschieden werden.",
+      "noms": {
+        "classement": "rangliste",
+        "mot": "wort",
+        "rechercher": "suchen",
+        "steam": "steam",
+        "suggestion": "vorschlag",
+        "suggestions": "vorschlaege",
+        "texte": "text"
+      },
+      "command": {
+        "description": "Dem Server einen Vorschlag machen.",
+        "textOpt": "Der Text deines Vorschlags.",
+        "steamOpt": "Steam-Link des vorgeschlagenen Spiels (optional)."
+      },
+      "notConfigured": "❌ Es ist kein Vorschlagskanal eingerichtet. Die Administration muss einen im Dashboard festlegen.",
+      "channelGone": "❌ Der Vorschlagskanal wurde nicht gefunden. Sag der Administration Bescheid.",
+      "wrongChannel": "❌ Nutze `/vorschlag` in einem Vorschlagskanal: {channels}",
+      "invalidSteam": "❌ Ungültiger Steam-Link. Beispiel: https://store.steampowered.com/app/730",
+      "steamFetchFailed": "❌ Die Spielinfos konnten nicht von Steam geholt werden. Versuche es später erneut.",
+      "submitted": "✅ Dein Vorschlag wurde veröffentlicht! {url}",
+      "sendError": "❌ Vorschlag konnte nicht veröffentlicht werden (prüfe meine Berechtigungen im Kanal).",
+      "threadName": "Vorschlag {id}",
+      "status": {
+        "pending": "⏳ Wartet",
+        "approved": "✅ Angenommen",
+        "rejected": "❌ Abgelehnt",
+        "considered": "🤔 Wird geprüft"
+      },
+      "button": {
+        "approve": "✅ Annehmen",
+        "reject": "❌ Ablehnen",
+        "consider": "🤔 Wird geprüft"
+      },
+      "modal": {
+        "approve": "Vorschlag annehmen",
+        "reject": "Vorschlag ablehnen",
+        "consider": "Zur Prüfung vormerken",
+        "reasonField": "Grund (optional)"
+      },
+      "feedback": {
+        "disabled": "❌ Dieses Modul ist auf diesem Server deaktiviert.",
+        "gone": "❌ Diesen Vorschlag gibt es nicht mehr.",
+        "staffOnly": "⛔ Nur das Team kann über Vorschläge entscheiden.",
+        "decided": "✅ Entscheidung gespeichert: {status}."
+      },
+      "steam": {
+        "gameField": "🎮 Spiel",
+        "aboutField": "📝 Über das Spiel",
+        "free": "Gratis",
+        "unknownPrice": "Preis nicht verfügbar"
+      },
+      "embed": {
+        "title": "💡 Vorschlag",
+        "author": "Vorgeschlagen von",
+        "status": "Status",
+        "votes": "Stimmen",
+        "votesFor": "👍 Dafür ({count})",
+        "votesAgainst": "👎 Dagegen ({count})",
+        "footer": "ID {id}",
+        "decision": "Entscheidung des Teams",
+        "decisionValue": "Von {moderator}\n{reason}",
+        "noReason": "*kein Grund angegeben*"
+      },
+      "limitReached": "❌ Du hast dein Limit von {max} wartenden Vorschlägen erreicht.",
+      "reward": {
+        "coins": "💰 {coins} Münzen",
+        "item": "🎁 {item}",
+        "granted": "🎉 Belohnung an die vorschlagende Person gesendet: {reward}"
+      },
+      "list": {
+        "description": "Rangliste und Suche der Vorschläge.",
+        "rankingDescription": "Zeigt die am besten bewerteten Vorschläge.",
+        "searchDescription": "Sucht Vorschläge nach Schlüsselwort.",
+        "keywordOpt": "Zu suchendes Schlüsselwort.",
+        "empty": "Zurzeit gibt es keinen Vorschlag.",
+        "rankingTitle": "🏆 Am besten bewertete Vorschläge",
+        "noMatch": "Kein Vorschlag passt zu „{keyword}“.",
+        "searchTitle": "🔎 Ergebnisse für „{keyword}“"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelIds": {
+              "label": "Vorschlagskanäle",
+              "help": "Kanäle, in denen die Vorschläge veröffentlicht werden."
+            },
+            "staffRoleId": {
+              "label": "Team-Rolle"
+            },
+            "createThread": {
+              "label": "Pro Vorschlag einen Thread erstellen"
+            },
+            "maxPending": {
+              "label": "Limit wartender Vorschläge pro Mitglied",
+              "help": "0 = unbegrenzt."
+            },
+            "rewardCoins": {
+              "label": "Münzen bei Annahme",
+              "help": "0 = keine Belohnung."
+            },
+            "rewardItemId": {
+              "label": "Gegenstand bei Annahme",
+              "help": "Kennung eines Gegenstands aus dem Katalog. Leer = kein Gegenstand."
+            },
+            "dynamicColor": {
+              "label": "Dynamische Embed-Farbe (je nach Stimmen)"
+            },
+            "roleLimits": {
+              "label": "Limits pro Rolle",
+              "help": "Gehen dem Standardlimit vor. Limit 0 = unbegrenzt.",
+              "addLabel": "Rolle hinzufügen",
+              "item": {
+                "roleId": {
+                  "label": "Rolle"
+                },
+                "limit": {
+                  "label": "Limit"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

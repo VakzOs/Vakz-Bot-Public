@@ -3,6 +3,9 @@
     "core": {
       "label": "Cœur",
       "description": "Commandes système essentielles (ping, configuration).",
+      "noms": {
+        "ping": "ping"
+      },
       "ping": {
         "description": "Affiche la latence du bot.",
         "title": "🏓 Pong !",

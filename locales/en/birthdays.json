@@ -3,6 +3,17 @@
     "birthdays": {
       "label": "Birthdays",
       "description": "Wish members a happy birthday (message + role of the day).",
+      "noms": {
+        "annee": "year",
+        "anniversaire": "birthday",
+        "definir": "set",
+        "jour": "day",
+        "membre": "member",
+        "mois": "month",
+        "prochains": "upcoming",
+        "retirer": "remove",
+        "voir": "view"
+      },
       "command": {
         "description": "Manage your birthday.",
         "set": "Save your birthday.",
@@ -30,7 +41,33 @@
         "title": "🎂 {user}'s birthday"
       },
       "upcomingTitle": "🎂 Upcoming birthdays",
-      "upcomingEmpty": "No birthday saved yet."
+      "upcomingEmpty": "No birthday saved yet.",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Announcement channel",
+              "help": "The channel where birthdays are wished. Empty, nothing is announced: dates keep being recorded, but nobody sees them go by."
+            },
+            "roleId": {
+              "label": "“Birthday of the day” role",
+              "help": "A role the member wears for their birthday, then removed automatically. Giving it a colour makes them stand out in the member list. It must sit below the bot's role to be grantable."
+            },
+            "message": {
+              "label": "Message",
+              "help": "Variables: {mention}, {username}."
+            },
+            "announceHour": {
+              "label": "Announcement hour (0-23)",
+              "help": "The hour of the announcement, in the **bot's** timezone, not the member's. A server whose community lives elsewhere should shift it: at 9am server time, part of the members are still asleep."
+            },
+            "announceMinute": {
+              "label": "Announcement minute (0-59)",
+              "help": "The minute of the announcement. The bot checks once a minute: at 9:00, every birthday of the day goes out together."
+            }
+          }
+        }
+      }
     }
   }
 }

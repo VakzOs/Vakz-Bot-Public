@@ -1,0 +1,145 @@
+{
+  "modules": {
+    "economy": {
+      "label": "Wirtschaft",
+      "description": "Virtuelle Währung, Einnahmen, Rangliste und Rollen-Shop.",
+      "noms": {
+        "argent-admin": "geld-admin",
+        "boutique-roles": "rollen-shop",
+        "daily": "daily",
+        "definir": "festlegen",
+        "donner": "geben",
+        "membre": "mitglied",
+        "montant": "betrag",
+        "payer": "zahlen",
+        "retirer": "abziehen",
+        "riches": "reiche",
+        "solde": "kontostand"
+      },
+      "opt": {
+        "member": "Das betroffene Mitglied.",
+        "amount": "Der Betrag."
+      },
+      "commands": {
+        "balance": {
+          "description": "Zeigt den Kontostand eines Mitglieds.",
+          "title": "Kontostand von {user}",
+          "line": "Kontostand"
+        },
+        "daily": {
+          "description": "Hole deine tägliche Belohnung ab.",
+          "claimed": "🎁 Du hast {amount} erhalten! Neuer Kontostand: {balance}.",
+          "cooldown": "⏳ Du hast deine Belohnung schon abgeholt. Komm {time} wieder."
+        },
+        "pay": {
+          "description": "Überträgt Währung an ein anderes Mitglied.",
+          "invalidTarget": "❌ Ungültiger Empfänger.",
+          "insufficient": "❌ Nicht genug Guthaben.",
+          "done": "✅ Du hast {amount} an {user} gesendet."
+        },
+        "leaderboard": {
+          "description": "Zeigt die Rangliste der Reichsten.",
+          "empty": "Noch hat niemand {currency}.",
+          "title": "💰 Die Reichsten"
+        },
+        "admin": {
+          "description": "Verwaltet die Kontostände der Mitglieder (Admin).",
+          "give": "Fügt einem Mitglied Währung hinzu.",
+          "take": "Zieht einem Mitglied Währung ab.",
+          "set": "Legt den Kontostand eines Mitglieds fest.",
+          "done": "✅ Kontostand von {user}: {balance}."
+        },
+        "shop": {
+          "description": "Zeigt den Rollen-Shop."
+        }
+      },
+      "shop": {
+        "title": "🛒 Rollen-Shop",
+        "empty": "*Der Shop ist leer.*",
+        "disabled": "❌ Das Modul Wirtschaft ist deaktiviert.",
+        "unavailable": "❌ Dieser Artikel ist nicht mehr verfügbar.",
+        "alreadyOwned": "❌ Du hast diese Rolle schon.",
+        "cannotAssign": "⚠️ Ich kann diese Rolle nicht vergeben (Berechtigung oder Hierarchie).",
+        "tooPoor": "❌ Zu teuer: {price}, du hast aber {balance}.",
+        "bought": "✅ Du hast {role} für {price} gekauft.",
+        "soldOut": "ausverkauft",
+        "stock": "Bestand: {n}",
+        "switch": "Shop wechseln…",
+        "outOfStock": "❌ Dieser Artikel ist ausverkauft."
+      },
+      "ui": {
+        "g0": {
+          "label": "💰 Allgemein",
+          "champs": {
+            "currencyName": {
+              "label": "Name der Währung"
+            },
+            "currencySymbol": {
+              "label": "Symbol der Währung"
+            },
+            "messageMin": {
+              "label": "Mindestgewinn pro Nachricht"
+            },
+            "messageMax": {
+              "label": "Höchstgewinn pro Nachricht"
+            },
+            "messageCooldown": {
+              "label": "Abklingzeit zwischen Gewinnen (s)"
+            },
+            "dailyAmount": {
+              "label": "Betrag des Befehls /daily"
+            },
+            "voiceEnabled": {
+              "label": "Gewinne im Sprachkanal"
+            },
+            "voicePerMinute": {
+              "label": "Gewinn pro Minute im Sprachkanal"
+            },
+            "ignoredChannelIds": {
+              "label": "Ignorierte Kanäle"
+            },
+            "ignoredRoleIds": {
+              "label": "Ignorierte Rollen"
+            },
+            "leaderboardChannelId": {
+              "label": "Kanal der Rangliste"
+            }
+          }
+        },
+        "g1": {
+          "label": "🏪 Rollen-Shops",
+          "description": "Jeder Shop verkauft Rollen gegen die Währung des Servers.",
+          "champs": {
+            "shops": {
+              "label": "Shops",
+              "addLabel": "Shop hinzufügen",
+              "item": {
+                "name": {
+                  "label": "Name des Shops"
+                },
+                "bannerUrl": {
+                  "label": "Banner (URL)"
+                },
+                "items": {
+                  "label": "Rollen im Verkauf",
+                  "addLabel": "Rolle hinzufügen",
+                  "item": {
+                    "roleId": {
+                      "label": "Rolle"
+                    },
+                    "price": {
+                      "label": "Preis"
+                    },
+                    "stock": {
+                      "label": "Bestand (-1 = unbegrenzt)"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

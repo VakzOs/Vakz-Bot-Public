@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, birthdaysConfigSchema, birthdaysDefaultConfig } from './config.js';
 import { anniversaire } from './commands.js';
 import { birthdayTask } from './task.js';
@@ -16,19 +17,39 @@ export default defineModule({
   emoji: '\u{1F382}',
   configSchema: birthdaysConfigSchema,
   defaultConfig: birthdaysDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
       fields: [
-        { key: 'channelId', label: 'Salon des annonces', type: 'channel' },
-        { key: 'roleId', label: 'Rôle « anniversaire du jour »', type: 'role' },
+        {
+          key: 'channelId',
+          label: t('modules.birthdays.ui.g0.champs.channelId.label'),
+          type: 'channel',
+          help: t('modules.birthdays.ui.g0.champs.channelId.help'),
+        },
+        {
+          key: 'roleId',
+          label: t('modules.birthdays.ui.g0.champs.roleId.label'),
+          type: 'role',
+          help: t('modules.birthdays.ui.g0.champs.roleId.help'),
+        },
         {
           key: 'message',
-          label: 'Message',
+          label: t('modules.birthdays.ui.g0.champs.message.label'),
           type: 'textarea',
-          help: 'Variables : {mention}, {username}.',
+          help: t('modules.birthdays.ui.g0.champs.message.help'),
         },
-        { key: 'announceHour', label: 'Heure d’annonce (0-23)', type: 'number' },
-        { key: 'announceMinute', label: 'Minute d’annonce (0-59)', type: 'number' },
+        {
+          key: 'announceHour',
+          label: t('modules.birthdays.ui.g0.champs.announceHour.label'),
+          type: 'number',
+          help: t('modules.birthdays.ui.g0.champs.announceHour.help'),
+        },
+        {
+          key: 'announceMinute',
+          label: t('modules.birthdays.ui.g0.champs.announceMinute.label'),
+          type: 'number',
+          help: t('modules.birthdays.ui.g0.champs.announceMinute.help'),
+        },
       ],
     },
   ],

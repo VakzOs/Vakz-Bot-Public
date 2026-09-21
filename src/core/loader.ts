@@ -2,6 +2,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
+  type AutocompleteInteraction,
   type ChatInputCommandInteraction,
   type Client,
   type Interaction,
@@ -13,8 +14,15 @@ import { handleInteractionError, safeRun } from './errors.js';
 import { contextFor } from './context.js';
 import { scheduler } from './scheduler.js';
 import { recordCommand, recordInteraction } from './metrics.js';
-import { t } from './i18n.js';
-import type { BotContext, BotModule, SlashCommand } from './module.js';
+import { DEFAULT_LOCALE, currentLocale, runWithLocale, t } from './i18n.js';
+import {
+  canonicalCommandJSON,
+  canonicalizeInteraction,
+  commandPayloadFor,
+  resetCommandLocales,
+} from './command-locale.js';
+import { withGuildLocale } from './guild-locale.js';
+import type { BotContext, BotModule, SlashCommand, TaskReport } from './module.js';
 
 const log = createLogger('loader');
 
@@ -25,6 +33,34 @@ const log = createLogger('loader');
  */
 const SLOW_COMMAND_MS = 2_500;
 
+/**
+ * Au-delà, une tâche est lente.
+ *
+ * La plupart tournent à la minute : passé une minute, la suivante part avant
+ * que celle-ci ait fini et deux passages finissent par se marcher dessus. Une
+ * tâche qui attend volontairement (étalement, longue série d'appels réseau)
+ * relève son propre seuil avec `slowMs`, sinon elle s'alerterait elle-même.
+ */
+const SLOW_TASK_MS = 60_000;
+
+/**
+ * Ce qu'une tâche a réellement fait, compteurs à zéro retirés.
+ *
+ * Rend `null` pour un passage à vide — aucun compteur, ou tous nuls. C'est ce
+ * `null` qui décide du niveau de la ligne de fin : un journal qui répète
+ * « Tâche terminée » toutes les minutes pour dire « rien » coûte sa place dans
+ * le tampon et dans l'archive, et noie les lignes qui, elles, disaient quelque
+ * chose.
+ */
+function taskWork(report: TaskReport | void): TaskReport | null {
+  if (!report) return null;
+  const done: TaskReport = {};
+  for (const [key, value] of Object.entries(report)) {
+    if (typeof value === 'number' && value !== 0) done[key] = value;
+  }
+  return Object.keys(done).length > 0 ? done : null;
+}
+
 /** Le nom complet d'une commande, sous-commande comprise (`gacha tirer`). */
 function commandPath(interaction: ChatInputCommandInteraction): string {
   const group = interaction.options.getSubcommandGroup(false);
@@ -33,6 +69,27 @@ function commandPath(interaction: ChatInputCommandInteraction): string {
   // d'utilisateur (pseudo cherché, motif de sanction…) et n'ont rien à faire
   // dans un journal d'exploitation gardé un mois.
   return [interaction.commandName, group, sub].filter(Boolean).join(' ');
+}
+
+/**
+ * Le serveur concerné par un évènement Discord, quel qu'il soit.
+ *
+ * Les payloads n'ont pas de forme commune — un `Message` porte `guildId`, un
+ * `GuildMember` porte `guild`, un `VoiceState` les deux, un `User` aucun des
+ * deux. Le cœur n'a pourtant besoin que d'une chose : dans quelle langue ce
+ * traitement doit parler. On prend donc le premier argument qui sait le dire,
+ * et `undefined` (langue par défaut) quand aucun ne le sait — un évènement
+ * hors serveur n'a pas de langue de serveur.
+ */
+function guildIdOf(args: unknown[]): string | undefined {
+  for (const arg of args) {
+    if (!arg || typeof arg !== 'object') continue;
+    const candidate = arg as { guildId?: unknown; guild?: { id?: unknown } | null };
+    if (typeof candidate.guildId === 'string') return candidate.guildId;
+    const id = candidate.guild?.id;
+    if (typeof id === 'string') return id;
+  }
+  return undefined;
 }
 
 // src/core/loader.ts -> src/modules   ||   dist/core/loader.js -> dist/modules
@@ -58,6 +115,7 @@ export function getRegistry(): ModuleRegistry | null {
 
 /** Découvre et charge tous les modules présents dans `src/modules/`. */
 export async function loadModules(): Promise<ModuleRegistry> {
+  resetCommandLocales();
   const registry: ModuleRegistry = {
     modules: [],
     commands: new Map(),
@@ -94,7 +152,10 @@ export async function loadModules(): Promise<ModuleRegistry> {
     registry.modules.push(botModule);
 
     for (const command of botModule.commands ?? []) {
-      const name = command.data.name;
+      // Le nom de référence est celui de la langue par défaut : c'est sous ce
+      // nom-là que la commande est indexée, journalisée et mesurée, quelle que
+      // soit la langue dans laquelle un serveur la voit.
+      const name = canonicalCommandJSON(command).name;
       if (registry.commands.has(name)) {
         log.error({ command: name, module: botModule.name }, 'Commande en double, ignorée');
         continue;
@@ -135,11 +196,20 @@ export async function loadModules(): Promise<ModuleRegistry> {
   return registry;
 }
 
-/** Construit le payload JSON des slash commands pour l'API Discord. */
+/**
+ * Construit le payload JSON des slash commands pour l'API Discord, dans une
+ * langue donnée.
+ *
+ * Le déploiement se fait **par serveur** (voir `src/index.ts`) : chacun reçoit
+ * donc ses commandes dans la langue qu'il a choisie au dashboard, noms compris.
+ * Sans langue, c'est le français — le cas du déploiement global, qui ne vise
+ * aucun serveur en particulier.
+ */
 export function buildCommandPayload(
   registry: ModuleRegistry,
+  locale: string = DEFAULT_LOCALE,
 ): RESTPostAPIChatInputApplicationCommandsJSONBody[] {
-  return [...registry.commands.values()].map((command) => command.data.toJSON());
+  return commandPayloadFor(registry.commands.values(), locale);
 }
 
 /** Enregistre les listeners d'évènements déclarés par les modules. */
@@ -159,7 +229,11 @@ export function registerModuleEvents(
         // Pas de ligne par évènement : `messageCreate` seul en produirait des
         // milliers par minute et noierait tout le reste. Seules les erreurs
         // parlent, et elles portent désormais le module.
-        void safeRun(() => exec(moduleCtx, ...args), {
+        //
+        // La langue du serveur enveloppe le listener : un message de bienvenue
+        // ou une alerte de modération sort dans la langue choisie sans que le
+        // module ait à la chercher.
+        void safeRun(() => withGuildLocale(guildIdOf(args), async () => exec(moduleCtx, ...args)), {
           event: String(listener.name),
           module: module.name,
         });
@@ -176,11 +250,19 @@ export function registerModuleEvents(
 /**
  * Démarre les tâches planifiées déclarées par les modules.
  *
- * Chaque exécution est encadrée d'une ligne de début et d'une ligne de fin avec
- * sa durée. C'est la question qu'on pose le plus souvent aux logs d'un bot —
- * « est-ce que l'import de cette nuit est passé ? » — et sans ces deux lignes,
- * une tâche qui tourne sans rien produire est indiscernable d'une tâche qui
- * n'est jamais partie.
+ * **Le journal ne retient que les passages qui ont fait quelque chose.** Une
+ * quinzaine de modules planifient des tâches, la plupart à la minute : encadrer
+ * chaque passage d'un « démarrée » et d'un « terminée » en `info` remplissait le
+ * hublot de dizaines de milliers de lignes par jour qui disaient toutes la même
+ * chose — que le planificateur tourne — et repoussait hors du tampon celles qui
+ * racontaient un fait. Le début et les passages à vide descendent donc en
+ * `debug` : ils restent lisibles en `LOG_LEVEL=debug` quand on soupçonne une
+ * tâche de ne plus partir, sans encombrer l'exploitation ni l'archive.
+ *
+ * Ce qui monte en `info`, c'est le passage qui a produit un effet, avec ses
+ * chiffres (`{ remis: 3 }`) : c'est la question qu'on pose vraiment aux logs
+ * d'un bot — « est-ce que l'import de cette nuit est passé, et qu'a-t-il
+ * ramené ? ». Les tâches le disent en rendant un {@link TaskReport}.
  */
 export function startModuleTasks(ctx: BotContext, registry: ModuleRegistry): void {
   for (const module of registry.modules) {
@@ -188,10 +270,26 @@ export function startModuleTasks(ctx: BotContext, registry: ModuleRegistry): voi
     for (const task of module.tasks ?? []) {
       scheduler.register(`${module.name}:${task.name}`, task.cron, async () => {
         const startedAt = Date.now();
-        moduleCtx.logger.info({ task: task.name }, 'Tâche démarrée');
+        moduleCtx.logger.debug({ task: task.name }, 'Tâche démarrée');
         try {
-          await task.execute(moduleCtx);
-          moduleCtx.logger.info({ task: task.name, ms: Date.now() - startedAt }, 'Tâche terminée');
+          // Une tâche ne concerne pas UN serveur : elle les parcourt. Elle part
+          // donc dans la langue par défaut, et pose celle de chaque serveur au
+          // fil de sa boucle (`useGuildLocale`). L'enveloppe borne cet effet à
+          // la tâche : la langue posée par l'une ne déborde pas sur la suivante.
+          const report = await runWithLocale(DEFAULT_LOCALE, () => task.execute(moduleCtx));
+          const ms = Date.now() - startedAt;
+          const work = taskWork(report);
+          const fields = { task: task.name, ms, ...work };
+          if (ms >= (task.slowMs ?? SLOW_TASK_MS)) {
+            // Une tâche lente parle même les mains vides : c'est le passage qui
+            // n'a rien trouvé mais a mis quarante secondes à s'en apercevoir
+            // qu'on veut voir venir, pas celui qui a travaillé.
+            moduleCtx.logger.warn(fields, 'Tâche lente');
+          } else if (work) {
+            moduleCtx.logger.info(fields, 'Tâche terminée');
+          } else {
+            moduleCtx.logger.debug(fields, 'Tâche terminée');
+          }
         } catch (error) {
           // On log ici plutôt que de laisser `safeRun` le faire : le message y
           // gagne le module, le nom de la tâche et le temps passé avant la
@@ -227,8 +325,34 @@ export function registerInteractionRouter(
   registry: ModuleRegistry,
 ): void {
   client.on('interactionCreate', (interaction: Interaction) => {
-    void routeInteraction(interaction, ctx, registry);
+    // Toute la suite — dispatch, refus, réponse d'erreur — parle dans la langue
+    // du serveur. La poser ici, une fois, dispense les 1 200 appels à `t()` des
+    // modules de la connaître : ils la retrouvent par le contexte asynchrone.
+    void withGuildLocale(
+      interaction.guildId,
+      () => routeInteraction(interaction, ctx, registry),
+      interaction.guild?.preferredLocale,
+    );
   });
+}
+
+/**
+ * Rend à l'interaction ses noms français avant tout dispatch.
+ *
+ * Un serveur réglé en anglais s'est vu déployer `/rank`, et c'est `rank` que
+ * Discord renvoie : sans cette ligne, le registre — indexé en français — ne
+ * trouverait aucune commande de ce nom. La langue est celle que
+ * `registerInteractionRouter` vient de poser autour du traitement.
+ */
+function canonicalize(
+  interaction: ChatInputCommandInteraction | AutocompleteInteraction,
+  registry: ModuleRegistry,
+): void {
+  canonicalizeInteraction(
+    interaction,
+    registry.commands.values(),
+    currentLocale() ?? DEFAULT_LOCALE,
+  );
 }
 
 async function routeInteraction(
@@ -274,6 +398,7 @@ async function routeInteraction(
 
   if (interaction.isAutocomplete()) {
     recordInteraction('autocomplete');
+    canonicalize(interaction, registry);
     const command = registry.commands.get(interaction.commandName);
     if (!command?.autocomplete) return;
     // Pas de ligne de succès : l'autocomplétion part à chaque frappe, et une
@@ -292,6 +417,7 @@ async function routeInteraction(
 
   if (!interaction.isChatInputCommand()) return;
   recordInteraction('command');
+  canonicalize(interaction, registry);
 
   const command = registry.commands.get(interaction.commandName);
   if (!command) {

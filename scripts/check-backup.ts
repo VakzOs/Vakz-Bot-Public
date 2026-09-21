@@ -14,6 +14,7 @@ import { execFileSync } from 'node:child_process';
 import { mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3';
 import { PrismaClient } from '@prisma/client';
 import {
   countRows,
@@ -26,12 +27,20 @@ import type { BotContext } from '../src/core/module.js';
 
 const dir = mkdtempSync(join(tmpdir(), 'vakz-backup-check-'));
 const url = `file:${join(dir, 'check.db')}`;
-execFileSync('npx', ['prisma', 'db', 'push', '--skip-generate', '--accept-data-loss'], {
+// La base jetable est montée par `migrate deploy`, et non par un `db push` :
+// depuis Prisma 7, `db push` est refusé à un agent IA sans consentement
+// explicite de l'utilisateur — cette porte deviendrait inlançable par un agent,
+// alors que CLAUDE.md l'exige avant toute livraison. Le détour n'en est pas un :
+// appliquer les vraies migrations éprouve en prime le chemin qu'emprunte la
+// production, là où `db push` fabriquait le schéma en court-circuitant.
+execFileSync('npx', ['prisma', 'migrate', 'deploy'], {
   env: { ...process.env, DATABASE_URL: url },
   stdio: 'ignore',
 });
 
-const db = new PrismaClient({ datasources: { db: { url } } });
+// Prisma 7 : plus d'`url` dans le schéma ni de `datasources` au constructeur —
+// la connexion passe par un adaptateur, ici sur la base jetable du test.
+const db = new PrismaClient({ adapter: new PrismaBetterSqlite3({ url }) });
 const ctx = { db } as unknown as BotContext;
 
 /**

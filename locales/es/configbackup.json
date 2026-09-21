@@ -1,0 +1,55 @@
+{
+  "modules": {
+    "configbackup": {
+      "label": "Copia de seguridad del servidor",
+      "description": "Guarda todo lo que el bot tiene del servidor —configuración, estructura y datos (dinero, objetos, Camino del Infinito, niveles…)— a petición o automáticamente.",
+      "noms": {
+        "donnees": "datos",
+        "exporter": "exportar",
+        "fichier": "archivo",
+        "importer": "importar",
+        "recreer": "recrear",
+        "sauvegarde": "copia"
+      },
+      "command": {
+        "description": "Exporta o restaura la copia de seguridad completa del servidor.",
+        "export": "Descarga una copia de seguridad completa del servidor (configuración + datos).",
+        "import": "Restaura el servidor desde un archivo de copia de seguridad."
+      },
+      "opt": {
+        "file": "El archivo de copia de seguridad que importar (.json o .json.gz).",
+        "recreate": "Recrear los canales/roles que faltan en este servidor (por defecto: sí).",
+        "data": "Incluir los datos de los miembros: dinero, objetos, Camino… (por defecto: sí).",
+        "restoreData": "Restaurar también los datos de los miembros: sobrescribe los del servidor (por defecto: sí)."
+      },
+      "export": {
+        "title": "💾 Copia de seguridad del servidor",
+        "done": "Aquí tienes la copia de **{count}** módulo(s). Guarda bien este archivo: podrás volver a importarlo con `/copia importar`.",
+        "structure": "🏗️ Estructura incluida: **{channels}** canal(es) y **{roles}** rol(es) referenciados; podrán recrearse al importar en otro servidor.",
+        "data": "📦 Datos incluidos: **{rows}** línea(s) en **{tables}** tabla(s): dinero, objetos e inventarios, Camino del Infinito, niveles, sanciones…",
+        "noData": "ℹ️ Datos de los miembros **no incluidos**: este archivo solo contiene la configuración.",
+        "shared": "🔗 Dependencias compartidas: **{rows}** línea(s) de un catálogo común (gacha…) a las que apuntan estos datos, para que la restauración aguante en otra instancia del bot."
+      },
+      "import": {
+        "title": "✅ Servidor restaurado",
+        "applied": "**{count}** módulo(s) restaurado(s): {list}",
+        "data": "📦 Datos restaurados: **{rows}** línea(s) en **{tables}** tabla(s).",
+        "dataSkipped": "ℹ️ El archivo contenía datos de miembros: **no** se han restaurado (opción desactivada).",
+        "structure": "🏗️ Estructura: **{channelsCreated}** canal(es) creado(s) · {channelsReused} reutilizado(s) — **{rolesCreated}** rol(es) creado(s) · {rolesReused} reutilizado(s).",
+        "structureFailed": "⚠️ **{failed}** elemento(s) no se han podido crear: el bot necesita los permisos **Gestionar roles** y **Gestionar canales** (y estar bastante arriba en la jerarquía).",
+        "structureMissing": "ℹ️ Esta copia no contiene la estructura (canales/roles). Vuelve a exportarla desde la última versión del bot para permitir la recreación automática.",
+        "skippedUnknown": "⚠️ Módulos desconocidos ignorados: {list}",
+        "skippedInvalid": "⚠️ Configuración no válida ignorada: {list}",
+        "otherGuild": "ℹ️ Esta copia procede de otro servidor: comprueba los ajustes después.",
+        "tooLarge": "❌ El archivo es demasiado grande. Probablemente no es una copia válida.",
+        "downloadFailed": "❌ No se ha podido descargar el archivo adjunto. Inténtalo de nuevo.",
+        "invalidJson": "❌ El archivo no es un JSON válido.",
+        "invalidShape": "❌ Este archivo no es una copia de seguridad válida de Vakz-Bot.",
+        "shared": "🔗 Catálogo compartido: **{added}** línea(s) añadida(s), **{matched}** ya presente(s) y reasociada(s)."
+      },
+      "delivery": {
+        "content": "💾 Copia de seguridad automática de **{guild}**: {rows} línea(s) de datos."
+      }
+    }
+  }
+}

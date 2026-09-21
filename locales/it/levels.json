@@ -1,0 +1,103 @@
+{
+  "modules": {
+    "levels": {
+      "label": "Livelli",
+      "description": "Guadagno di PE per messaggio, livelli, ruoli ricompensa e classifica.",
+      "noms": {
+        "classement": "classifica",
+        "membre": "membro",
+        "rang": "rango"
+      },
+      "commands": {
+        "rang": {
+          "description": "Mostra il tuo livello, i tuoi PE e il tuo rango.",
+          "member": "Il membro di cui vedere il rango (predefinito: tu).",
+          "noXp": "Questo membro non ha ancora guadagnato PE.",
+          "title": "Livello di {user}",
+          "level": "Livello",
+          "rank": "Rango",
+          "xp": "PE",
+          "progress": "Progressione"
+        },
+        "leaderboard": {
+          "description": "Mostra la classifica dei membri per PE.",
+          "empty": "Nessuno ha ancora guadagnato PE su questo server.",
+          "title": "🏆 Classifica"
+        }
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ Guadagno di PE",
+          "champs": {
+            "xpMin": {
+              "label": "PE minimi per messaggio"
+            },
+            "xpMax": {
+              "label": "PE massimi per messaggio"
+            },
+            "cooldown": {
+              "label": "Attesa tra due guadagni (s)"
+            },
+            "maxLevel": {
+              "label": "Livello massimo (0 = illimitato)"
+            },
+            "ignoredChannelIds": {
+              "label": "Canali ignorati"
+            },
+            "ignoredRoleIds": {
+              "label": "Ruoli ignorati"
+            },
+            "boosterRoleIds": {
+              "label": "Ruoli con bonus di PE"
+            },
+            "boosterMultiplier": {
+              "label": "Moltiplicatore del bonus"
+            },
+            "voiceEnabled": {
+              "label": "PE in vocale"
+            },
+            "voiceXpPerMinute": {
+              "label": "PE al minuto in vocale"
+            },
+            "leaderboardChannelId": {
+              "label": "Canale della classifica"
+            }
+          }
+        },
+        "g1": {
+          "label": "🏅 Ricompense di ruolo",
+          "description": "Ruolo assegnato automaticamente quando un membro raggiunge il livello indicato.",
+          "champs": {
+            "rewards": {
+              "label": "Ruoli per livello",
+              "addLabel": "Aggiungi una ricompensa",
+              "item": {
+                "level": {
+                  "label": "Livello"
+                },
+                "roleId": {
+                  "label": "Ruolo"
+                }
+              }
+            }
+          }
+        },
+        "announce": {
+          "label": "📣 Annuncio di passaggio di livello",
+          "champs": {
+            "enabled": {
+              "label": "Attivare l'annuncio"
+            },
+            "channelId": {
+              "label": "Canale (vuoto = canale del messaggio)"
+            },
+            "message": {
+              "label": "Messaggio",
+              "help": "Variabili: {mention}, {level}."
+            }
+          }
+        }
+      }
+    }
+  }
+}

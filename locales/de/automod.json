@@ -1,0 +1,213 @@
+{
+  "modules": {
+    "automod": {
+      "label": "Auto-Moderation",
+      "description": "Filtert automatisch Spam, Werbung, Missbrauch und Fallen-Nachrichten.",
+      "actions": {
+        "setupHoneypot": {
+          "label": "Fallenkanal erstellen",
+          "help": "Erstellt einen für alle sichtbaren Kanal, in dem Schreiben die eingerichtete Sanktion auslöst.",
+          "confirm": "Einen neuen Fallenkanal auf diesem Server erstellen?",
+          "msg": {
+            "noGuild": "Server nicht gefunden.",
+            "noPermission": "Erstellung abgelehnt: Berechtigung „Kanäle verwalten“ fehlt.",
+            "done": "Fallenkanal erstellt: #{salon}."
+          }
+        }
+      },
+      "rules": {
+        "spam": "Spam",
+        "invites": "Einladungen",
+        "links": "Links",
+        "badWords": "Verbotene Wörter",
+        "mentions": "Erwähnungen",
+        "caps": "Großbuchstaben",
+        "honeypot": "Honeypot"
+      },
+      "reason": {
+        "spam": "Auto-Moderation: Spam ({count} Nachrichten in {seconds} s).",
+        "invites": "Auto-Moderation: nicht erlaubte Discord-Einladung.",
+        "links": "Auto-Moderation: nicht erlaubter Link.",
+        "badWords": "Auto-Moderation: verbotenes Wort.",
+        "mentions": "Auto-Moderation: Missbrauch von Erwähnungen.",
+        "caps": "Auto-Moderation: Missbrauch von Großbuchstaben."
+      },
+      "detail": {
+        "spam": "{count} Nachrichten im Fenster von {seconds} s.",
+        "badWords": "Erkanntes Wort: `{word}`",
+        "mentions": "{count} Erwähnungen in der Nachricht.",
+        "caps": "{percent} % der Buchstaben groß."
+      },
+      "log": {
+        "title": "Auto-Moderation",
+        "member": "Mitglied",
+        "rule": "Regel",
+        "action": "Aktion",
+        "channel": "Kanal",
+        "reason": "Grund",
+        "detail": "Detail",
+        "empty": "*leerer Inhalt*"
+      },
+      "honeypot": {
+        "bans": "Banns",
+        "action": "Honeypot-Bann",
+        "topic": "Honeypot gegen gekaperte Konten: Hier keine Nachricht senden.",
+        "createReason": "Erstellung des Honeypot-Kanals von Vakz-Bot",
+        "embedTitle": "IN DIESEM KANAL KEINE NACHRICHTEN SENDEN",
+        "embedDescription": "Dieser Kanal dient dazu, gekaperte Konten zu erkennen. Jede hier gesendete Nachricht führt sofort zu einem Bann.",
+        "banReason": "Honeypot ausgelöst",
+        "counter": "Banns: {count}"
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ Allgemein",
+          "description": "Der Fallenkanal wird mit der Aktion „Fallenkanal erstellen“ weiter unten erstellt.",
+          "champs": {
+            "logChannelId": {
+              "label": "Kanal für Automod-Protokolle"
+            },
+            "ignoredChannelIds": {
+              "label": "Ignorierte Kanäle"
+            },
+            "ignoredRoleIds": {
+              "label": "Ignorierte Rollen"
+            }
+          }
+        },
+        "spam": {
+          "label": "🚫 Anti-Spam",
+          "champs": {
+            "enabled": {
+              "label": "Aktivieren"
+            },
+            "action": {
+              "label": "Sanktion",
+              "opt": {
+                "delete": {
+                  "label": "Löschen"
+                },
+                "warn": {
+                  "label": "Verwarnen"
+                },
+                "timeout": {
+                  "label": "Timeout"
+                },
+                "kick": {
+                  "label": "Rauswerfen"
+                },
+                "ban": {
+                  "label": "Bannen"
+                }
+              }
+            },
+            "maxMessages": {
+              "label": "Max. Nachrichten"
+            },
+            "windowSeconds": {
+              "label": "Fenster (s)"
+            },
+            "timeoutMinutes": {
+              "label": "Timeout (Min.)"
+            }
+          }
+        },
+        "invites": {
+          "label": "🔗 Anti-Discord-Einladungen",
+          "champs": {
+            "enabled": {
+              "label": "Aktivieren"
+            },
+            "action": {
+              "label": "Sanktion",
+              "opt": {
+                "delete": {
+                  "label": "Löschen"
+                },
+                "warn": {
+                  "label": "Verwarnen"
+                },
+                "timeout": {
+                  "label": "Timeout"
+                },
+                "kick": {
+                  "label": "Rauswerfen"
+                },
+                "ban": {
+                  "label": "Bannen"
+                }
+              }
+            }
+          }
+        },
+        "mentions": {
+          "label": "📢 Anti-Massenerwähnungen",
+          "champs": {
+            "enabled": {
+              "label": "Aktivieren"
+            },
+            "action": {
+              "label": "Sanktion",
+              "opt": {
+                "delete": {
+                  "label": "Löschen"
+                },
+                "warn": {
+                  "label": "Verwarnen"
+                },
+                "timeout": {
+                  "label": "Timeout"
+                },
+                "kick": {
+                  "label": "Rauswerfen"
+                },
+                "ban": {
+                  "label": "Bannen"
+                }
+              }
+            },
+            "maxMentions": {
+              "label": "Max. Erwähnungen"
+            },
+            "timeoutMinutes": {
+              "label": "Timeout (Min.)"
+            }
+          }
+        },
+        "caps": {
+          "label": "🔠 Anti-Großbuchstaben",
+          "champs": {
+            "enabled": {
+              "label": "Aktivieren"
+            },
+            "action": {
+              "label": "Sanktion",
+              "opt": {
+                "delete": {
+                  "label": "Löschen"
+                },
+                "warn": {
+                  "label": "Verwarnen"
+                },
+                "timeout": {
+                  "label": "Timeout"
+                },
+                "kick": {
+                  "label": "Rauswerfen"
+                },
+                "ban": {
+                  "label": "Bannen"
+                }
+              }
+            },
+            "minLength": {
+              "label": "Mindestlänge der Nachricht"
+            },
+            "percent": {
+              "label": "Auslösender Anteil Großbuchstaben (%)"
+            }
+          }
+        }
+      }
+    }
+  }
+}

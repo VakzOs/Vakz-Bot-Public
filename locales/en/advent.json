@@ -3,7 +3,13 @@
     "advent": {
       "label": "Advent calendar",
       "description": "From December 1st to 24th, every member opens one door a day and earns coins and/or an item.",
-      "announce": "🎄 Day **{day}** of the Advent calendar is now open! Use `/avent ouvrir` to reveal your reward.",
+      "noms": {
+        "avent": "advent",
+        "calendrier": "calendar",
+        "jour": "day",
+        "ouvrir": "open"
+      },
+      "announce": "🎄 Day **{day}** of the Advent calendar is now open! Use `/advent open` to reveal your reward.",
       "command": {
         "description": "Advent calendar: open your door of the day.",
         "open": "Open today's door (or a specific day).",
@@ -29,6 +35,69 @@
         "nothing": "…but the door was empty this time.",
         "balance": "Balance: {balance} coins",
         "linkButton": "🔗 Open the link"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "announceChannelId": {
+              "label": "Announcement channel",
+              "help": "The channel where the bot announces each morning that a new door is open. Empty, the calendar still works — people just have to remember to come and open it."
+            },
+            "defaultCoins": {
+              "label": "Default coins per day",
+              "help": "What a door pays when no reward is defined for it below. Saves having to fill in all 24 days before the calendar is playable."
+            },
+            "testMode": {
+              "label": "Test mode (opens every door)",
+              "help": "Opens every door outside December, to check the rewards before the 1st. TURN IT OFF before the real opening: left on, all 24 doors can be claimed at once."
+            }
+          }
+        },
+        "g1": {
+          "label": "🎁 Day-by-day rewards",
+          "description": "One row per door to customise. Days left out of the list give the default coins.",
+          "champs": {
+            "rewards": {
+              "label": "Custom doors",
+              "addLabel": "Add a day",
+              "item": {
+                "day": {
+                  "label": "Day (1 to 25)"
+                },
+                "coins": {
+                  "label": "Coins awarded"
+                },
+                "items": {
+                  "label": "Items awarded",
+                  "help": "Item ids from the catalogue, one per bullet."
+                },
+                "itemQty": {
+                  "label": "Quantity per item"
+                },
+                "message": {
+                  "label": "Opening message"
+                },
+                "link": {
+                  "label": "Link awarded (button)"
+                }
+              },
+              "help": "One row per day you want to customise; missing days fall back to the default coins. Items are named by their catalogue id — an unknown id is silently ignored, and the door only pays the coins. The quantity applies to each item on the row."
+            }
+          }
+        }
+      },
+      "actions": {
+        "resetMyClaims": {
+          "label": "Reset my openings",
+          "help": "Deletes only YOUR opened doors, so you can test the calendar again.",
+          "confirm": "Erase your own opened doors on this server?",
+          "msg": {
+            "done": "{n} opening(s) erased."
+          }
+        },
+        "msg": {
+          "noActor": "Unknown actor."
+        }
       }
     }
   }

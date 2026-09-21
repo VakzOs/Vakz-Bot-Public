@@ -1,0 +1,75 @@
+{
+  "modules": {
+    "serverstats": {
+      "label": "Contadores del servidor",
+      "description": "Canales cuyo nombre muestra una estadística del servidor, actualizada automáticamente.",
+      "type": {
+        "members": "Miembros",
+        "humans": "Humanos",
+        "bots": "Bots",
+        "boosts": "Mejoras",
+        "roles": "Roles",
+        "channels": "Canales",
+        "role": "Miembros de un rol"
+      },
+      "default": {
+        "members": "👥 {count} miembros",
+        "humans": "🧑 {count} humanos",
+        "bots": "🤖 {count} bots",
+        "boosts": "🚀 {count} mejoras",
+        "roles": "🏷️ {count} roles",
+        "channels": "📁 {count} canales",
+        "role": "⭐ {count}"
+      },
+      "compteurs": {
+        "members": "Miembros",
+        "humans": "Humanos",
+        "bots": "Bots",
+        "boosts": "Mejoras",
+        "roles": "Número de roles",
+        "channels": "Número de canales",
+        "role": "Miembros de un rol"
+      },
+      "ui": {
+        "g0": {
+          "label": "📊 Contadores",
+          "description": "Cada contador renombra un canal de voz con una estadística del servidor.",
+          "champs": {
+            "counters": {
+              "label": "Contadores",
+              "addLabel": "Añadir un contador",
+              "item": {
+                "channelId": {
+                  "label": "Canal (de voz)"
+                },
+                "type": {
+                  "label": "Tipo"
+                },
+                "roleId": {
+                  "label": "Rol (tipo «Miembros de un rol»)"
+                },
+                "template": {
+                  "label": "Plantilla de nombre",
+                  "help": "{count} = valor del contador."
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "refreshAll": {
+          "label": "Actualizar los contadores",
+          "help": "Renombra inmediatamente cada canal contador con su valor actual.",
+          "msg": {
+            "done": "{n} contador(es) actualizado(s)."
+          }
+        },
+        "msg": {
+          "noGuild": "Servidor no encontrado.",
+          "noCounter": "No hay ningún contador configurado."
+        }
+      }
+    }
+  }
+}

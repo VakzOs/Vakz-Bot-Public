@@ -1,4 +1,10 @@
 {
+  "langue": {
+    "nom": "Français",
+    "drapeau": "🇫🇷",
+    "format": "fr-FR",
+    "discord": "fr"
+  },
   "errors": {
     "generic": "❌ Une erreur est survenue. Merci de réessayer plus tard.",
     "guildOnly": "❌ Cette commande n'est utilisable que sur un serveur.",

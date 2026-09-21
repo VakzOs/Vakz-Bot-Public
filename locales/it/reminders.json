@@ -1,0 +1,76 @@
+{
+  "modules": {
+    "reminders": {
+      "label": "Promemoria",
+      "description": "Programma promemoria persistenti in un canale o in messaggio privato.",
+      "invalidDuration": "❌ Durata non valida. Indica un numero di minuti (minimo 1 minuto, massimo {days} giorno/i).",
+      "emptyText": "❌ Il testo del promemoria non può essere vuoto.",
+      "dmDisabled": "❌ I promemoria in privato sono disattivati su questo server.",
+      "created": "⏰ Promemoria registrato: {duration} (prossima esecuzione {time}).",
+      "delivery": "⏰ {target}, promemoria: {text}",
+      "weekdays": {
+        "1": "lunedì",
+        "2": "martedì",
+        "3": "mercoledì",
+        "4": "giovedì",
+        "5": "venerdì",
+        "6": "sabato",
+        "7": "domenica"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "allowDm": {
+              "label": "Consentire i promemoria in messaggio privato"
+            },
+            "maxDelayDays": {
+              "label": "Anticipo massimo di un promemoria (giorni)"
+            }
+          }
+        }
+      },
+      "actions": {
+        "create": {
+          "label": "Programma un promemoria",
+          "champs": {
+            "repeatKind": {
+              "label": "Cadenza",
+              "opt": {
+                "once": "Una sola volta",
+                "weekly": "Ogni settimana"
+              }
+            },
+            "targetKind": {
+              "label": "Destinatario",
+              "opt": {
+                "user": "Un membro",
+                "role": "Un ruolo"
+              }
+            },
+            "targetId": {
+              "label": "Identificatore del membro / ruolo",
+              "help": "Snowflake Discord della persona o del ruolo da avvisare."
+            },
+            "channelId": {
+              "label": "Canale del promemoria",
+              "help": "Lascia vuoto per inviare in messaggio privato (solo destinatario «membro»)."
+            },
+            "message": "Messaggio",
+            "delayMinutes": "Tra quanti minuti? (cadenza «una sola volta»)",
+            "weeklyDay": "Giorno (1 = lunedì … 7 = domenica, cadenza settimanale)",
+            "weeklyHour": "Ora (0-23, cadenza settimanale)",
+            "weeklyMinute": "Minuto (0-59, cadenza settimanale)"
+          },
+          "msg": {
+            "needMessage": "Il messaggio è obbligatorio.",
+            "badTarget": "Identificatore del destinatario non valido.",
+            "roleNeedsChannel": "Un promemoria di ruolo deve puntare a un canale.",
+            "delayOutOfRange": "Anticipo fuori dai limiti (da 1 a {max} minuti).",
+            "dmDisabled": "I promemoria in messaggio privato sono disattivati.",
+            "done": "Promemoria programmato per il {date}."
+          }
+        }
+      }
+    }
+  }
+}

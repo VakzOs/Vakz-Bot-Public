@@ -1,0 +1,103 @@
+{
+  "modules": {
+    "levels": {
+      "label": "Niveles",
+      "description": "Ganancia de XP por mensaje, niveles, roles de recompensa y clasificación.",
+      "noms": {
+        "classement": "clasificacion",
+        "membre": "miembro",
+        "rang": "rango"
+      },
+      "commands": {
+        "rang": {
+          "description": "Muestra tu nivel, tu XP y tu rango.",
+          "member": "El miembro cuyo rango ver (por defecto: tú).",
+          "noXp": "Este miembro todavía no ha ganado XP.",
+          "title": "Nivel de {user}",
+          "level": "Nivel",
+          "rank": "Rango",
+          "xp": "XP",
+          "progress": "Progreso"
+        },
+        "leaderboard": {
+          "description": "Muestra la clasificación de los miembros por XP.",
+          "empty": "Todavía nadie ha ganado XP en este servidor.",
+          "title": "🏆 Clasificación"
+        }
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ Ganancia de XP",
+          "champs": {
+            "xpMin": {
+              "label": "XP mínima por mensaje"
+            },
+            "xpMax": {
+              "label": "XP máxima por mensaje"
+            },
+            "cooldown": {
+              "label": "Enfriamiento entre ganancias (s)"
+            },
+            "maxLevel": {
+              "label": "Nivel máximo (0 = ilimitado)"
+            },
+            "ignoredChannelIds": {
+              "label": "Canales ignorados"
+            },
+            "ignoredRoleIds": {
+              "label": "Roles ignorados"
+            },
+            "boosterRoleIds": {
+              "label": "Roles con bonificación de XP"
+            },
+            "boosterMultiplier": {
+              "label": "Multiplicador de la bonificación"
+            },
+            "voiceEnabled": {
+              "label": "XP en voz"
+            },
+            "voiceXpPerMinute": {
+              "label": "XP por minuto en voz"
+            },
+            "leaderboardChannelId": {
+              "label": "Canal de la clasificación"
+            }
+          }
+        },
+        "g1": {
+          "label": "🏅 Recompensas de rol",
+          "description": "Rol asignado automáticamente cuando un miembro alcanza el nivel indicado.",
+          "champs": {
+            "rewards": {
+              "label": "Roles por nivel",
+              "addLabel": "Añadir una recompensa",
+              "item": {
+                "level": {
+                  "label": "Nivel"
+                },
+                "roleId": {
+                  "label": "Rol"
+                }
+              }
+            }
+          }
+        },
+        "announce": {
+          "label": "📣 Anuncio de subida de nivel",
+          "champs": {
+            "enabled": {
+              "label": "Activar el anuncio"
+            },
+            "channelId": {
+              "label": "Canal (vacío = canal del mensaje)"
+            },
+            "message": {
+              "label": "Mensaje",
+              "help": "Variables: {mention}, {level}."
+            }
+          }
+        }
+      }
+    }
+  }
+}

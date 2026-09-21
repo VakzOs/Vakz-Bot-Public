@@ -59,8 +59,7 @@ function buildCloseRow(ticketId: string): ActionRowBuilder<MessageActionRowCompo
 }
 
 export type PublishResult =
-  | { ok: true; messageId: string }
-  | { ok: false; error: 'nochannel' | 'notypes' | 'send' };
+  { ok: true; messageId: string } | { ok: false; error: 'nochannel' | 'notypes' | 'send' };
 
 /** Publie (ou met à jour) le panneau (embed + un bouton par type). */
 export async function publishPanel(guild: Guild, config: TicketsConfig): Promise<PublishResult> {
@@ -153,8 +152,7 @@ async function pruneDeadTickets(ctx: BotContext, guild: Guild, openerId: string)
 }
 
 export type OpenResult =
-  | { ok: true; channelId: string }
-  | { ok: false; error: 'max' | 'noperm' | 'create' };
+  { ok: true; channelId: string } | { ok: false; error: 'max' | 'noperm' | 'create' };
 
 /** Crée un salon de ticket privé (catégorie) visible par l'auteur + les rôles du type. */
 async function createTicketChannel(

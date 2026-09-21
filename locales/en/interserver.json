@@ -2,7 +2,51 @@
   "modules": {
     "interserver": {
       "label": "Cross-server",
-      "description": "Links channels from different servers: a message posted in a linked channel is relayed (name + avatar preserved) to the other channels of the same network."
+      "description": "Links channels from different servers: a message posted in a linked channel is relayed (name + avatar preserved) to the other channels of the same network.",
+      "ui": {
+        "g0": {
+          "description": "Channels are linked with the “Link / Unlink a channel” actions below.",
+          "champs": {
+            "tagServer": {
+              "label": "Show the origin server's name on relayed messages",
+              "help": "Appends « • ServerName » to the nickname shown on every relayed message. Keep it on as soon as the network links more than two servers: without it, two members sharing a nickname become indistinguishable, and you no longer know where what you read comes from."
+            }
+          }
+        }
+      },
+      "actions": {
+        "link": {
+          "label": "Link a channel",
+          "help": "Servers sharing the same network code have their messages relayed to each other.",
+          "champs": {
+            "channelId": "Channel to link",
+            "network": {
+              "label": "Network code",
+              "placeholder": "my-network",
+              "help": "3 to 32 characters: letters, digits and hyphens."
+            }
+          },
+          "msg": {
+            "noGuild": "Server not found.",
+            "badChannel": "Channel not found or not a text channel.",
+            "done": "Channel linked to the “{reseau}” network.",
+            "badCode": "Invalid network code (3 to 32 characters).",
+            "noPermission": "The “Manage Webhooks” permission is missing on this channel.",
+            "webhookFailed": "Could not create the webhook."
+          }
+        },
+        "unlink": {
+          "label": "Unlink a channel",
+          "confirm": "Remove this channel from its cross-server network?",
+          "champs": {
+            "channelId": "Linked channel"
+          },
+          "msg": {
+            "pickChannel": "Pick a channel that is currently linked.",
+            "done": "Channel unlinked."
+          }
+        }
+      }
     }
   }
 }

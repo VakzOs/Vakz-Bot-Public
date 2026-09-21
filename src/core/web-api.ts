@@ -3,9 +3,44 @@ import { createHash, timingSafeEqual } from 'node:crypto';
 import { env } from './env.js';
 import { logger } from './logger.js';
 import { contextFor } from './context.js';
-import { t } from './i18n.js';
+import {
+  DEFAULT_LOCALE,
+  isKnownLocale,
+  listLocales,
+  normalizeLocale,
+  runWithLocale,
+  t,
+} from './i18n.js';
+import { forgetGuildLocale, localeForGuild, setGuildLocale } from './guild-locale.js';
+import { redeployGuildCommands } from './command-deploy.js';
+import {
+  ACCESS_SCOPES,
+  MAX_GRADES,
+  type Grade,
+  type GradeInput,
+  type GuildAccess,
+  type ModuleGrant,
+  PUBLISH_ACTION,
+  TOGGLE_ACTION,
+  accessFor,
+  forgetGuildAccess,
+  grants,
+  grantsAction,
+  grantsAnything,
+  grantsModule,
+  listGrades,
+  moduleActionPermission,
+  moduleGrant,
+  modulePartPermission,
+  modulePartVerbPermission,
+  modulePermission,
+  saveGrades,
+} from './guild-access.js';
 import { moduleVisual } from './module-catalog.js';
+import { configPartId, keepAllowedGroups, verbsFor } from './config-parts.js';
+import { commandNamesFor } from './command-locale.js';
 import { getRegistry } from './loader.js';
+import { moduleActions, moduleConfigUI } from './module.js';
 import type { BotContext, BotModule, ModuleActionResult, ModuleHttpRoute } from './module.js';
 import type { ModuleRegistry } from './loader.js';
 import {
@@ -55,7 +90,7 @@ import {
   MAX_PRESENCE_LINES,
   setPresenceLines,
 } from './presence.js';
-import { PermissionFlagsBits, type Guild } from 'discord.js';
+import type { Guild } from 'discord.js';
 import {
   LOG_BUFFER_CAPACITY,
   bufferOldest,
@@ -103,6 +138,20 @@ function isSnowflake(value: string | undefined): value is string {
   return typeof value === 'string' && /^\d{5,25}$/.test(value);
 }
 
+/**
+ * La langue demandée par le dashboard (`?locale=en`), quand elle existe ici.
+ *
+ * Une langue inconnue est ignorée plutôt que refusée : le site peut afficher
+ * une langue que le bot n'a pas (les deux dépôts ont leurs propres dossiers
+ * `locales/`), et une page de configuration ne doit pas répondre 400 pour
+ * autant — elle rend ses libellés dans la langue par défaut du bot.
+ */
+function requestedLocale(url: URL): string | undefined {
+  const wanted = url.searchParams.get('locale');
+  if (!wanted) return undefined;
+  return isKnownLocale(wanted) ? normalizeLocale(wanted) : undefined;
+}
+
 function authorized(req: IncomingMessage): boolean {
   const header = req.headers.authorization ?? '';
   const token = header.startsWith('Bearer ') ? header.slice(7) : '';
@@ -122,20 +171,148 @@ function getActorId(req: IncomingMessage): string | undefined {
 }
 
 /**
- * L'acteur peut-il administrer CE serveur ? Vérifié depuis le cache du bot
- * (source de vérité) : propriétaire du serveur, ou membre ayant « Gérer le
+ * L'acteur peut-il administrer CE serveur ENTIER ? Vérifié depuis le cache du
+ * bot (source de vérité) : propriétaire du serveur, ou membre ayant « Gérer le
  * serveur ». Empêche un porteur du token de purger n'importe quel serveur.
+ *
+ * C'est le niveau `manager` de `guild-access.ts` : ce qui ne se délègue pas
+ * (purge, délégations elles-mêmes) s'arrête ici. Tout le reste passe par
+ * `accessFor()` et demande une permission NOMMÉE — un modérateur à qui l'on a
+ * confié un module n'est pas pour autant administrateur.
  */
 async function actorCanManageGuild(
   ctx: BotContext,
   guildId: string,
   actorId: string,
 ): Promise<boolean> {
-  const guild = ctx.client.guilds.cache.get(guildId);
-  if (!guild) return false;
-  if (guild.ownerId === actorId) return true;
-  const member = await guild.members.fetch(actorId).catch(() => null);
-  return member?.permissions.has(PermissionFlagsBits.ManageGuild) ?? false;
+  return (await accessFor(ctx, guildId, actorId)).level === 'manager';
+}
+
+/** Un verbe qu'un grade peut recevoir sur les lignes d'un bloc. */
+interface DelegableVerb {
+  id: string;
+  permission: string;
+}
+
+/** Un bloc de réglages qu'un grade peut recevoir à part. */
+interface DelegablePart {
+  id: string;
+  permission: string;
+  /** Le nom du bloc, `null` s'il n'en porte aucun (le dashboard le nomme). */
+  label: string | null;
+  /**
+   * Ce qu'on peut faire de ses LIGNES, quand il en a. Vide pour un bloc sans
+   * liste : il n'y a rien à y créer ni à y supprimer, le cocher vaut
+   * « modifier ».
+   */
+  verbs: DelegableVerb[];
+}
+
+/** Un bouton d'action qu'un grade peut recevoir à part. */
+interface DelegableAction {
+  id: string;
+  permission: string;
+  /** `null` pour le bouton réservé de publication : le site le nomme. */
+  label: string | null;
+}
+
+/**
+ * Les blocs de réglages d'un module, quand les déléguer a un sens.
+ *
+ * Un module dont la configuration tient en UN bloc n'a pas de partie à céder :
+ * cocher ce bloc-là reviendrait à cocher le module, à l'interrupteur et aux
+ * boutons d'action près. Le proposer quand même doublerait chaque ligne du
+ * panneau sans rien ouvrir de plus — un tel module se délègue donc entier ou
+ * pas du tout.
+ */
+function delegableParts(module: BotModule): DelegablePart[] {
+  // Tout bloc se délègue, même celui d'un module qui n'en a qu'un : ses VERBES
+  // y font une différence — ne serait-ce que la lecture seule.
+  return moduleConfigUI(module).map((group, index) => {
+    const id = configPartId(group, index);
+    return {
+      id,
+      permission: modulePartPermission(module.name, id),
+      // Un groupe sans titre ni clé n'a pas de nom à donner : `null` plutôt
+      // qu'un identifiant technique, que le dashboard afficherait tel quel.
+      label: group.label ?? group.key ?? null,
+      // Seulement ceux que la FORME du bloc rend réels (voir `verbsFor`).
+      verbs: verbsFor(group).map((verb) => ({
+        id: verb,
+        permission: modulePartVerbPermission(module.name, id, verb),
+      })),
+    };
+  });
+}
+
+/**
+ * Les boutons d'action d'un module, délégables un par un.
+ *
+ * C'est le geste isolé : republier un message épinglé, tester une alerte,
+ * rafraîchir des compteurs. On peut confier cela sans confier le réglage qui
+ * va avec — et c'est souvent ce qu'un serveur veut donner à son équipe.
+ */
+function delegableActions(module: BotModule): DelegableAction[] {
+  const actions: DelegableAction[] = moduleActions(module).map((action) => ({
+    id: action.id,
+    permission: moduleActionPermission(module.name, action.id),
+    label: action.label,
+  }));
+  // L'interrupteur : couper l'automod pendant un raid sans pouvoir en changer
+  // une virgule est un besoin qui ne ressemble à aucun réglage.
+  actions.unshift({
+    id: TOGGLE_ACTION,
+    permission: moduleActionPermission(module.name, TOGGLE_ACTION),
+    label: null,
+  });
+  if (typeof module.publishPanel === 'function') {
+    // Le panneau n'est pas une action déclarée par le module, mais republier
+    // est un geste comme un autre : il se délègue sous un identifiant réservé.
+    actions.unshift({
+      id: PUBLISH_ACTION,
+      permission: moduleActionPermission(module.name, PUBLISH_ACTION),
+      label: null,
+    });
+  }
+  return actions;
+}
+
+/**
+ * Le vocabulaire des permissions de CETTE instance : ses modules, les blocs de
+ * réglages de chacun, et les portées transversales.
+ *
+ * Il se DÉDUIT du code chargé : un module retiré du dépôt n'est pas délégable,
+ * et un bloc renommé cesse de l'être — aucune liste à tenir à jour ici.
+ */
+function knownPermissions(modules: BotModule[]): Set<string> {
+  const known = new Set<string>(ACCESS_SCOPES);
+  for (const module of modules) {
+    if (module.internal) continue;
+    known.add(modulePermission(module.name));
+    for (const part of delegableParts(module)) {
+      known.add(part.permission);
+      for (const verb of part.verbs) known.add(verb.permission);
+    }
+    for (const action of delegableActions(module)) known.add(action.permission);
+  }
+  return known;
+}
+
+/** Un grade tel que le lit le dashboard. */
+function serializeGrade(grade: Grade): Record<string, unknown> {
+  return {
+    id: grade.id,
+    name: grade.name,
+    roleIds: grade.roleIds,
+    memberIds: grade.memberIds,
+    permissions: grade.permissions,
+    position: grade.position,
+  };
+}
+
+/** L'accès d'un acteur, tel que le lit le dashboard. */
+function serializeAccess(access: GuildAccess): Record<string, unknown> {
+  return { level: access.level, permissions: access.permissions, grades: access.grades };
 }
 
 /**
@@ -198,32 +375,90 @@ async function serializeModule(
   ctx: BotContext,
   guildId: string,
   module: ModuleRegistry['modules'][number],
+  /**
+   * Langue des libellés. C'est celle du SITE, pas celle du serveur : l'admin
+   * qui a mis le dashboard en anglais lit « Levels » même si son serveur parle
+   * français à ses membres. Les deux réglages sont indépendants, et les
+   * confondre ferait d'un choix d'affichage un changement pour tout le serveur.
+   */
+  locale?: string,
 ): Promise<Record<string, unknown>> {
-  const state = await ctx.config.getModuleState(guildId, module.name, module.configSchema);
-  const visual = moduleVisual(module);
+  // La langue est POSÉE autour de la sérialisation, pas seulement passée à
+  // `t()` : les libellés des blocs et des boutons sortent de fabriques qui
+  // appellent `t()` sans argument, et ne trouveraient la bonne langue nulle
+  // part ailleurs.
+  return runWithLocale(locale, async () => {
+    const state = await ctx.config.getModuleState(guildId, module.name, module.configSchema);
+    const visual = moduleVisual(module);
+    return {
+      name: module.name,
+      label: t(module.labelKey, undefined, locale),
+      description: t(module.descriptionKey, undefined, locale),
+      category: visual.category,
+      emoji: visual.emoji,
+      enabled: state.enabled,
+      config: state.config,
+      configUI: moduleConfigUI(module),
+      publishable: typeof module.publishPanel === 'function',
+      actions: await Promise.all(
+        moduleActions(module).map(async (action) => ({
+          id: action.id,
+          label: action.label,
+          help: action.help ?? null,
+          style: action.style ?? 'secondary',
+          confirm: action.confirm ?? null,
+          // `resolveFields` dépend du serveur : une erreur de résolution ne doit
+          // pas faire tomber toute la page du module — on retombe sur `fields`.
+          fields:
+            (await action.resolveFields?.(ctx, guildId).catch(() => null)) ?? action.fields ?? null,
+        })),
+      ),
+    };
+  });
+}
+
+/**
+ * Ce qu'un gradé partiel voit d'un module : ses blocs à lui, et rien d'autre.
+ *
+ * Les valeurs des autres blocs sont retirées AUSSI — un bloc qu'on ne peut pas
+ * régler n'a pas non plus à se lire (une liste de mots interdits, un salon de
+ * logs). L'interrupteur et les boutons d'action appartiennent au module
+ * entier : ils allument ou publient pour tout le monde, pas pour un bloc.
+ */
+function restrictModule(
+  serialized: Record<string, unknown>,
+  module: BotModule,
+  grant: ModuleGrant,
+): Record<string, unknown> {
+  if (grant === '*') return serialized;
+  const configUI = moduleConfigUI(module);
+  const actions = Array.isArray(serialized.actions) ? serialized.actions : [];
   return {
-    name: module.name,
-    label: t(module.labelKey),
-    description: t(module.descriptionKey),
-    category: visual.category,
-    emoji: visual.emoji,
-    enabled: state.enabled,
-    config: state.config,
-    configUI: module.configUI ?? null,
-    publishable: typeof module.publishPanel === 'function',
-    actions: await Promise.all(
-      (module.actions ?? []).map(async (action) => ({
-        id: action.id,
-        label: action.label,
-        help: action.help ?? null,
-        style: action.style ?? 'secondary',
-        confirm: action.confirm ?? null,
-        // `resolveFields` dépend du serveur : une erreur de résolution ne doit
-        // pas faire tomber toute la page du module — on retombe sur `fields`.
-        fields:
-          (await action.resolveFields?.(ctx, guildId).catch(() => null)) ?? action.fields ?? null,
-      })),
+    ...serialized,
+    // Servir, c'est montrer : un bloc ouvert en lecture seule s'affiche entier.
+    config: keepAllowedGroups({}, serialized.config, configUI, grant, { readOnly: true }),
+    configUI: configUI.filter((group, index) => grant.parts.has(configPartId(group, index))),
+    // Les boutons suivent leur propre délégation : republier un message épinglé
+    // se confie sans confier la liste des messages.
+    actions: actions.filter(
+      (action) =>
+        typeof action === 'object' &&
+        action !== null &&
+        grant.actions.has(String((action as { id?: unknown }).id)),
     ),
+    publishable: grant.actions.has(PUBLISH_ACTION),
+    // Ce que le gradé peut faire des LIGNES de chaque bloc : le formulaire s'en
+    // sert pour ne pas offrir un bouton « Ajouter » que le bot annulerait.
+    verbs: Object.fromEntries(
+      configUI.flatMap((group, index) => {
+        const id = configPartId(group, index);
+        const granted = grant.parts.get(id);
+        if (!granted) return [];
+        return [[id, granted === '*' ? verbsFor(group) : [...granted].sort()]];
+      }),
+    ),
+    // Le dashboard le dit à l'écran plutôt que de laisser croire à une panne.
+    partial: true,
   };
 }
 
@@ -362,6 +597,12 @@ async function purgeGuild(ctx: BotContext, guildId: string): Promise<number> {
   }
   // Ligne Guild elle-même (clé `id`) : supprime la config restante en cascade.
   await ctx.db.$executeRawUnsafe(`DELETE FROM "Guild" WHERE "id" = ?`, guildId).catch(() => 0);
+  // La langue est mémorisée hors base : sans cet oubli, un serveur purgé puis
+  // réinvité repartirait avec le réglage qu'on vient d'effacer.
+  forgetGuildLocale(guildId);
+  // Idem pour les délégations : un serveur purgé puis réinvité ne doit pas
+  // rouvrir le dashboard à des rôles dont la ligne vient d'être effacée.
+  forgetGuildAccess(guildId);
 
   // Le bot quitte le serveur (best-effort).
   await guild?.leave().catch(() => undefined);
@@ -434,17 +675,29 @@ async function restoreFrom(
  * Segments de `/api/guilds/:id/…` que le cœur sert lui-même. Un module qui en
  * réclamerait un ne serait jamais appelé — autant le dire au démarrage.
  */
-const RESERVED_GUILD_SEGMENTS = new Set(['purge', 'modules', 'meta', 'backup']);
+const RESERVED_GUILD_SEGMENTS = new Set(['purge', 'modules', 'meta', 'backup', 'locale', 'grades']);
+
+/**
+ * Segments de `/api/<segment>` que le cœur sert lui-même, même règle que
+ * ci-dessus : ce qui est servi ici ne peut pas être réclamé par un module.
+ */
+const RESERVED_PUBLIC_SEGMENTS = new Set(['health', 'guilds', 'owner', 'locales', 'access']);
+
+/** Une route, et le module qui l'a déclarée (pour la garde par module). */
+interface OwnedRoute {
+  module: BotModule;
+  route: ModuleHttpRoute;
+}
 
 function collectModuleRoutes(modules: BotModule[]): {
-  public: Map<string, ModuleHttpRoute>;
-  owner: Map<string, ModuleHttpRoute>;
-  guild: Map<string, ModuleHttpRoute>;
+  public: Map<string, OwnedRoute>;
+  owner: Map<string, OwnedRoute>;
+  guild: Map<string, OwnedRoute>;
 } {
   const routes = {
-    public: new Map<string, ModuleHttpRoute>(),
-    owner: new Map<string, ModuleHttpRoute>(),
-    guild: new Map<string, ModuleHttpRoute>(),
+    public: new Map<string, OwnedRoute>(),
+    owner: new Map<string, OwnedRoute>(),
+    guild: new Map<string, OwnedRoute>(),
   };
   for (const module of modules) {
     for (const route of module.httpRoutes ?? []) {
@@ -452,6 +705,13 @@ function collectModuleRoutes(modules: BotModule[]): {
         log.error(
           { segment: route.segment, module: module.name },
           'Segment de serveur reserve par le coeur : la route ne sera jamais atteinte',
+        );
+        continue;
+      }
+      if (!route.guild && !route.owner && RESERVED_PUBLIC_SEGMENTS.has(route.segment)) {
+        log.error(
+          { segment: route.segment, module: module.name },
+          'Segment public reserve par le coeur : la route ne sera jamais atteinte',
         );
         continue;
       }
@@ -464,7 +724,7 @@ function collectModuleRoutes(modules: BotModule[]): {
         );
         continue;
       }
-      target.set(route.segment, route);
+      target.set(route.segment, { module, route });
     }
   }
   return routes;
@@ -516,8 +776,9 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
       // Les endpoints qu'un MODULE declare pour le proprietaire (voir
       // `ModuleHttpRoute`). Le coeur ne connait pas leur contenu : il a deja
       // verifie la garde ci-dessus, il lit le corps et relaie.
-      const ownerRoute = moduleRoutes.owner.get(parts[2] ?? '');
-      if (ownerRoute) {
+      const owned = moduleRoutes.owner.get(parts[2] ?? '');
+      if (owned) {
+        const ownerRoute = owned.route;
         const body = await readJson(req, ownerRoute.maxBodyBytes ?? 8_000).catch(() => null);
         const result = await ownerRoute.handle(ctx, {
           method: req.method ?? 'GET',
@@ -632,11 +893,55 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
       return send(res, 404, { error: 'not_found' });
     }
 
+    // GET /api/locales  -> les langues que CE bot sait parler
+    //
+    // Lue telle quelle : la liste vient des dossiers de `locales/`, pas d'une
+    // énumération tenue dans le code. Déposer `locales/ch/` fait apparaître la
+    // langue ici, donc dans le sélecteur du dashboard, sans toucher au site ni
+    // au cœur.
+    if (req.method === 'GET' && parts[1] === 'locales' && parts.length === 2) {
+      return send(res, 200, { locales: listLocales(), default: DEFAULT_LOCALE });
+    }
+
+    // POST /api/access/me  { guildIds }  -> ce que l'acteur peut ouvrir, serveur
+    // par serveur.
+    //
+    // La liste des serveurs du dashboard vient de Discord (OAuth2), qui ne
+    // connaît que les permissions Discord : elle ne peut pas savoir qu'un rôle
+    // « modérateur » ouvre ici deux modules. Le site demande donc au bot ce que
+    // valent SES serveurs pour cet acteur. En POST parce qu'un compte peut être
+    // membre de deux cents serveurs — une file d'attente, pas une URL.
+    if (req.method === 'POST' && parts[1] === 'access' && parts[2] === 'me' && parts.length === 3) {
+      const actorId = getActorId(req);
+      if (!actorId) return send(res, 403, { error: 'forbidden' });
+      if (!rateLimit(`access-me:${actorId}`, 60, 60_000)) {
+        return send(res, 429, { error: 'rate_limited' });
+      }
+      const body = (await readJson(req, 16_000).catch(() => null)) as { guildIds?: unknown } | null;
+      const wanted = Array.isArray(body?.guildIds) ? body.guildIds : [];
+      // Les serveurs que le bot ne voit pas sont écartés AVANT toute lecture :
+      // sans eux, il ne reste qu'une poignée d'appels même pour un compte qui
+      // traîne dans deux cents serveurs.
+      const ids = wanted
+        .filter((value): value is string => typeof value === 'string' && isSnowflake(value))
+        .filter((guildId) => ctx.client.guilds.cache.has(guildId))
+        .slice(0, 200);
+      const access: Record<string, unknown> = {};
+      for (const guildId of ids) {
+        const value = await accessFor(ctx, guildId, actorId);
+        // Seuls les serveurs qui ouvrent quelque chose sont nommés : la réponse
+        // ne dit rien des autres, pas même qu'ils existent.
+        if (value.level !== 'none') access[guildId] = serializeAccess(value);
+      }
+      return send(res, 200, { access });
+    }
+
     // Les endpoints qu'un MODULE declare (voir `ModuleHttpRoute`). C'est ce
     // qui remplace un `if (parts[1] === '<module>')` par module dans le coeur :
     // sans cela, retirer un dossier de module casse la compilation d'ici.
-    const moduleRoute = moduleRoutes.public.get(parts[1] ?? '');
-    if (moduleRoute) {
+    const ownedPublic = moduleRoutes.public.get(parts[1] ?? '');
+    if (ownedPublic) {
+      const moduleRoute = ownedPublic.route;
       const actorId = getActorId(req);
       const body = await readJson(req, moduleRoute.maxBodyBytes ?? 8_000).catch(() => null);
       const result = await moduleRoute.handle(ctx, {
@@ -656,11 +961,17 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
     // module. Place avant les routes de serveur du coeur, dont les segments
     // sont reserves (voir `RESERVED_GUILD_SEGMENTS`) : aucune ne peut donc
     // etre masquee par un module.
-    const guildRoute = parts[1] === 'guilds' ? moduleRoutes.guild.get(parts[3] ?? '') : undefined;
-    if (guildRoute && parts[2]) {
+    const ownedGuild = parts[1] === 'guilds' ? moduleRoutes.guild.get(parts[3] ?? '') : undefined;
+    if (ownedGuild && parts[2]) {
       const guildId = parts[2];
+      const guildRoute = ownedGuild.route;
       const actorId = getActorId(req);
       const body = await readJson(req, guildRoute.maxBodyBytes ?? 8_000).catch(() => null);
+      // Une seule lecture des droits pour les deux gardes : elles tombent
+      // souvent toutes les deux dans le même appel, et chacune touche le cache
+      // Discord puis la base.
+      let pending: Promise<GuildAccess> | undefined;
+      const access = (): Promise<GuildAccess> => (pending ??= accessFor(ctx, guildId, actorId));
       const result = await guildRoute.handle(ctx, {
         method: req.method ?? 'GET',
         segments: parts.slice(4),
@@ -668,11 +979,121 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
         actorId,
         isOwner: Boolean(actorId && isOwner(actorId)),
         guildId,
-        canManageGuild: async () =>
-          Boolean(actorId && (await actorCanManageGuild(ctx, guildId, actorId))),
+        canManageGuild: async () => (await access()).level === 'manager',
+        canConfigureModule: async () => grantsModule(await access(), ownedGuild.module.name),
         rateLimit,
       });
       return send(res, result.status, result.body);
+    }
+
+    // GET  /api/guilds/:id/grades              -> les grades, et le vocabulaire
+    // POST /api/guilds/:id/grades  { grades }  -> les remplace (admins seulement)
+    //
+    // Distribuer le pouvoir NE SE DÉLÈGUE PAS : la lecture est ouverte à qui a
+    // déjà un pied ici (le dashboard a besoin de savoir ce qu'il peut afficher),
+    // l'écriture s'arrête au propriétaire du serveur et aux administrateurs.
+    // Sans cette borne, un gradé à qui l'on a confié un module s'en confierait
+    // dix de plus.
+    if (parts[1] === 'guilds' && parts[3] === 'grades' && parts[2] && parts.length === 4) {
+      const guildId = parts[2];
+      const actorId = getActorId(req);
+      const access = await accessFor(ctx, guildId, actorId);
+      if (access.level === 'none') return send(res, 403, { error: 'forbidden' });
+      const guild = ctx.client.guilds.cache.get(guildId);
+
+      if (req.method === 'GET') {
+        const locale = requestedLocale(url);
+        // Le vocabulaire délégable de CETTE instance : ses modules, et les blocs
+        // de réglages de chacun, tels que le module les déclare lui-même. Un
+        // module ajouté apparaît ici sans que rien ne le nomme.
+        // Volontairement sans `isAvailable` : un grade vaut pour demain, et un
+        // module refermé ce mois-ci n'a pas à effacer ce qu'on a confié.
+        // La langue enveloppe la construction : `delegableParts` lit les
+        // libellés des blocs, qui sortent d'une fabrique appelant `t()`.
+        const modules = runWithLocale(locale, () =>
+          registry.modules
+            .filter((m) => !m.internal)
+            .map((m) => {
+              const visual = moduleVisual(m);
+              return {
+                name: m.name,
+                permission: modulePermission(m.name),
+                label: t(m.labelKey, undefined, locale),
+                description: t(m.descriptionKey, undefined, locale),
+                category: visual.category,
+                emoji: visual.emoji,
+                // Les blocs réglables séparément — vide quand le module n'en a
+                // qu'un sans lignes, ou aucun (voir `delegableParts`).
+                parts: delegableParts(m),
+                // Les boutons, délégables un par un.
+                actions: delegableActions(m),
+              };
+            }),
+        );
+
+        const grades = access.level === 'manager' ? await listGrades(guildId) : null;
+        // Les membres nommés dans un grade, avec le nom que Discord leur donne :
+        // sans lui, le panneau n'afficherait qu'une suite de chiffres, et on ne
+        // saurait plus qui on a nommé il y a six mois.
+        const members =
+          grades && guild
+            ? await Promise.all(
+                [...new Set(grades.flatMap((grade) => grade.memberIds))]
+                  .slice(0, 200)
+                  .map(async (id) => {
+                    const member = await guild.members.fetch(id).catch(() => null);
+                    return { id, name: member?.user.username ?? null };
+                  }),
+              )
+            : null;
+
+        return send(res, 200, {
+          me: serializeAccess(access),
+          scopes: [...ACCESS_SCOPES],
+          modules,
+          maxGrades: MAX_GRADES,
+          // Grades, rôles et membres ne regardent que ceux qui peuvent les
+          // changer : un gradé connaît les siens (`me`), pas ceux des autres.
+          grades: grades ? grades.map(serializeGrade) : null,
+          roles: access.level === 'manager' && guild ? serializeGuildMeta(guild).roles : null,
+          members,
+        });
+      }
+
+      if (req.method === 'POST') {
+        if (access.level !== 'manager') return send(res, 403, { error: 'forbidden' });
+        if (!guild) return send(res, 404, { error: 'unknown_guild' });
+        const body = (await readJson(req, 128_000).catch(() => null)) as {
+          grades?: unknown;
+        } | null;
+        if (!Array.isArray(body?.grades)) return send(res, 400, { error: 'invalid_grades' });
+        const strings = (value: unknown): string[] =>
+          Array.isArray(value) ? value.filter((v): v is string => typeof v === 'string') : [];
+        const submitted: GradeInput[] = [];
+        for (const entry of body.grades) {
+          if (!entry || typeof entry !== 'object') continue;
+          const grade = entry as Record<string, unknown>;
+          if (typeof grade.name !== 'string') continue;
+          submitted.push({
+            ...(typeof grade.id === 'string' && grade.id ? { id: grade.id } : {}),
+            name: grade.name,
+            // @everyone ouvrirait le dashboard à TOUT le serveur, d'un clic et
+            // sans le dire ; un rôle supprimé ne conférerait plus rien à
+            // personne et ne ferait qu'une ligne trompeuse dans le panneau.
+            roleIds: strings(grade.roleIds).filter(
+              (roleId) => roleId !== guild.id && guild.roles.cache.has(roleId),
+            ),
+            memberIds: strings(grade.memberIds),
+            permissions: strings(grade.permissions),
+            position: typeof grade.position === 'number' ? grade.position : 0,
+          });
+        }
+        const grades = await saveGrades(guildId, submitted, knownPermissions(registry.modules));
+        log.warn({ guildId, actorId, grades: grades.length }, 'Grades du dashboard modifiés');
+        return send(res, 200, { ok: true, grades: grades.map(serializeGrade) });
+      }
+
+      return send(res, 404, { error: 'not_found' });
     }
 
     // POST /api/guilds/:id/purge  -> efface toutes les données + le bot quitte
@@ -695,29 +1116,101 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
     if (req.method === 'GET' && parts[1] === 'guilds' && parts[3] === 'modules' && parts[2]) {
       const guildId = parts[2];
       const guild = ctx.client.guilds.cache.get(guildId);
+      // Le bot absent du serveur, il n'y a ni droits à vérifier (on ne voit pas
+      // les rôles de l'acteur) ni configuration à protéger : la réponse dit
+      // « bot absent », et le dashboard propose de l'héberger. Refuser ici
+      // remplacerait cette explication par un 403 incompréhensible.
+      const access: GuildAccess = guild
+        ? await accessFor(ctx, guildId, getActorId(req))
+        : { level: 'manager', permissions: [], grades: [] };
+      if (access.level === 'none') return send(res, 403, { error: 'forbidden' });
       // Un module fermé sur ce serveur n'a pas à s'y proposer : le configurer
       // n'y ferait rien, et la carte promettrait un jeu qui refusera de jouer.
-      const candidates = registry.modules.filter((m) => !m.internal);
+      // Un module non délégué non plus : le gradé ne voit que ce qu'on lui a
+      // confié, ici et pas seulement dans l'affichage du dashboard.
+      const candidates = registry.modules.filter(
+        (m) => !m.internal && grantsAnything(moduleGrant(access, m.name)),
+      );
       const availability = await Promise.all(
         candidates.map((m) => m.isAvailable?.(ctx, guildId) ?? Promise.resolve(true)),
       );
+      const locale = requestedLocale(url);
       const modules = await Promise.all(
         candidates
           .filter((_, index) => availability[index] !== false)
-          .map((m) => serializeModule(ctx, guildId, m)),
+          .map(async (m) =>
+            runWithLocale(locale, async () =>
+              restrictModule(
+                await serializeModule(ctx, guildId, m, locale),
+                m,
+                moduleGrant(access, m.name),
+              ),
+            ),
+          ),
       );
       return send(res, 200, {
         guild: guild ? { id: guild.id, name: guild.name } : null,
         botPresent: Boolean(guild),
+        // Ce que l'acteur peut faire ici : le dashboard s'en sert pour masquer
+        // ce qu'il ne pourrait de toute façon pas enregistrer.
+        access: serializeAccess(access),
         modules,
       });
     }
 
     // GET /api/guilds/:id/meta  -> salons + rôles pour les sélecteurs
+    //
+    // La liste des salons et des rôles d'un serveur n'est pas publique : elle
+    // exige un acteur qui a au moins une raison d'être sur ce dashboard.
     if (req.method === 'GET' && parts[1] === 'guilds' && parts[3] === 'meta' && parts[2]) {
       const guild = ctx.client.guilds.cache.get(parts[2]);
       if (!guild) return send(res, 404, { error: 'unknown_guild' });
+      const access = await accessFor(ctx, parts[2], getActorId(req));
+      if (access.level === 'none') return send(res, 403, { error: 'forbidden' });
       return send(res, 200, serializeGuildMeta(guild));
+    }
+
+    // GET /api/guilds/:id/locale  -> la langue dans laquelle le bot parle ici
+    if (req.method === 'GET' && parts[1] === 'guilds' && parts[3] === 'locale' && parts[2]) {
+      return send(res, 200, {
+        locale: await localeForGuild(parts[2]),
+        locales: listLocales(),
+        default: DEFAULT_LOCALE,
+      });
+    }
+
+    // POST /api/guilds/:id/locale  { locale }  -> change la langue du serveur
+    //
+    // C'est un réglage de serveur, pas d'instance : même garde que pour une
+    // action de module (l'acteur doit pouvoir gérer CE serveur). Le token seul
+    // ne suffit pas — il prouve que le site parle, pas qu'il parle pour un
+    // administrateur de ce serveur-là.
+    if (req.method === 'POST' && parts[1] === 'guilds' && parts[3] === 'locale' && parts[2]) {
+      const guildId = parts[2];
+      const actorId = getActorId(req);
+      // Déléguable : la langue est un réglage de serveur comme un autre, et
+      // c'est souvent l'équipe qui s'aperçoit que le bot parle la mauvaise.
+      if (!grants(await accessFor(ctx, guildId, actorId), 'serveur.langue')) {
+        return send(res, 403, { error: 'forbidden' });
+      }
+      const body = (await readJson(req, 500).catch(() => null)) as { locale?: unknown } | null;
+      if (typeof body?.locale !== 'string') return send(res, 400, { error: 'invalid_locale' });
+      if (!(await setGuildLocale(guildId, body.locale))) {
+        // Nommer les langues connues : sans elles, un code refusé ne dit pas
+        // s'il est mal écrit ou si la langue n'a jamais été déposée.
+        return send(res, 400, {
+          error: 'unknown_locale',
+          locales: listLocales().map((info) => info.code),
+        });
+      }
+      const locale = await localeForGuild(guildId);
+      log.info({ guildId, actorId, locale }, 'Langue du serveur changée depuis le dashboard');
+      // Les slash commands sont déployées PAR SERVEUR, donc dans la langue de
+      // ce serveur : elles doivent repartir. On ne fait pas attendre la réponse
+      // — un PUT chez Discord dure le temps qu'il dure, et l'administrateur n'a
+      // rien à en apprendre ; l'échec éventuel part au journal.
+      void redeployGuildCommands(guildId);
+      return send(res, 200, { ok: true, locale });
     }
 
     // POST /api/guilds/:id/modules/:module/toggle   { enabled: boolean }
@@ -732,6 +1225,12 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
       const guildId = parts[2];
       const module = registry.modules.find((m) => m.name === parts[4] && !m.internal);
       if (!module) return send(res, 404, { error: 'unknown_module' });
+      // L'interrupteur allume ou éteint le module pour tout le serveur : il ne
+      // se déduit d'aucun bloc, mais se délègue sous son propre nom.
+      const switching = moduleGrant(await accessFor(ctx, guildId, getActorId(req)), module.name);
+      if (!grantsAction(switching, TOGGLE_ACTION)) {
+        return send(res, 403, { error: 'forbidden' });
+      }
       const body = (await readJson(req)) as { enabled?: unknown };
       const enabled = body.enabled === true;
       await ctx.config.setEnabled(guildId, module.name, enabled, module.defaultConfig ?? {});
@@ -749,7 +1248,7 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
           moduleCtx.logger.error({ err: error, guildId }, 'Échec de onLoad après activation');
         });
       }
-      return send(res, 200, await serializeModule(ctx, guildId, module));
+      return send(res, 200, await serializeModule(ctx, guildId, module, requestedLocale(url)));
     }
 
     // POST /api/guilds/:id/modules/:module/config   { config: unknown }
@@ -764,14 +1263,34 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
       const guildId = parts[2];
       const module = registry.modules.find((m) => m.name === parts[4] && !m.internal);
       if (!module) return send(res, 404, { error: 'unknown_module' });
+      // Le module entier, ou seulement certains de ses blocs — et, dans un bloc,
+      // seulement certains gestes sur ses lignes. On ne refuse pas : on n'écrit
+      // que ce qui est ouvert (voir plus bas).
+      const allowed = moduleGrant(await accessFor(ctx, guildId, getActorId(req)), module.name);
+      if (allowed !== '*' && allowed.parts.size === 0) {
+        return send(res, 403, { error: 'forbidden' });
+      }
       const body = (await readJson(req)) as { config?: unknown };
       // Validation zod stricte : on ne persiste jamais une config invalide.
       // Config remplacée : le module en a besoin pour nettoyer ce qui disparaît.
       const before = (await ctx.config.getModuleState(guildId, module.name, module.configSchema))
         .config;
+      // Un gradé partiel ne réécrit QUE ses blocs, et dans un bloc que les
+      // lignes que ses verbes lui permettent : le reste est repris de la config
+      // en place, quoi que le corps de la requête ait contenu. Refuser aurait
+      // été plus simple mais faux — le dashboard renvoie l'objet entier.
+      const candidate =
+        allowed === '*'
+          ? body.config
+          : keepAllowedGroups(
+              (before ?? {}) as Record<string, unknown>,
+              body.config,
+              moduleConfigUI(module),
+              allowed,
+            );
       let saved: unknown;
       if (module.configSchema) {
-        const parsed = module.configSchema.safeParse(body.config);
+        const parsed = module.configSchema.safeParse(candidate);
         if (!parsed.success) {
           // Le dashboard est le seul point de configuration : un refus doit dire
           // QUEL champ pose problème, pas seulement « config invalide ».
@@ -791,7 +1310,7 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
         }
         saved = parsed.data;
       } else {
-        saved = body.config ?? {};
+        saved = candidate ?? {};
       }
       await ctx.config.setConfig(guildId, module.name, saved);
       const savedCtx = contextFor(ctx, module.name);
@@ -803,7 +1322,7 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
       await module.onConfigSaved?.(savedCtx, guildId, saved, before).catch((error: unknown) => {
         savedCtx.logger.error({ err: error, guildId }, 'onConfigSaved a échoué');
       });
-      return send(res, 200, await serializeModule(ctx, guildId, module));
+      return send(res, 200, await serializeModule(ctx, guildId, module, requestedLocale(url)));
     }
 
     // POST /api/guilds/:id/modules/:module/publish  -> publie/màj le panneau
@@ -818,6 +1337,12 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
       const guildId = parts[2];
       const module = registry.modules.find((m) => m.name === parts[4] && !m.internal);
       if (!module) return send(res, 404, { error: 'unknown_module' });
+      // Publier un panneau est un geste, pas un réglage : il se délègue à part,
+      // sous l'identifiant réservé `publier`.
+      const publishing = moduleGrant(await accessFor(ctx, guildId, getActorId(req)), module.name);
+      if (!grantsAction(publishing, PUBLISH_ACTION)) {
+        return send(res, 403, { error: 'forbidden' });
+      }
       const publisher = module.publishPanel?.bind(module);
       if (!publisher) return send(res, 400, { error: 'not_publishable' });
       const guild = ctx.client.guilds.cache.get(guildId);
@@ -847,12 +1372,15 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
       const guildId = parts[2];
       const module = registry.modules.find((m) => m.name === parts[4] && !m.internal);
       if (!module) return send(res, 404, { error: 'unknown_module' });
-      const action = module.actions?.find((a) => a.id === parts[6]);
+      const action = moduleActions(module).find((a) => a.id === parts[6]);
       if (!action) return send(res, 404, { error: 'unknown_action' });
-      // Une action agit sur le serveur (publie, envoie, supprime) : on exige le
-      // même niveau de preuve que pour une purge — l'acteur doit gérer CE serveur.
+      // Une action agit sur le serveur (publie, envoie, supprime) : on exige un
+      // acteur, et la permission qui nomme CE BOUTON. C'est la maille la plus
+      // fine du système — « republier un message épinglé » se confie sans
+      // confier la liste des messages.
       const actorId = getActorId(req);
-      if (!actorId || !(await actorCanManageGuild(ctx, guildId, actorId))) {
+      const running = moduleGrant(await accessFor(ctx, guildId, actorId), module.name);
+      if (!actorId || !grantsAction(running, action.id)) {
         return send(res, 403, { error: 'forbidden' });
       }
       if (!rateLimit(`action:${guildId}:${action.id}`, 10, 60_000)) {
@@ -871,7 +1399,9 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
       const startedAt = Date.now();
       let result: ModuleActionResult;
       try {
-        result = await action.run({ ctx: actionCtx, guildId, actorId, input });
+        result = await runWithLocale(requestedLocale(url), () =>
+          action.run({ ctx: actionCtx, guildId, actorId, input }),
+        );
       } catch (error) {
         actionCtx.logger.error(
           { err: error, action: action.id, guildId, actorId, ms: Date.now() - startedAt },
@@ -898,7 +1428,7 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
       return send(res, result.ok ? 200 : 400, {
         ok: result.ok,
         message: result.message ?? null,
-        module: await serializeModule(ctx, guildId, module),
+        module: await serializeModule(ctx, guildId, module, requestedLocale(url)),
       });
     }
 
@@ -915,7 +1445,7 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
     if (parts[1] === 'guilds' && parts[3] === 'backup' && parts[2]) {
       const guildId = parts[2];
       const actorId = getActorId(req);
-      if (!actorId || !(await actorCanManageGuild(ctx, guildId, actorId))) {
+      if (!grants(await accessFor(ctx, guildId, actorId), 'serveur.sauvegarde')) {
         return send(res, 403, { error: 'forbidden' });
       }
 
@@ -1082,27 +1612,39 @@ export function startWebApi(ctx: BotContext, registry: ModuleRegistry): void {
       if (!actorId || !isOwner(actorId)) return send(res, 403, { error: 'forbidden' });
       const loaded = getRegistry();
       const modules = loaded?.modules ?? [];
-      return send(
-        res,
-        200,
-        await metricsSnapshot({
-          client: ctx.client,
-          db: ctx.db,
-          // Période demandée, en millisecondes : le panneau la calcule dans le
-          // fuseau de l'administrateur (« hier », « le mois »), le bot se
-          // contente de la borner.
-          window: parseWindow(url.searchParams.get('from'), url.searchParams.get('to')),
-          // Ce que le planificateur exécute VRAIMENT : une expression cron
-          // invalide étant ignorée en silence, compter les tâches déclarées
-          // annoncerait un travail qui ne tourne pas.
-          tasks: ctx.scheduler.names().length,
-          modules: {
-            total: modules.length,
-            public: modules.filter((module) => !module.internal).length,
-            commands: loaded?.commands.size ?? 0,
-          },
-        }),
-      );
+      const locale = requestedLocale(url) ?? DEFAULT_LOCALE;
+      const snapshot = await metricsSnapshot({
+        client: ctx.client,
+        db: ctx.db,
+        // Période demandée, en millisecondes : le panneau la calcule dans le
+        // fuseau de l'administrateur (« hier », « le mois »), le bot se
+        // contente de la borner.
+        window: parseWindow(url.searchParams.get('from'), url.searchParams.get('to')),
+        // Ce que le planificateur exécute VRAIMENT : une expression cron
+        // invalide étant ignorée en silence, compter les tâches déclarées
+        // annoncerait un travail qui ne tourne pas.
+        tasks: ctx.scheduler.names().length,
+        modules: {
+          total: modules.length,
+          public: modules.filter((module) => !module.internal).length,
+          commands: loaded?.commands.size ?? 0,
+        },
+      });
+
+      // Le cumul est indexé par le nom FRANÇAIS de la commande — c'est la clé
+      // qui traverse les serveurs et les redémarrages, et elle ne bouge pas.
+      // Le `label`, lui, est ce nom tel qu'il se tape dans la langue demandée :
+      // un panneau en anglais annonçait jusqu'ici `/rang` pour `/rank`. Une
+      // commande disparue du registre (renommée, module retiré) garde son nom
+      // français, seul mot qu'on ait encore sur elle.
+      const names = commandNamesFor(loaded?.commands.values() ?? [], locale);
+      return send(res, 200, {
+        ...snapshot,
+        commands: snapshot.commands.map((command) => ({
+          ...command,
+          label: names.get(command.name) ?? command.name,
+        })),
+      });
     }
 
     // GET /api/logs?limit=&levels=&date=&search=&level=  (propriétaire)

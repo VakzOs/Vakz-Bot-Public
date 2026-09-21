@@ -1,0 +1,23 @@
+{
+  "modules": {
+    "autoroles": {
+      "label": "Roles automáticos",
+      "description": "Asigna roles cuando llega un miembro, y un rol mientras esté en un canal de voz.",
+      "ui": {
+        "g0": {
+          "champs": {
+            "roleIds": {
+              "label": "Roles asignados a los miembros al llegar"
+            },
+            "botRoleIds": {
+              "label": "Roles asignados a los bots"
+            },
+            "voiceRoleIds": {
+              "label": "Roles mientras se está en un canal de voz"
+            }
+          }
+        }
+      }
+    }
+  }
+}

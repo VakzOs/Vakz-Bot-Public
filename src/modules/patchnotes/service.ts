@@ -1,8 +1,9 @@
 import { EmbedBuilder, PermissionFlagsBits } from 'discord.js';
-import type { BotContext } from '../../core/module.js';
+import type { BotContext, TaskReport } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
 import { MODULE_NAME, type PatchSubscription, getPatchnotesConfig } from './config.js';
 import { type PatchSource, getPatchSource, patchSourceLabel } from './catalog.js';
+import { useGuildLocale } from '../../core/guild-locale.js';
 
 const USER_AGENT = 'Vakz-Bot PatchNotes/1.0 (+https://github.com/VakzOs/Vakz-Bot)';
 const PATCH_DESCRIPTION_MAX_LENGTH = 420;
@@ -451,41 +452,47 @@ async function announceNote(
   guildId: string,
   sub: PatchSubscription,
   note: PatchNote,
-): Promise<void> {
+): Promise<boolean> {
   const source = getPatchSource(sub.sourceId);
-  if (!source || !sub.channelId) return;
+  if (!source || !sub.channelId) return false;
   const isNew = await ctx.db.patchNoteAnnouncement
     .create({ data: { guildId, sourceId: sub.sourceId, noteId: note.id } })
     .then(() => true)
     .catch(() => false);
-  if (!isNew) return;
+  if (!isNew) return false;
 
   const channel = await ctx.client.channels.fetch(sub.channelId).catch(() => null);
-  if (!channel?.isTextBased() || !('send' in channel)) return;
+  if (!channel?.isTextBased() || !('send' in channel)) return false;
 
-  await channel
+  return channel
     .send({
       ...(sub.roleId ? { content: `<@&${sub.roleId}>` } : {}),
       embeds: [buildPatchNoteEmbed(note, source)],
       allowedMentions: sub.roleId ? { roles: [sub.roleId] } : { parse: [] },
     })
-    .catch((error: unknown) =>
+    .then(() => true)
+    .catch((error: unknown) => {
       ctx.logger.warn(
         { err: error, guildId, sourceId: sub.sourceId, channelId: sub.channelId },
         'Annonce patchnote echouee',
-      ),
-    );
+      );
+      return false;
+    });
 }
 
-export async function pollPatchNotes(ctx: BotContext): Promise<void> {
+export async function pollPatchNotes(ctx: BotContext): Promise<TaskReport> {
   const rows = await ctx.db.moduleConfig
     .findMany({ where: { module: MODULE_NAME, enabled: true } })
     .catch(() => []);
-  if (rows.length === 0) return;
+  if (rows.length === 0) return {};
 
+  let annonces = 0;
   const cache = new Map<string, PatchNote[]>();
   for (const row of rows) {
     const config = await getPatchnotesConfig(ctx, row.guildId);
+    // Les notes sont mises en cache pour tous les serveurs ; leur annonce sort
+    // dans la langue de celui qui la reçoit.
+    await useGuildLocale(row.guildId);
     for (const sub of config.subscriptions) {
       if (!sub.channelId) continue;
       const source = getPatchSource(sub.sourceId);
@@ -499,10 +506,11 @@ export async function pollPatchNotes(ctx: BotContext): Promise<void> {
         cache.set(source.id, notes);
       }
       for (const note of notes.slice(0, 1).reverse()) {
-        await announceNote(ctx, row.guildId, sub, note);
+        if (await announceNote(ctx, row.guildId, sub, note)) annonces += 1;
       }
     }
   }
+  return { annonces };
 }
 
 export function subscriptionLabel(sub: PatchSubscription): string {

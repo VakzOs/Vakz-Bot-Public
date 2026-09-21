@@ -1,0 +1,91 @@
+{
+  "modules": {
+    "scheduledmessages": {
+      "label": "Wiederkehrende Nachrichten",
+      "description": "Veröffentlicht automatisch Nachrichten in einem Kanal nach einem Takt (täglich, wöchentlich oder alle N Stunden).",
+      "type": {
+        "daily": "Täglich",
+        "weekly": "Wöchentlich",
+        "interval": "Nach Intervall"
+      },
+      "weekday": {
+        "0": "Sonntag",
+        "1": "Montag",
+        "2": "Dienstag",
+        "3": "Mittwoch",
+        "4": "Donnerstag",
+        "5": "Freitag",
+        "6": "Samstag"
+      },
+      "describe": {
+        "daily": "Jeden Tag um {time}",
+        "weekly": "Jeden {day} um {time}",
+        "interval": "Alle {hours} Std."
+      },
+      "ui": {
+        "g0": {
+          "label": "🔁 Wiederkehrende Nachrichten",
+          "description": "Uhrzeiten in der Zeitzone des Bots (Europe/Paris).",
+          "champs": {
+            "messages": {
+              "label": "Nachrichten",
+              "addLabel": "Nachricht hinzufügen",
+              "item": {
+                "channelId": {
+                  "label": "Kanal"
+                },
+                "content": {
+                  "label": "Inhalt"
+                },
+                "asEmbed": {
+                  "label": "Als Embed"
+                },
+                "schedule": {
+                  "type": {
+                    "label": "Takt",
+                    "opt": {
+                      "daily": {
+                        "label": "Jeden Tag"
+                      },
+                      "weekly": {
+                        "label": "Jede Woche"
+                      },
+                      "interval": {
+                        "label": "Alle X Stunden"
+                      }
+                    }
+                  },
+                  "time": {
+                    "label": "Uhrzeit (HH:MM) — täglich / wöchentlich",
+                    "placeholder": "12:00"
+                  },
+                  "weekday": {
+                    "label": "Tag — wöchentlich (0 = Sonntag … 6 = Samstag)"
+                  },
+                  "hours": {
+                    "label": "Intervall in Stunden — Typ „alle X Stunden“"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "sendNow": {
+          "label": "Jetzt senden",
+          "help": "Veröffentlicht die gewählte Nachricht sofort; ihre Planung bleibt unverändert.",
+          "champs": {
+            "id": "Nachricht"
+          },
+          "msg": {
+            "noGuild": "Server nicht gefunden.",
+            "pickMessage": "Wähle eine geplante Nachricht.",
+            "done": "Nachricht gesendet.",
+            "failed": "Senden nicht möglich (Kanal oder Berechtigungen)."
+          }
+        }
+      }
+    }
+  }
+}

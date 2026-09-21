@@ -1,0 +1,103 @@
+{
+  "modules": {
+    "tickets": {
+      "label": "Tickets",
+      "description": "Varios tipos de tickets; cada tipo abre un canal privado visible para los roles elegidos.",
+      "welcomeTitle": "🎫 Ticket abierto",
+      "welcome": "Hola {user}, tu ticket «{type}» está abierto. Explica aquí tu petición, el equipo te responderá. Pulsa «Cerrar el ticket» cuando esté resuelto.",
+      "opened": "✅ Tu ticket se ha abierto: {channel}",
+      "feedback": {
+        "disabled": "❌ Este módulo está desactivado en este servidor."
+      },
+      "error": {
+        "notype": "❌ Este tipo de ticket ya no existe.",
+        "max": "❌ Ya tienes {max} ticket(s) abierto(s). Ciérralo antes de abrir otro.",
+        "noperm": "❌ No tengo el permiso «Gestionar canales» para crear el ticket.",
+        "create": "❌ No se ha podido crear el canal del ticket. Comprueba mis permisos y la categoría."
+      },
+      "close": {
+        "button": "🔒 Cerrar el ticket",
+        "confirm": "¿Confirmar el cierre de este ticket? El canal se eliminará.",
+        "confirmButton": "🔒 Confirmar el cierre",
+        "closing": "🔒 Cerrando el ticket…",
+        "closingArchive": "🔒 Archivando la conversación y cerrando…",
+        "notFound": "❌ No se encuentra este ticket o ya está cerrado.",
+        "cantClose": "⛔ Solo quien lo abrió, el personal del tipo o la administración puede cerrarlo."
+      },
+      "archive": {
+        "title": "📦 Archivo de ticket",
+        "header": "Tipo: {type}\nAbierto por: {opener}\nCerrado por: {closedBy}\nMensajes: {count}"
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ General",
+          "description": "Tras cualquier cambio, vuelve a publicar el panel con el botón «Publicar» para refrescar los botones.",
+          "champs": {
+            "title": {
+              "label": "Título del panel"
+            },
+            "description": {
+              "label": "Descripción del panel"
+            },
+            "panelChannelId": {
+              "label": "Canal del panel",
+              "help": "Donde se publica el panel «Abrir un ticket»."
+            },
+            "mode": {
+              "label": "Tipo de ticket",
+              "opt": {
+                "channel": {
+                  "label": "Canal privado (categoría)"
+                },
+                "thread": {
+                  "label": "Hilo privado"
+                }
+              }
+            },
+            "categoryId": {
+              "label": "Categoría de los canales (modo canal)"
+            },
+            "archiveChannelId": {
+              "label": "Canal de archivo de las transcripciones"
+            },
+            "nameFormat": {
+              "label": "Formato del nombre",
+              "help": "Variables: {type}, {number}, {count}, {user}, {id}."
+            },
+            "maxOpen": {
+              "label": "Tickets abiertos a la vez por miembro",
+              "help": "Entre 1 y 10."
+            }
+          }
+        },
+        "g1": {
+          "label": "🎫 Tipos de tickets",
+          "description": "Cada tipo = un botón del panel, con sus roles autorizados a ver y atender.",
+          "champs": {
+            "types": {
+              "label": "Tipos",
+              "addLabel": "Añadir un tipo",
+              "item": {
+                "label": {
+                  "label": "Texto del botón"
+                },
+                "emoji": {
+                  "label": "Emoji",
+                  "placeholder": "🎫"
+                },
+                "prefix": {
+                  "label": "Prefijo de los canales",
+                  "help": "P. ej. «sup» → sup-0001. Vacío = tipo-usuario.",
+                  "placeholder": "sup"
+                },
+                "roleIds": {
+                  "label": "Roles autorizados"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

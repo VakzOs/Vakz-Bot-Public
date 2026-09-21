@@ -139,10 +139,11 @@ function buildComponents(
 /** `/maj` - met a jour le bot via l'updater hote. */
 export const maj: SlashCommand = {
   guildOnly: false,
-  data: new SlashCommandBuilder()
-    .setName('maj')
-    .setDescription(t('modules.deploy.description'))
-    .setDMPermission(true),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.deploy.noms.maj'))
+      .setDescription(t('modules.deploy.description'))
+      .setDMPermission(true),
   async execute(interaction) {
     if (!deployEnabled()) {
       await interaction.reply({

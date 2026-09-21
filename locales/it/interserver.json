@@ -1,0 +1,51 @@
+{
+  "modules": {
+    "interserver": {
+      "label": "Tra server",
+      "description": "Collega canali di server diversi: un messaggio scritto in un canale collegato viene inoltrato (con nome e avatar) agli altri canali della stessa rete.",
+      "ui": {
+        "g0": {
+          "description": "I canali si collegano con le azioni «Collega / Scollega un canale» qui sotto.",
+          "champs": {
+            "tagServer": {
+              "label": "Mostrare il nome del server d'origine sui messaggi inoltrati"
+            }
+          }
+        }
+      },
+      "actions": {
+        "link": {
+          "label": "Collega un canale",
+          "help": "I server che condividono lo stesso codice di rete si inoltrano i messaggi a vicenda.",
+          "champs": {
+            "channelId": "Canale da collegare",
+            "network": {
+              "label": "Codice della rete",
+              "placeholder": "la-mia-rete",
+              "help": "Da 3 a 32 caratteri: lettere, cifre e trattini."
+            }
+          },
+          "msg": {
+            "noGuild": "Server non trovato.",
+            "badChannel": "Canale non trovato o non testuale.",
+            "done": "Canale collegato alla rete «{reseau}».",
+            "badCode": "Codice di rete non valido (da 3 a 32 caratteri).",
+            "noPermission": "Manca il permesso «Gestire i webhook» su questo canale.",
+            "webhookFailed": "Impossibile creare il webhook."
+          }
+        },
+        "unlink": {
+          "label": "Scollega un canale",
+          "confirm": "Rimuovere questo canale dalla sua rete tra server?",
+          "champs": {
+            "channelId": "Canale collegato"
+          },
+          "msg": {
+            "pickChannel": "Scegli un canale attualmente collegato.",
+            "done": "Canale scollegato."
+          }
+        }
+      }
+    }
+  }
+}

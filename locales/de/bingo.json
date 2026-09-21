@@ -1,0 +1,59 @@
+{
+  "modules": {
+    "bingo": {
+      "label": "Bingo",
+      "description": "Server-Bingo: 5×5-Karten, Ziehungen, Erkennung von Reihe oder voller Karte.",
+      "noms": {
+        "bingo": "bingo",
+        "carte": "karte",
+        "demarrer": "starten",
+        "mode": "modus",
+        "rejoindre": "beitreten",
+        "terminer": "beenden",
+        "tirer": "ziehen"
+      },
+      "opt": {
+        "mode": "Siegbedingung (Standard: eine Reihe)."
+      },
+      "modeLine": "Eine Reihe",
+      "modeFull": "Volle Karte",
+      "commands": {
+        "start": "Startet eine neue Bingo-Runde (Team).",
+        "join": "Erhalte deine Bingo-Karte.",
+        "card": "Zeigt deine Karte.",
+        "draw": "Zieht die nächste Zahl (Team).",
+        "stop": "Beendet die laufende Runde (Team)."
+      },
+      "staffOnly": "❌ Nur für das Team (Berechtigung „Server verwalten“).",
+      "noGame": "❌ Keine Runde im Gange. Das Team kann sie mit `/bingo starten` beginnen.",
+      "startedTitle": "🎲 Bingo gestartet!",
+      "startedBody": "Modus: **{mode}**. Holt euch eure Karte mit `/bingo beitreten`, dann zieht das Team die Zahlen mit `/bingo ziehen`.",
+      "joined": "🎫 Hier ist deine Karte (Feld ★ = frei):",
+      "yourCard": "🎫 Deine Karte:",
+      "noCard": "❌ Du hast keine Karte. Tritt mit `/bingo beitreten` bei.",
+      "stopped": "🛑 Bingo-Runde beendet.",
+      "allDrawn": "Alle Zahlen wurden bereits gezogen!",
+      "drawTitle": "🎱 Ziehung",
+      "drawBody": "Gezogene Zahl: **{number}** ({count}/75). Prüft eure Karten!",
+      "winnersField": "🎉 BINGO!",
+      "myCardButton": "Meine Karte",
+      "ui": {
+        "g0": {
+          "champs": {
+            "defaultMode": {
+              "label": "Standard-Siegbedingung",
+              "opt": {
+                "line": {
+                  "label": "Eine Reihe"
+                },
+                "full": {
+                  "label": "Vollständiges Raster"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "modules": {
+    "market": {
+      "label": "Auktionshaus",
+      "description": "Markt zwischen Mitgliedern: Stelle Gegenstände zum Verkauf ein, kaufe die der anderen.",
+      "noms": {
+        "hdv": "auktionshaus",
+        "mes-annonces": "meine-angebote",
+        "objet": "gegenstand",
+        "parcourir": "stoebern",
+        "prix": "preis",
+        "quantité": "menge",
+        "vendre": "verkaufen"
+      },
+      "command": {
+        "description": "Auktionshaus: Kaufe und verkaufe Gegenstände zwischen Mitgliedern.",
+        "browse": "Die Angebote durchsehen und kaufen.",
+        "sell": "Einen Gegenstand zum Verkauf einstellen.",
+        "optItem": "Der zu verkaufende Gegenstand.",
+        "optPrice": "Stückpreis (pro Gegenstand).",
+        "optQty": "Zu verkaufende Menge (Standard: 1).",
+        "mine": "Deine Angebote ansehen und zurückziehen."
+      },
+      "browse": {
+        "title": "🏪 Auktionshaus",
+        "intro": "Wähle ein Angebot, um ein Exemplar zu kaufen.",
+        "empty": "Zurzeit gibt es kein Angebot. Sei die erste Person mit `/auktionshaus verkaufen`!",
+        "line": "**{n}.** {emoji} **{name}** ×{qty} — {unit}/St. — {seller}",
+        "footer": "Seite {page}/{pages} · {total} Angebot(e)",
+        "buyPlaceholder": "Ein Exemplar kaufen…",
+        "buyOption": "Kaufen — {unit}/St.",
+        "mine": "📦 Meine Angebote"
+      },
+      "mine": {
+        "title": "📦 Meine Angebote",
+        "intro": "Wähle ein Angebot, um es zurückzuziehen (die Gegenstände kommen zu dir zurück).",
+        "empty": "Du hast kein aktives Angebot.",
+        "line": "**{n}.** {emoji} **{name}** ×{qty} — {unit}/St.",
+        "cancelPlaceholder": "Ein Angebot zurückziehen…",
+        "back": "◀ Zurück zu den Angeboten"
+      },
+      "buy": {
+        "done": "🛒 Du hast {qty}× {emoji} **{name}** von {seller} für {cost} gekauft. Kontostand: {balance}.",
+        "gone": "❌ Dieses Angebot ist nicht mehr verfügbar.",
+        "ownListing": "❌ Du kannst dein eigenes Angebot nicht kaufen (nutze „Meine Angebote“, um es zurückzuziehen).",
+        "insufficient": "❌ Nicht genug Guthaben für diesen Kauf.",
+        "sellerNotice": "💰 **Verkauf auf {guild}** — {buyer} hat {qty}× {emoji} **{name}** für {total} gekauft. Du erhältst {gain}.{tax}",
+        "taxNote": " (davon {tax} Serversteuer)"
+      },
+      "cancel": {
+        "done": "↩️ Angebot zurückgezogen: {qty}× {emoji} **{name}** zurück in deinem Inventar.",
+        "gone": "❌ Dieses Angebot gibt es nicht mehr.",
+        "notYours": "❌ Das ist nicht dein Angebot."
+      },
+      "sell": {
+        "done": "🏷️ Im Verkauf: {qty}× {emoji} **{name}** zu {unit}/St. Sieh es dir mit `/auktionshaus stoebern` an.",
+        "notTradable": "❌ {emoji} {name} ist nicht handelbar und kann hier nicht verkauft werden.",
+        "tooCheap": "❌ Preis zu niedrig: mindestens {min} pro Gegenstand.",
+        "tooMany": "❌ Du hast die Grenze aktiver Angebote erreicht ({max}).",
+        "notOwned": "❌ Du besitzt nicht genug {emoji} {name}."
+      },
+      "ui": {
+        "g0": {
+          "description": "Markt zwischen Mitgliedern über /auktionshaus. Das Einstellen hinterlegt die Gegenstände bis zum Kauf oder Rückzug.",
+          "champs": {
+            "taxPercent": {
+              "label": "Serversteuer, die dem Verkauf abgezogen wird (0-100 %)"
+            },
+            "maxListingsPerUser": {
+              "label": "Max. aktive Angebote pro Mitglied"
+            },
+            "minPrice": {
+              "label": "Absoluter Mindeststückpreis eines Angebots"
+            },
+            "minPricePercent": {
+              "label": "Mindestpreis in % des Shop-Preises des Gegenstands (0-100)"
+            }
+          }
+        }
+      }
+    }
+  }
+}

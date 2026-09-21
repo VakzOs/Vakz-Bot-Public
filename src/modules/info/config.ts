@@ -6,7 +6,7 @@ export const MODULE_NAME = 'info';
 
 /**
  * Configuration du module « Commandes d'informations ». En plus des commandes
- * en lecture seule (`/userinfo`…), il propose un **journal des profils** optionnelle
+ * en lecture seule (`/infos-membre`…), il propose un **journal des profils** optionnelle
  * des changements d'identité des membres (nom, nom affiché, photo de profil,
  * pseudo serveur), journalisés dans un salon.
  */

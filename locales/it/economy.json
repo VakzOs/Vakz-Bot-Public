@@ -1,0 +1,145 @@
+{
+  "modules": {
+    "economy": {
+      "label": "Economia",
+      "description": "Moneta virtuale, guadagni, classifica e negozio di ruoli.",
+      "noms": {
+        "argent-admin": "denaro-admin",
+        "boutique-roles": "negozio-ruoli",
+        "daily": "daily",
+        "definir": "imposta",
+        "donner": "dai",
+        "membre": "membro",
+        "montant": "importo",
+        "payer": "paga",
+        "retirer": "togli",
+        "riches": "ricchi",
+        "solde": "saldo"
+      },
+      "opt": {
+        "member": "Il membro interessato.",
+        "amount": "L'importo."
+      },
+      "commands": {
+        "balance": {
+          "description": "Mostra il saldo di un membro.",
+          "title": "Saldo di {user}",
+          "line": "Saldo"
+        },
+        "daily": {
+          "description": "Riscuoti la tua ricompensa quotidiana.",
+          "claimed": "🎁 Hai ricevuto {amount}! Nuovo saldo: {balance}.",
+          "cooldown": "⏳ Hai già riscosso la tua ricompensa. Torna {time}."
+        },
+        "pay": {
+          "description": "Trasferisce moneta a un altro membro.",
+          "invalidTarget": "❌ Destinatario non valido.",
+          "insufficient": "❌ Saldo insufficiente.",
+          "done": "✅ Hai inviato {amount} a {user}."
+        },
+        "leaderboard": {
+          "description": "Mostra la classifica dei più ricchi.",
+          "empty": "Nessuno ha ancora {currency}.",
+          "title": "💰 I più ricchi"
+        },
+        "admin": {
+          "description": "Gestisce i saldi dei membri (admin).",
+          "give": "Aggiunge moneta a un membro.",
+          "take": "Toglie moneta a un membro.",
+          "set": "Definisce il saldo di un membro.",
+          "done": "✅ Saldo di {user}: {balance}."
+        },
+        "shop": {
+          "description": "Mostra il negozio di ruoli."
+        }
+      },
+      "shop": {
+        "title": "🛒 Negozio di ruoli",
+        "empty": "*Il negozio è vuoto.*",
+        "disabled": "❌ Il modulo Economia è disattivato.",
+        "unavailable": "❌ Questo articolo non è più disponibile.",
+        "alreadyOwned": "❌ Possiedi già questo ruolo.",
+        "cannotAssign": "⚠️ Non posso assegnare questo ruolo (permesso o gerarchia).",
+        "tooPoor": "❌ Troppo caro: {price} mentre tu hai {balance}.",
+        "bought": "✅ Hai comprato {role} per {price}.",
+        "soldOut": "esaurito",
+        "stock": "scorte: {n}",
+        "switch": "Cambia negozio…",
+        "outOfStock": "❌ Questo articolo è esaurito."
+      },
+      "ui": {
+        "g0": {
+          "label": "💰 Generale",
+          "champs": {
+            "currencyName": {
+              "label": "Nome della moneta"
+            },
+            "currencySymbol": {
+              "label": "Simbolo della moneta"
+            },
+            "messageMin": {
+              "label": "Guadagno minimo per messaggio"
+            },
+            "messageMax": {
+              "label": "Guadagno massimo per messaggio"
+            },
+            "messageCooldown": {
+              "label": "Attesa tra due guadagni (s)"
+            },
+            "dailyAmount": {
+              "label": "Importo del comando /daily"
+            },
+            "voiceEnabled": {
+              "label": "Guadagni in vocale"
+            },
+            "voicePerMinute": {
+              "label": "Guadagno al minuto in vocale"
+            },
+            "ignoredChannelIds": {
+              "label": "Canali ignorati"
+            },
+            "ignoredRoleIds": {
+              "label": "Ruoli ignorati"
+            },
+            "leaderboardChannelId": {
+              "label": "Canale della classifica"
+            }
+          }
+        },
+        "g1": {
+          "label": "🏪 Negozi di ruoli",
+          "description": "Ogni negozio vende ruoli in cambio della moneta del server.",
+          "champs": {
+            "shops": {
+              "label": "Negozi",
+              "addLabel": "Aggiungi un negozio",
+              "item": {
+                "name": {
+                  "label": "Nome del negozio"
+                },
+                "bannerUrl": {
+                  "label": "Banner (URL)"
+                },
+                "items": {
+                  "label": "Ruoli in vendita",
+                  "addLabel": "Aggiungi un ruolo",
+                  "item": {
+                    "roleId": {
+                      "label": "Ruolo"
+                    },
+                    "price": {
+                      "label": "Prezzo"
+                    },
+                    "stock": {
+                      "label": "Scorte (-1 = illimitate)"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

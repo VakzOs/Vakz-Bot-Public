@@ -1,0 +1,125 @@
+{
+  "modules": {
+    "music": {
+      "label": "Musica",
+      "description": "Ascoltare musica nei canali vocali (YouTube, SoundCloud, Spotify…) tramite un server Lavalink.",
+      "noms": {
+        "disconnect": "disconnect",
+        "loop": "loop",
+        "mode": "modalita",
+        "niveau": "livello",
+        "nowplaying": "nowplaying",
+        "numero": "numero",
+        "pause": "pause",
+        "play": "play",
+        "position": "posizione",
+        "queue": "queue",
+        "recherche": "ricerca",
+        "remove": "remove",
+        "resume": "resume",
+        "seek": "seek",
+        "shuffle": "shuffle",
+        "skip": "skip",
+        "source": "fonte",
+        "stop": "stop",
+        "volume": "volume"
+      },
+      "notConfigured": "❌ La musica non è configurata su questo hosting (server Lavalink assente).",
+      "nodeDown": "❌ Il server Lavalink è irraggiungibile. Controlla che sia in funzione (`docker compose ps`) e che LAVALINK_HOST / LAVALINK_PASSWORD siano corretti.",
+      "joinFailed": "❌ Impossibile entrare nel tuo canale vocale (mancano i permessi «Connettersi» / «Parlare»?).",
+      "playError": "❌ Si è verificato un errore durante la riproduzione. Riprova tra poco.",
+      "notInVoice": "❌ Entra prima in un canale vocale.",
+      "notSameChannel": "❌ Devi essere nello stesso canale vocale del bot.",
+      "nothingPlaying": "❌ Non è in riproduzione nulla.",
+      "noPermission": "❌ Riservato al ruolo DJ (o a «Gestire il server»).",
+      "noResults": "❌ Nessun risultato per questa ricerca.",
+      "addedTitle": "➕ Aggiunto alla coda",
+      "addedPlaylist": "➕ **{count}** tracce aggiunte alla coda (playlist «{name}»).",
+      "skipped": "⏭️ Traccia saltata.",
+      "skippedEnd": "⏭️ Ultima traccia saltata, fine della coda.",
+      "stopped": "⏹️ Riproduzione fermata e coda svuotata.",
+      "alreadyPaused": "⏸️ La riproduzione è già in pausa.",
+      "paused": "⏸️ Riproduzione messa in pausa.",
+      "notPaused": "▶️ La riproduzione non è in pausa.",
+      "resumed": "▶️ Riproduzione ripresa.",
+      "volumeSet": "🔊 Volume regolato al {volume} %.",
+      "loopSet": "🔁 Ripetizione: {mode}.",
+      "queueTooShort": "❌ Non ci sono abbastanza tracce in coda per mescolare.",
+      "shuffled": "🔀 Coda mescolata.",
+      "cannotSeek": "❌ Impossibile spostarsi in questa traccia (in diretta o assente).",
+      "badPosition": "❌ Posizione non valida. Es. `1:30`, `90` o `1m30s`.",
+      "seeked": "⏩ Posizione: {time}.",
+      "badIndex": "❌ Numero di traccia non valido.",
+      "removed": "🗑️ Rimossa dalla coda: {title}.",
+      "left": "👋 Disconnesso dal canale vocale.",
+      "queueEmpty": "*Coda vuota.*",
+      "queueEnded": "✅ Coda terminata.",
+      "loopState": {
+        "off": "disattivata",
+        "track": "traccia",
+        "queue": "coda"
+      },
+      "field": {
+        "author": "👤 Artista:",
+        "requestedBy": "🙋 Richiesto da:",
+        "nowPlaying": "In riproduzione",
+        "upNext": "A seguire",
+        "andMore": "…e altre {count}.",
+        "queueTitle": "🎶 Coda d'attesa",
+        "playlist": "playlist"
+      },
+      "command": {
+        "play": "Riproduce un brano o lo aggiunge alla coda (ricerca o link).",
+        "playQuery": "Titolo da cercare o link (YouTube, SoundCloud…).",
+        "playSource": "Piattaforma di ricerca (se non è un link).",
+        "skip": "Passa alla traccia successiva.",
+        "stop": "Ferma la riproduzione e svuota la coda.",
+        "pause": "Mette la riproduzione in pausa.",
+        "resume": "Riprende la riproduzione.",
+        "volume": "Regola il volume di riproduzione.",
+        "volumeValue": "Volume in percentuale (0-150).",
+        "loop": "Cambia la modalità di ripetizione.",
+        "loopValue": "Modalità di ripetizione.",
+        "shuffle": "Mescola la coda d'attesa.",
+        "seek": "Si sposta a una posizione della traccia.",
+        "seekValue": "Posizione, es. 1:30, 90 (s) o 1m30s.",
+        "remove": "Rimuove una traccia dalla coda.",
+        "removeValue": "Numero della traccia nella coda.",
+        "disconnect": "Disconnette il bot dal canale vocale.",
+        "queue": "Mostra la coda d'attesa.",
+        "nowplaying": "Mostra la traccia in riproduzione."
+      },
+      "plateformes": {
+        "ytsearch": "YouTube",
+        "ytmsearch": "YouTube Music",
+        "scsearch": "SoundCloud",
+        "spsearch": "Spotify (LavaSrc — credenziali richieste)",
+        "dzsearch": "Deezer (LavaSrc)"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "djRoleId": {
+              "label": "Ruolo DJ (controllo riservato — vuoto = tutti)"
+            },
+            "defaultSearch": {
+              "label": "Piattaforma di ricerca predefinita"
+            },
+            "defaultVolume": {
+              "label": "Volume predefinito (1-100)"
+            },
+            "maxVolume": {
+              "label": "Volume massimo (1-150)"
+            },
+            "requireSameChannel": {
+              "label": "Richiedere di essere nello stesso canale vocale per controllare"
+            },
+            "autoLeave": {
+              "label": "Uscire automaticamente a fine coda"
+            }
+          }
+        }
+      }
+    }
+  }
+}

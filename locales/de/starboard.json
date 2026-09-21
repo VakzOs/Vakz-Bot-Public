@@ -1,0 +1,28 @@
+{
+  "modules": {
+    "starboard": {
+      "label": "Starboard",
+      "description": "Veröffentlicht Nachrichten mit genügend Sternen ⭐ erneut in einem Kanal.",
+      "jump": "Zur Nachricht springen",
+      "header": "{emoji} **{count}** · {channel}",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Starboard-Kanal"
+            },
+            "emoji": {
+              "label": "Auslösendes Emoji"
+            },
+            "threshold": {
+              "label": "Erforderliche Reaktionen"
+            },
+            "ignoreBots": {
+              "label": "Nachrichten von Bots ignorieren"
+            }
+          }
+        }
+      }
+    }
+  }
+}

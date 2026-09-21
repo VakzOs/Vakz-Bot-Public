@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { interserverActions } from './actions.js';
 import { MODULE_NAME, interserverConfigSchema, interserverDefaultConfig } from './config.js';
 import { onInterserverMessage } from './events.js';
@@ -17,15 +18,15 @@ export default defineModule({
   emoji: '\u{1F310}',
   configSchema: interserverConfigSchema,
   defaultConfig: interserverDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      description:
-        'La liaison des salons se fait avec les actions « Lier / Délier un salon » ci-dessous.',
+      description: t('modules.interserver.ui.g0.description'),
       fields: [
         {
           key: 'tagServer',
-          label: 'Afficher le nom du serveur d’origine sur les messages relayés',
+          label: t('modules.interserver.ui.g0.champs.tagServer.label'),
           type: 'boolean',
+          help: t('modules.interserver.ui.g0.champs.tagServer.help'),
         },
       ],
     },

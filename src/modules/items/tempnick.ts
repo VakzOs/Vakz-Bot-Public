@@ -1,5 +1,5 @@
 import type { GuildMember } from 'discord.js';
-import type { BotContext, ScheduledTask } from '../../core/module.js';
+import type { BotContext, ScheduledTask, TaskReport } from '../../core/module.js';
 
 /**
  * Renommage temporaire (effet `nickname` d'un objet). Le pseudo d'origine est
@@ -47,19 +47,31 @@ export async function applyTempNickname(
  * Best effort : une restauration impossible (membre parti, droits perdus)
  * supprime quand même la ligne pour ne pas réessayer indéfiniment.
  */
-export async function restoreExpiredNicknames(ctx: BotContext): Promise<void> {
+export async function restoreExpiredNicknames(ctx: BotContext): Promise<TaskReport> {
   const due = await ctx.db.tempNickname
     .findMany({ where: { expiresAt: { lte: new Date() } }, take: 100 })
     .catch(() => []);
 
+  let restaures = 0;
+  let abandons = 0;
   for (const row of due) {
     const guild = ctx.client.guilds.cache.get(row.guildId);
     const member = guild ? await guild.members.fetch(row.userId).catch(() => null) : null;
     if (member) {
-      await member.setNickname(row.previousNick).catch(() => undefined);
+      const ok = await member
+        .setNickname(row.previousNick)
+        .then(() => true)
+        .catch(() => false);
+      if (ok) restaures += 1;
+      else abandons += 1;
+    } else {
+      abandons += 1;
     }
     await ctx.db.tempNickname.delete({ where: { id: row.id } }).catch(() => undefined);
   }
+  // `abandons` compte les lignes supprimées sans avoir pu rendre son pseudo au
+  // membre : c'est ce qu'on cherche quand quelqu'un signale être resté renommé.
+  return { restaures, abandons };
 }
 
 /** Restaure les pseudos expirés chaque minute. */

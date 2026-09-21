@@ -3,6 +3,14 @@
     "route": {
       "label": "Route de l'Infini",
       "description": "Aventure solo : avance sur la route, affronte des événements aléatoires et gagne pièces et objets.",
+      "noms": {
+        "avancer": "avancer",
+        "boutique": "boutique",
+        "classement": "classement",
+        "membre": "membre",
+        "profil": "profil",
+        "route": "route"
+      },
       "opt": {
         "member": "Le membre concerné (par défaut : toi)."
       },
@@ -138,6 +146,105 @@
         "turnsLeft": "Encore **{turns}** événement(s) avant qu'il se lasse.",
         "gone": "🎉 Il se lasse et s'en va enfin !",
         "total": "Butin total depuis qu'il te suit : **{coins}** pièces."
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "cooldownMinutes": {
+              "label": "Cooldown (minutes)",
+              "help": "Le délai entre deux déplacements d'un même membre. C'est le rythme du jeu entier : à 0, la Route se parcourt en boucle et s'épuise en une soirée."
+            },
+            "giveCoins": {
+              "label": "Donner des pièces",
+              "help": "Crédite les pièces trouvées sur le solde du module Économie. Demande ce module actif : sans lui, les gains sont annoncés et ne sont crédités nulle part."
+            },
+            "giveItems": {
+              "label": "Donner des objets",
+              "help": "Fait tomber des objets du catalogue au fil des événements. Seuls les objets marqués « Drop en jeu » peuvent tomber : sans un seul objet ainsi marqué, les événements qui promettent un cadeau n'en donneront jamais."
+            },
+            "energyRegenRate": {
+              "label": "Régénération énergie (par minute)",
+              "help": "L'énergie regagnée par minute sans rien faire. C'est ce qui permet de revenir le lendemain sans être bloqué. 0 coupe la régénération : l'énergie ne remonte alors que par les provisions et les événements."
+            },
+            "energyRegenCap": {
+              "label": "Plafond de régénération énergie",
+              "help": "Le plafond de cette régénération passive, atteint même en partant du négatif. Au-delà, seuls les provisions et les événements font monter l'énergie — c'est ce qui donne un intérêt à la boutique."
+            }
+          }
+        },
+        "g1": {
+          "label": "🎁😈 Cadeau promis mais jamais donné",
+          "description": "Certains événements annoncent un cadeau (corbeau messager, marchand, fée, ermite…) alors que le tirage peut ne rien donner : barème de drop trop bas, aucun objet « Drop en jeu » au catalogue, ou objets désactivés. Dans ce cas le bot ajoute une petite pique sous le message pour que le voyageur comprenne qu'il n'aura rien.",
+          "champs": {
+            "missedGiftTaunt": {
+              "label": "Ajouter une pique quand le cadeau ne tombe pas",
+              "help": "Quand un événement promet un cadeau mais que le tirage ne donne rien, le bot le tourne en dérision au lieu de rester muet. Un silence, à cet endroit, passe pour un bug — alors que la cause est presque toujours un barème trop bas ou un catalogue sans objet « Drop en jeu »."
+            },
+            "missedGiftMessages": {
+              "label": "Piques personnalisées (une par ligne)",
+              "help": "Une ligne = une pique, tirée au hasard. Laisser vide pour utiliser celles du bot.",
+              "placeholder": "🥲 T'auras pas de cadeau. Voilà. C'est dit.\n👁️👄👁️ STARE THIS GUY, il est reparti avec."
+            }
+          }
+        },
+        "drops": {
+          "label": "🎁 Drops de la Route (barème propre)",
+          "description": "Chances de drop par rareté, propres à la Route et indépendantes de celles des mini-jeux. Sur un événement « marchand », on tire de la plus rare à la plus commune ; seuls les objets « Drop en jeu » peuvent tomber.",
+          "champs": {
+            "common": {
+              "label": "% drop — Commun (0-100)",
+              "help": "Chance, en pour cent, de trouver un objet commun lors d'un événement de la Route. Ce barème est PROPRE à la Route : celui du module Objets ne s'y applique pas."
+            },
+            "rare": {
+              "label": "% drop — Rare (0-100)",
+              "help": "Chance de trouver un objet rare. Le tirage va de la rareté la plus haute à la plus basse et s'arrête au premier succès."
+            },
+            "epic": {
+              "label": "% drop — Épique (0-100)",
+              "help": "Chance de trouver un objet épique, testée avant les rares."
+            },
+            "legendary": {
+              "label": "% drop — Légendaire (0-100)",
+              "help": "Chance de trouver un objet légendaire. Testée en premier, donc prioritaire sur toutes les autres."
+            }
+          }
+        },
+        "shopPrices": {
+          "label": "🧳 Prix boutique (/route boutique)",
+          "description": "Prix d'achat des provisions, payés avec le solde du module Économie.",
+          "champs": {
+            "potion": {
+              "label": "🧪 Potion de soin (+40 PV)",
+              "help": "Prix d'ACHAT d'une potion à la boutique de la Route, payé avec le solde du module Économie."
+            },
+            "tonic": {
+              "label": "⚡ Tonique d’énergie (+50 ⚡)",
+              "help": "Prix d'achat d'un tonique à la boutique de la Route."
+            },
+            "ration": {
+              "label": "🍖 Ration de voyage (+15 PV, +20 ⚡)",
+              "help": "Prix d'achat d'une ration à la boutique de la Route."
+            }
+          }
+        },
+        "peddlerPrices": {
+          "label": "🪙 Prix de revente (marchand ambulant)",
+          "description": "Prix auxquels l'événement marchand ambulant rachète les provisions des voyageurs.",
+          "champs": {
+            "potion": {
+              "label": "🧪 Potion de soin",
+              "help": "Prix de REVENTE d'une potion au marchand ambulant. À garder sous le prix d'achat : au-dessus, acheter puis revendre fabrique de la monnaie en boucle."
+            },
+            "tonic": {
+              "label": "⚡ Tonique d’énergie",
+              "help": "Prix de revente d'un tonique au marchand ambulant, à garder sous son prix d'achat."
+            },
+            "ration": {
+              "label": "🍖 Ration de voyage",
+              "help": "Prix de revente d'une ration au marchand ambulant, à garder sous son prix d'achat."
+            }
+          }
+        }
       }
     }
   }

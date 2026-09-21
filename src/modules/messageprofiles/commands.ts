@@ -6,36 +6,37 @@ import { sayAsProfile } from './service.js';
 
 /** `/dire` — publie un message sous l'identité d'un profil configuré (staff). */
 export const dire: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('dire')
-    .setDescription(t('modules.messageprofiles.command.description'))
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
-    .addStringOption((o) =>
-      o
-        .setName('profil')
-        .setDescription(t('modules.messageprofiles.command.profileOpt'))
-        .setRequired(true)
-        .setAutocomplete(true),
-    )
-    .addStringOption((o) =>
-      o
-        .setName('message')
-        .setDescription(t('modules.messageprofiles.command.messageOpt'))
-        .setRequired(true)
-        .setMaxLength(2000),
-    )
-    .addChannelOption((o) =>
-      o
-        .setName('salon')
-        .setDescription(t('modules.messageprofiles.command.channelOpt'))
-        .addChannelTypes(
-          ChannelType.GuildText,
-          ChannelType.GuildAnnouncement,
-          ChannelType.PublicThread,
-          ChannelType.PrivateThread,
-          ChannelType.AnnouncementThread,
-        ),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.messageprofiles.noms.dire'))
+      .setDescription(t('modules.messageprofiles.command.description'))
+      .setDefaultMemberPermissions(PermissionFlagsBits.ManageMessages)
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.messageprofiles.noms.profil'))
+          .setDescription(t('modules.messageprofiles.command.profileOpt'))
+          .setRequired(true)
+          .setAutocomplete(true),
+      )
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.messageprofiles.noms.message'))
+          .setDescription(t('modules.messageprofiles.command.messageOpt'))
+          .setRequired(true)
+          .setMaxLength(2000),
+      )
+      .addChannelOption((o) =>
+        o
+          .setName(t('modules.messageprofiles.noms.salon'))
+          .setDescription(t('modules.messageprofiles.command.channelOpt'))
+          .addChannelTypes(
+            ChannelType.GuildText,
+            ChannelType.GuildAnnouncement,
+            ChannelType.PublicThread,
+            ChannelType.PrivateThread,
+            ChannelType.AnnouncementThread,
+          ),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
     const config = await getMessageprofilesConfig(ctx, interaction.guildId);

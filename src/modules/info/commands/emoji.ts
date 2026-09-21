@@ -33,16 +33,17 @@ function customEmbed(name: string, id: string, animated: boolean) {
 /** `/emoji` — affiche un emoji en grand et fournit un lien de téléchargement. */
 export const emoji: SlashCommand = {
   guildOnly: false,
-  data: new SlashCommandBuilder()
-    .setName('emoji')
-    .setDescription(t('modules.info.emoji.description'))
-    .addStringOption((o) =>
-      o
-        .setName('emoji')
-        .setDescription(t('modules.info.opt.emoji'))
-        .setRequired(true)
-        .setMaxLength(100),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.info.noms.emoji'))
+      .setDescription(t('modules.info.emoji.description'))
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.info.noms.emoji'))
+          .setDescription(t('modules.info.opt.emoji'))
+          .setRequired(true)
+          .setMaxLength(100),
+      ),
   async execute(interaction) {
     const input = interaction.options.getString('emoji', true).trim();
 

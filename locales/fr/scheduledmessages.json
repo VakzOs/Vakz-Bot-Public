@@ -21,6 +21,71 @@
         "daily": "Tous les jours à {time}",
         "weekly": "Chaque {day} à {time}",
         "interval": "Toutes les {hours} h"
+      },
+      "ui": {
+        "g0": {
+          "label": "🔁 Messages récurrents",
+          "description": "Heures dans le fuseau du bot (Europe/Paris).",
+          "champs": {
+            "messages": {
+              "label": "Messages",
+              "addLabel": "Ajouter un message",
+              "item": {
+                "channelId": {
+                  "label": "Salon"
+                },
+                "content": {
+                  "label": "Contenu"
+                },
+                "asEmbed": {
+                  "label": "En embed"
+                },
+                "schedule": {
+                  "type": {
+                    "label": "Cadence",
+                    "opt": {
+                      "daily": {
+                        "label": "Tous les jours"
+                      },
+                      "weekly": {
+                        "label": "Chaque semaine"
+                      },
+                      "interval": {
+                        "label": "Toutes les X heures"
+                      }
+                    }
+                  },
+                  "time": {
+                    "label": "Heure (HH:MM) — quotidien / hebdo",
+                    "placeholder": "12:00"
+                  },
+                  "weekday": {
+                    "label": "Jour — hebdo (0 = dimanche … 6 = samedi)"
+                  },
+                  "hours": {
+                    "label": "Intervalle en heures — type « toutes les X heures »"
+                  }
+                }
+              },
+              "help": "Une ligne par message récurrent : son salon, son texte, et sa cadence — chaque jour, un jour de la semaine, ou toutes les N heures. Les heures sont celles du FUSEAU DU BOT, pas celles du lecteur. Le bot regarde une fois par minute : un message programmé pendant une coupure n'est pas rattrapé au redémarrage, il attend son prochain passage."
+            }
+          }
+        }
+      },
+      "actions": {
+        "sendNow": {
+          "label": "Envoyer maintenant",
+          "help": "Publie le message choisi immédiatement ; sa planification reste inchangée.",
+          "champs": {
+            "id": "Message"
+          },
+          "msg": {
+            "noGuild": "Serveur introuvable.",
+            "pickMessage": "Choisis un message planifié.",
+            "done": "Message envoyé.",
+            "failed": "Envoi impossible (salon ou permissions)."
+          }
+        }
       }
     }
   }

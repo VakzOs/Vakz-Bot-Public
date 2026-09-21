@@ -1,0 +1,102 @@
+{
+  "modules": {
+    "giveaways": {
+      "label": "Verlosungen",
+      "description": "Verlosungen: Gewinn, Dauer, Gewinnerzahl, Teilnahme per Schaltfläche.",
+      "noms": {
+        "duree": "dauer",
+        "gagnant": "gewinner",
+        "gagnants": "gewinneranzahl",
+        "giveaway": "verlosung",
+        "id": "id",
+        "lancer": "starten",
+        "liste": "liste",
+        "lot": "preis",
+        "relancer": "neuziehen",
+        "role": "rolle",
+        "salon": "kanal",
+        "terminer": "beenden"
+      },
+      "command": {
+        "description": "Verlosungen starten und verwalten.",
+        "start": "Eine Verlosung starten.",
+        "end": "Eine Verlosung sofort beenden und die Gewinnenden ziehen.",
+        "reroll": "Neu ziehen (alle Gewinnenden oder eine bestimmte Person).",
+        "list": "Die laufenden Verlosungen auflisten."
+      },
+      "opt": {
+        "prize": "Der zu gewinnende Preis.",
+        "duration": "Dauer der Verlosung (z. B. 1h, 2j, 30m).",
+        "winners": "Anzahl der Gewinnenden (Standard 1).",
+        "channel": "Kanal für die Verlosung (Standard: hier).",
+        "role": "Für die Teilnahme nötige Rolle (optional).",
+        "id": "Die betroffene Verlosung.",
+        "winner": "Die zu ersetzende gewinnende Person (gezieltes Neuziehen)."
+      },
+      "embed": {
+        "title": "🎉 Verlosung: {prize}",
+        "intro": "Klicke auf die Schaltfläche, um teilzunehmen!\nAm Ende werden **{count}** Gewinnende gezogen.",
+        "endedIntro": "Verlosung beendet.",
+        "footer": "ID {id}",
+        "host": "Veranstaltet von",
+        "winners": "Gewinnende",
+        "endsAt": "Ende",
+        "endedAt": "Beendet",
+        "participants": "Teilnehmende",
+        "requiredRole": "Nötige Rolle",
+        "result": "🏆 Gewinnende",
+        "noWinner": "Keine Teilnahme 😢"
+      },
+      "joinButton": "🎉 Teilnehmen ({count})",
+      "announceWinners": "🎉 Glückwunsch {winners}! Ihr gewinnt **{prize}**!",
+      "announceNoWinner": "😢 Niemand hat an der Verlosung für **{prize}** teilgenommen.",
+      "announceReroll": "🔄 Neue Ziehung! Glückwunsch {winners}, ihr gewinnt **{prize}**!",
+      "announceRerollOne": "🔄 {old} wird ersetzt: Glückwunsch {new}, du gewinnst **{prize}**!",
+      "feedback": {
+        "disabled": "❌ Dieses Modul ist auf diesem Server deaktiviert.",
+        "ended": "❌ Diese Verlosung ist beendet oder wurde nicht gefunden.",
+        "needRole": "⛔ Für diese Verlosung brauchst du die Rolle {role}.",
+        "joined": "✅ Du nimmst an der Verlosung teil! Viel Glück 🍀",
+        "left": "➖ Du nimmst an dieser Verlosung nicht mehr teil."
+      },
+      "reroll": {
+        "notWinner": "❌ Dieses Mitglied gehört derzeit nicht zu den Gewinnenden dieser Verlosung.",
+        "noEligible": "❌ Es gibt keine teilnehmende Person mehr, die diese ersetzen könnte."
+      },
+      "invalidDuration": "❌ Ungültige Dauer. Beispiele: `1h`, `2j`, `30m`, `1h30m`.",
+      "channelInvalid": "❌ Ungültiger Kanal für die Verlosung.",
+      "sendError": "❌ Verlosung konnte nicht veröffentlicht werden (prüfe meine Berechtigungen im Kanal).",
+      "launched": "✅ Verlosung gestartet! {url}",
+      "notFoundActive": "❌ Keine laufende Verlosung mit dieser Kennung.",
+      "endedManual": "🎉 Verlosung beendet! Gewinnende: {winners}",
+      "endedNoWinner": "😢 Verlosung beendet, aber ohne Teilnahme.",
+      "notFoundEnded": "❌ Keine beendete Verlosung mit dieser Kennung.",
+      "rerolledOne": "🔄 {old} durch {new} ersetzt.",
+      "rerolledAll": "🔄 Neue Ziehung durchgeführt. Gewinnende: {winners}",
+      "listEmpty": "Keine laufende Verlosung.",
+      "listTitle": "🎉 Laufende Verlosungen",
+      "listLine": "• **{prize}** — `{id}` — Ende {ends} — {channel}",
+      "log": {
+        "title": "🎁 Verlosung beendet",
+        "entry": "Preis: **{prize}**\nGewinnende: {winners}\nVeranstaltet von: {host}\nID: `{id}`"
+      },
+      "ui": {
+        "g0": {
+          "description": "Verlosungen werden mit dem Befehl /verlosung erstellt.",
+          "champs": {
+            "logChannelId": {
+              "label": "Kanal für Protokolle"
+            },
+            "winMessage": {
+              "label": "Gewinnnachricht",
+              "help": "Wird an die Gewinnenden gesendet."
+            },
+            "noWinnerMessage": {
+              "label": "Nachricht, wenn niemand gewinnt"
+            }
+          }
+        }
+      }
+    }
+  }
+}

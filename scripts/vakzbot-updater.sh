@@ -60,6 +60,59 @@ current_branch() {
 BRANCH="${BRANCH:-$(current_branch)}"
 [ -n "$BRANCH" ] && [ "$BRANCH" != "unknown" ] || BRANCH="main"
 
+# --- Construire, puis SEULEMENT ENSUITE demarrer ------------------------------
+#
+# `docker compose up -d --build` a ete pris en flagrant delit : un `npm ci` en
+# echec, un « failed to solve » dans sa sortie, et un code de sortie 0. Le
+# `set -e` du sous-shell n'a rien vu, l'updater a ecrit « success », le
+# conteneur a continue de tourner sur l'ancienne image — et TROIS mises a jour
+# se sont perdues sans que personne ne le sache (18/09/2026, constructeur
+# bake). Un build rate qui se declare reussi est pire qu'un build rate.
+#
+# D'ou deux gardes plutot qu'une, et dans cet ordre :
+#   1. le build est SEPARE du demarrage. `docker compose build` a son propre
+#      code de sortie, qu'on interroge AVANT de toucher au conteneur ;
+#   2. sa sortie est relue a la recherche des marqueurs d'echec de BuildKit,
+#      parce qu'on sait desormais qu'un code de sortie peut mentir.
+# Le conteneur n'est demarre que si les deux sont d'accord.
+construire() {
+  local journal rc=0
+  journal="$(mktemp)"
+  echo "[vakzbot-updater] docker compose build $*"
+  docker compose build "$@" >"$journal" 2>&1 || rc=$?
+  cat "$journal"
+  if [ "$rc" -ne 0 ]; then
+    echo "[vakzbot-updater] BUILD EN ECHEC (code $rc) : le conteneur n'est pas touche."
+    rm -f "$journal"
+    return 1
+  fi
+  if grep -qE 'failed to solve|did not complete successfully|^ERROR: ' "$journal"; then
+    echo "[vakzbot-updater] BUILD EN ECHEC : code de sortie 0, mais la sortie dit le contraire."
+    echo "[vakzbot-updater] Compose n'a pas propage l'echec (voir ci-dessus). Le conteneur n'est pas touche."
+    rm -f "$journal"
+    return 1
+  fi
+  rm -f "$journal"
+  return 0
+}
+
+# Le service tourne-t-il VRAIMENT apres `up` ? Un `up` peut rendre la main sans
+# que le conteneur tienne debout : entrypoint qui sort (migrations en echec),
+# image absente. On laisse quelques secondes au demarrage avant de conclure.
+verifier_service() {
+  local id etat="" i
+  for i in 1 2 3 4 5 6 7 8 9 10; do
+    id="$(docker compose ps -q "$COMPOSE_SERVICE" 2>/dev/null | head -n1 || true)"
+    if [ -n "$id" ]; then
+      etat="$(docker inspect -f '{{.State.Status}}' "$id" 2>/dev/null || echo '')"
+      [ "$etat" = "running" ] && { echo "[vakzbot-updater] service $COMPOSE_SERVICE en marche"; return 0; }
+    fi
+    sleep 2
+  done
+  echo "[vakzbot-updater] le service $COMPOSE_SERVICE n'est PAS en marche (etat=${etat:-inconnu})"
+  return 1
+}
+
 write_status() {
   local phase="$1" message="${2:-}" state="${3:-running}" commit branch
   commit="$(current_commit)"
@@ -355,14 +408,18 @@ except Exception:
       # les autres ne sont pas balayes au passage. Ses dependances sont quand
       # meme demarrees si elles sont a l'arret : `up` s'en charge.
       write_status "building" "Rebuild rapide (cache Docker, service $COMPOSE_SERVICE)." "running"
-      echo "[vakzbot-updater] docker compose up -d --build $COMPOSE_SERVICE"
       cd "$REPO_DIR"
-      docker compose up -d --build "$COMPOSE_SERVICE"
+      construire "$COMPOSE_SERVICE"
+      echo "[vakzbot-updater] docker compose up -d $COMPOSE_SERVICE"
+      docker compose up -d "$COMPOSE_SERVICE"
+      verifier_service
     else
       write_status "building" "Rebuild et redemarrage Docker Compose en cours." "running"
-      echo "[vakzbot-updater] docker compose up -d --build --force-recreate"
       cd "$REPO_DIR"
-      docker compose up -d --build --force-recreate
+      construire
+      echo "[vakzbot-updater] docker compose up -d --force-recreate"
+      docker compose up -d --force-recreate
+      verifier_service
     fi
     echo "[vakzbot-updater] docker compose finished"
   ) >>"$LOG_TMP" 2>&1 || update_rc=$?

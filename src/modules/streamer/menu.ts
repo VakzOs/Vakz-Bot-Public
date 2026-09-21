@@ -42,8 +42,7 @@ export function buildStreamerEmbed(config: StreamerConfig, guild: Guild): EmbedB
 }
 
 export type PublishResult =
-  | { ok: true; messageId: string }
-  | { ok: false; error: 'nochannel' | 'norole' | 'send' };
+  { ok: true; messageId: string } | { ok: false; error: 'nochannel' | 'norole' | 'send' };
 
 /** Publie (ou met à jour) le panneau « Mode streameur » dans le salon configuré. */
 export async function publishStreamer(

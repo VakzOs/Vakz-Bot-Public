@@ -17,6 +17,38 @@
       },
       "log": {
         "accepted": "📜 {user} a accepté le règlement (version {version})."
+      },
+      "ui": {
+        "g0": {
+          "label": "📜 Règlement",
+          "description": "Après modification, republie le règlement avec le bouton « Publier ».",
+          "champs": {
+            "channelId": {
+              "label": "Salon du règlement",
+              "help": "Le salon où le règlement est publié. À rendre lisible par tous mais accessible en écriture à personne : c'est souvent le seul salon qu'un arrivant non vérifié peut voir."
+            },
+            "roleId": {
+              "label": "Rôle d’accès (à l’acceptation)",
+              "help": "Le rôle donné au membre qui accepte. C'est lui qui doit ouvrir le reste du serveur : sans rôle ici, le bouton enregistre l'acceptation mais ne débloque rien."
+            },
+            "title": {
+              "label": "Titre",
+              "help": "Le titre du message de règlement."
+            },
+            "content": {
+              "label": "Contenu du règlement",
+              "help": "Le texte du règlement, jusqu'à 4 000 caractères. Le modifier ne redemande PAS son accord à ceux qui ont déjà accepté — c'est le numéro de version qui sert à cela, quand une règle change assez pour qu'il faille réaccepter."
+            },
+            "buttonLabel": {
+              "label": "Libellé du bouton d’acceptation",
+              "help": "Le texte du bouton d'acceptation. Le formuler à la première personne (« J'accepte ») : c'est ce que le membre déclare en cliquant."
+            },
+            "logChannelId": {
+              "label": "Salon des logs d’acceptation",
+              "help": "Un salon où consigner chaque acceptation, avec son auteur et l'horodatage. C'est la seule trace qui permette de répondre à « avait-il accepté le règlement ? » le jour où la question se pose. Vide, rien n'est conservé."
+            }
+          }
+        }
       }
     }
   }

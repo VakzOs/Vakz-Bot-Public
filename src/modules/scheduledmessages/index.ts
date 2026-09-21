@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { scheduledmessagesActions } from './actions.js';
 import {
   MODULE_NAME,
@@ -24,48 +25,80 @@ export default defineModule({
   emoji: '\u{1F4C5}',
   configSchema: scheduledmessagesConfigSchema,
   defaultConfig: scheduledmessagesDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '🔁 Messages récurrents',
-      description: 'Heures dans le fuseau du bot (Europe/Paris).',
+      label: t('modules.scheduledmessages.ui.g0.label'),
+      description: t('modules.scheduledmessages.ui.g0.description'),
       fields: [
         {
           key: 'messages',
-          label: 'Messages',
+          label: t('modules.scheduledmessages.ui.g0.champs.messages.label'),
           type: 'list',
+          help: t('modules.scheduledmessages.ui.g0.champs.messages.help'),
           idKey: 'id',
-          addLabel: 'Ajouter un message',
+          addLabel: t('modules.scheduledmessages.ui.g0.champs.messages.addLabel'),
           item: [
-            { key: 'channelId', label: 'Salon', type: 'channel' },
-            { key: 'content', label: 'Contenu', type: 'textarea' },
-            { key: 'asEmbed', label: 'En embed', type: 'boolean' },
+            {
+              key: 'channelId',
+              label: t('modules.scheduledmessages.ui.g0.champs.messages.item.channelId.label'),
+              type: 'channel',
+            },
+            {
+              key: 'content',
+              label: t('modules.scheduledmessages.ui.g0.champs.messages.item.content.label'),
+              type: 'textarea',
+            },
+            {
+              key: 'asEmbed',
+              label: t('modules.scheduledmessages.ui.g0.champs.messages.item.asEmbed.label'),
+              type: 'boolean',
+            },
             {
               key: 'schedule.type',
-              label: 'Cadence',
+              label: t('modules.scheduledmessages.ui.g0.champs.messages.item.schedule.type.label'),
               type: 'select',
               default: 'daily',
               options: [
-                { value: 'daily', label: 'Tous les jours' },
-                { value: 'weekly', label: 'Chaque semaine' },
-                { value: 'interval', label: 'Toutes les X heures' },
+                {
+                  value: 'daily',
+                  label: t(
+                    'modules.scheduledmessages.ui.g0.champs.messages.item.schedule.type.opt.daily.label',
+                  ),
+                },
+                {
+                  value: 'weekly',
+                  label: t(
+                    'modules.scheduledmessages.ui.g0.champs.messages.item.schedule.type.opt.weekly.label',
+                  ),
+                },
+                {
+                  value: 'interval',
+                  label: t(
+                    'modules.scheduledmessages.ui.g0.champs.messages.item.schedule.type.opt.interval.label',
+                  ),
+                },
               ],
             },
             {
               key: 'schedule.time',
-              label: 'Heure (HH:MM) — quotidien / hebdo',
+              label: t('modules.scheduledmessages.ui.g0.champs.messages.item.schedule.time.label'),
               type: 'text',
               default: '12:00',
-              placeholder: '12:00',
+              placeholder: t(
+                'modules.scheduledmessages.ui.g0.champs.messages.item.schedule.time.placeholder',
+              ),
             },
             {
               key: 'schedule.weekday',
-              label: 'Jour — hebdo (0 = dimanche … 6 = samedi)',
+              label: t(
+                'modules.scheduledmessages.ui.g0.champs.messages.item.schedule.weekday.label',
+              ),
               type: 'number',
               default: 1,
             },
             {
               key: 'schedule.hours',
-              label: 'Intervalle en heures — type « toutes les X heures »',
+              label: t('modules.scheduledmessages.ui.g0.champs.messages.item.schedule.hours.label'),
               type: 'number',
               default: 24,
             },

@@ -27,6 +27,82 @@
       "archive": {
         "title": "📦 Archive de ticket",
         "header": "Type : {type}\nAuteur : {opener}\nFermé par : {closedBy}\nMessages : {count}"
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ Général",
+          "description": "Après modification, republie le panneau avec le bouton « Publier » pour rafraîchir les boutons.",
+          "champs": {
+            "title": {
+              "label": "Titre du panneau",
+              "help": "Le titre du panneau d'ouverture de ticket."
+            },
+            "description": {
+              "label": "Description du panneau",
+              "help": "Le texte du panneau. Y dire ce qu'on attend d'un ticket — le contexte, les captures — épargne un aller-retour à chaque demande."
+            },
+            "panelChannelId": {
+              "label": "Salon du panneau",
+              "help": "Où le panneau « Ouvrir un ticket » est publié."
+            },
+            "mode": {
+              "label": "Type de ticket",
+              "opt": {
+                "channel": {
+                  "label": "Salon privé (catégorie)"
+                },
+                "thread": {
+                  "label": "Fil privé"
+                }
+              },
+              "help": "« Salon privé » crée un vrai salon dans la catégorie choisie : il survit à tout, s'archive proprement, mais compte dans la limite de 500 salons du serveur. « Fil privé » crée un fil dans le salon du panneau : sans limite pratique, mais Discord archive les fils inactifs et ils sont plus difficiles à retrouver."
+            },
+            "categoryId": {
+              "label": "Catégorie des salons (mode salon)",
+              "help": "La catégorie où les salons de ticket sont créés. Une catégorie Discord ne tient que 50 salons : au-delà, l'ouverture échoue. N'a aucun effet en mode « fil privé »."
+            },
+            "archiveChannelId": {
+              "label": "Salon d’archivage des transcripts",
+              "help": "À la fermeture d'un ticket, le bot y dépose la transcription complète avant de supprimer le salon. Vide, la conversation disparaît avec le salon, définitivement — c'est le réglage qu'on regrette après coup."
+            },
+            "nameFormat": {
+              "label": "Format du nom",
+              "help": "Variables : {type}, {number}, {count}, {user}, {id}."
+            },
+            "maxOpen": {
+              "label": "Tickets ouverts simultanés / membre",
+              "help": "Entre 1 et 10."
+            }
+          }
+        },
+        "g1": {
+          "label": "🎫 Types de tickets",
+          "description": "Chaque type = un bouton du panneau, avec ses rôles autorisés à voir/prendre.",
+          "champs": {
+            "types": {
+              "label": "Types",
+              "addLabel": "Ajouter un type",
+              "item": {
+                "label": {
+                  "label": "Libellé du bouton"
+                },
+                "emoji": {
+                  "label": "Emoji",
+                  "placeholder": "🎫"
+                },
+                "prefix": {
+                  "label": "Préfixe des salons",
+                  "help": "Ex. « sup » → sup-0001. Vide = type-pseudo.",
+                  "placeholder": "sup"
+                },
+                "roleIds": {
+                  "label": "Rôles autorisés"
+                }
+              },
+              "help": "Un bouton par ligne sur le panneau, avec les rôles autorisés à voir et traiter ce type-là. C'est ce qui permet qu'un ticket « facturation » ne soit pas lisible par toute la modération. Sans rôle sur une ligne, seuls l'auteur et les administrateurs voient le ticket. Le préfixe nomme les salons (`sup` → `sup-0001`)."
+            }
+          }
+        }
       }
     }
   }

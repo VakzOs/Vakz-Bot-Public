@@ -1,8 +1,9 @@
 import { type EmbedBuilder, PermissionFlagsBits, type Guild, type GuildMember } from 'discord.js';
-import type { BotContext } from '../../core/module.js';
+import type { BotContext, TaskReport } from '../../core/module.js';
 import { Colors, brandedEmbed, rankLabel } from '../../lib/embeds.js';
 import { levelFromXp } from './curve.js';
 import { type LevelsConfig, MODULE_NAME, getLevelsConfig, updateLevelsConfig } from './config.js';
+import { useGuildLocale } from '../../core/guild-locale.js';
 
 export interface XpGainResult {
   leveledUp: boolean;
@@ -155,6 +156,11 @@ export async function announceLevelUp(
  * Gain d'XP vocal (à appeler chaque minute) : crédite les membres actifs en
  * vocal sur chaque serveur où le module et le vocal sont activés. Un salon doit
  * compter au moins deux membres actifs (non sourds, non bots) pour compter.
+ *
+ * **Volontairement sans compte-rendu** : distribuer l'XP vocal à la minute est
+ * le fonctionnement normal du module, pas un évènement. Le rapporter rendrait
+ * une ligne d'`info` par minute tant qu'il y a du monde en vocal. Ce qui s'est
+ * passé se lit sur les niveaux, et le passage reste visible en `LOG_LEVEL=debug`.
  */
 export async function runVoiceXp(ctx: BotContext): Promise<void> {
   const rows = await ctx.db.moduleConfig
@@ -166,6 +172,8 @@ export async function runVoiceXp(ctx: BotContext): Promise<void> {
     if (!config.voiceEnabled || config.voiceXpPerMinute <= 0) continue;
     const guild = ctx.client.guilds.cache.get(rowConfig.guildId);
     if (!guild) continue;
+    // Un passage de niveau gagné en vocal s'annonce dans la langue du serveur.
+    await useGuildLocale(guild.id);
 
     for (const channel of guild.channels.cache.values()) {
       if (!channel.isVoiceBased()) continue;
@@ -193,11 +201,16 @@ export async function runVoiceXp(ctx: BotContext): Promise<void> {
 }
 
 /** Met à jour (ou publie) le message de classement auto sur chaque serveur réglé. */
-export async function refreshLeaderboards(ctx: BotContext): Promise<void> {
+export async function refreshLeaderboards(ctx: BotContext): Promise<TaskReport> {
   const rows = await ctx.db.moduleConfig
     .findMany({ where: { module: MODULE_NAME, enabled: true } })
     .catch(() => []);
 
+  // Seules les publications et les échecs sont rapportés : rééditer le message
+  // est le travail normal de la tâche, et l'annoncer toutes les dix minutes ne
+  // dirait rien d'autre que « elle tourne ».
+  let publies = 0;
+  let echecs = 0;
   for (const rowConfig of rows) {
     const config = await getLevelsConfig(ctx, rowConfig.guildId);
     if (!config.leaderboardChannelId) continue;
@@ -206,23 +219,40 @@ export async function refreshLeaderboards(ctx: BotContext): Promise<void> {
     const channel = await guild.channels.fetch(config.leaderboardChannelId).catch(() => null);
     if (!channel?.isTextBased()) continue;
 
+    // La tâche parcourt les serveurs : le classement sort dans SA langue.
+    await useGuildLocale(guild.id);
     const entries = await getLeaderboard(ctx, guild.id, 10);
     const embed = buildLeaderboardEmbed(guild, entries, config.cardColor);
 
-    let messageId = config.leaderboardMessageId;
+    // Le message de classement existe déjà : on le réédite plutôt que d'en
+    // publier un second. S'il a disparu (supprimé à la main, salon purgé), on
+    // retombe sur la publication d'un nouveau, plus bas.
+    const messageId = config.leaderboardMessageId;
     if (messageId) {
       const existing = await channel.messages.fetch(messageId).catch(() => null);
       if (existing) {
         await existing.edit({ embeds: [embed] }).catch(() => undefined);
         continue;
       }
-      messageId = null;
     }
-    const sent = await channel.send({ embeds: [embed] }).catch(() => null);
+    const sent = await channel.send({ embeds: [embed] }).catch((error: unknown) => {
+      // Un classement qui ne se publie jamais (permissions retirées sur le
+      // salon) n'avait aucune trace : la tâche passait, le salon restait vide.
+      ctx.logger.warn(
+        { err: error, guildId: guild.id, channelId: config.leaderboardChannelId },
+        'Classement des niveaux non publié',
+      );
+      return null;
+    });
     if (sent) {
       await updateLevelsConfig(ctx, guild.id, { leaderboardMessageId: sent.id });
+      publies += 1;
+    } else {
+      echecs += 1;
     }
   }
+
+  return { publies, echecs };
 }
 
 /**

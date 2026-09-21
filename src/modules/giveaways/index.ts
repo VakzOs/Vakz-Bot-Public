@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, giveawaysConfigSchema, giveawaysDefaultConfig } from './config.js';
 import { giveaway } from './commands.js';
 import { giveawaysComponent } from './component.js';
@@ -18,18 +19,28 @@ export default defineModule({
   emoji: '\u{1F381}',
   configSchema: giveawaysConfigSchema,
   defaultConfig: giveawaysDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      description: 'Les tirages se créent avec la commande /giveaway.',
+      description: t('modules.giveaways.ui.g0.description'),
       fields: [
-        { key: 'logChannelId', label: 'Salon des logs', type: 'channel' },
+        {
+          key: 'logChannelId',
+          label: t('modules.giveaways.ui.g0.champs.logChannelId.label'),
+          type: 'channel',
+          help: t('modules.giveaways.ui.g0.champs.logChannelId.help'),
+        },
         {
           key: 'winMessage',
-          label: 'Message de gain',
+          label: t('modules.giveaways.ui.g0.champs.winMessage.label'),
           type: 'textarea',
-          help: 'Envoyé au(x) gagnant(s).',
+          help: t('modules.giveaways.ui.g0.champs.winMessage.help'),
         },
-        { key: 'noWinnerMessage', label: 'Message quand aucun gagnant', type: 'textarea' },
+        {
+          key: 'noWinnerMessage',
+          label: t('modules.giveaways.ui.g0.champs.noWinnerMessage.label'),
+          type: 'textarea',
+          help: t('modules.giveaways.ui.g0.champs.noWinnerMessage.help'),
+        },
       ],
     },
   ],

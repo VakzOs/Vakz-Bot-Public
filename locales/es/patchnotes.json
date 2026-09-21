@@ -1,0 +1,70 @@
+{
+  "modules": {
+    "patchnotes": {
+      "label": "Notas de parche",
+      "description": "Vigila las notas de parche de juegos y programas y las publica en los canales elegidos.",
+      "embed": {
+        "footer": "Notas de parche · {source}",
+        "noDescription": "No hay ningún resumen disponible. Abre el enlace para leer la nota completa."
+      },
+      "categories": {
+        "riot": "Riot Games",
+        "fps": "FPS",
+        "mmo": "MMO y RPG",
+        "survie": "Supervivencia y sandbox",
+        "strategie": "Estrategia",
+        "logiciels": "Programas"
+      },
+      "ui": {
+        "g0": {
+          "label": "Suscripciones",
+          "description": "Una línea por juego o programa seguido: el bot publica cada nueva nota de parche en el canal elegido.",
+          "champs": {
+            "subscriptions": {
+              "label": "Fuentes seguidas",
+              "addLabel": "Añadir una fuente",
+              "item": {
+                "sourceId": {
+                  "label": "Fuente"
+                },
+                "channelId": {
+                  "label": "Canal de publicación"
+                },
+                "roleId": {
+                  "label": "Rol que mencionar",
+                  "help": "Opcional: se menciona en cada nueva nota."
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "publishLatest": {
+          "label": "Publicar la última nota",
+          "help": "Envía inmediatamente la última nota de parche de la fuente elegida a su canal.",
+          "champs": {
+            "sourceId": {
+              "label": "Fuente",
+              "help": "Debe corresponder a una suscripción ya registrada arriba."
+            }
+          },
+          "raisons": {
+            "missingSource": "fuente desconocida",
+            "missingChannel": "no hay ningún canal configurado",
+            "channelUnavailable": "canal no encontrado o no textual",
+            "missingPermissions": "faltan permisos en el canal",
+            "noNotes": "no se ha encontrado ninguna nota en la fuente",
+            "unknown": "envío imposible"
+          },
+          "msg": {
+            "pickSource": "Elige una fuente válida.",
+            "noSubscription": "Esta fuente todavía no tiene ninguna suscripción registrada.",
+            "nothing": "No se ha publicado nada: {raison}.",
+            "done": "{n} nota publicada."
+          }
+        }
+      }
+    }
+  }
+}

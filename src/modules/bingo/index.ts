@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, bingoConfigSchema, bingoDefaultConfig } from './config.js';
 import { bingoCommands, bingoComponent } from './commands.js';
 
@@ -16,16 +17,17 @@ export default defineModule({
   emoji: '\u{1F3B0}',
   configSchema: bingoConfigSchema,
   defaultConfig: bingoDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
       fields: [
         {
           key: 'defaultMode',
-          label: 'Mode de victoire par défaut',
+          label: t('modules.bingo.ui.g0.champs.defaultMode.label'),
           type: 'select',
+          help: t('modules.bingo.ui.g0.champs.defaultMode.help'),
           options: [
-            { value: 'line', label: 'Une ligne' },
-            { value: 'full', label: 'Grille complète' },
+            { value: 'line', label: t('modules.bingo.ui.g0.champs.defaultMode.opt.line.label') },
+            { value: 'full', label: t('modules.bingo.ui.g0.champs.defaultMode.opt.full.label') },
           ],
         },
       ],

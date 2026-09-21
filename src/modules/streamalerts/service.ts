@@ -1,5 +1,5 @@
 import { EmbedBuilder } from 'discord.js';
-import type { BotContext } from '../../core/module.js';
+import type { BotContext, TaskReport } from '../../core/module.js';
 import { env } from '../../core/env.js';
 import { t } from '../../core/i18n.js';
 import { fetchWithTimeout } from '../../lib/http.js';
@@ -9,6 +9,7 @@ import {
   type StreamSubscription,
   getStreamalertsConfig,
 } from './config.js';
+import { useGuildLocale } from '../../core/guild-locale.js';
 
 const TWITCH_COLOR = 0x9146ff;
 const YOUTUBE_COLOR = 0xff0000;
@@ -644,16 +645,23 @@ async function processTarget(
   target: Target,
   status: StreamStatus,
   announceEnabled: boolean,
-): Promise<void> {
+): Promise<number> {
   const { guildId, sub } = target;
+  // Un même live est contrôlé une fois pour tous les serveurs abonnés, mais
+  // annoncé serveur par serveur : chacun dans sa langue.
+  await useGuildLocale(guildId);
   const where = {
     guildId_platform_identifier: { guildId, platform: sub.platform, identifier: sub.identifier },
   };
   const existing = await ctx.db.streamAlert.findUnique({ where }).catch(() => null);
 
+  let annonces = 0;
   if (sub.platform === 'twitch') {
     const wasLive = existing?.live ?? false;
-    if (announceEnabled && status.live && !wasLive) await announce(ctx, sub, status);
+    if (announceEnabled && status.live && !wasLive) {
+      await announce(ctx, sub, status);
+      annonces += 1;
+    }
     await ctx.db.streamAlert
       .upsert({
         where,
@@ -661,15 +669,18 @@ async function processTarget(
         update: { live: status.live },
       })
       .catch(() => undefined);
-    return;
+    return annonces;
   }
 
   // YouTube : on annonce quand une nouvelle vidéo apparaît (jamais au premier
   // contrôle ni lors de l'amorçage au démarrage).
-  if (!status.videoId) return;
+  if (!status.videoId) return annonces;
   const last = existing?.lastVideoId ?? null;
-  if (status.videoId === last) return;
-  if (announceEnabled && last !== null) await announce(ctx, sub, status);
+  if (status.videoId === last) return annonces;
+  if (announceEnabled && last !== null) {
+    await announce(ctx, sub, status);
+    annonces += 1;
+  }
   await ctx.db.streamAlert
     .upsert({
       where,
@@ -682,6 +693,7 @@ async function processTarget(
       update: { lastVideoId: status.videoId },
     })
     .catch(() => undefined);
+  return annonces;
 }
 
 /** Contrôle une source selon sa plateforme et renvoie son état courant. */
@@ -724,7 +736,7 @@ export async function testSubscription(
 }
 
 /** Parcourt tous les abonnements ; `announceEnabled` distingue poll vs amorçage. */
-async function run(ctx: BotContext, announceEnabled: boolean): Promise<void> {
+async function run(ctx: BotContext, announceEnabled: boolean): Promise<number> {
   const rows = await ctx.db.moduleConfig
     .findMany({ where: { module: MODULE_NAME, enabled: true } })
     .catch(() => []);
@@ -752,19 +764,23 @@ async function run(ctx: BotContext, announceEnabled: boolean): Promise<void> {
     }
   }
 
+  let annonces = 0;
   for (const entry of unique.values()) {
     if (entry.platform === 'twitch' && !twitchConfigured()) continue;
     const status = await checkStatus(entry.platform, entry.identifier);
     if (!status) continue;
     for (const target of entry.targets) {
-      await processTarget(ctx, target, status, announceEnabled);
+      annonces += await processTarget(ctx, target, status, announceEnabled);
     }
   }
+  return annonces;
 }
 
 /** Contrôle périodique : annonce les nouveautés (live / nouvelle vidéo). */
-export async function pollAll(ctx: BotContext): Promise<void> {
-  await run(ctx, true);
+export async function pollAll(ctx: BotContext): Promise<TaskReport> {
+  // Le contrôle tourne toutes les deux minutes et ne trouve presque jamais rien
+  // de neuf : seul le passage qui a annoncé quelque chose mérite une ligne.
+  return { annonces: await run(ctx, true) };
 }
 
 /**
@@ -773,6 +789,8 @@ export async function pollAll(ctx: BotContext): Promise<void> {
  * déjà existant — seules les nouveautés survenues bot allumé sont annoncées.
  */
 export async function primeAll(ctx: BotContext): Promise<void> {
+  // `run` rend un nombre d'annonces : en amorçage il vaut toujours zéro, par
+  // construction. Rien à rapporter.
   await run(ctx, false);
 }
 

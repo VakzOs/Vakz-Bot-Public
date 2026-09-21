@@ -1,0 +1,48 @@
+{
+  "modules": {
+    "messageprofiles": {
+      "label": "Nachrichtenprofile",
+      "description": "Lässt den Bot mit eigenem Namen und Avatar über /sagen sprechen (Team).",
+      "noms": {
+        "dire": "sagen",
+        "message": "nachricht",
+        "profil": "profil",
+        "salon": "kanal"
+      },
+      "command": {
+        "description": "Veröffentlicht eine Nachricht unter der Identität eines eingerichteten Profils.",
+        "profileOpt": "Profil, unter dem gesprochen wird",
+        "messageOpt": "Zu veröffentlichende Nachricht",
+        "channelOpt": "Kanal für die Veröffentlichung (Standard: der aktuelle Kanal)",
+        "unknownProfile": "❌ Profil nicht gefunden. Richte es im Dashboard → Nachrichtenprofile ein.",
+        "badChannel": "❌ Ungültiger Kanal.",
+        "result": {
+          "ok": "✅ Nachricht in {channel} unter „{name}“ veröffentlicht.",
+          "noperm": "❌ Mir fehlt die Berechtigung „Webhooks verwalten“ in diesem Kanal.",
+          "fail": "❌ Senden fehlgeschlagen. Versuche es später erneut."
+        }
+      },
+      "ui": {
+        "g0": {
+          "label": "🗨️ Nachrichtenprofile",
+          "description": "Personas (Name + Avatar), die mit dem Befehl /sagen nutzbar sind.",
+          "champs": {
+            "profiles": {
+              "label": "Profile",
+              "addLabel": "Profil hinzufügen",
+              "item": {
+                "name": {
+                  "label": "Name"
+                },
+                "avatarUrl": {
+                  "label": "URL des Avatars",
+                  "placeholder": "https://…"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

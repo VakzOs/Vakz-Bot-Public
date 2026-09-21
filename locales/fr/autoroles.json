@@ -2,7 +2,25 @@
   "modules": {
     "autoroles": {
       "label": "Rôles automatiques",
-      "description": "Attribue des rôles à l'arrivée d'un membre, et un rôle tant qu'on est en vocal."
+      "description": "Attribue des rôles à l'arrivée d'un membre, et un rôle tant qu'on est en vocal.",
+      "ui": {
+        "g0": {
+          "champs": {
+            "roleIds": {
+              "label": "Rôles attribués aux membres à l’arrivée",
+              "help": "Attribués à chaque humain qui rejoint le serveur, immédiatement. Le bot doit pouvoir les donner : ils doivent être SOUS son propre rôle dans la hiérarchie, sinon rien n'est attribué et rien ne le dit. Demande aussi l'intent privilégié « Server Members »."
+            },
+            "botRoleIds": {
+              "label": "Rôles attribués aux bots",
+              "help": "Attribués à la place des précédents quand le compte qui arrive est un bot. Utile pour ranger les bots dans leur propre catégorie de la liste des membres, et pour ne pas leur donner l'accès réservé aux humains."
+            },
+            "voiceRoleIds": {
+              "label": "Rôles pendant la présence en vocal",
+              "help": "Attribués tant qu'un membre est connecté en vocal, et retirés dès qu'il raccroche. Sert surtout à ouvrir un salon écrit réservé à ceux qui sont en vocal."
+            }
+          }
+        }
+      }
     }
   }
 }

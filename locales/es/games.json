@@ -1,0 +1,118 @@
+{
+  "modules": {
+    "games": {
+      "label": "Juegos",
+      "description": "Minijuegos divertidos: bola mágica, dados, cara o cruz, sorteo, piedra-papel-tijera, tres en raya y hundir la flota (con estadísticas). Puede soltar objetos si el módulo «Objetos» está configurado.",
+      "noms": {
+        "adversaire": "rival",
+        "bataille": "hundir-flota",
+        "boule8": "bola8",
+        "choisir": "elegir",
+        "coup": "jugada",
+        "membre": "miembro",
+        "morpion": "tres-en-raya",
+        "nombre": "numero",
+        "options": "opciones",
+        "pfc": "ppt",
+        "pileouface": "cara-o-cruz",
+        "question": "pregunta",
+        "stats-jeux": "stats-juegos"
+      },
+      "drop": {
+        "announce": "🎁 ¡{user} ha encontrado {emoji} **{name}** ({rarity})!"
+      },
+      "opt": {
+        "question": "Tu pregunta para la bola mágica.",
+        "count": "Número de dados que lanzar (por defecto: 1).",
+        "options": "Las opciones, separadas por «|» o «,».",
+        "move": "Tu jugada.",
+        "member": "El miembro en cuestión (por defecto: tú).",
+        "opponent": "Persona a la que desafiar (déjalo vacío para jugar contra el bot)."
+      },
+      "boule8": {
+        "description": "Hazle una pregunta a la bola mágica.",
+        "title": "🎱 Bola mágica",
+        "questionField": "Pregunta",
+        "answerField": "Respuesta",
+        "answers": "Es seguro.|Sin ninguna duda.|Sí, totalmente.|Puedes contar con ello.|Probablemente.|Las señales apuntan a que sí.|Puede que sí.|Difícil de decir, vuelve a intentarlo.|Nada es menos seguro.|Concéntrate y vuelve a preguntar.|No cuentes con ello.|Mi respuesta es no.|Mis fuentes dicen que no.|Muy poco probable.|Lo dudo mucho."
+      },
+      "dice": {
+        "description": "Lanza uno o varios dados de {faces} caras."
+      },
+      "coin": {
+        "description": "Echa a cara o cruz.",
+        "title": "🪙 Cara o cruz",
+        "heads": "**¡Cara!**",
+        "tails": "**¡Cruz!**"
+      },
+      "choose": {
+        "description": "El bot elige por ti entre varias opciones.",
+        "title": "🤔 Elección",
+        "result": "Elijo… **{choice}**.",
+        "needTwo": "Da al menos dos opciones, separadas por «|» o «,»."
+      },
+      "pfc": {
+        "description": "Piedra-papel-tijera (contra el bot o un miembro).",
+        "title": "✊ Piedra-Papel-Tijera",
+        "line": "Tú: {player} — Yo: {bot}",
+        "win": "🎉 **¡Ganas tú!**",
+        "loss": "😈 **¡He ganado yo!**",
+        "draw": "🤝 **¡Empate!**",
+        "recordField": "Tu balance",
+        "record": "🏆 {wins} · 💀 {losses} · 🤝 {draws}",
+        "challenge": "¡{challenger} desafía a {opponent}! {opponent}, elige tu jugada 👇",
+        "duelExpired": "⌛ Este desafío ha caducado.",
+        "notYourDuel": "❌ Este desafío no va dirigido a ti.",
+        "duel": {
+          "challengerWins": "🎉 ¡{challenger} gana el duelo!",
+          "opponentWins": "🎉 ¡{opponent} gana el duelo!",
+          "draw": "🤝 ¡Empate entre {challenger} y {opponent}!"
+        }
+      },
+      "ttt": {
+        "description": "Juega al tres en raya contra el bot o un miembro.",
+        "title": "🎮 Tres en raya",
+        "bot": "el ordenador",
+        "turn": "🎯 Le toca a {user}.",
+        "botTurn": "🤖 Me toca jugar…",
+        "wins": "🎉 ¡{user} gana la partida!",
+        "botWins": "🤖 ¡He ganado! 😎",
+        "draw": "🤝 ¡Empate!",
+        "expired": "⌛ Esta partida ha caducado.",
+        "notYourTurn": "❌ No te toca (o no es tu partida)."
+      },
+      "bn": {
+        "description": "Juega a hundir la flota contra el bot o un miembro.",
+        "title": "🚢 Hundir la flota",
+        "bot": "el ordenador",
+        "fire": "Disparar",
+        "coordLabel": "Coordenada (p. ej. C7)",
+        "ownGrid": "Tu flota",
+        "targetGrid": "Tus disparos",
+        "myFleet": "Mi flota",
+        "turn": "🎯 Le toca disparar a {user}.",
+        "botTurn": "🤖 Me toca disparar…",
+        "wins": "🎉 ¡{user} gana la batalla!",
+        "botWins": "🤖 ¡He hundido toda tu flota! 😎",
+        "remaining": "🚢 Barcos hundidos: {sunk}/{total}",
+        "expired": "⌛ Esta partida ha caducado.",
+        "notYourTurn": "❌ No te toca (o no es tu partida).",
+        "notPlayer": "❌ No participas en esta partida.",
+        "invalidCoord": "❌ Coordenada no válida. Una letra (A-H) y una cifra (1-8), p. ej. C7.",
+        "alreadyShot": "❌ Ya has disparado a esta casilla.",
+        "shotMiss": "🌊 {who} dispara a {coord}: ¡agua!",
+        "shotHit": "🎯 {who} dispara a {coord}: ¡tocado!",
+        "shotSunk": "💥 {who} dispara a {coord}: ¡hundido!"
+      },
+      "stats": {
+        "description": "Muestra las estadísticas de juego de un miembro.",
+        "title": "🎮 Estadísticas de juego — {user}",
+        "none": "De momento no se ha jugado ninguna partida.",
+        "value": "{plays} partidas · 🏆 {wins} · 💀 {losses} · 🤝 {draws} · {winrate} % de victorias",
+        "pfcField": "✊ Piedra-Papel-Tijera",
+        "morpionField": "🎮 Tres en raya",
+        "batailleField": "🚢 Hundir la flota"
+      }
+    }
+  }
+}

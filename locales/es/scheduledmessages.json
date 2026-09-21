@@ -1,0 +1,91 @@
+{
+  "modules": {
+    "scheduledmessages": {
+      "label": "Mensajes recurrentes",
+      "description": "Publica automáticamente mensajes en un canal según una cadencia (diaria, semanal o cada N horas).",
+      "type": {
+        "daily": "Diario",
+        "weekly": "Semanal",
+        "interval": "Por intervalo"
+      },
+      "weekday": {
+        "0": "Domingo",
+        "1": "Lunes",
+        "2": "Martes",
+        "3": "Miércoles",
+        "4": "Jueves",
+        "5": "Viernes",
+        "6": "Sábado"
+      },
+      "describe": {
+        "daily": "Todos los días a las {time}",
+        "weekly": "Cada {day} a las {time}",
+        "interval": "Cada {hours} h"
+      },
+      "ui": {
+        "g0": {
+          "label": "🔁 Mensajes recurrentes",
+          "description": "Horas en el huso horario del bot (Europe/Paris).",
+          "champs": {
+            "messages": {
+              "label": "Mensajes",
+              "addLabel": "Añadir un mensaje",
+              "item": {
+                "channelId": {
+                  "label": "Canal"
+                },
+                "content": {
+                  "label": "Contenido"
+                },
+                "asEmbed": {
+                  "label": "Como embed"
+                },
+                "schedule": {
+                  "type": {
+                    "label": "Cadencia",
+                    "opt": {
+                      "daily": {
+                        "label": "Todos los días"
+                      },
+                      "weekly": {
+                        "label": "Cada semana"
+                      },
+                      "interval": {
+                        "label": "Cada X horas"
+                      }
+                    }
+                  },
+                  "time": {
+                    "label": "Hora (HH:MM): diario / semanal",
+                    "placeholder": "12:00"
+                  },
+                  "weekday": {
+                    "label": "Día: semanal (0 = domingo … 6 = sábado)"
+                  },
+                  "hours": {
+                    "label": "Intervalo en horas: tipo «cada X horas»"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "sendNow": {
+          "label": "Enviar ahora",
+          "help": "Publica el mensaje elegido inmediatamente; su planificación no cambia.",
+          "champs": {
+            "id": "Mensaje"
+          },
+          "msg": {
+            "noGuild": "Servidor no encontrado.",
+            "pickMessage": "Elige un mensaje planificado.",
+            "done": "Mensaje enviado.",
+            "failed": "Envío imposible (canal o permisos)."
+          }
+        }
+      }
+    }
+  }
+}

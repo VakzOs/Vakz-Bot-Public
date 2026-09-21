@@ -3,6 +3,15 @@
     "bingo": {
       "label": "Bingo",
       "description": "Bingo de serveur : cartons 5×5, tirages, détection de ligne ou de carton plein.",
+      "noms": {
+        "bingo": "bingo",
+        "carte": "carte",
+        "demarrer": "demarrer",
+        "mode": "mode",
+        "rejoindre": "rejoindre",
+        "terminer": "terminer",
+        "tirer": "tirer"
+      },
       "opt": {
         "mode": "Condition de victoire (défaut : une ligne)."
       },
@@ -27,7 +36,25 @@
       "drawTitle": "🎱 Tirage",
       "drawBody": "Numéro tiré : **{number}** ({count}/75). Vérifiez vos cartons !",
       "winnersField": "🎉 BINGO !",
-      "myCardButton": "Mon carton"
+      "myCardButton": "Mon carton",
+      "ui": {
+        "g0": {
+          "champs": {
+            "defaultMode": {
+              "label": "Mode de victoire par défaut",
+              "opt": {
+                "line": {
+                  "label": "Une ligne"
+                },
+                "full": {
+                  "label": "Grille complète"
+                }
+              },
+              "help": "La condition de victoire proposée quand une partie est lancée sans préciser de mode : une ligne complète, ou le carton entier. Celui qui lance la partie peut toujours choisir l'autre."
+            }
+          }
+        }
+      }
     }
   }
 }

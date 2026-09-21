@@ -1,0 +1,109 @@
+{
+  "modules": {
+    "interactivemessages": {
+      "label": "Mensajes interactivos",
+      "description": "Compón embeds reutilizables (título, descripción, color) publicados en un canal, con botones de rol (clic = añadir/quitar) y botones de enlace.",
+      "feedback": {
+        "disabled": "❌ Este módulo está desactivado en este servidor.",
+        "roleGone": "❌ Este rol ya no existe.",
+        "cannotAssign": "⚠️ No puedo gestionar este rol (falta el permiso «Gestionar roles» o el rol está por encima del mío).",
+        "added": "✅ Rol {role} añadido.",
+        "removed": "➖ Rol {role} retirado.",
+        "error": "❌ Se ha producido un error."
+      },
+      "ui": {
+        "g0": {
+          "label": "🧩 Mensajes interactivos",
+          "description": "Tras cualquier cambio, vuelve a publicar el mensaje con la acción «Publicar un mensaje».",
+          "champs": {
+            "panels": {
+              "label": "Mensajes",
+              "addLabel": "Añadir un mensaje",
+              "item": {
+                "name": {
+                  "label": "Nombre (interno)"
+                },
+                "channelId": {
+                  "label": "Canal de publicación"
+                },
+                "title": {
+                  "label": "Título del embed"
+                },
+                "description": {
+                  "label": "Descripción del embed"
+                },
+                "buttons": {
+                  "label": "Botones",
+                  "addLabel": "Añadir un botón",
+                  "item": {
+                    "type": {
+                      "label": "Tipo",
+                      "opt": {
+                        "role": {
+                          "label": "Rol (añade/quita al hacer clic)"
+                        },
+                        "link": {
+                          "label": "Enlace (abre una URL)"
+                        }
+                      }
+                    },
+                    "label": {
+                      "label": "Texto del botón"
+                    },
+                    "emoji": {
+                      "label": "Emoji"
+                    },
+                    "roleId": {
+                      "label": "Rol (si el tipo es «Rol»)"
+                    },
+                    "url": {
+                      "label": "URL (si el tipo es «Enlace»)",
+                      "placeholder": "https://…"
+                    },
+                    "style": {
+                      "label": "Estilo",
+                      "opt": {
+                        "primary": {
+                          "label": "Azul"
+                        },
+                        "secondary": {
+                          "label": "Gris"
+                        },
+                        "success": {
+                          "label": "Verde"
+                        },
+                        "danger": {
+                          "label": "Rojo"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "publish": {
+          "label": "Publicar un mensaje",
+          "help": "Publica el mensaje elegido, o actualiza el que ya se había enviado.",
+          "champs": {
+            "id": "Mensaje"
+          },
+          "msg": {
+            "noGuild": "Servidor no encontrado.",
+            "pickPanel": "Elige un mensaje registrado.",
+            "reason": {
+              "nochannel": "canal ausente o no encontrado",
+              "empty": "título y descripción vacíos",
+              "refused": "envío rechazado por Discord"
+            },
+            "failed": "Publicación imposible: {raison}.",
+            "done": "Mensaje publicado."
+          }
+        }
+      }
+    }
+  }
+}

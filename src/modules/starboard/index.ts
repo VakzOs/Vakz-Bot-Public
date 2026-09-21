@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, starboardConfigSchema, starboardDefaultConfig } from './config.js';
 import { onReactionAdd, onReactionRemove } from './events.js';
 
@@ -16,13 +17,35 @@ export default defineModule({
   emoji: '\u{2B50}',
   configSchema: starboardConfigSchema,
   defaultConfig: starboardDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
+      label: t('modules.starboard.ui.g0.label'),
+      description: t('modules.starboard.ui.g0.description'),
       fields: [
-        { key: 'channelId', label: 'Salon du starboard', type: 'channel' },
-        { key: 'emoji', label: 'Emoji déclencheur', type: 'text' },
-        { key: 'threshold', label: 'Nombre de réactions requis', type: 'number' },
-        { key: 'ignoreBots', label: 'Ignorer les messages des bots', type: 'boolean' },
+        {
+          key: 'channelId',
+          label: t('modules.starboard.ui.g0.champs.channelId.label'),
+          type: 'channel',
+          help: t('modules.starboard.ui.g0.champs.channelId.help'),
+        },
+        {
+          key: 'emoji',
+          label: t('modules.starboard.ui.g0.champs.emoji.label'),
+          type: 'text',
+          help: t('modules.starboard.ui.g0.champs.emoji.help'),
+        },
+        {
+          key: 'threshold',
+          label: t('modules.starboard.ui.g0.champs.threshold.label'),
+          type: 'number',
+          help: t('modules.starboard.ui.g0.champs.threshold.help'),
+        },
+        {
+          key: 'ignoreBots',
+          label: t('modules.starboard.ui.g0.champs.ignoreBots.label'),
+          type: 'boolean',
+          help: t('modules.starboard.ui.g0.champs.ignoreBots.help'),
+        },
       ],
     },
   ],

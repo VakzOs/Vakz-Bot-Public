@@ -8,6 +8,55 @@
         "exact": "Exact",
         "startsWith": "Commence par",
         "endsWith": "Finit par"
+      },
+      "ui": {
+        "g0": {
+          "label": "⌨️ Commandes personnalisées",
+          "champs": {
+            "commands": {
+              "label": "Commandes",
+              "addLabel": "Ajouter une commande",
+              "item": {
+                "trigger": {
+                  "label": "Déclencheur"
+                },
+                "match": {
+                  "label": "Correspondance",
+                  "opt": {
+                    "contains": {
+                      "label": "Contient"
+                    },
+                    "exact": {
+                      "label": "Exact"
+                    },
+                    "startsWith": {
+                      "label": "Commence par"
+                    },
+                    "endsWith": {
+                      "label": "Finit par"
+                    }
+                  }
+                },
+                "response": {
+                  "label": "Réponse"
+                },
+                "asEmbed": {
+                  "label": "En embed"
+                },
+                "channelId": {
+                  "label": "Salon (optionnel)"
+                },
+                "deleteTrigger": {
+                  "label": "Supprimer le message déclencheur"
+                },
+                "cooldown": {
+                  "label": "Cooldown (s)"
+                }
+              },
+              "help": "Une ligne par auto-réponse : un déclencheur, une façon de le comparer au message, et la réponse du bot. Le déclencheur ne distingue pas les majuscules. « Contient » attrape aussi le mot au milieu d'un autre — préférer « mot entier » pour un mot court, sous peine de voir le bot répondre à « chaton » parce qu'on guettait « chat ». Le délai anti-spam vaut par salon, pas par membre."
+            }
+          }
+        }
       }
     }
   }

@@ -15,49 +15,56 @@ async function ephemeral(interaction: ChatInputCommandInteraction, key: string):
 }
 
 export const voc: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('voc')
-    .setDescription(t('modules.tempvoice.command.description'))
-    .addSubcommand((s) => s.setName('panneau').setDescription(t('modules.tempvoice.command.panel')))
-    .addSubcommand((s) =>
-      s.setName('revendiquer').setDescription(t('modules.tempvoice.command.claim')),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('transferer')
-        .setDescription(t('modules.tempvoice.command.transfer'))
-        .addUserOption((o) =>
-          o
-            .setName('membre')
-            .setDescription(t('modules.tempvoice.command.transferMember'))
-            .setRequired(true),
-        ),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('nom')
-        .setDescription(t('modules.tempvoice.command.rename'))
-        .addStringOption((o) =>
-          o
-            .setName('nom')
-            .setDescription(t('modules.tempvoice.command.renameValue'))
-            .setRequired(true)
-            .setMaxLength(100),
-        ),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('limite')
-        .setDescription(t('modules.tempvoice.command.limit'))
-        .addIntegerOption((o) =>
-          o
-            .setName('nombre')
-            .setDescription(t('modules.tempvoice.command.limitValue'))
-            .setRequired(true)
-            .setMinValue(0)
-            .setMaxValue(99),
-        ),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.tempvoice.noms.voc'))
+      .setDescription(t('modules.tempvoice.command.description'))
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.tempvoice.noms.panneau'))
+          .setDescription(t('modules.tempvoice.command.panel')),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.tempvoice.noms.revendiquer'))
+          .setDescription(t('modules.tempvoice.command.claim')),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.tempvoice.noms.transferer'))
+          .setDescription(t('modules.tempvoice.command.transfer'))
+          .addUserOption((o) =>
+            o
+              .setName(t('modules.tempvoice.noms.membre'))
+              .setDescription(t('modules.tempvoice.command.transferMember'))
+              .setRequired(true),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.tempvoice.noms.nom'))
+          .setDescription(t('modules.tempvoice.command.rename'))
+          .addStringOption((o) =>
+            o
+              .setName(t('modules.tempvoice.noms.nom'))
+              .setDescription(t('modules.tempvoice.command.renameValue'))
+              .setRequired(true)
+              .setMaxLength(100),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.tempvoice.noms.limite'))
+          .setDescription(t('modules.tempvoice.command.limit'))
+          .addIntegerOption((o) =>
+            o
+              .setName(t('modules.tempvoice.noms.nombre'))
+              .setDescription(t('modules.tempvoice.command.limitValue'))
+              .setRequired(true)
+              .setMinValue(0)
+              .setMaxValue(99),
+          ),
+      ),
 
   async execute(interaction, ctx: BotContext) {
     if (!interaction.inCachedGuild()) return;

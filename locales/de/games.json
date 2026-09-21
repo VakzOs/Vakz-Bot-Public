@@ -1,0 +1,118 @@
+{
+  "modules": {
+    "games": {
+      "label": "Spiele",
+      "description": "Lustige Minispiele: Magische Kugel, Würfel, Kopf oder Zahl, Auslosung, Schere-Stein-Papier, Tic-Tac-Toe und Schiffeversenken (mit Statistik). Kann Gegenstände fallen lassen, wenn das Modul „Gegenstände“ eingerichtet ist.",
+      "noms": {
+        "adversaire": "gegner",
+        "bataille": "schiffeversenken",
+        "boule8": "magische8",
+        "choisir": "waehlen",
+        "coup": "zug",
+        "membre": "mitglied",
+        "morpion": "tictactoe",
+        "nombre": "anzahl",
+        "options": "optionen",
+        "pfc": "ssp",
+        "pileouface": "muenzwurf",
+        "question": "frage",
+        "stats-jeux": "spiel-statistik"
+      },
+      "drop": {
+        "announce": "🎁 {user} hat {emoji} **{name}** ({rarity}) gefunden!"
+      },
+      "opt": {
+        "question": "Deine Frage an die magische Kugel.",
+        "count": "Anzahl der zu werfenden Würfel (Standard: 1).",
+        "options": "Die Auswahlmöglichkeiten, getrennt durch „|“ oder „,“.",
+        "move": "Dein Zug.",
+        "member": "Das betroffene Mitglied (Standard: du).",
+        "opponent": "Herauszufordernde Person (leer lassen, um gegen den Bot zu spielen)."
+      },
+      "boule8": {
+        "description": "Stelle der magischen Kugel eine Frage.",
+        "title": "🎱 Magische Kugel",
+        "questionField": "Frage",
+        "answerField": "Antwort",
+        "answers": "Das ist sicher.|Ohne jeden Zweifel.|Ja, absolut.|Darauf kannst du zählen.|Wahrscheinlich.|Die Zeichen sprechen dafür.|Vielleicht schon.|Schwer zu sagen, versuch es noch einmal.|Nichts ist weniger sicher.|Konzentriere dich und frag noch einmal.|Zähl nicht darauf.|Meine Antwort ist nein.|Meine Quellen sagen nein.|Sehr unwahrscheinlich.|Ich bezweifle es stark."
+      },
+      "dice": {
+        "description": "Wirf einen oder mehrere Würfel mit {faces} Seiten."
+      },
+      "coin": {
+        "description": "Wirf eine Münze.",
+        "title": "🪙 Kopf oder Zahl",
+        "heads": "**Kopf!**",
+        "tails": "**Zahl!**"
+      },
+      "choose": {
+        "description": "Der Bot wählt für dich aus mehreren Möglichkeiten.",
+        "title": "🤔 Auswahl",
+        "result": "Ich wähle… **{choice}**!",
+        "needTwo": "Gib mindestens zwei Möglichkeiten an, getrennt durch „|“ oder „,“."
+      },
+      "pfc": {
+        "description": "Schere-Stein-Papier (gegen den Bot oder ein Mitglied).",
+        "title": "✊ Schere-Stein-Papier",
+        "line": "Du: {player} — Ich: {bot}",
+        "win": "🎉 **Du gewinnst!**",
+        "loss": "😈 **Ich habe gewonnen!**",
+        "draw": "🤝 **Unentschieden!**",
+        "recordField": "Deine Bilanz",
+        "record": "🏆 {wins} · 💀 {losses} · 🤝 {draws}",
+        "challenge": "{challenger} fordert {opponent} heraus! {opponent}, wähle deinen Zug 👇",
+        "duelExpired": "⌛ Diese Herausforderung ist abgelaufen.",
+        "notYourDuel": "❌ Diese Herausforderung gilt nicht dir.",
+        "duel": {
+          "challengerWins": "🎉 {challenger} gewinnt das Duell!",
+          "opponentWins": "🎉 {opponent} gewinnt das Duell!",
+          "draw": "🤝 Unentschieden zwischen {challenger} und {opponent}!"
+        }
+      },
+      "ttt": {
+        "description": "Spiele Tic-Tac-Toe gegen den Bot oder ein Mitglied.",
+        "title": "🎮 Tic-Tac-Toe",
+        "bot": "der Computer",
+        "turn": "🎯 {user} ist am Zug.",
+        "botTurn": "🤖 Ich bin dran…",
+        "wins": "🎉 {user} gewinnt die Partie!",
+        "botWins": "🤖 Ich habe gewonnen! 😎",
+        "draw": "🤝 Unentschieden!",
+        "expired": "⌛ Diese Partie ist abgelaufen.",
+        "notYourTurn": "❌ Du bist nicht am Zug (oder es ist nicht deine Partie)."
+      },
+      "bn": {
+        "description": "Spiele Schiffeversenken gegen den Bot oder ein Mitglied.",
+        "title": "🚢 Schiffeversenken",
+        "bot": "der Computer",
+        "fire": "Feuern",
+        "coordLabel": "Koordinate (z. B. C7)",
+        "ownGrid": "Deine Flotte",
+        "targetGrid": "Deine Schüsse",
+        "myFleet": "Meine Flotte",
+        "turn": "🎯 {user} ist mit Schießen dran.",
+        "botTurn": "🤖 Ich schieße…",
+        "wins": "🎉 {user} gewinnt die Schlacht!",
+        "botWins": "🤖 Ich habe deine ganze Flotte versenkt! 😎",
+        "remaining": "🚢 Versenkte Schiffe: {sunk}/{total}",
+        "expired": "⌛ Diese Partie ist abgelaufen.",
+        "notYourTurn": "❌ Du bist nicht am Zug (oder es ist nicht deine Partie).",
+        "notPlayer": "❌ Du nimmst an dieser Partie nicht teil.",
+        "invalidCoord": "❌ Ungültige Koordinate. Ein Buchstabe (A-H) und eine Ziffer (1-8), z. B. C7.",
+        "alreadyShot": "❌ Auf dieses Feld hast du schon geschossen.",
+        "shotMiss": "🌊 {who} schießt auf {coord}: daneben!",
+        "shotHit": "🎯 {who} schießt auf {coord}: Treffer!",
+        "shotSunk": "💥 {who} schießt auf {coord}: versenkt!"
+      },
+      "stats": {
+        "description": "Zeigt die Spielstatistik eines Mitglieds.",
+        "title": "🎮 Spielstatistik — {user}",
+        "none": "Zurzeit ist keine Partie gespielt.",
+        "value": "{plays} Partien · 🏆 {wins} · 💀 {losses} · 🤝 {draws} · {winrate} % Siege",
+        "pfcField": "✊ Schere-Stein-Papier",
+        "morpionField": "🎮 Tic-Tac-Toe",
+        "batailleField": "🚢 Schiffeversenken"
+      }
+    }
+  }
+}

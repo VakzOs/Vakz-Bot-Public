@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { t } from '../../core/i18n.js';
 import type { BotContext } from '../../core/module.js';
 
 /** Identifiant stable du module (clé en base). */
@@ -113,5 +114,5 @@ export async function updateEconomyConfig(
 
 /** Formate un montant avec le symbole de la monnaie du serveur. */
 export function formatMoney(config: EconomyConfig, amount: number): string {
-  return `**${amount.toLocaleString('fr-FR')}** ${config.currencySymbol}`;
+  return `**${amount.toLocaleString(t('langue.format'))}** ${config.currencySymbol}`;
 }

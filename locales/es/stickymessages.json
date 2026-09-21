@@ -1,0 +1,46 @@
+{
+  "modules": {
+    "stickymessages": {
+      "label": "Mensajes fijos",
+      "description": "Mantiene un mensaje siempre al final de un canal: se vuelve a publicar en cada nueva conversación.",
+      "ui": {
+        "g0": {
+          "label": "📌 Mensajes fijos",
+          "description": "Un mensaje que se vuelve a publicar automáticamente al final del canal a medida que se habla.",
+          "champs": {
+            "stickies": {
+              "label": "Mensajes",
+              "addLabel": "Añadir un mensaje",
+              "item": {
+                "channelId": {
+                  "label": "Canal"
+                },
+                "content": {
+                  "label": "Contenido"
+                },
+                "embed": {
+                  "label": "Como embed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "repost": {
+          "label": "Volver a publicar un mensaje",
+          "help": "Elimina el antiguo mensaje fijo y lo vuelve a publicar al final del canal.",
+          "champs": {
+            "channelId": "Canal"
+          },
+          "msg": {
+            "done": "Mensaje fijo vuelto a publicar."
+          }
+        },
+        "msg": {
+          "pickChannel": "Elige un canal que tenga un mensaje fijo."
+        }
+      }
+    }
+  }
+}

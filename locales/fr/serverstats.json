@@ -20,6 +20,56 @@
         "roles": "🏷️ {count} rôles",
         "channels": "📁 {count} salons",
         "role": "⭐ {count}"
+      },
+      "compteurs": {
+        "members": "Membres",
+        "humans": "Humains",
+        "bots": "Bots",
+        "boosts": "Boosts",
+        "roles": "Nombre de rôles",
+        "channels": "Nombre de salons",
+        "role": "Membres d’un rôle"
+      },
+      "ui": {
+        "g0": {
+          "label": "📊 Compteurs",
+          "description": "Chaque compteur renomme un salon vocal avec une statistique du serveur.",
+          "champs": {
+            "counters": {
+              "label": "Compteurs",
+              "addLabel": "Ajouter un compteur",
+              "item": {
+                "channelId": {
+                  "label": "Salon (vocal)"
+                },
+                "type": {
+                  "label": "Type"
+                },
+                "roleId": {
+                  "label": "Rôle (type « Membres d’un rôle »)"
+                },
+                "template": {
+                  "label": "Modèle de nom",
+                  "help": "{count} = valeur du compteur."
+                }
+              },
+              "help": "Une ligne par salon-compteur : son type, et un gabarit de nom où {count} est remplacé par la valeur. Le bot renomme le salon régulièrement — Discord limite fortement les renommages de salon (deux fois par dix minutes), donc un compteur se met à jour en quelques minutes, pas à la seconde. Des salons vocaux verrouillés à 0 connexion font les meilleurs compteurs : personne ne peut y entrer, tout le monde les voit."
+            }
+          }
+        }
+      },
+      "actions": {
+        "refreshAll": {
+          "label": "Rafraîchir les compteurs",
+          "help": "Renomme immédiatement chaque salon compteur avec sa valeur actuelle.",
+          "msg": {
+            "done": "{n} compteur(s) rafraîchi(s)."
+          }
+        },
+        "msg": {
+          "noGuild": "Serveur introuvable.",
+          "noCounter": "Aucun compteur configuré."
+        }
       }
     }
   }

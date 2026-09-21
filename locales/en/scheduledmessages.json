@@ -21,6 +21,71 @@
         "daily": "Every day at {time}",
         "weekly": "Every {day} at {time}",
         "interval": "Every {hours}h"
+      },
+      "ui": {
+        "g0": {
+          "label": "🔁 Recurring messages",
+          "description": "Times are in the bot's timezone (Europe/Paris).",
+          "champs": {
+            "messages": {
+              "label": "Messages",
+              "addLabel": "Add a message",
+              "item": {
+                "channelId": {
+                  "label": "Channel"
+                },
+                "content": {
+                  "label": "Content"
+                },
+                "asEmbed": {
+                  "label": "As an embed"
+                },
+                "schedule": {
+                  "type": {
+                    "label": "Cadence",
+                    "opt": {
+                      "daily": {
+                        "label": "Every day"
+                      },
+                      "weekly": {
+                        "label": "Every week"
+                      },
+                      "interval": {
+                        "label": "Every X hours"
+                      }
+                    }
+                  },
+                  "time": {
+                    "label": "Time (HH:MM) — daily / weekly",
+                    "placeholder": "12:00"
+                  },
+                  "weekday": {
+                    "label": "Day — weekly (0 = Sunday … 6 = Saturday)"
+                  },
+                  "hours": {
+                    "label": "Interval in hours — “every X hours” type"
+                  }
+                }
+              },
+              "help": "One row per recurring message: its channel, its text, and its cadence — daily, on a weekday, or every N hours. Times are in the BOT's timezone, not the reader's. The bot checks once a minute: a message scheduled during an outage is not caught up on restart, it waits for its next slot."
+            }
+          }
+        }
+      },
+      "actions": {
+        "sendNow": {
+          "label": "Send now",
+          "help": "Publishes the chosen message right away; its schedule stays unchanged.",
+          "champs": {
+            "id": "Message"
+          },
+          "msg": {
+            "noGuild": "Server not found.",
+            "pickMessage": "Pick a scheduled message.",
+            "done": "Message sent.",
+            "failed": "Cannot send (channel or permissions)."
+          }
+        }
       }
     }
   }

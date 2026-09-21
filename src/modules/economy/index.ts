@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, economyConfigSchema, economyDefaultConfig } from './config.js';
 import { boutique, economyComponent } from './shop.js';
 import { argentAdmin, daily, payer, riches, solde } from './commands.js';
@@ -18,45 +19,122 @@ export default defineModule({
   emoji: '\u{1FA99}',
   configSchema: economyConfigSchema,
   defaultConfig: economyDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '💰 Général',
+      label: t('modules.economy.ui.g0.label'),
       fields: [
-        { key: 'currencyName', label: 'Nom de la monnaie', type: 'text' },
-        { key: 'currencySymbol', label: 'Symbole de la monnaie', type: 'text' },
-        { key: 'messageMin', label: 'Gain minimum par message', type: 'number' },
-        { key: 'messageMax', label: 'Gain maximum par message', type: 'number' },
-        { key: 'messageCooldown', label: 'Cooldown entre gains (s)', type: 'number' },
-        { key: 'dailyAmount', label: 'Montant de la commande /daily', type: 'number' },
-        { key: 'voiceEnabled', label: 'Gains en vocal', type: 'boolean' },
-        { key: 'voicePerMinute', label: 'Gain par minute en vocal', type: 'number' },
-        { key: 'ignoredChannelIds', label: 'Salons ignorés', type: 'channels' },
-        { key: 'ignoredRoleIds', label: 'Rôles ignorés', type: 'roles' },
-        { key: 'leaderboardChannelId', label: 'Salon du classement', type: 'channel' },
+        {
+          key: 'currencyName',
+          label: t('modules.economy.ui.g0.champs.currencyName.label'),
+          type: 'text',
+          help: t('modules.economy.ui.g0.champs.currencyName.help'),
+        },
+        {
+          key: 'currencySymbol',
+          label: t('modules.economy.ui.g0.champs.currencySymbol.label'),
+          type: 'text',
+          help: t('modules.economy.ui.g0.champs.currencySymbol.help'),
+        },
+        {
+          key: 'messageMin',
+          label: t('modules.economy.ui.g0.champs.messageMin.label'),
+          type: 'number',
+          help: t('modules.economy.ui.g0.champs.messageMin.help'),
+        },
+        {
+          key: 'messageMax',
+          label: t('modules.economy.ui.g0.champs.messageMax.label'),
+          type: 'number',
+          help: t('modules.economy.ui.g0.champs.messageMax.help'),
+        },
+        {
+          key: 'messageCooldown',
+          label: t('modules.economy.ui.g0.champs.messageCooldown.label'),
+          type: 'number',
+          help: t('modules.economy.ui.g0.champs.messageCooldown.help'),
+        },
+        {
+          key: 'dailyAmount',
+          label: t('modules.economy.ui.g0.champs.dailyAmount.label'),
+          type: 'number',
+          help: t('modules.economy.ui.g0.champs.dailyAmount.help'),
+        },
+        {
+          key: 'voiceEnabled',
+          label: t('modules.economy.ui.g0.champs.voiceEnabled.label'),
+          type: 'boolean',
+          help: t('modules.economy.ui.g0.champs.voiceEnabled.help'),
+        },
+        {
+          key: 'voicePerMinute',
+          label: t('modules.economy.ui.g0.champs.voicePerMinute.label'),
+          type: 'number',
+          help: t('modules.economy.ui.g0.champs.voicePerMinute.help'),
+        },
+        {
+          key: 'ignoredChannelIds',
+          label: t('modules.economy.ui.g0.champs.ignoredChannelIds.label'),
+          type: 'channels',
+          help: t('modules.economy.ui.g0.champs.ignoredChannelIds.help'),
+        },
+        {
+          key: 'ignoredRoleIds',
+          label: t('modules.economy.ui.g0.champs.ignoredRoleIds.label'),
+          type: 'roles',
+          help: t('modules.economy.ui.g0.champs.ignoredRoleIds.help'),
+        },
+        {
+          key: 'leaderboardChannelId',
+          label: t('modules.economy.ui.g0.champs.leaderboardChannelId.label'),
+          type: 'channel',
+          help: t('modules.economy.ui.g0.champs.leaderboardChannelId.help'),
+        },
       ],
     },
     {
-      label: '🏪 Boutiques de rôles',
-      description: 'Chaque boutique vend des rôles contre la monnaie du serveur.',
+      label: t('modules.economy.ui.g1.label'),
+      description: t('modules.economy.ui.g1.description'),
       fields: [
         {
           key: 'shops',
-          label: 'Boutiques',
+          label: t('modules.economy.ui.g1.champs.shops.label'),
           type: 'list',
+          help: t('modules.economy.ui.g1.champs.shops.help'),
           idKey: 'id',
-          addLabel: 'Ajouter une boutique',
+          addLabel: t('modules.economy.ui.g1.champs.shops.addLabel'),
           item: [
-            { key: 'name', label: 'Nom de la boutique', type: 'text' },
-            { key: 'bannerUrl', label: 'Bannière (URL)', type: 'text' },
+            {
+              key: 'name',
+              label: t('modules.economy.ui.g1.champs.shops.item.name.label'),
+              type: 'text',
+            },
+            {
+              key: 'bannerUrl',
+              label: t('modules.economy.ui.g1.champs.shops.item.bannerUrl.label'),
+              type: 'text',
+            },
             {
               key: 'items',
-              label: 'Rôles en vente',
+              label: t('modules.economy.ui.g1.champs.shops.item.items.label'),
               type: 'list',
-              addLabel: 'Ajouter un rôle',
+              addLabel: t('modules.economy.ui.g1.champs.shops.item.items.addLabel'),
               item: [
-                { key: 'roleId', label: 'Rôle', type: 'role' },
-                { key: 'price', label: 'Prix', type: 'number' },
-                { key: 'stock', label: 'Stock (-1 = illimité)', type: 'number', default: -1 },
+                {
+                  key: 'roleId',
+                  label: t('modules.economy.ui.g1.champs.shops.item.items.item.roleId.label'),
+                  type: 'role',
+                },
+                {
+                  key: 'price',
+                  label: t('modules.economy.ui.g1.champs.shops.item.items.item.price.label'),
+                  type: 'number',
+                },
+                {
+                  key: 'stock',
+                  label: t('modules.economy.ui.g1.champs.shops.item.items.item.stock.label'),
+                  type: 'number',
+                  default: -1,
+                },
               ],
             },
           ],

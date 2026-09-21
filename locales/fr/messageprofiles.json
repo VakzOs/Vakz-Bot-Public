@@ -3,6 +3,12 @@
     "messageprofiles": {
       "label": "Profils de messages",
       "description": "Fais parler le bot sous un pseudo et un avatar personnalisés via /dire (staff).",
+      "noms": {
+        "dire": "dire",
+        "message": "message",
+        "profil": "profil",
+        "salon": "salon"
+      },
       "command": {
         "description": "Publie un message sous l'identité d'un profil configuré.",
         "profileOpt": "Profil sous lequel parler",
@@ -14,6 +20,28 @@
           "ok": "✅ Message publié dans {channel} sous « {name} ».",
           "noperm": "❌ Il me manque la permission « Gérer les webhooks » dans ce salon.",
           "fail": "❌ Échec de l'envoi. Réessaie plus tard."
+        }
+      },
+      "ui": {
+        "g0": {
+          "label": "🗨️ Profils de messages",
+          "description": "Personas (nom + avatar) utilisables avec la commande /dire.",
+          "champs": {
+            "profiles": {
+              "label": "Profils",
+              "addLabel": "Ajouter un profil",
+              "item": {
+                "name": {
+                  "label": "Nom"
+                },
+                "avatarUrl": {
+                  "label": "URL de l’avatar",
+                  "placeholder": "https://…"
+                }
+              },
+              "help": "Des identités sous lesquelles le bot peut parler : un nom, et une image. Le bot passe par un webhook du salon — le message porte donc ce nom et cette image, avec l'étiquette « BOT » que Discord impose et qu'on ne peut pas retirer. Sans image, l'avatar du bot est utilisé. À ne pas confondre avec un vrai membre : n'imitez pas l'identité de quelqu'un."
+            }
+          }
         }
       }
     }

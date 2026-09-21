@@ -1,0 +1,76 @@
+{
+  "modules": {
+    "reminders": {
+      "label": "Erinnerungen",
+      "description": "Plant dauerhafte Erinnerungen im Kanal oder per Direktnachricht.",
+      "invalidDuration": "❌ Ungültige Dauer. Gib eine Anzahl Minuten an (mindestens 1 Minute, höchstens {days} Tag(e)).",
+      "emptyText": "❌ Der Text der Erinnerung darf nicht leer sein.",
+      "dmDisabled": "❌ Erinnerungen per Direktnachricht sind auf diesem Server deaktiviert.",
+      "created": "⏰ Erinnerung gespeichert: {duration} (nächste Ausführung {time}).",
+      "delivery": "⏰ {target}, Erinnerung: {text}",
+      "weekdays": {
+        "1": "Montag",
+        "2": "Dienstag",
+        "3": "Mittwoch",
+        "4": "Donnerstag",
+        "5": "Freitag",
+        "6": "Samstag",
+        "7": "Sonntag"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "allowDm": {
+              "label": "Erinnerungen per Direktnachricht erlauben"
+            },
+            "maxDelayDays": {
+              "label": "Maximale Vorlaufzeit einer Erinnerung (Tage)"
+            }
+          }
+        }
+      },
+      "actions": {
+        "create": {
+          "label": "Erinnerung planen",
+          "champs": {
+            "repeatKind": {
+              "label": "Takt",
+              "opt": {
+                "once": "Nur einmal",
+                "weekly": "Jede Woche"
+              }
+            },
+            "targetKind": {
+              "label": "Empfänger",
+              "opt": {
+                "user": "Ein Mitglied",
+                "role": "Eine Rolle"
+              }
+            },
+            "targetId": {
+              "label": "Kennung des Mitglieds / der Rolle",
+              "help": "Discord-Snowflake der Person oder der Rolle, die benachrichtigt wird."
+            },
+            "channelId": {
+              "label": "Kanal für die Erinnerung",
+              "help": "Leer lassen, um eine Direktnachricht zu senden (nur bei Empfängertyp „Mitglied“)."
+            },
+            "message": "Nachricht",
+            "delayMinutes": "In wie vielen Minuten? (Takt „nur einmal“)",
+            "weeklyDay": "Tag (1 = Montag … 7 = Sonntag, wöchentlicher Takt)",
+            "weeklyHour": "Stunde (0-23, wöchentlicher Takt)",
+            "weeklyMinute": "Minute (0-59, wöchentlicher Takt)"
+          },
+          "msg": {
+            "needMessage": "Die Nachricht ist verpflichtend.",
+            "badTarget": "Ungültige Empfängerkennung.",
+            "roleNeedsChannel": "Eine Rollen-Erinnerung muss auf einen Kanal zielen.",
+            "delayOutOfRange": "Vorlaufzeit außerhalb der Grenzen (1 bis {max} Minuten).",
+            "dmDisabled": "Erinnerungen per Direktnachricht sind deaktiviert.",
+            "done": "Erinnerung für den {date} geplant."
+          }
+        }
+      }
+    }
+  }
+}

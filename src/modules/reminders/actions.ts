@@ -1,62 +1,75 @@
 import type { ModuleAction } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { getRemindersConfig } from './config.js';
 import { createReminder, nextWeeklyOccurrence } from './service.js';
 
 const MINUTES_IN_DAY = 24 * 60;
 
 /** Programme un rappel ponctuel ou hebdomadaire depuis le dashboard. */
-const create: ModuleAction = {
+const create = (): ModuleAction => ({
   id: 'create',
-  label: 'Programmer un rappel',
+  label: t('modules.reminders.actions.create.label'),
   style: 'primary',
   fields: [
     {
       key: 'repeatKind',
-      label: 'Cadence',
+      label: t('modules.reminders.actions.create.champs.repeatKind.label'),
       type: 'select',
       options: [
-        { value: 'once', label: 'Une seule fois' },
-        { value: 'weekly', label: 'Chaque semaine' },
+        { value: 'once', label: t('modules.reminders.actions.create.champs.repeatKind.opt.once') },
+        {
+          value: 'weekly',
+          label: t('modules.reminders.actions.create.champs.repeatKind.opt.weekly'),
+        },
       ],
     },
     {
       key: 'targetKind',
-      label: 'Destinataire',
+      label: t('modules.reminders.actions.create.champs.targetKind.label'),
       type: 'select',
       options: [
-        { value: 'user', label: 'Un membre' },
-        { value: 'role', label: 'Un rôle' },
+        { value: 'user', label: t('modules.reminders.actions.create.champs.targetKind.opt.user') },
+        { value: 'role', label: t('modules.reminders.actions.create.champs.targetKind.opt.role') },
       ],
     },
     {
       key: 'targetId',
-      label: 'Identifiant du membre / rôle',
+      label: t('modules.reminders.actions.create.champs.targetId.label'),
       type: 'text',
-      help: 'Snowflake Discord de la personne ou du rôle à notifier.',
+      help: t('modules.reminders.actions.create.champs.targetId.help'),
     },
     {
       key: 'channelId',
-      label: 'Salon de rappel',
+      label: t('modules.reminders.actions.create.champs.channelId.label'),
       type: 'channel',
-      help: 'Laisse vide pour envoyer en message privé (destinataire « membre » uniquement).',
+      help: t('modules.reminders.actions.create.champs.channelId.help'),
     },
-    { key: 'message', label: 'Message', type: 'textarea' },
+    {
+      key: 'message',
+      label: t('modules.reminders.actions.create.champs.message'),
+      type: 'textarea',
+    },
     {
       key: 'delayMinutes',
-      label: 'Dans combien de minutes ? (cadence « une seule fois »)',
+      label: t('modules.reminders.actions.create.champs.delayMinutes'),
       type: 'number',
       default: 60,
     },
     {
       key: 'weeklyDay',
-      label: 'Jour (1 = lundi … 7 = dimanche, cadence hebdomadaire)',
+      label: t('modules.reminders.actions.create.champs.weeklyDay'),
       type: 'number',
       default: 1,
     },
-    { key: 'weeklyHour', label: 'Heure (0-23, cadence hebdomadaire)', type: 'number', default: 9 },
+    {
+      key: 'weeklyHour',
+      label: t('modules.reminders.actions.create.champs.weeklyHour'),
+      type: 'number',
+      default: 9,
+    },
     {
       key: 'weeklyMinute',
-      label: 'Minute (0-59, cadence hebdomadaire)',
+      label: t('modules.reminders.actions.create.champs.weeklyMinute'),
       type: 'number',
       default: 0,
     },
@@ -65,20 +78,22 @@ const create: ModuleAction = {
     const num = (value: unknown, fallback: number): number =>
       typeof value === 'number' && Number.isFinite(value) ? Math.trunc(value) : fallback;
 
+    const msg = (key: string, vars?: Record<string, string | number>) =>
+      t(`modules.reminders.actions.create.msg.${key}`, vars);
     const message = typeof input.message === 'string' ? input.message.trim() : '';
-    if (!message) return { ok: false, message: 'Le message est obligatoire.' };
+    if (!message) return { ok: false, message: msg('needMessage') };
 
     const targetKind = input.targetKind === 'role' ? 'role' : 'user';
     const targetId = typeof input.targetId === 'string' ? input.targetId.trim() : '';
     if (!/^\d{5,25}$/.test(targetId)) {
-      return { ok: false, message: 'Identifiant de destinataire invalide.' };
+      return { ok: false, message: msg('badTarget') };
     }
 
     const channelId =
       typeof input.channelId === 'string' && input.channelId ? input.channelId : null;
     // Un rôle ne peut pas recevoir de message privé : il lui faut un salon.
     if (!channelId && targetKind === 'role') {
-      return { ok: false, message: 'Un rappel de rôle doit viser un salon.' };
+      return { ok: false, message: msg('roleNeedsChannel') };
     }
 
     const config = await getRemindersConfig(ctx, guildId);
@@ -98,14 +113,14 @@ const create: ModuleAction = {
       const delay = num(input.delayMinutes, 0);
       const maxDelay = config.maxDelayDays * MINUTES_IN_DAY;
       if (delay < 1 || delay > maxDelay) {
-        return { ok: false, message: `Délai hors limites (1 à ${maxDelay} minutes).` };
+        return { ok: false, message: msg('delayOutOfRange', { max: maxDelay }) };
       }
       dueAt = new Date(Date.now() + delay * 60_000);
     }
 
     const deliverInDm = !channelId;
     if (deliverInDm && !config.allowDm) {
-      return { ok: false, message: 'Les rappels en message privé sont désactivés.' };
+      return { ok: false, message: msg('dmDisabled') };
     }
 
     await createReminder(ctx, {
@@ -121,8 +136,8 @@ const create: ModuleAction = {
       repeatHour,
       repeatMinute,
     });
-    return { ok: true, message: `Rappel programmé pour le ${dueAt.toLocaleString('fr-FR')}.` };
+    return { ok: true, message: msg('done', { date: dueAt.toLocaleString(t('langue.format')) }) };
   },
-};
+});
 
-export const remindersActions: ModuleAction[] = [create];
+export const remindersActions = (): ModuleAction[] => [create()];

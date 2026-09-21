@@ -3,11 +3,12 @@ import type { SlashCommand } from '../../../core/module.js';
 import { t } from '../../../core/i18n.js';
 import { Emojis, infoEmbed } from '../../../lib/embeds.js';
 
-/** `/serverinfo` — informations générales sur le serveur. */
+/** `/infos-serveur` — informations générales sur le serveur. */
 export const serverinfo: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('serverinfo')
-    .setDescription(t('modules.info.serverinfo.description')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.info.noms.infos-serveur'))
+      .setDescription(t('modules.info.serverinfo.description')),
   async execute(interaction) {
     if (!interaction.inCachedGuild()) return;
     const guild = interaction.guild;

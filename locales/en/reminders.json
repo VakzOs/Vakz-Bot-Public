@@ -16,6 +16,62 @@
         "5": "Friday",
         "6": "Saturday",
         "7": "Sunday"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "allowDm": {
+              "label": "Allow reminders by direct message",
+              "help": "Lets a member be reminded by direct message rather than in the channel. Discord refuses DMs from members who have closed them: the reminder then falls back to the original channel rather than being lost."
+            },
+            "maxDelayDays": {
+              "label": "Maximum delay for a reminder (days)",
+              "help": "The furthest ahead a reminder can be set. It guards storage as much as common sense: each reminder holds a database row until it fires, and one set ten years out will not be read by the same person."
+            }
+          }
+        }
+      },
+      "actions": {
+        "create": {
+          "label": "Schedule a reminder",
+          "champs": {
+            "repeatKind": {
+              "label": "Cadence",
+              "opt": {
+                "once": "Once only",
+                "weekly": "Every week"
+              }
+            },
+            "targetKind": {
+              "label": "Recipient",
+              "opt": {
+                "user": "A member",
+                "role": "A role"
+              }
+            },
+            "targetId": {
+              "label": "Member / role id",
+              "help": "Discord snowflake of the person or role to notify."
+            },
+            "channelId": {
+              "label": "Reminder channel",
+              "help": "Leave empty to send a direct message (“member” recipient only)."
+            },
+            "message": "Message",
+            "delayMinutes": "In how many minutes? (“once only” cadence)",
+            "weeklyDay": "Day (1 = Monday … 7 = Sunday, weekly cadence)",
+            "weeklyHour": "Hour (0-23, weekly cadence)",
+            "weeklyMinute": "Minute (0-59, weekly cadence)"
+          },
+          "msg": {
+            "needMessage": "The message is required.",
+            "badTarget": "Invalid recipient id.",
+            "roleNeedsChannel": "A role reminder must target a channel.",
+            "delayOutOfRange": "Delay out of range (1 to {max} minutes).",
+            "dmDisabled": "Reminders by direct message are disabled.",
+            "done": "Reminder scheduled for {date}."
+          }
+        }
       }
     }
   }

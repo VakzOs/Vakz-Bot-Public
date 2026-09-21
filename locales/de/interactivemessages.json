@@ -1,0 +1,109 @@
+{
+  "modules": {
+    "interactivemessages": {
+      "label": "Interaktive Nachrichten",
+      "description": "Erstellt wiederverwendbare Embeds (Titel, Beschreibung, Farbe) für einen Kanal, mit Rollen-Schaltflächen (Klick = hinzufügen/entfernen) und Link-Schaltflächen.",
+      "feedback": {
+        "disabled": "❌ Dieses Modul ist auf diesem Server deaktiviert.",
+        "roleGone": "❌ Diese Rolle gibt es nicht mehr.",
+        "cannotAssign": "⚠️ Ich kann diese Rolle nicht verwalten (Berechtigung „Rollen verwalten“ fehlt oder die Rolle steht über meiner).",
+        "added": "✅ Rolle {role} hinzugefügt.",
+        "removed": "➖ Rolle {role} entfernt.",
+        "error": "❌ Ein Fehler ist aufgetreten."
+      },
+      "ui": {
+        "g0": {
+          "label": "🧩 Interaktive Nachrichten",
+          "description": "Veröffentliche die Nachricht nach einer Änderung mit der Aktion „Nachricht veröffentlichen“ erneut.",
+          "champs": {
+            "panels": {
+              "label": "Nachrichten",
+              "addLabel": "Nachricht hinzufügen",
+              "item": {
+                "name": {
+                  "label": "Name (intern)"
+                },
+                "channelId": {
+                  "label": "Kanal für die Veröffentlichung"
+                },
+                "title": {
+                  "label": "Titel des Embeds"
+                },
+                "description": {
+                  "label": "Beschreibung des Embeds"
+                },
+                "buttons": {
+                  "label": "Schaltflächen",
+                  "addLabel": "Schaltfläche hinzufügen",
+                  "item": {
+                    "type": {
+                      "label": "Typ",
+                      "opt": {
+                        "role": {
+                          "label": "Rolle (Klick fügt hinzu/entfernt)"
+                        },
+                        "link": {
+                          "label": "Link (öffnet eine URL)"
+                        }
+                      }
+                    },
+                    "label": {
+                      "label": "Text der Schaltfläche"
+                    },
+                    "emoji": {
+                      "label": "Emoji"
+                    },
+                    "roleId": {
+                      "label": "Rolle (bei Typ „Rolle“)"
+                    },
+                    "url": {
+                      "label": "URL (bei Typ „Link“)",
+                      "placeholder": "https://…"
+                    },
+                    "style": {
+                      "label": "Stil",
+                      "opt": {
+                        "primary": {
+                          "label": "Blau"
+                        },
+                        "secondary": {
+                          "label": "Grau"
+                        },
+                        "success": {
+                          "label": "Grün"
+                        },
+                        "danger": {
+                          "label": "Rot"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "publish": {
+          "label": "Nachricht veröffentlichen",
+          "help": "Veröffentlicht die gewählte Nachricht oder aktualisiert die bereits gesendete.",
+          "champs": {
+            "id": "Nachricht"
+          },
+          "msg": {
+            "noGuild": "Server nicht gefunden.",
+            "pickPanel": "Wähle eine gespeicherte Nachricht.",
+            "reason": {
+              "nochannel": "Kanal fehlt oder wurde nicht gefunden",
+              "empty": "Titel und Beschreibung leer",
+              "refused": "Senden von Discord abgelehnt"
+            },
+            "failed": "Veröffentlichung nicht möglich: {raison}.",
+            "done": "Nachricht veröffentlicht."
+          }
+        }
+      }
+    }
+  }
+}

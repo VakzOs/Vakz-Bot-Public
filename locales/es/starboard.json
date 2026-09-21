@@ -1,0 +1,28 @@
+{
+  "modules": {
+    "starboard": {
+      "label": "Starboard",
+      "description": "Vuelve a publicar en un canal los mensajes que reciben suficientes estrellas ⭐.",
+      "jump": "Ir al mensaje",
+      "header": "{emoji} **{count}** · {channel}",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Canal del starboard"
+            },
+            "emoji": {
+              "label": "Emoji desencadenante"
+            },
+            "threshold": {
+              "label": "Reacciones necesarias"
+            },
+            "ignoreBots": {
+              "label": "Ignorar los mensajes de los bots"
+            }
+          }
+        }
+      }
+    }
+  }
+}

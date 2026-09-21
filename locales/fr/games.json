@@ -3,6 +3,21 @@
     "games": {
       "label": "Jeux",
       "description": "Des mini-jeux fun : boule magique, dés, pile ou face, tirage, pierre-feuille-ciseaux, morpion et bataille navale (avec stats). Peut faire tomber des objets (drops) si le module « Objets » est configuré.",
+      "noms": {
+        "adversaire": "adversaire",
+        "bataille": "bataille",
+        "boule8": "boule8",
+        "choisir": "choisir",
+        "coup": "coup",
+        "membre": "membre",
+        "morpion": "morpion",
+        "nombre": "nombre",
+        "options": "options",
+        "pfc": "pfc",
+        "pileouface": "pileouface",
+        "question": "question",
+        "stats-jeux": "stats-jeux"
+      },
       "drop": {
         "announce": "🎁 {user} a trouvé {emoji} **{name}** ({rarity}) !"
       },

@@ -10,6 +10,47 @@
         "added": "✅ Role {role} added.",
         "removed": "➖ Role {role} removed.",
         "error": "❌ An error occurred."
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ Panel",
+          "description": "After any change, republish the panel with the “Publish” button.",
+          "champs": {
+            "channelId": {
+              "label": "Panel channel",
+              "help": "The channel the role menu is posted in. The menu does not appear on its own: once the channel is chosen, send it with the « Publish panel » button."
+            },
+            "title": {
+              "label": "Title",
+              "help": "The menu's title. Changing it does nothing to an already published menu until it is republished."
+            },
+            "description": {
+              "label": "Description",
+              "help": "The text under the title. This is where you explain what the offered roles are for — otherwise members click buttons without knowing what they do."
+            }
+          }
+        },
+        "g1": {
+          "label": "🎭 Roles offered",
+          "champs": {
+            "roles": {
+              "label": "Roles",
+              "addLabel": "Add a role",
+              "item": {
+                "roleId": {
+                  "label": "Role"
+                },
+                "label": {
+                  "label": "Button label"
+                },
+                "emoji": {
+                  "label": "Emoji"
+                }
+              },
+              "help": "One button per row, 25 at most: clicking grants the role, clicking again removes it. The bot must be able to grant them — they have to sit BELOW its own role in the hierarchy, otherwise the click fails with an error shown to the member. Do not put privileged roles here: a public button would hand moderation to whoever presses it."
+            }
+          }
+        }
       }
     }
   }

@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, streamerConfigSchema, streamerDefaultConfig } from './config.js';
 import { streamerComponent } from './component.js';
 import { publishStreamer } from './menu.js';
@@ -22,15 +23,35 @@ export default defineModule({
   emoji: '\u{1F3A7}',
   configSchema: streamerConfigSchema,
   defaultConfig: streamerDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '🎥 Mode streameur',
-      description: 'Après modification, republie le panneau avec le bouton « Publier ».',
+      label: t('modules.streamer.ui.g0.label'),
+      description: t('modules.streamer.ui.g0.description'),
       fields: [
-        { key: 'roleId', label: 'Rôle « en stream »', type: 'role' },
-        { key: 'channelId', label: 'Salon du panneau', type: 'channel' },
-        { key: 'title', label: 'Titre du panneau', type: 'text' },
-        { key: 'description', label: 'Description du panneau', type: 'textarea' },
+        {
+          key: 'roleId',
+          label: t('modules.streamer.ui.g0.champs.roleId.label'),
+          type: 'role',
+          help: t('modules.streamer.ui.g0.champs.roleId.help'),
+        },
+        {
+          key: 'channelId',
+          label: t('modules.streamer.ui.g0.champs.channelId.label'),
+          type: 'channel',
+          help: t('modules.streamer.ui.g0.champs.channelId.help'),
+        },
+        {
+          key: 'title',
+          label: t('modules.streamer.ui.g0.champs.title.label'),
+          type: 'text',
+          help: t('modules.streamer.ui.g0.champs.title.help'),
+        },
+        {
+          key: 'description',
+          label: t('modules.streamer.ui.g0.champs.description.label'),
+          type: 'textarea',
+          help: t('modules.streamer.ui.g0.champs.description.help'),
+        },
       ],
     },
   ],

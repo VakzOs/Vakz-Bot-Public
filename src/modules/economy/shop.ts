@@ -105,11 +105,12 @@ function buildShopView(
   return { embeds: [embed], components };
 }
 
-/** `/boutique` — affiche une boutique de rôles avec ses boutons d'achat. */
+/** `/boutique-roles` — affiche une boutique de rôles avec ses boutons d'achat. */
 export const boutique: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('boutique')
-    .setDescription(t('modules.economy.commands.shop.description')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.economy.noms.boutique-roles'))
+      .setDescription(t('modules.economy.commands.shop.description')),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
     const config = await getEconomyConfig(ctx, interaction.guildId);

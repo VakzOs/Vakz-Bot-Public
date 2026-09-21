@@ -1,0 +1,235 @@
+{
+  "modules": {
+    "route": {
+      "label": "Strada dell'Infinito",
+      "description": "Avventura in solitaria: avanza sulla strada, affronta eventi casuali e guadagna monete e oggetti.",
+      "noms": {
+        "avancer": "avanza",
+        "boutique": "negozio",
+        "classement": "classifica",
+        "membre": "membro",
+        "profil": "profilo",
+        "route": "strada"
+      },
+      "opt": {
+        "member": "Il membro interessato (predefinito: tu)."
+      },
+      "commands": {
+        "move": "Avanza di un passo sulla Strada dell'Infinito.",
+        "profile": "Mostra il profilo di chi viaggia.",
+        "leaderboard": "Classifica delle distanze più lunghe.",
+        "shop": "Compra una provvista (effetto immediato all'acquisto)."
+      },
+      "noTraveler": "🧭 {user} non ha ancora preso la strada (`/strada avanza`).",
+      "profileTitle": "🧭 Viaggiatore — {user}",
+      "moveTitle": "🧭 {user} avanza sulla Strada dell'Infinito",
+      "leaderboardEmpty": "Nessuno ha ancora percorso alcuna distanza.",
+      "leaderboardTitle": "🏆 Strada dell'Infinito — distanze più lunghe",
+      "cooldown": "😮‍💨 Sei stanco. Potrai ripartire {time}.",
+      "itemFound": "🎁 Ottieni **{emoji} {name}**!",
+      "missedGift": {
+        "lines": "🕳️ …e invece no. Niente. Il nulla. Riparti a tasche vuote.|👁️👄👁️ STARE THIS GUY — ti ha promesso un regalo e se n'è andato con quello.|🎁➡️💨 Il regalo è esistito per circa due secondi. Non per te, ma è esistito.|📦 Pacco smarrito. L'assistenza clienti della Strada non risponde da 400 anni.|🤡 Tendi le mani. Raccogli aria. Aria di ottima qualità, va detto.|🎲 Il caso ti ha guardato dritto negli occhi e ha detto no.|🧾 Scorte esaurite. Ripassa in un'altra vita.|😐 Tecnicamente c'era un regalo. Tecnicamente, non ce l'hai.|🚪 Ti ha mostrato il pacco, ha sorriso e ha richiuso la sacca. Un grande classico.|🏆 Ti porti a casa una bella lezione di vita. Valore di mercato: 0 monete.|🐌 Il tuo regalo è in arrivo. Probabilmente non arriverà mai.|👏 Niente regalo, ma applausi beffardi in lontananza.|🧦 Ha frugato e frugato e ha trovato solo un calzino. Se l'è tenuto.|📉 Il tuo inventario resta esattamente vuoto come prima. Notevole.|🙃 Buona notizia: non hai perso niente. Cattiva notizia: non hai guadagnato niente.|🥲 Niente regalo per te. Ecco. L'ho detto.|🪄 Il regalo si è trasformato in polvere. Nessuno se l'aspettava.|💀 È inciampato e il pacco è caduto in un burrone. Hai visto tutto."
+      },
+      "fainted": "💀 Sei rimasto senza forze… ti svegli all'ultimo accampamento (distanza dimezzata).",
+      "stats": {
+        "title": "Stato di chi viaggia",
+        "body": "❤️ {bar} {health}/{maxHealth}\n⚡ Energia: {energy}/100\n📏 Distanza: {distance}\n🪙 Monete guadagnate: {coins}\n🎲 Eventi: {events}\n💀 Morti: {deaths}"
+      },
+      "events": {
+        "path": "🥾 Cammini su un sentiero tranquillo e procedi senza scosse.",
+        "treasure": "💰 Dissotterri uno scrigno dimenticato pieno di monete!",
+        "monster": "⚔️ Spunta una creatura! La combatti e prosegui, segnato dallo scontro.",
+        "trap": "🪤 Una trappola si chiude su di te! Ti liberi a fatica.",
+        "merchant": "🧺 Un mercante ambulante incrocia la tua strada.",
+        "rest": "🏕️ Monti il campo e recuperi le forze.",
+        "shortcut": "🧭 Scopri una scorciatoia e avanzi a grandi passi!",
+        "storm": "🌩️ Una tempesta violenta ti rallenta e ti sfianca.",
+        "friend": "🤝 Un compagno di viaggio divide con te viveri e monete.",
+        "abyss": "🕳️ Precipiti in una voragine… risali per un soffio, coperto di ferite ma con le tasche piene.",
+        "oasis": "🌴 Incappi in un'oasi nascosta e ti ristori all'ombra delle palme.",
+        "ruins": "🏛️ Esplori antiche rovine e ci scovi qualche tesoro.",
+        "wolves": "🐺 Un branco di lupi ti dà la caccia! Riesci a scappare, non senza danni.",
+        "river": "🌊 Attraversi un fiume tumultuoso: sfiancante, ma guadagni terreno.",
+        "shrine": "⛩️ Preghi davanti a un santuario misterioso e ti senti rinvigorito.",
+        "mirage": "🏜️ Un miraggio ti smarrisce nel deserto e ti fa perdere tempo e forze.",
+        "bandits": "🗡️ Dei banditi ti assaltano! Li respingi e raccogli il loro bottino.",
+        "volcano": "🌋 Costeggi un vulcano in eruzione: il calore ti brucia, ma l'oro fuso vale la deviazione.",
+        "quicksand": "🏜️ Sprofondi nelle sabbie mobili! Ne esci sfinito e hai perso terreno.",
+        "landslide": "⛰️ Una frana ti fa rotolare giù per il pendio! Devi rifare tutta la strada a piedi.",
+        "lost": "🌫️ Una nebbia fitta ti smarrisce del tutto… torni indietro senza accorgertene.",
+        "bog": "🐸 Ti impantani in una palude puzzolente e perdi un sacco di tempo per uscirne.",
+        "ravine": "🧗 Scivoli in un canalone e risali a fatica, ferito e scoraggiato.",
+        "curse": "💀 Una maledizione ancestrale ti colpisce e ti scaraventa indietro!",
+        "echo": "⏳ Un'eco temporale ti riporta molto indietro… ma ti senti stranamente riposato.",
+        "thief": "🦹 Un borseggiatore ti alleggerisce di qualche moneta e sparisce!",
+        "gambler": "🎲 Uno scommettitore ti sfida ai dadi: vinci o perdi, decide il destino.",
+        "sphinx": "🦁 Una sfinge ti pone un enigma. Risposta giusta o figuraccia? La suspense è totale.",
+        "ambush": "🏹 Dei goblin ti tendono un'imboscata! Li respingi e tieni il loro misero bottino.",
+        "bridge": "🌉 Il ponte sospeso crolla sotto il tuo peso… a volte salti in tempo, a volte no.",
+        "golem": "🗿 Un golem di pietra blocca il passaggio! Lo abbatti e saccheggi il suo tesoro.",
+        "meteor": "☄️ Un meteorite si schianta accanto a te! Il cratere trabocca di metalli preziosi.",
+        "dragon": "🐉 UN DRAGO! Sopravvivi al suo soffio e arraffi una parte del suo tesoro.",
+        "caravan": "🐪 Ti unisci a una carovana di mercanti: sicurezza, viveri e buona compagnia.",
+        "herbalist": "🌿 Un'erborista ti prepara un rimedio che lenisce le tue ferite.",
+        "waterfall": "⛲ Fai il bagno sotto una cascata gelida e ne esci rinvigorito.",
+        "fireflies": "✨ Lucciole magiche illuminano il tuo cammino e ti sospingono avanti.",
+        "well": "🪙 Getti una moneta in un pozzo dei desideri… e il pozzo te la restituisce centuplicata!",
+        "hermit": "🧙 Un eremita saggio divide la sua zuppa e ti regala un oggetto della sua collezione.",
+        "eagle": "🦅 Un'aquila gigante ti afferra e ti deposita chilometri più avanti!",
+        "fairy": "🧚 Una fata dispettosa cosparge la tua strada di polvere magica.",
+        "portal": "🌀 Un portale instabile ti inghiotte e ti risputa molto più avanti sulla strada!",
+        "fountain": "⛲✨ ULTRARARO — La Fontana della Giovinezza! Ti ci tuffi e ne esci completamente rigenerato. ❤️ VITA PIENA!",
+        "elixir": "🌟 ULTRARARO — Scopri l'Elisir Celeste: corpo e mente interamente ristabiliti. ❤️⚡ TUTTO PIENO!",
+        "goldenvault": "🏆 ULTRARARO — Sfondi la Camera Blindata Dorata: una montagna di monete si offre a te!",
+        "phoenix": "🔥 ULTRARARO — Una fenice rinasce sotto i tuoi occhi e ti offre le sue fiamme: vita quasi interamente ristabilita e un dono in più!",
+        "witch": "🧙‍♀️ Una strega ti porge una pozione fumante… effetto a sorpresa: rimedio o veleno?",
+        "mimic": "🎁👅 Uno scrigno del tesoro! …È un MIMIC! Lo combatti e ne saccheggi le viscere.",
+        "ogre": "👹 Un orco blocca il cammino! Ti mena e ti fa le tasche prima di lasciarti passare.",
+        "skeletons": "💀 Degli scheletri escono dal terreno in un vecchio cimitero! Li riduci in polvere.",
+        "harpy": "🦅 Un'arpia ti piomba addosso urlando e vola via con la tua borsa!",
+        "fog": "🌫️ Una nebbia fitta cala sulla strada. Giri in tondo e perdi terreno.",
+        "willowisp": "🔥 Un fuoco fatuo ti attira fuori dal sentiero… Lo insegui come un ingenuo e ti perdi.",
+        "mermaid": "🧜‍♀️ Il canto di una sirena ti incanta. Ti svegli sulla riva, più indietro sul cammino.",
+        "toll": "🌉 Un troll sorveglia il ponte: «Pedaggio!» Paghi, ma dall'altra parte avanzi in fretta.",
+        "smith": "⚒️ Un fabbro itinerante ti cura e ti rifornisce per qualche moneta.",
+        "altar": "🩸 Un altare antico reclama un'offerta di sangue… in cambio sputa oro.",
+        "mushrooms": "🍄 Sgranocchi funghi sconosciuti. Energia assicurata… ma erano commestibili?",
+        "wizard": "🧙 Un mago errante ti teletrasporta con uno schiocco di dita. Direzione? Non lo sa nemmeno lui.",
+        "raven": "🐦‍⬛ Un corvo messaggero ti segue per un po' e lascia cadere un piccolo regalo.",
+        "giant": "🗿 Un GIGANTE si erge davanti a te! Lo combatti con tutte le forze e saccheggi il suo nascondiglio.",
+        "griffin": "🦅✨ Un grifone ti afferra per la spalla e ti deposita molto più avanti sulla strada!",
+        "timeloop": "⏳✨ ULTRARARO — Un anello temporale ti risucchia! Rivivi gli stessi luoghi… ma ne esci pieno di energia.",
+        "wishingstar": "🌠✨ ULTRARARO — Una stella cadente esaudisce il tuo desiderio: fortuna, vigore e slancio ritrovati!",
+        "peddler": "🧳 Un mercante ambulante ti chiama! Offre le sue provviste a prezzi stracciati — un'occasione da cogliere, o lui o il negozio.",
+        "tavern": "🍺 Fai sosta in una taverna animata: bevi, mangi e riparti rimesso a nuovo (ma il conto alleggerisce la borsa).",
+        "market": "🛒 Un mercato colorato si stende sulla tua strada: ci scovi un oggetto utile.",
+        "bear": "🐻 Un orso spunta dai cespugli! Te la cavi, graffiato ma vivo, e prosegui.",
+        "festival": "🎉 Capiti in una festa di paese: balli, banchetto e qualche moneta in regalo!",
+        "serpent": "🐍 Un serpente gigante si erge sul tuo cammino. Lo scontro è duro, ma le sue scaglie valgono oro.",
+        "frost": "❄️ Si installa un freddo pungente: tremi, sfinito, e fai fatica ad avanzare.",
+        "oracle": "🔮 Un oracolo ti rivela una scorciatoia nascosta: guadagni moltissimo terreno.",
+        "knight": "⚔️ Scopri il rifugio di un cavaliere caduto: il suo nascondiglio contiene monete e un oggetto.",
+        "ghost": "👻 Uno spettro ti perseguita e ti fa tornare indietro, gelato fino alle ossa."
+      },
+      "goods": {
+        "potion": {
+          "name": "🧪 Pozione curativa",
+          "desc": "+40 PV immediati. Il sapore è orribile, ma funziona."
+        },
+        "tonic": {
+          "name": "⚗️ Tonico d'energia",
+          "desc": "+50 ⚡ immediati. Ideale contro lo sfinimento."
+        },
+        "ration": {
+          "name": "🍖 Razione da viaggio",
+          "desc": "+15 PV e +20 ⚡ immediati. Il pasto di chi cammina."
+        }
+      },
+      "shop": {
+        "title": "🧳 Negozio della Strada",
+        "buyButton": "Compra {name}",
+        "bought": "✅ Compri e usi subito **{name}** ({effect}) per 🪙 **{price}**. Nuovo saldo: 🪙 {balance}.",
+        "tooPoor": "❌ Ti servono 🪙 **{price}** (saldo attuale: {balance})."
+      },
+      "peddler": {
+        "notYours": "🛑 Questo mercante si rivolge a un altro viaggiatore.",
+        "buyButton": "Compra {name} • {price} 🪙"
+      },
+      "exhausted": "🥵 **Sfinito!** La tua energia è negativa: avanzamento dimezzato e danni amplificati (×1.5). Aspetta di recuperare o usa una provvista.",
+      "duckling": {
+        "title": "🐥 Un anatroccolo si è attaccato a te!",
+        "rates": "Si prende il **{steal} %** dei tuoi guadagni, ti rallenta del **{distance} %** e ti fa incassare il **{damage} %** di danni in più.",
+        "stole": "🪙 −{coins} rubate",
+        "slowed": "📏 −{distance} di distanza",
+        "bit": "❤️ −{damage} danni in più",
+        "nothing": "Questa volta non ha potuto prenderti nulla.",
+        "turnsLeft": "Ancora **{turns}** evento/i prima che si stanchi.",
+        "gone": "🎉 Si stanca e finalmente se ne va!",
+        "total": "Bottino totale da quando ti segue: **{coins}** monete."
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "cooldownMinutes": {
+              "label": "Attesa (minuti)"
+            },
+            "giveCoins": {
+              "label": "Dare monete"
+            },
+            "giveItems": {
+              "label": "Dare oggetti"
+            },
+            "energyRegenRate": {
+              "label": "Rigenerazione dell'energia (al minuto)"
+            },
+            "energyRegenCap": {
+              "label": "Tetto di rigenerazione dell'energia"
+            }
+          }
+        },
+        "g1": {
+          "label": "🎁😈 Regalo promesso ma mai dato",
+          "description": "Alcuni eventi annunciano un regalo (corvo messaggero, mercante, fata, eremita…) mentre l'estrazione può non dare nulla: percentuali di drop troppo basse, nessun oggetto «Drop in gioco» nel catalogo, oppure oggetti disattivati. In quel caso il bot aggiunge una piccola frecciatina sotto il messaggio, perché chi viaggia capisca che non riceverà niente.",
+          "champs": {
+            "missedGiftTaunt": {
+              "label": "Aggiungere una frecciatina quando il regalo non arriva"
+            },
+            "missedGiftMessages": {
+              "label": "Frecciatine personalizzate (una per riga)",
+              "help": "Una riga = una frecciatina, estratta a caso. Lascia vuoto per usare quelle del bot.",
+              "placeholder": "🥲 Niente regalo per te. Ecco. L'ho detto.\n👁️👄👁️ STARE THIS GUY, se n'è andato con quello."
+            }
+          }
+        },
+        "drops": {
+          "label": "🎁 Drop della Strada (percentuali proprie)",
+          "description": "Probabilità di drop per rarità, proprie della Strada e indipendenti da quelle dei minigiochi. Su un evento «mercante» si estrae dalla più rara alla più comune; possono cadere solo gli oggetti «Drop in gioco».",
+          "champs": {
+            "common": {
+              "label": "% drop — Comune (0-100)"
+            },
+            "rare": {
+              "label": "% drop — Raro (0-100)"
+            },
+            "epic": {
+              "label": "% drop — Epico (0-100)"
+            },
+            "legendary": {
+              "label": "% drop — Leggendario (0-100)"
+            }
+          }
+        },
+        "shopPrices": {
+          "label": "🧳 Prezzi del negozio (/strada negozio)",
+          "description": "Prezzi d'acquisto delle provviste, pagati con il saldo del modulo Economia.",
+          "champs": {
+            "potion": {
+              "label": "🧪 Pozione curativa (+40 PV)"
+            },
+            "tonic": {
+              "label": "⚡ Tonico d'energia (+50 ⚡)"
+            },
+            "ration": {
+              "label": "🍖 Razione da viaggio (+15 PV, +20 ⚡)"
+            }
+          }
+        },
+        "peddlerPrices": {
+          "label": "🪙 Prezzi di rivendita (mercante ambulante)",
+          "description": "Prezzi ai quali l'evento del mercante ambulante ricompra le provviste di chi viaggia.",
+          "champs": {
+            "potion": {
+              "label": "🧪 Pozione curativa"
+            },
+            "tonic": {
+              "label": "⚡ Tonico d'energia"
+            },
+            "ration": {
+              "label": "🍖 Razione da viaggio"
+            }
+          }
+        }
+      }
+    }
+  }
+}

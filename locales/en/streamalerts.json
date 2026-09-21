@@ -22,7 +22,79 @@
         "merchant": "🏪 Merchant"
       },
       "announceTwitch": "🔴 **{name}** is now live on Twitch! {url}",
-      "announceYoutube": "📺 **{name}** just posted a video! {url}"
+      "announceYoutube": "📺 **{name}** just posted a video! {url}",
+      "ui": {
+        "g0": {
+          "label": "📡 Subscriptions",
+          "description": "For Dealabs, the identifier is used as a filter keyword.",
+          "champs": {
+            "subscriptions": {
+              "label": "Subscriptions",
+              "addLabel": "Add a subscription",
+              "item": {
+                "platform": {
+                  "label": "Platform",
+                  "opt": {
+                    "twitch": {
+                      "label": "Twitch"
+                    },
+                    "youtube": {
+                      "label": "YouTube"
+                    },
+                    "reddit": {
+                      "label": "Reddit"
+                    },
+                    "rss": {
+                      "label": "RSS feed"
+                    },
+                    "dealabs": {
+                      "label": "Dealabs"
+                    }
+                  },
+                  "help": "Decides how the identifier is read, and what triggers an announcement: going live for Twitch, a new post for the others."
+                },
+                "identifier": {
+                  "label": "Identifier / URL",
+                  "help": "Channel name, subreddit, feed URL…"
+                },
+                "displayName": {
+                  "label": "Display name",
+                  "help": "The name used in the announcement and in the test button's picker. Left empty, the bot fills it in itself after the first successful check."
+                },
+                "channelId": {
+                  "label": "Announcement channel",
+                  "help": "With no channel the subscription is still followed but nothing is posted: that is how you pause a source without losing its settings."
+                },
+                "roleId": {
+                  "label": "Role to mention",
+                  "help": "Mentioned at the start of the announcement. A role everyone can mention is enough — the bot does not need the « mention @everyone » permission for an ordinary role."
+                },
+                "message": {
+                  "label": "Custom message",
+                  "help": "Replaces the platform's default text. Variables: {name} for the source, {title} for the item's title, {url} for its link, {game} for the Twitch category. Empty, the default text is used."
+                }
+              },
+              "help": "One row per source. Row order does not matter — each is checked on its own, every two minutes. Twitch needs TWITCH_CLIENT_ID and TWITCH_CLIENT_SECRET in the bot's .env; the other platforms work without a key."
+            }
+          }
+        }
+      },
+      "actions": {
+        "test": {
+          "label": "Test a subscription",
+          "help": "Posts the source's latest item in its channel, without waiting for the next check.",
+          "champs": {
+            "id": "Subscription"
+          },
+          "msg": {
+            "pickSubscription": "Pick a saved subscription.",
+            "done": "Test announcement sent.",
+            "noChannel": "This subscription has no channel.",
+            "unreachable": "Source unreachable (URL or network block).",
+            "noItem": "No item found on the source."
+          }
+        }
+      }
     }
   }
 }

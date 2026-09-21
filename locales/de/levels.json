@@ -1,0 +1,103 @@
+{
+  "modules": {
+    "levels": {
+      "label": "Level",
+      "description": "XP pro Nachricht, Level, Belohnungsrollen und Rangliste.",
+      "noms": {
+        "classement": "rangliste",
+        "membre": "mitglied",
+        "rang": "rang"
+      },
+      "commands": {
+        "rang": {
+          "description": "Zeigt dein Level, deine XP und deinen Rang.",
+          "member": "Das Mitglied, dessen Rang angezeigt wird (Standard: du).",
+          "noXp": "Dieses Mitglied hat noch keine XP gesammelt.",
+          "title": "Level von {user}",
+          "level": "Level",
+          "rank": "Rang",
+          "xp": "XP",
+          "progress": "Fortschritt"
+        },
+        "leaderboard": {
+          "description": "Zeigt die Rangliste der Mitglieder nach XP.",
+          "empty": "Auf diesem Server hat noch niemand XP gesammelt.",
+          "title": "🏆 Rangliste"
+        }
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ XP-Gewinn",
+          "champs": {
+            "xpMin": {
+              "label": "Minimale XP pro Nachricht"
+            },
+            "xpMax": {
+              "label": "Maximale XP pro Nachricht"
+            },
+            "cooldown": {
+              "label": "Abklingzeit zwischen Gewinnen (s)"
+            },
+            "maxLevel": {
+              "label": "Maximales Level (0 = unbegrenzt)"
+            },
+            "ignoredChannelIds": {
+              "label": "Ignorierte Kanäle"
+            },
+            "ignoredRoleIds": {
+              "label": "Ignorierte Rollen"
+            },
+            "boosterRoleIds": {
+              "label": "Rollen mit XP-Bonus"
+            },
+            "boosterMultiplier": {
+              "label": "Multiplikator des Bonus"
+            },
+            "voiceEnabled": {
+              "label": "XP im Sprachkanal"
+            },
+            "voiceXpPerMinute": {
+              "label": "XP pro Minute im Sprachkanal"
+            },
+            "leaderboardChannelId": {
+              "label": "Kanal der Rangliste"
+            }
+          }
+        },
+        "g1": {
+          "label": "🏅 Rollenbelohnungen",
+          "description": "Rolle, die automatisch vergeben wird, wenn ein Mitglied das angegebene Level erreicht.",
+          "champs": {
+            "rewards": {
+              "label": "Rollen pro Level",
+              "addLabel": "Belohnung hinzufügen",
+              "item": {
+                "level": {
+                  "label": "Level"
+                },
+                "roleId": {
+                  "label": "Rolle"
+                }
+              }
+            }
+          }
+        },
+        "announce": {
+          "label": "📣 Ankündigung eines Levelaufstiegs",
+          "champs": {
+            "enabled": {
+              "label": "Ankündigung aktivieren"
+            },
+            "channelId": {
+              "label": "Kanal (leer = Kanal der Nachricht)"
+            },
+            "message": {
+              "label": "Nachricht",
+              "help": "Variablen: {mention}, {level}."
+            }
+          }
+        }
+      }
+    }
+  }
+}

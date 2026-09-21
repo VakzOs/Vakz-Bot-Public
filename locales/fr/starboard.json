@@ -4,7 +4,31 @@
       "label": "Starboard",
       "description": "Republie dans un salon les messages qui reçoivent assez d’étoiles ⭐.",
       "jump": "Aller au message",
-      "header": "{emoji} **{count}** · {channel}"
+      "header": "{emoji} **{count}** · {channel}",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Salon du starboard",
+              "help": "Le salon où les copies sont publiées. Tant qu'il est vide, le module ne republie rien. À laisser en lecture seule pour les membres : ce qui s'y écrit à la main n'est pas suivi."
+            },
+            "emoji": {
+              "label": "Emoji déclencheur",
+              "help": "La réaction comptée, et elle seule : les autres emojis d'un message sont ignorés. Un emoji du serveur convient — s'il est supprimé plus tard, les réactions déjà posées cessent d'être reconnues."
+            },
+            "threshold": {
+              "label": "Nombre de réactions requis",
+              "help": "Combien de fois l'emoji doit être posé pour qu'un message monte au mur. C'est ce chiffre qui décide de la rareté : trop bas, le mur devient un second salon général. Le régler à la taille des salons actifs, pas à celle du serveur."
+            },
+            "ignoreBots": {
+              "label": "Ignorer les messages des bots",
+              "help": "Empêche les messages écrits par un bot de monter au mur, même s'ils reçoivent assez de réactions. À laisser actif : sinon une annonce automatique récoltant des étoiles s'y republie en double."
+            }
+          },
+          "label": "⭐ Mur des étoiles",
+          "description": "Le bot surveille les réactions de tous les salons qu'il peut lire : dès qu'un message atteint le seuil, il en republie une copie dans le salon du mur. La copie suit l'original — son compteur se met à jour, et elle disparaît si le message repasse sous le seuil ou est supprimé."
+        }
+      }
     }
   }
 }

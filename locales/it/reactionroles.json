@@ -1,0 +1,53 @@
+{
+  "modules": {
+    "reactionroles": {
+      "label": "Ruoli con reazione",
+      "description": "Assegna ruoli quando i membri reagiscono a un messaggio. Il bot mette una reazione per ruolo, come DraftBot.",
+      "feedback": {
+        "disabled": "❌ Questo modulo è disattivato su questo server.",
+        "roleGone": "❌ Questo ruolo non esiste più.",
+        "cannotAssign": "⚠️ Non posso gestire questo ruolo (manca il permesso «Gestire i ruoli» o il ruolo è sopra il mio).",
+        "added": "✅ Ruolo {role} aggiunto.",
+        "removed": "➖ Ruolo {role} rimosso.",
+        "error": "❌ Si è verificato un errore."
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ Pannello",
+          "description": "Dopo ogni modifica, ripubblica il pannello con il pulsante «Pubblica».",
+          "champs": {
+            "channelId": {
+              "label": "Canale del pannello"
+            },
+            "title": {
+              "label": "Titolo"
+            },
+            "description": {
+              "label": "Descrizione"
+            }
+          }
+        },
+        "g1": {
+          "label": "🎭 Ruoli proposti",
+          "champs": {
+            "roles": {
+              "label": "Ruoli",
+              "addLabel": "Aggiungi un ruolo",
+              "item": {
+                "roleId": {
+                  "label": "Ruolo"
+                },
+                "label": {
+                  "label": "Etichetta del pulsante"
+                },
+                "emoji": {
+                  "label": "Emoji"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

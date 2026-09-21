@@ -15,22 +15,23 @@ import { extractAppId, fetchSteamGame, gameToMetadata, type SteamGame } from './
 
 /** `/suggestion` — soumettre une suggestion (avec lien Steam optionnel). */
 export const suggestion: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('suggestion')
-    .setDescription(t('modules.suggestions.command.description'))
-    .addStringOption((o) =>
-      o
-        .setName('texte')
-        .setDescription(t('modules.suggestions.command.textOpt'))
-        .setRequired(true)
-        .setMaxLength(1000),
-    )
-    .addStringOption((o) =>
-      o
-        .setName('steam')
-        .setDescription(t('modules.suggestions.command.steamOpt'))
-        .setMaxLength(200),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.suggestions.noms.suggestion'))
+      .setDescription(t('modules.suggestions.command.description'))
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.suggestions.noms.texte'))
+          .setDescription(t('modules.suggestions.command.textOpt'))
+          .setRequired(true)
+          .setMaxLength(1000),
+      )
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.suggestions.noms.steam'))
+          .setDescription(t('modules.suggestions.command.steamOpt'))
+          .setMaxLength(200),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
     const guildId = interaction.guildId;
@@ -132,24 +133,27 @@ function truncate(value: string, max = 80): string {
 
 /** `/suggestions classement|rechercher` — classement et recherche des suggestions. */
 export const suggestionsList: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('suggestions')
-    .setDescription(t('modules.suggestions.list.description'))
-    .addSubcommand((s) =>
-      s.setName('classement').setDescription(t('modules.suggestions.list.rankingDescription')),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('rechercher')
-        .setDescription(t('modules.suggestions.list.searchDescription'))
-        .addStringOption((o) =>
-          o
-            .setName('mot')
-            .setDescription(t('modules.suggestions.list.keywordOpt'))
-            .setRequired(true)
-            .setMaxLength(100),
-        ),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.suggestions.noms.suggestions'))
+      .setDescription(t('modules.suggestions.list.description'))
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.suggestions.noms.classement'))
+          .setDescription(t('modules.suggestions.list.rankingDescription')),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.suggestions.noms.rechercher'))
+          .setDescription(t('modules.suggestions.list.searchDescription'))
+          .addStringOption((o) =>
+            o
+              .setName(t('modules.suggestions.noms.mot'))
+              .setDescription(t('modules.suggestions.list.keywordOpt'))
+              .setRequired(true)
+              .setMaxLength(100),
+          ),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
     const guildId = interaction.guildId;

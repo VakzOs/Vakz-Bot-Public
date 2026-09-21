@@ -18,6 +18,50 @@
       },
       "log": {
         "verified": "✅ {user} a réussi la vérification."
+      },
+      "ui": {
+        "g0": {
+          "label": "🔐 Vérification",
+          "description": "Après modification, republie le panneau avec le bouton « Publier ».",
+          "champs": {
+            "channelId": {
+              "label": "Salon de vérification",
+              "help": "Le salon d'accueil où le panneau de vérification est publié. Il doit être le seul visible d'un arrivant non vérifié, sinon la vérification ne protège rien."
+            },
+            "roleId": {
+              "label": "Rôle attribué une fois vérifié",
+              "help": "Le rôle donné après vérification, celui qui ouvre le serveur. Sans lui, la vérification réussit et ne change rien. Il doit être sous le rôle du bot pour être attribuable."
+            },
+            "method": {
+              "label": "Méthode",
+              "opt": {
+                "button": {
+                  "label": "Simple bouton"
+                },
+                "captcha": {
+                  "label": "Captcha image"
+                }
+              },
+              "help": "« Bouton » suffit contre les bots les plus simples et ne demande aucun effort au membre. « Captcha » affiche une image à recopier : il arrête aussi les comptes automatisés, au prix d'un arrivant sur dix qui s'y reprend à deux fois."
+            },
+            "title": {
+              "label": "Titre",
+              "help": "Le titre du panneau de vérification."
+            },
+            "content": {
+              "label": "Contenu",
+              "help": "Le texte du panneau. Dire pourquoi cette étape existe : un arrivant à qui l'on demande de recopier une image sans explication repart souvent."
+            },
+            "buttonLabel": {
+              "label": "Libellé du bouton",
+              "help": "Le texte du bouton qui lance la vérification."
+            },
+            "logChannelId": {
+              "label": "Salon des logs",
+              "help": "Un salon où consigner chaque vérification, réussie ou échouée. Les échecs répétés à quelques secondes d'intervalle sont la signature d'une vague de bots — c'est ici qu'on la voit. Vide, rien n'est conservé."
+            }
+          }
+        }
       }
     }
   }

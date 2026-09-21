@@ -42,32 +42,42 @@ function formatList(names: string[]): string {
  * La sauvegarde automatique se règle depuis le dashboard.
  */
 export const sauvegarde: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('sauvegarde')
-    .setDescription(t('modules.configbackup.command.description'))
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-    .addSubcommand((s) =>
-      s
-        .setName('exporter')
-        .setDescription(t('modules.configbackup.command.export'))
-        .addBooleanOption((o) =>
-          o.setName('donnees').setDescription(t('modules.configbackup.opt.data')),
-        ),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('importer')
-        .setDescription(t('modules.configbackup.command.import'))
-        .addAttachmentOption((o) =>
-          o.setName('fichier').setDescription(t('modules.configbackup.opt.file')).setRequired(true),
-        )
-        .addBooleanOption((o) =>
-          o.setName('recreer').setDescription(t('modules.configbackup.opt.recreate')),
-        )
-        .addBooleanOption((o) =>
-          o.setName('donnees').setDescription(t('modules.configbackup.opt.restoreData')),
-        ),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.configbackup.noms.sauvegarde'))
+      .setDescription(t('modules.configbackup.command.description'))
+      .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.configbackup.noms.exporter'))
+          .setDescription(t('modules.configbackup.command.export'))
+          .addBooleanOption((o) =>
+            o
+              .setName(t('modules.configbackup.noms.donnees'))
+              .setDescription(t('modules.configbackup.opt.data')),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.configbackup.noms.importer'))
+          .setDescription(t('modules.configbackup.command.import'))
+          .addAttachmentOption((o) =>
+            o
+              .setName(t('modules.configbackup.noms.fichier'))
+              .setDescription(t('modules.configbackup.opt.file'))
+              .setRequired(true),
+          )
+          .addBooleanOption((o) =>
+            o
+              .setName(t('modules.configbackup.noms.recreer'))
+              .setDescription(t('modules.configbackup.opt.recreate')),
+          )
+          .addBooleanOption((o) =>
+            o
+              .setName(t('modules.configbackup.noms.donnees'))
+              .setDescription(t('modules.configbackup.opt.restoreData')),
+          ),
+      ),
 
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;

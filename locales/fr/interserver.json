@@ -2,7 +2,51 @@
   "modules": {
     "interserver": {
       "label": "Interserveurs",
-      "description": "Relie des salons de serveurs différents : un message posté dans un salon lié est relayé (pseudo + avatar conservés) vers les autres salons du même réseau."
+      "description": "Relie des salons de serveurs différents : un message posté dans un salon lié est relayé (pseudo + avatar conservés) vers les autres salons du même réseau.",
+      "ui": {
+        "g0": {
+          "description": "La liaison des salons se fait avec les actions « Lier / Délier un salon » ci-dessous.",
+          "champs": {
+            "tagServer": {
+              "label": "Afficher le nom du serveur d’origine sur les messages relayés",
+              "help": "Ajoute « • NomDuServeur » au pseudo affiché dans chaque message relayé. À garder actif dès que le réseau relie plus de deux serveurs : sans cela, deux membres au même pseudo deviennent indiscernables, et on ne sait plus d'où vient ce qu'on lit."
+            }
+          }
+        }
+      },
+      "actions": {
+        "link": {
+          "label": "Lier un salon",
+          "help": "Les serveurs partageant le même code de réseau voient leurs messages relayés.",
+          "champs": {
+            "channelId": "Salon à lier",
+            "network": {
+              "label": "Code du réseau",
+              "placeholder": "mon-reseau",
+              "help": "3 à 32 caractères : lettres, chiffres et tirets."
+            }
+          },
+          "msg": {
+            "noGuild": "Serveur introuvable.",
+            "badChannel": "Salon introuvable ou non textuel.",
+            "done": "Salon lié au réseau « {reseau} ».",
+            "badCode": "Code de réseau invalide (3 à 32 caractères).",
+            "noPermission": "Permission « Gérer les webhooks » manquante sur ce salon.",
+            "webhookFailed": "Création du webhook impossible."
+          }
+        },
+        "unlink": {
+          "label": "Délier un salon",
+          "confirm": "Retirer ce salon de son réseau interserveurs ?",
+          "champs": {
+            "channelId": "Salon lié"
+          },
+          "msg": {
+            "pickChannel": "Choisis un salon actuellement lié.",
+            "done": "Salon délié."
+          }
+        }
+      }
     }
   }
 }

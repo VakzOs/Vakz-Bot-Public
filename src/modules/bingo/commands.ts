@@ -52,17 +52,17 @@ function cardButtonRow(): ActionRowBuilder<MessageActionRowComponentBuilder> {
 }
 
 const bingo: SlashCommand = {
-  data: (() => {
+  data: () => {
     const b = new SlashCommandBuilder()
-      .setName('bingo')
+      .setName(t('modules.bingo.noms.bingo'))
       .setDescription(t('modules.bingo.description'));
     b.addSubcommand((s) =>
       s
-        .setName('demarrer')
+        .setName(t('modules.bingo.noms.demarrer'))
         .setDescription(t('modules.bingo.commands.start'))
         .addStringOption((o) =>
           o
-            .setName('mode')
+            .setName(t('modules.bingo.noms.mode'))
             .setDescription(t('modules.bingo.opt.mode'))
             .addChoices(
               { name: t('modules.bingo.modeLine'), value: 'line' },
@@ -70,12 +70,20 @@ const bingo: SlashCommand = {
             ),
         ),
     );
-    b.addSubcommand((s) => s.setName('rejoindre').setDescription(t('modules.bingo.commands.join')));
-    b.addSubcommand((s) => s.setName('carte').setDescription(t('modules.bingo.commands.card')));
-    b.addSubcommand((s) => s.setName('tirer').setDescription(t('modules.bingo.commands.draw')));
-    b.addSubcommand((s) => s.setName('terminer').setDescription(t('modules.bingo.commands.stop')));
+    b.addSubcommand((s) =>
+      s.setName(t('modules.bingo.noms.rejoindre')).setDescription(t('modules.bingo.commands.join')),
+    );
+    b.addSubcommand((s) =>
+      s.setName(t('modules.bingo.noms.carte')).setDescription(t('modules.bingo.commands.card')),
+    );
+    b.addSubcommand((s) =>
+      s.setName(t('modules.bingo.noms.tirer')).setDescription(t('modules.bingo.commands.draw')),
+    );
+    b.addSubcommand((s) =>
+      s.setName(t('modules.bingo.noms.terminer')).setDescription(t('modules.bingo.commands.stop')),
+    );
     return b;
-  })(),
+  },
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
     const sub = interaction.options.getSubcommand();

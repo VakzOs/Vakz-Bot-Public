@@ -16,6 +16,62 @@
         "5": "vendredi",
         "6": "samedi",
         "7": "dimanche"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "allowDm": {
+              "label": "Autoriser les rappels en message privé",
+              "help": "Autorise un membre à se faire rappeler en message privé plutôt que dans le salon. Discord refuse les MP d'un membre qui les a fermés : le rappel retombe alors dans le salon d'origine plutôt que d'être perdu."
+            },
+            "maxDelayDays": {
+              "label": "Délai maximum d’un rappel (jours)",
+              "help": "Le plus loin qu'un rappel puisse être posé. C'est un garde-fou de stockage autant que de bon sens : chaque rappel occupe une ligne en base jusqu'à son échéance, et un rappel à dix ans ne sera pas lu par la même personne."
+            }
+          }
+        }
+      },
+      "actions": {
+        "create": {
+          "label": "Programmer un rappel",
+          "champs": {
+            "repeatKind": {
+              "label": "Cadence",
+              "opt": {
+                "once": "Une seule fois",
+                "weekly": "Chaque semaine"
+              }
+            },
+            "targetKind": {
+              "label": "Destinataire",
+              "opt": {
+                "user": "Un membre",
+                "role": "Un rôle"
+              }
+            },
+            "targetId": {
+              "label": "Identifiant du membre / rôle",
+              "help": "Snowflake Discord de la personne ou du rôle à notifier."
+            },
+            "channelId": {
+              "label": "Salon de rappel",
+              "help": "Laisse vide pour envoyer en message privé (destinataire « membre » uniquement)."
+            },
+            "message": "Message",
+            "delayMinutes": "Dans combien de minutes ? (cadence « une seule fois »)",
+            "weeklyDay": "Jour (1 = lundi … 7 = dimanche, cadence hebdomadaire)",
+            "weeklyHour": "Heure (0-23, cadence hebdomadaire)",
+            "weeklyMinute": "Minute (0-59, cadence hebdomadaire)"
+          },
+          "msg": {
+            "needMessage": "Le message est obligatoire.",
+            "badTarget": "Identifiant de destinataire invalide.",
+            "roleNeedsChannel": "Un rappel de rôle doit viser un salon.",
+            "delayOutOfRange": "Délai hors limites (1 à {max} minutes).",
+            "dmDisabled": "Les rappels en message privé sont désactivés.",
+            "done": "Rappel programmé pour le {date}."
+          }
+        }
       }
     }
   }

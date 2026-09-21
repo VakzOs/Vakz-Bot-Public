@@ -81,9 +81,10 @@ async function buildPingReply(
 /** `/ping` — latence du bot (passerelle + aller-retour) et build, en carte image. */
 export const ping: SlashCommand = {
   guildOnly: false,
-  data: new SlashCommandBuilder()
-    .setName('ping')
-    .setDescription(t('modules.core.ping.description')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.core.noms.ping'))
+      .setDescription(t('modules.core.ping.description')),
   async execute(interaction) {
     await interaction.deferReply();
     const reply = await buildPingReply(interaction.client, interaction.createdTimestamp);

@@ -23,6 +23,78 @@
         "welcomeTitle": "Bienvenue !",
         "leaveTitle": "Au revoir",
         "memberCount": "{count}ᵉ membre"
+      },
+      "ui": {
+        "welcome": {
+          "label": "👋 Message de bienvenue",
+          "description": "Variables : {mention}, {username}, {server}, {count}. Envoyé à l’arrivée d’un membre.",
+          "champs": {
+            "enabled": {
+              "label": "Activer le message de bienvenue",
+              "help": "Éteint, aucune arrivée n'est annoncée — les réglages ci-dessous sont conservés pour le jour où on le rallume. Le module a besoin de l'intent privilégié « Server Members » : sans lui, le bot n'est pas prévenu des arrivées et rien n'est envoyé, sans erreur visible."
+            },
+            "channelId": {
+              "label": "Salon",
+              "help": "Le salon où le message est posté. Le bot doit pouvoir y écrire, et y joindre un fichier si la carte-image est activée. Vide, rien n'est envoyé."
+            },
+            "message": {
+              "label": "Message",
+              "help": "Variables remplacées à l'envoi : {mention} interpelle le membre (et le notifie), {username} donne son nom sans le notifier, {server} le nom du serveur, {count} le nombre de membres après son arrivée."
+            },
+            "embed": {
+              "label": "Afficher en embed",
+              "help": "Met le texte dans un cadre coloré plutôt qu'en message simple. Un embed ne déclenche pas de notification de mention : y mettre {mention} affiche le nom mais ne prévient pas le membre."
+            },
+            "footer": {
+              "label": "Pied de page (embed)",
+              "help": "Petite ligne grise sous le cadre — règlement à lire, salon de présentation. N'apparaît que si l'embed est activé."
+            },
+            "card": {
+              "label": "Carte-image (avatar + nom)",
+              "help": "Le bot dessine une image avec l'avatar et le nom du membre, et la joint au message. Plus visible, mais plus lourd : à éviter sur un serveur où les arrivées se comptent par dizaines à l'heure."
+            },
+            "cardBackground": {
+              "label": "Image de fond de la carte (URL)",
+              "placeholder": "https://…",
+              "help": "Image de fond de la carte, en PNG ou JPEG accessible publiquement. Vide, un fond uni est utilisé. Une URL injoignable ne casse rien : le bot retombe sur le fond uni."
+            }
+          }
+        },
+        "leave": {
+          "label": "🚪 Message d’au revoir",
+          "description": "Variables : {username}, {server}. Envoyé au départ d’un membre.",
+          "champs": {
+            "enabled": {
+              "label": "Activer le message d’au revoir",
+              "help": "Éteint, les départs passent inaperçus. Le bot ne distingue pas un départ volontaire d'une exclusion : sur un serveur qui exclut régulièrement, c'est souvent le réglage qu'on veut."
+            },
+            "channelId": {
+              "label": "Salon",
+              "help": "Le salon où le message est posté. Un salon réservé au staff évite d'afficher chaque départ devant tout le monde. Vide, rien n'est envoyé."
+            },
+            "message": {
+              "label": "Message",
+              "help": "Variables remplacées à l'envoi : {username} pour le nom du partant, {server} pour le nom du serveur. Pas de {mention} ici : un membre parti ne peut plus être mentionné."
+            },
+            "embed": {
+              "label": "Afficher en embed",
+              "help": "Met le texte dans un cadre coloré plutôt qu'en message simple."
+            },
+            "footer": {
+              "label": "Pied de page (embed)",
+              "help": "Petite ligne grise sous le cadre. N'apparaît que si l'embed est activé."
+            },
+            "card": {
+              "label": "Carte-image (avatar + nom)",
+              "help": "Le bot dessine une image avec l'avatar et le nom du partant. L'avatar est repris du cache : celui d'un membre parti depuis longtemps peut manquer, la carte reste alors générique."
+            },
+            "cardBackground": {
+              "label": "Image de fond de la carte (URL)",
+              "placeholder": "https://…",
+              "help": "Image de fond de la carte, en PNG ou JPEG accessible publiquement. Vide, un fond uni est utilisé."
+            }
+          }
+        }
       }
     }
   }

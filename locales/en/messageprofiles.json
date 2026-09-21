@@ -2,7 +2,13 @@
   "modules": {
     "messageprofiles": {
       "label": "Message profiles",
-      "description": "Make the bot speak under a custom name and avatar via /dire (staff).",
+      "description": "Make the bot speak under a custom name and avatar via /say (staff).",
+      "noms": {
+        "dire": "say",
+        "message": "message",
+        "profil": "profile",
+        "salon": "channel"
+      },
       "command": {
         "description": "Post a message under a configured profile's identity.",
         "profileOpt": "Profile to speak as",
@@ -14,6 +20,28 @@
           "ok": "✅ Message posted in {channel} as “{name}”.",
           "noperm": "❌ I'm missing the “Manage Webhooks” permission in that channel.",
           "fail": "❌ Sending failed. Try again later."
+        }
+      },
+      "ui": {
+        "g0": {
+          "label": "🗨️ Message profiles",
+          "description": "Personas (name + avatar) usable with the /say command.",
+          "champs": {
+            "profiles": {
+              "label": "Profiles",
+              "addLabel": "Add a profile",
+              "item": {
+                "name": {
+                  "label": "Name"
+                },
+                "avatarUrl": {
+                  "label": "Avatar URL",
+                  "placeholder": "https://…"
+                }
+              },
+              "help": "Identities the bot can speak under: a name, and a picture. The bot posts through a channel webhook — the message carries that name and picture, with the « BOT » tag Discord adds and that cannot be removed. With no picture, the bot's own avatar is used. Not a real member: do not impersonate someone."
+            }
+          }
         }
       }
     }

@@ -91,7 +91,10 @@ const guildItemsRoute: ModuleHttpRoute = {
       ((req.method === 'POST' || req.method === 'DELETE') && Boolean(itemId));
     if (!isMutation) return { status: 404, body: { error: 'not_found' } };
 
-    if (!req.actorId || !(await req.canManageGuild?.())) {
+    // Le catalogue d'objets appartient à ce module : sa garde est celle du
+    // module, pas celle du serveur entier. Un administrateur la franchit
+    // toujours ; un membre du staff à qui l'on a confié « Objets » aussi.
+    if (!req.actorId || !(await req.canConfigureModule?.())) {
       return { status: 403, body: { error: 'forbidden' } };
     }
     if (!req.rateLimit(`items:${guildId}`, 60, 60_000)) {

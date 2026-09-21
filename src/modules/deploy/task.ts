@@ -24,6 +24,10 @@ const JITTER_MINUTES = 59;
 export const autoUpdateTask: ScheduledTask = {
   name: 'auto-update',
   cron: env.FORCE_UPDATE_CRON,
+  // La tache passe l essentiel de son temps a dormir (l etalement ci-dessus) :
+  // avec le seuil par defaut, chacun de ses passages se signalerait comme lent.
+  // Au-dela de l etalement plus cinq minutes, en revanche, quelque chose coince.
+  slowMs: (JITTER_MINUTES + 5) * 60_000,
   async execute(ctx) {
     // Double garde : la tache n est pas enregistree quand FORCE_UPDATE est
     // faux, mais on ne veut surtout pas mettre a jour une instance qui a

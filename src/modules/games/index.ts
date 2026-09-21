@@ -8,7 +8,7 @@ import { gamesComponent } from './component.js';
  * `/pileouface`, `/choisir`, `/pfc` (pierre-feuille-ciseaux, contre le bot ou en
  * défiant un membre) et `/morpion` (contre le bot avec IA imbattable, ou contre
  * un membre). Les résultats de `/pfc` et `/morpion` sont comptabilisés et
- * consultables via `/statsjeux`. Activable depuis le dashboard, aucun réglage.
+ * consultables via `/stats-jeux`. Activable depuis le dashboard, aucun réglage.
  */
 export default defineModule({
   name: MODULE_NAME,

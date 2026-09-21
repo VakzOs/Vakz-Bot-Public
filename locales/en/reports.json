@@ -3,6 +3,12 @@
     "reports": {
       "label": "Reports",
       "description": "Lets members report behavior to the staff.",
+      "noms": {
+        "membre": "member",
+        "message": "message",
+        "raison": "reason",
+        "report": "report"
+      },
       "command": {
         "description": "Report a member to the staff.",
         "member": "The member to report.",
@@ -46,7 +52,21 @@
       "invalidMessageLink": "❌ The message link is invalid or does not belong to this server.",
       "submittedWithThread": "✅ Report sent to the staff. You can access the private thread {thread}.",
       "threadIntro": "{reporter}, your report about {target} is open here. Only authorized staff can follow this thread with you.",
-      "staffThreadLine": "Private reporter/staff thread: {thread}"
+      "staffThreadLine": "Private reporter/staff thread: {thread}",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Reports channel",
+              "help": "The channel where member reports arrive. Keep it staff-only: a report names the person it targets and quotes their messages. Empty, the command refuses to forward anything."
+            },
+            "staffRoleId": {
+              "label": "Staff role notified",
+              "help": "The role pinged on each report, so that somebody sees it arrive. With no role the report is posted without notifying anyone — and waits for someone to think of opening the channel."
+            }
+          }
+        }
+      }
     }
   }
 }

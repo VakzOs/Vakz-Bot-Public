@@ -1,0 +1,94 @@
+{
+  "modules": {
+    "streamalerts": {
+      "label": "Avvisi stream e feed",
+      "description": "Annuncia in un canale dirette, video e novità dei feed (Twitch, YouTube, Reddit, RSS, Dealabs).",
+      "platform": {
+        "twitch": "Twitch",
+        "youtube": "YouTube",
+        "reddit": "Reddit",
+        "rss": "Feed RSS",
+        "dealabs": "Dealabs"
+      },
+      "embed": {
+        "twitchTitle": "🔴 {name} è in diretta!",
+        "youtubeTitle": "📺 Nuovo video di {name}!",
+        "game": "Categoria",
+        "redditTitle": "🟠 Nuovo post su {name}!",
+        "rssTitle": "📰 Nuovo articolo — {name}",
+        "dealabsTitle": "🏷️ Nuova offerta — {name}",
+        "price": "🏷️ Prezzo",
+        "temperature": "🌡️ Temperatura",
+        "merchant": "🏪 Negozio"
+      },
+      "announceTwitch": "🔴 **{name}** è in diretta su Twitch! {url}",
+      "announceYoutube": "📺 **{name}** ha appena pubblicato un video! {url}",
+      "ui": {
+        "g0": {
+          "label": "📡 Abbonamenti",
+          "description": "Per Dealabs, l'identificatore serve da parola chiave di filtro.",
+          "champs": {
+            "subscriptions": {
+              "label": "Abbonamenti",
+              "addLabel": "Aggiungi un abbonamento",
+              "item": {
+                "platform": {
+                  "label": "Piattaforma",
+                  "opt": {
+                    "twitch": {
+                      "label": "Twitch"
+                    },
+                    "youtube": {
+                      "label": "YouTube"
+                    },
+                    "reddit": {
+                      "label": "Reddit"
+                    },
+                    "rss": {
+                      "label": "Feed RSS"
+                    },
+                    "dealabs": {
+                      "label": "Dealabs"
+                    }
+                  }
+                },
+                "identifier": {
+                  "label": "Identificatore / URL",
+                  "help": "Nome del canale, subreddit, URL del feed…"
+                },
+                "displayName": {
+                  "label": "Nome mostrato"
+                },
+                "channelId": {
+                  "label": "Canale degli annunci"
+                },
+                "roleId": {
+                  "label": "Ruolo da menzionare"
+                },
+                "message": {
+                  "label": "Messaggio personalizzato"
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "test": {
+          "label": "Prova un abbonamento",
+          "help": "Pubblica l'ultimo elemento della fonte nel suo canale, senza aspettare il prossimo controllo.",
+          "champs": {
+            "id": "Abbonamento"
+          },
+          "msg": {
+            "pickSubscription": "Scegli un abbonamento registrato.",
+            "done": "Annuncio di prova inviato.",
+            "noChannel": "Questo abbonamento non ha un canale.",
+            "unreachable": "Fonte irraggiungibile (URL o blocco di rete).",
+            "noItem": "Nessun elemento trovato sulla fonte."
+          }
+        }
+      }
+    }
+  }
+}

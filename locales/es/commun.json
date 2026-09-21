@@ -1,0 +1,13 @@
+{
+  "langue": {
+    "nom": "Español",
+    "drapeau": "🇪🇸",
+    "format": "es-ES",
+    "discord": "es-ES|es-419"
+  },
+  "errors": {
+    "generic": "❌ Se ha producido un error. Inténtalo de nuevo más tarde.",
+    "guildOnly": "❌ Este comando solo puede usarse en un servidor.",
+    "moduleDisabled": "❌ Este módulo está desactivado en este servidor. Una persona administradora puede activarlo desde el panel."
+  }
+}

@@ -23,6 +23,78 @@
         "welcomeTitle": "Welcome!",
         "leaveTitle": "Goodbye",
         "memberCount": "Member #{count}"
+      },
+      "ui": {
+        "welcome": {
+          "label": "👋 Welcome message",
+          "description": "Variables: {mention}, {username}, {server}, {count}. Sent when a member arrives.",
+          "champs": {
+            "enabled": {
+              "label": "Enable the welcome message",
+              "help": "Off, no arrival is announced — the settings below are kept for the day you turn it back on. The module needs the privileged « Server Members » intent: without it the bot is never told about arrivals and nothing is sent, with no visible error."
+            },
+            "channelId": {
+              "label": "Channel",
+              "help": "The channel the message is posted in. The bot must be able to write there, and to attach a file if the image card is on. Empty, nothing is sent."
+            },
+            "message": {
+              "label": "Message",
+              "help": "Variables replaced when sent: {mention} addresses the member (and pings them), {username} gives their name without pinging, {server} the server name, {count} the member count after they joined."
+            },
+            "embed": {
+              "label": "Show as an embed",
+              "help": "Puts the text in a coloured box rather than a plain message. An embed does not trigger a mention notification: putting {mention} in one shows the name but does not ping the member."
+            },
+            "footer": {
+              "label": "Footer (embed)",
+              "help": "Small grey line under the box — rules to read, an introductions channel. Only shown when the embed is on."
+            },
+            "card": {
+              "label": "Image card (avatar + name)",
+              "help": "The bot draws an image with the member's avatar and name, and attaches it. More eye-catching, but heavier: avoid it on a server where arrivals come dozens per hour."
+            },
+            "cardBackground": {
+              "label": "Card background image (URL)",
+              "placeholder": "https://…",
+              "help": "Background image for the card, a publicly reachable PNG or JPEG. Empty, a plain background is used. An unreachable URL breaks nothing: the bot falls back to the plain background."
+            }
+          }
+        },
+        "leave": {
+          "label": "🚪 Goodbye message",
+          "description": "Variables: {username}, {server}. Sent when a member leaves.",
+          "champs": {
+            "enabled": {
+              "label": "Enable the goodbye message",
+              "help": "Off, departures go unnoticed. The bot cannot tell someone leaving from someone being removed: on a server that removes people regularly, that is often the setting you want."
+            },
+            "channelId": {
+              "label": "Channel",
+              "help": "The channel the message is posted in. A staff-only channel avoids showing every departure to everyone. Empty, nothing is sent."
+            },
+            "message": {
+              "label": "Message",
+              "help": "Variables replaced when sent: {username} for the leaver's name, {server} for the server name. No {mention} here: someone who has left can no longer be mentioned."
+            },
+            "embed": {
+              "label": "Show as an embed",
+              "help": "Puts the text in a coloured box rather than a plain message."
+            },
+            "footer": {
+              "label": "Footer (embed)",
+              "help": "Small grey line under the box. Only shown when the embed is on."
+            },
+            "card": {
+              "label": "Image card (avatar + name)",
+              "help": "The bot draws an image with the leaver's avatar and name. The avatar comes from the cache: one for a member long gone may be missing, and the card stays generic."
+            },
+            "cardBackground": {
+              "label": "Card background image (URL)",
+              "placeholder": "https://…",
+              "help": "Background image for the card, a publicly reachable PNG or JPEG. Empty, a plain background is used."
+            }
+          }
+        }
       }
     }
   }

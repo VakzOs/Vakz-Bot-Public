@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, marketConfigSchema, marketDefaultConfig } from './config.js';
 import { hdv } from './commands.js';
 import { marketComponent } from './component.js';
@@ -17,18 +18,33 @@ export default defineModule({
   emoji: '\u{1F3EA}',
   configSchema: marketConfigSchema,
   defaultConfig: marketDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      description:
-        'Marché entre membres via /hdv. La mise en vente séquestre les objets jusqu’à l’achat ou l’annulation.',
+      description: t('modules.market.ui.g0.description'),
       fields: [
-        { key: 'taxPercent', label: 'Taxe serveur prélevée au vendeur (0-100 %)', type: 'number' },
-        { key: 'maxListingsPerUser', label: 'Annonces actives max par membre', type: 'number' },
-        { key: 'minPrice', label: 'Prix unitaire minimum absolu d’une annonce', type: 'number' },
+        {
+          key: 'taxPercent',
+          label: t('modules.market.ui.g0.champs.taxPercent.label'),
+          type: 'number',
+          help: t('modules.market.ui.g0.champs.taxPercent.help'),
+        },
+        {
+          key: 'maxListingsPerUser',
+          label: t('modules.market.ui.g0.champs.maxListingsPerUser.label'),
+          type: 'number',
+          help: t('modules.market.ui.g0.champs.maxListingsPerUser.help'),
+        },
+        {
+          key: 'minPrice',
+          label: t('modules.market.ui.g0.champs.minPrice.label'),
+          type: 'number',
+          help: t('modules.market.ui.g0.champs.minPrice.help'),
+        },
         {
           key: 'minPricePercent',
-          label: 'Prix minimum en % du prix boutique de l’objet (0-100)',
+          label: t('modules.market.ui.g0.champs.minPricePercent.label'),
           type: 'number',
+          help: t('modules.market.ui.g0.champs.minPricePercent.help'),
         },
       ],
     },

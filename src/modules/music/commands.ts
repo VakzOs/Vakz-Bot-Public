@@ -4,7 +4,7 @@ import type { BotContext, SlashCommand } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
 import { successEmbed } from '../../lib/embeds.js';
 import { type Player, getManager } from './manager.js';
-import { SEARCH_PLATFORMS, getMusicConfig } from './config.js';
+import { SEARCH_PLATFORMS, getMusicConfig, searchPlatformLabel } from './config.js';
 import {
   type Requester,
   formatTime,
@@ -22,18 +22,24 @@ async function ephemeral(interaction: ChatInputCommandInteraction, key: string):
 // --- /play ------------------------------------------------------------------
 
 const play: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('play')
-    .setDescription(t('modules.music.command.play'))
-    .addStringOption((o) =>
-      o.setName('recherche').setDescription(t('modules.music.command.playQuery')).setRequired(true),
-    )
-    .addStringOption((o) => {
-      o.setName('source').setDescription(t('modules.music.command.playSource')).setRequired(false);
-      for (const platform of SEARCH_PLATFORMS)
-        o.addChoices({ name: platform.label, value: platform.value });
-      return o;
-    }),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.music.noms.play'))
+      .setDescription(t('modules.music.command.play'))
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.music.noms.recherche'))
+          .setDescription(t('modules.music.command.playQuery'))
+          .setRequired(true),
+      )
+      .addStringOption((o) => {
+        o.setName(t('modules.music.noms.source'))
+          .setDescription(t('modules.music.command.playSource'))
+          .setRequired(false);
+        for (const platform of SEARCH_PLATFORMS)
+          o.addChoices({ name: searchPlatformLabel(platform), value: platform });
+        return o;
+      }),
 
   async execute(interaction, ctx: BotContext) {
     if (!interaction.inCachedGuild()) return;
@@ -147,7 +153,10 @@ const play: SlashCommand = {
 // --- Contrôles (rôle DJ / même salon requis) --------------------------------
 
 const skip: SlashCommand = {
-  data: new SlashCommandBuilder().setName('skip').setDescription(t('modules.music.command.skip')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.music.noms.skip'))
+      .setDescription(t('modules.music.command.skip')),
   async execute(interaction, ctx) {
     const res = await resolveControl(interaction, ctx);
     if (!res) return;
@@ -163,7 +172,10 @@ const skip: SlashCommand = {
 };
 
 const stop: SlashCommand = {
-  data: new SlashCommandBuilder().setName('stop').setDescription(t('modules.music.command.stop')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.music.noms.stop'))
+      .setDescription(t('modules.music.command.stop')),
   async execute(interaction, ctx) {
     const res = await resolveControl(interaction, ctx);
     if (!res) return;
@@ -173,7 +185,10 @@ const stop: SlashCommand = {
 };
 
 const pause: SlashCommand = {
-  data: new SlashCommandBuilder().setName('pause').setDescription(t('modules.music.command.pause')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.music.noms.pause'))
+      .setDescription(t('modules.music.command.pause')),
   async execute(interaction, ctx) {
     const res = await resolveControl(interaction, ctx);
     if (!res) return;
@@ -190,9 +205,10 @@ const pause: SlashCommand = {
 };
 
 const resume: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('resume')
-    .setDescription(t('modules.music.command.resume')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.music.noms.resume'))
+      .setDescription(t('modules.music.command.resume')),
   async execute(interaction, ctx) {
     const res = await resolveControl(interaction, ctx);
     if (!res) return;
@@ -209,17 +225,18 @@ const resume: SlashCommand = {
 };
 
 const volume: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('volume')
-    .setDescription(t('modules.music.command.volume'))
-    .addIntegerOption((o) =>
-      o
-        .setName('niveau')
-        .setDescription(t('modules.music.command.volumeValue'))
-        .setRequired(true)
-        .setMinValue(0)
-        .setMaxValue(150),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.music.noms.volume'))
+      .setDescription(t('modules.music.command.volume'))
+      .addIntegerOption((o) =>
+        o
+          .setName(t('modules.music.noms.niveau'))
+          .setDescription(t('modules.music.command.volumeValue'))
+          .setRequired(true)
+          .setMinValue(0)
+          .setMaxValue(150),
+      ),
   async execute(interaction, ctx) {
     const res = await resolveControl(interaction, ctx);
     if (!res) return;
@@ -231,20 +248,21 @@ const volume: SlashCommand = {
 };
 
 const loop: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('loop')
-    .setDescription(t('modules.music.command.loop'))
-    .addStringOption((o) =>
-      o
-        .setName('mode')
-        .setDescription(t('modules.music.command.loopValue'))
-        .setRequired(true)
-        .addChoices(
-          { name: t('modules.music.loopState.off'), value: 'off' },
-          { name: t('modules.music.loopState.track'), value: 'track' },
-          { name: t('modules.music.loopState.queue'), value: 'queue' },
-        ),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.music.noms.loop'))
+      .setDescription(t('modules.music.command.loop'))
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.music.noms.mode'))
+          .setDescription(t('modules.music.command.loopValue'))
+          .setRequired(true)
+          .addChoices(
+            { name: t('modules.music.loopState.off'), value: 'off' },
+            { name: t('modules.music.loopState.track'), value: 'track' },
+            { name: t('modules.music.loopState.queue'), value: 'queue' },
+          ),
+      ),
   async execute(interaction, ctx) {
     const res = await resolveControl(interaction, ctx);
     if (!res) return;
@@ -257,9 +275,10 @@ const loop: SlashCommand = {
 };
 
 const shuffle: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('shuffle')
-    .setDescription(t('modules.music.command.shuffle')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.music.noms.shuffle'))
+      .setDescription(t('modules.music.command.shuffle')),
   async execute(interaction, ctx) {
     const res = await resolveControl(interaction, ctx);
     if (!res) return;
@@ -276,12 +295,16 @@ const shuffle: SlashCommand = {
 };
 
 const seek: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('seek')
-    .setDescription(t('modules.music.command.seek'))
-    .addStringOption((o) =>
-      o.setName('position').setDescription(t('modules.music.command.seekValue')).setRequired(true),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.music.noms.seek'))
+      .setDescription(t('modules.music.command.seek'))
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.music.noms.position'))
+          .setDescription(t('modules.music.command.seekValue'))
+          .setRequired(true),
+      ),
   async execute(interaction, ctx) {
     const res = await resolveControl(interaction, ctx);
     if (!res) return;
@@ -308,16 +331,17 @@ const seek: SlashCommand = {
 };
 
 const remove: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('remove')
-    .setDescription(t('modules.music.command.remove'))
-    .addIntegerOption((o) =>
-      o
-        .setName('numero')
-        .setDescription(t('modules.music.command.removeValue'))
-        .setRequired(true)
-        .setMinValue(1),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.music.noms.remove'))
+      .setDescription(t('modules.music.command.remove'))
+      .addIntegerOption((o) =>
+        o
+          .setName(t('modules.music.noms.numero'))
+          .setDescription(t('modules.music.command.removeValue'))
+          .setRequired(true)
+          .setMinValue(1),
+      ),
   async execute(interaction, ctx) {
     const res = await resolveControl(interaction, ctx);
     if (!res) return;
@@ -336,9 +360,10 @@ const remove: SlashCommand = {
 };
 
 const disconnect: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('disconnect')
-    .setDescription(t('modules.music.command.disconnect')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.music.noms.disconnect'))
+      .setDescription(t('modules.music.command.disconnect')),
   async execute(interaction, ctx) {
     const res = await resolveControl(interaction, ctx);
     if (!res) return;
@@ -350,7 +375,10 @@ const disconnect: SlashCommand = {
 // --- Lecture seule (tout le monde dans le vocal) ----------------------------
 
 const queue: SlashCommand = {
-  data: new SlashCommandBuilder().setName('queue').setDescription(t('modules.music.command.queue')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.music.noms.queue'))
+      .setDescription(t('modules.music.command.queue')),
   async execute(interaction) {
     if (!interaction.inCachedGuild()) return;
     const manager = getManager();
@@ -367,9 +395,10 @@ const queue: SlashCommand = {
 };
 
 const nowplaying: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('nowplaying')
-    .setDescription(t('modules.music.command.nowplaying')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.music.noms.nowplaying'))
+      .setDescription(t('modules.music.command.nowplaying')),
   async execute(interaction) {
     if (!interaction.inCachedGuild()) return;
     const manager = getManager();

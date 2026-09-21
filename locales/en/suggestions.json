@@ -3,6 +3,15 @@
     "suggestions": {
       "label": "Suggestions",
       "description": "Members propose ideas (with a Steam link), voted 👍/👎 and decided on by staff.",
+      "noms": {
+        "classement": "leaderboard",
+        "mot": "word",
+        "rechercher": "search",
+        "steam": "steam",
+        "suggestion": "suggestion",
+        "suggestions": "suggestions",
+        "texte": "text"
+      },
       "command": {
         "description": "Submit a suggestion to the server.",
         "textOpt": "The text of your suggestion.",
@@ -72,6 +81,55 @@
         "rankingTitle": "🏆 Top-rated suggestions",
         "noMatch": "No suggestion matches “{keyword}”.",
         "searchTitle": "🔎 Results for “{keyword}”"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelIds": {
+              "label": "Suggestion channels",
+              "help": "Where suggestions are posted. Several channels are allowed — the author picks one when submitting. While the list is empty the command refuses to post: this is the one genuinely required setting."
+            },
+            "staffRoleId": {
+              "label": "Staff role",
+              "help": "The role allowed to approve, reject or mark under review. The decision buttons stay visible to everyone but only answer to that role; server administrators qualify without holding it."
+            },
+            "createThread": {
+              "label": "Create a thread per suggestion",
+              "help": "A discussion thread is created under each posted suggestion, so debate does not flood the channel. Avoid it if the server is near its active-thread limit: creation then fails and the suggestion is posted on its own."
+            },
+            "maxPending": {
+              "label": "Limit of pending suggestions / member",
+              "help": "How many untreated suggestions one member may have at a time. Once theirs is approved or rejected, the slot frees up. 0 lifts the limit — at the risk of a single member filling the queue."
+            },
+            "rewardCoins": {
+              "label": "Coins awarded on approval",
+              "help": "Paid to the author when their suggestion is approved, once per suggestion. Requires the Economy module to be on: without it nothing is paid and nothing says so. 0 to grant nothing."
+            },
+            "rewardItemId": {
+              "label": "Item awarded on approval",
+              "help": "The id of a catalogue item, handed to the author on top of the coins. An unknown id is silently ignored — check it in the catalogue before writing it here. Empty to hand out nothing."
+            },
+            "dynamicColor": {
+              "label": "Dynamic embed colour (based on the votes)",
+              "help": "The box turns green or red as votes come in, before staff decide anything. Off, it keeps a neutral colour until the decision — plainer, and it avoids a close vote looking like a rejection."
+            },
+            "roleLimits": {
+              "label": "Limits per role",
+              "help": "These take precedence over the general limit above. A member holding several of these roles gets the highest limit — not the lowest: these rows are there to reward, not to punish. A limit of 0 means unlimited.",
+              "addLabel": "Add a role",
+              "item": {
+                "roleId": {
+                  "label": "Role"
+                },
+                "limit": {
+                  "label": "Limit"
+                }
+              }
+            }
+          },
+          "label": "💡 Suggestions",
+          "description": "A suggestion submitted with /suggestion is posted in a dedicated channel with two vote buttons. Staff approve, reject or mark it under review, with a reason. Suggestions and votes are stored in the database: the counters do not reset after a restart."
+        }
       }
     }
   }

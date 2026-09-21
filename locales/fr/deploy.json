@@ -3,6 +3,9 @@
     "deploy": {
       "label": "Mise à jour",
       "description": "Met à jour le bot (git pull + rebuild). Réservé au propriétaire.",
+      "noms": {
+        "maj": "maj"
+      },
       "disabled": "❌ La mise à jour depuis le bot n'est pas configurée (définis `BOT_OWNER_ID`).",
       "notOwner": "❌ Seul le propriétaire du bot peut lancer une mise à jour.",
       "title": "🚀 Mise à jour du bot",

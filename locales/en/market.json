@@ -3,6 +3,15 @@
     "market": {
       "label": "Marketplace",
       "description": "Player market: list items for sale, buy from others.",
+      "noms": {
+        "hdv": "auction",
+        "mes-annonces": "my-listings",
+        "objet": "item",
+        "parcourir": "browse",
+        "prix": "price",
+        "quantité": "quantity",
+        "vendre": "sell"
+      },
       "command": {
         "description": "Marketplace: buy and sell items between members.",
         "browse": "Browse listings and buy.",
@@ -15,7 +24,7 @@
       "browse": {
         "title": "🏪 Marketplace",
         "intro": "Pick a listing to buy one unit.",
-        "empty": "No listings yet. Be the first with `/hdv vendre`!",
+        "empty": "No listings yet. Be the first with `/auction sell`!",
         "line": "**{n}.** {emoji} **{name}** ×{qty} — {unit}/ea — {seller}",
         "footer": "Page {page}/{pages} · {total} listing(s)",
         "buyPlaceholder": "Buy one unit…",
@@ -44,11 +53,34 @@
         "notYours": "❌ This is not your listing."
       },
       "sell": {
-        "done": "🏷️ Listed: {qty}× {emoji} **{name}** at {unit}/ea. See it with `/hdv parcourir`.",
+        "done": "🏷️ Listed: {qty}× {emoji} **{name}** at {unit}/ea. See it with `/auction browse`.",
         "notTradable": "❌ {emoji} {name} isn't tradable, it can't be sold here.",
         "tooCheap": "❌ Price too low: minimum {min} per item.",
         "tooMany": "❌ You reached the active listing limit ({max}).",
         "notOwned": "❌ You don't own enough {emoji} {name}."
+      },
+      "ui": {
+        "g0": {
+          "description": "Member-to-member market through /auction. Listing an item escrows it until it is bought or cancelled.",
+          "champs": {
+            "taxPercent": {
+              "label": "Server tax taken from the seller (0-100 %)",
+              "help": "Share of the price taken from the SELLER on each sale, and removed from circulation. It is the only outflow for the currency: with no tax, the money supply only grows and prices follow."
+            },
+            "maxListingsPerUser": {
+              "label": "Max active listings per member",
+              "help": "How many active listings one member may hold. Stops a player cornering the market by listing their whole inventory at once."
+            },
+            "minPrice": {
+              "label": "Absolute minimum unit price for a listing",
+              "help": "Absolute floor, in coins, whatever the item. Mostly there to forbid the 0-coin listings used to move items between accounts without it looking like a gift."
+            },
+            "minPricePercent": {
+              "label": "Minimum price as a % of the item's shop price (0-100)",
+              "help": "A second floor, as a percentage of the item's SHOP price. The floor actually applied is the higher of the two. Without it, a rare item can be dumped at the price of a common one. 0 disables it."
+            }
+          }
+        }
       }
     }
   }

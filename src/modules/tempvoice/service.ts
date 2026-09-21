@@ -16,7 +16,7 @@ import {
   UserSelectMenuBuilder,
   type VoiceChannel,
 } from 'discord.js';
-import type { BotContext, PanelRow } from '../../core/module.js';
+import type { BotContext, PanelRow, TaskReport } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
 import { Colors } from '../../lib/embeds.js';
 import { MODULE_NAME, getTempvoiceConfig, type TempVoiceHub } from './config.js';
@@ -903,8 +903,10 @@ export async function handleVoiceLeave(
 }
 
 /** Nettoie les salons temporaires orphelins (vides ou disparus). */
-export async function cleanupOrphans(ctx: BotContext): Promise<void> {
+export async function cleanupOrphans(ctx: BotContext): Promise<TaskReport> {
   const records = await ctx.db.tempVoiceChannel.findMany();
+  let supprimes = 0;
+  let oublies = 0;
   for (const record of records) {
     const guild = ctx.client.guilds.cache.get(record.guildId);
     if (!guild) continue;
@@ -912,9 +914,15 @@ export async function cleanupOrphans(ctx: BotContext): Promise<void> {
       guild.channels.cache.get(record.id) ??
       (await guild.channels.fetch(record.id).catch(() => null));
     if (!channel || channel.type !== ChannelType.GuildVoice) {
+      // Le salon a disparu sans nous : on ne supprime que sa trace en base.
       await ctx.db.tempVoiceChannel.delete({ where: { id: record.id } }).catch(() => undefined);
+      oublies += 1;
       continue;
     }
-    if (channel.members.size === 0) await deleteTempChannel(ctx, channel);
+    if (channel.members.size === 0) {
+      await deleteTempChannel(ctx, channel);
+      supprimes += 1;
+    }
   }
+  return { supprimes, oublies };
 }

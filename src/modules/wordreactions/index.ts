@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, wordreactionsConfigSchema, wordreactionsDefaultConfig } from './config.js';
 import { onMessage } from './events.js';
 
@@ -17,37 +18,67 @@ export default defineModule({
   emoji: '\u{1F4AC}',
   configSchema: wordreactionsConfigSchema,
   defaultConfig: wordreactionsDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '💬 Réactions automatiques',
+      label: t('modules.wordreactions.ui.g0.label'),
       fields: [
         {
           key: 'rules',
-          label: 'Règles',
+          label: t('modules.wordreactions.ui.g0.champs.rules.label'),
           type: 'list',
+          help: t('modules.wordreactions.ui.g0.champs.rules.help'),
           idKey: 'id',
-          addLabel: 'Ajouter une règle',
+          addLabel: t('modules.wordreactions.ui.g0.champs.rules.addLabel'),
           item: [
-            { key: 'trigger', label: 'Déclencheur', type: 'text' },
+            {
+              key: 'trigger',
+              label: t('modules.wordreactions.ui.g0.champs.rules.item.trigger.label'),
+              type: 'text',
+            },
             {
               key: 'match',
-              label: 'Correspondance',
+              label: t('modules.wordreactions.ui.g0.champs.rules.item.match.label'),
               type: 'select',
               options: [
-                { value: 'contains', label: 'Contient' },
-                { value: 'word', label: 'Mot entier' },
-                { value: 'exact', label: 'Exact' },
-                { value: 'startsWith', label: 'Commence par' },
-                { value: 'endsWith', label: 'Finit par' },
+                {
+                  value: 'contains',
+                  label: t(
+                    'modules.wordreactions.ui.g0.champs.rules.item.match.opt.contains.label',
+                  ),
+                },
+                {
+                  value: 'word',
+                  label: t('modules.wordreactions.ui.g0.champs.rules.item.match.opt.word.label'),
+                },
+                {
+                  value: 'exact',
+                  label: t('modules.wordreactions.ui.g0.champs.rules.item.match.opt.exact.label'),
+                },
+                {
+                  value: 'startsWith',
+                  label: t(
+                    'modules.wordreactions.ui.g0.champs.rules.item.match.opt.startsWith.label',
+                  ),
+                },
+                {
+                  value: 'endsWith',
+                  label: t(
+                    'modules.wordreactions.ui.g0.champs.rules.item.match.opt.endsWith.label',
+                  ),
+                },
               ],
             },
             {
               key: 'emojis',
-              label: 'Emojis à ajouter',
+              label: t('modules.wordreactions.ui.g0.champs.rules.item.emojis.label'),
               type: 'tags',
-              placeholder: 'Un emoji puis Entrée',
+              placeholder: t('modules.wordreactions.ui.g0.champs.rules.item.emojis.placeholder'),
             },
-            { key: 'channelId', label: 'Salon (optionnel)', type: 'channel' },
+            {
+              key: 'channelId',
+              label: t('modules.wordreactions.ui.g0.champs.rules.item.channelId.label'),
+              type: 'channel',
+            },
           ],
         },
       ],

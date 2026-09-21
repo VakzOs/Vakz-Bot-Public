@@ -1,0 +1,62 @@
+{
+  "modules": {
+    "customcommands": {
+      "label": "Comandos personalizados",
+      "description": "Respuestas automáticas activadas por palabras clave: desencadenante → respuesta (texto o embed), con canal, enfriamiento y borrado del mensaje.",
+      "match": {
+        "contains": "Contiene",
+        "exact": "Exacto",
+        "startsWith": "Empieza por",
+        "endsWith": "Termina en"
+      },
+      "ui": {
+        "g0": {
+          "label": "⌨️ Comandos personalizados",
+          "champs": {
+            "commands": {
+              "label": "Comandos",
+              "addLabel": "Añadir un comando",
+              "item": {
+                "trigger": {
+                  "label": "Desencadenante"
+                },
+                "match": {
+                  "label": "Correspondencia",
+                  "opt": {
+                    "contains": {
+                      "label": "Contiene"
+                    },
+                    "exact": {
+                      "label": "Exacto"
+                    },
+                    "startsWith": {
+                      "label": "Empieza por"
+                    },
+                    "endsWith": {
+                      "label": "Termina en"
+                    }
+                  }
+                },
+                "response": {
+                  "label": "Respuesta"
+                },
+                "asEmbed": {
+                  "label": "Como embed"
+                },
+                "channelId": {
+                  "label": "Canal (opcional)"
+                },
+                "deleteTrigger": {
+                  "label": "Borrar el mensaje desencadenante"
+                },
+                "cooldown": {
+                  "label": "Enfriamiento (s)"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

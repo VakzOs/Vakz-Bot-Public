@@ -1,0 +1,58 @@
+{
+  "modules": {
+    "wordreactions": {
+      "label": "Wortreaktionen",
+      "description": "Fügt Nachrichten mit bestimmten Schlüsselwörtern automatisch Emoji-Reaktionen hinzu.",
+      "match": {
+        "contains": "Enthält",
+        "word": "Ganzes Wort",
+        "exact": "Genau",
+        "startsWith": "Beginnt mit",
+        "endsWith": "Endet auf"
+      },
+      "ui": {
+        "g0": {
+          "label": "💬 Automatische Reaktionen",
+          "champs": {
+            "rules": {
+              "label": "Regeln",
+              "addLabel": "Regel hinzufügen",
+              "item": {
+                "trigger": {
+                  "label": "Auslöser"
+                },
+                "match": {
+                  "label": "Übereinstimmung",
+                  "opt": {
+                    "contains": {
+                      "label": "Enthält"
+                    },
+                    "word": {
+                      "label": "Ganzes Wort"
+                    },
+                    "exact": {
+                      "label": "Genau"
+                    },
+                    "startsWith": {
+                      "label": "Beginnt mit"
+                    },
+                    "endsWith": {
+                      "label": "Endet auf"
+                    }
+                  }
+                },
+                "emojis": {
+                  "label": "Hinzuzufügende Emojis",
+                  "placeholder": "Ein Emoji, dann Eingabetaste"
+                },
+                "channelId": {
+                  "label": "Kanal (optional)"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

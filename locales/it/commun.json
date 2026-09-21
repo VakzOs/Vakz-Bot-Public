@@ -1,0 +1,13 @@
+{
+  "langue": {
+    "nom": "Italiano",
+    "drapeau": "🇮🇹",
+    "format": "it-IT",
+    "discord": "it"
+  },
+  "errors": {
+    "generic": "❌ Si è verificato un errore. Riprova più tardi.",
+    "guildOnly": "❌ Questo comando può essere usato solo in un server.",
+    "moduleDisabled": "❌ Questo modulo è disattivato su questo server. Chi amministra può attivarlo dalla dashboard."
+  }
+}

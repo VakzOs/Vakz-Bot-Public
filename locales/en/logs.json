@@ -2,7 +2,14 @@
   "modules": {
     "logs": {
       "label": "Logs",
-      "description": "Logs important server actions and adds the /clear command.",
+      "description": "Logs important server actions, tracks invites and adds the /clear command.",
+      "noms": {
+        "invitations": "invites",
+        "membre": "member",
+        "nombre": "number",
+        "purger": "clear",
+        "raison": "reason"
+      },
       "fields": {
         "channel": "Channel",
         "author": "Author",
@@ -19,8 +26,17 @@
         "change": "Change",
         "unknown": "*unknown*",
         "unavailable": "*unavailable*",
+        "empty": "*empty*",
+        "embedCount": "{count} embed(s)",
+        "fileCount": "{count} file(s)",
         "noReason": "*no reason provided*",
-        "everyone": "Everyone"
+        "everyone": "Everyone",
+        "inviter": "Invited by",
+        "invite": "Invite",
+        "inviterTotal": "Inviter tally",
+        "maxUses": "Max uses",
+        "expires": "Expires",
+        "joinedAt": "Joined"
       },
       "events": {
         "messageDelete": {
@@ -58,6 +74,12 @@
         },
         "clear": {
           "title": "Messages cleared"
+        },
+        "inviteCreate": {
+          "title": "Invite created"
+        },
+        "inviteDelete": {
+          "title": "Invite deleted"
         }
       },
       "clear": {
@@ -82,6 +104,72 @@
         "unsupported": "❌ This rollback type is not supported.",
         "noPermission": "❌ I do not have the required permissions to restore this item.",
         "failed": "❌ Could not restore this item. Check my permissions and hierarchy."
+      },
+      "sources": {
+        "invite": "invite",
+        "vanity": "server vanity URL",
+        "bot": "bot added",
+        "unknown": "*unknown origin*"
+      },
+      "invites": {
+        "uses": "{count} use(s)",
+        "tally": "{total} member(s) — {present} still here",
+        "unlimited": "unlimited",
+        "never": "never"
+      },
+      "invitations": {
+        "description": "See who invited whom on this server.",
+        "opt": {
+          "member": "One member’s tally instead of the leaderboard."
+        },
+        "disabled": "❌ Invite tracking is disabled on this server.",
+        "gone": "left",
+        "member": {
+          "title": "Invites — {user}",
+          "invitedBy": "Joined through",
+          "invited": "Brought in",
+          "recent": "Latest joins",
+          "untracked": "*joined before invite tracking*"
+        },
+        "top": {
+          "title": "Invite leaderboard",
+          "empty": "No tracked join yet.",
+          "tracked": "{count} tracked join(s)"
+        }
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "logChannelId": {
+              "label": "Log channel",
+              "help": "Where the server's logs are published."
+            },
+            "messages": {
+              "label": "Log messages",
+              "help": "Logs deleted and edited messages: author, channel, old and new text. A deletion comes with a button that reposts the message. Needs the privileged « Message Content » intent: without it the entry is still written, but the text is missing."
+            },
+            "members": {
+              "label": "Log members (joins/leaves)",
+              "help": "Logs joins and leaves, with the account's age — the first sign of a wave of fake accounts. The bot cannot tell someone leaving from someone being removed; removals are covered by the moderation category instead."
+            },
+            "channels": {
+              "label": "Log channels",
+              "help": "Logs channels created, deleted and renamed, along with their permission changes. A deletion comes with a button that recreates the channel with its settings — but not its messages, which Discord does not give back."
+            },
+            "roles": {
+              "label": "Log roles",
+              "help": "Logs roles created, deleted and changed — name, colour, and above all permissions. This is the category that shows a role just gained « Administrator », which otherwise only gets noticed after the damage."
+            },
+            "moderation": {
+              "label": "Log moderation",
+              "help": "Logs sanctions: timeouts, bans, kicks, voice disconnects and mutes, with who issued them and why. The issuer is read from Discord's audit log, so the bot needs the « View Audit Log » permission — without it the sanction is logged without saying who took it."
+            },
+            "invites": {
+              "label": "Track invites (who invited whom)",
+              "help": "Ties each arrival to the invite that brought it and feeds /invites. Requires the “Manage Server” permission."
+            }
+          }
+        }
       }
     }
   }

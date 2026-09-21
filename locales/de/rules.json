@@ -1,0 +1,49 @@
+{
+  "modules": {
+    "rules": {
+      "label": "Regelwerk",
+      "description": "Veröffentlicht das Regelwerk des Servers und vergibt bei Annahme eine Zugangsrolle.",
+      "embed": {
+        "version": "Version {version}"
+      },
+      "feedback": {
+        "disabled": "❌ Dieses Modul ist auf diesem Server deaktiviert.",
+        "roleGone": "❌ Die Zugangsrolle gibt es nicht mehr. Sag der Administration Bescheid.",
+        "cannotAssign": "⚠️ Ich kann die Zugangsrolle nicht vergeben (Berechtigung „Rollen verwalten“ fehlt oder die Rolle steht über meiner).",
+        "error": "❌ Ein Fehler ist aufgetreten. Versuche es später erneut.",
+        "alreadyUpToDate": "✅ Du hast die aktuelle Fassung des Regelwerks bereits angenommen.",
+        "accepted": "✅ Danke, du hast das Regelwerk angenommen! Dein Zugang ist freigeschaltet.",
+        "revalidated": "🔄 Danke, dass du die neue Fassung des Regelwerks bestätigt hast!"
+      },
+      "log": {
+        "accepted": "📜 {user} hat das Regelwerk angenommen (Version {version})."
+      },
+      "ui": {
+        "g0": {
+          "label": "📜 Regelwerk",
+          "description": "Veröffentliche das Regelwerk nach einer Änderung mit der Schaltfläche „Veröffentlichen“ erneut.",
+          "champs": {
+            "channelId": {
+              "label": "Kanal des Regelwerks"
+            },
+            "roleId": {
+              "label": "Zugangsrolle (bei Annahme)"
+            },
+            "title": {
+              "label": "Titel"
+            },
+            "content": {
+              "label": "Inhalt des Regelwerks"
+            },
+            "buttonLabel": {
+              "label": "Beschriftung der Annahme-Schaltfläche"
+            },
+            "logChannelId": {
+              "label": "Kanal für Annahme-Protokolle"
+            }
+          }
+        }
+      }
+    }
+  }
+}

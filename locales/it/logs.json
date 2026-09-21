@@ -1,0 +1,168 @@
+{
+  "modules": {
+    "logs": {
+      "label": "Registri",
+      "description": "Registra le azioni importanti del server, segue gli inviti e aggiunge il comando /pulisci.",
+      "noms": {
+        "invitations": "inviti",
+        "membre": "membro",
+        "nombre": "numero",
+        "purger": "pulisci",
+        "raison": "motivo"
+      },
+      "fields": {
+        "channel": "Canale",
+        "author": "Autore",
+        "member": "Membro",
+        "moderator": "Moderazione",
+        "executor": "Azione eseguita da",
+        "count": "Numero",
+        "target": "Bersaglio",
+        "reason": "Motivo",
+        "role": "Ruolo",
+        "content": "Contenuto",
+        "before": "Prima",
+        "after": "Dopo",
+        "change": "Cambiamento",
+        "unknown": "*sconosciuto*",
+        "unavailable": "*non disponibile*",
+        "noReason": "*nessun motivo fornito*",
+        "everyone": "Tutti",
+        "inviter": "Invitato da",
+        "invite": "Invito",
+        "inviterTotal": "Conteggio di chi invita",
+        "maxUses": "Usi max",
+        "expires": "Scade",
+        "joinedAt": "Arrivato"
+      },
+      "events": {
+        "messageDelete": {
+          "title": "Messaggio eliminato"
+        },
+        "messageBulkDelete": {
+          "title": "Messaggi eliminati in massa"
+        },
+        "messageUpdate": {
+          "title": "Messaggio modificato"
+        },
+        "memberAdd": {
+          "title": "Membro arrivato"
+        },
+        "memberRemove": {
+          "title": "Membro uscito"
+        },
+        "channelCreate": {
+          "title": "Canale creato"
+        },
+        "channelDelete": {
+          "title": "Canale eliminato"
+        },
+        "channelUpdate": {
+          "title": "Canale modificato"
+        },
+        "roleCreate": {
+          "title": "Ruolo creato"
+        },
+        "roleDelete": {
+          "title": "Ruolo eliminato"
+        },
+        "roleUpdate": {
+          "title": "Ruolo modificato"
+        },
+        "clear": {
+          "title": "Messaggi puliti"
+        },
+        "inviteCreate": {
+          "title": "Invito creato"
+        },
+        "inviteDelete": {
+          "title": "Invito eliminato"
+        }
+      },
+      "clear": {
+        "description": "Eliminare rapidamente messaggi nel canale attuale.",
+        "opt": {
+          "count": "Numero di messaggi da eliminare (da 1 a 100).",
+          "member": "Limitare ai messaggi di un membro.",
+          "reason": "Motivo mostrato nei registri."
+        },
+        "invalidChannel": "❌ Questo comando va usato in un canale testuale del server.",
+        "botNoPerm": "❌ Non ho il permesso «Gestire i messaggi» in questo canale.",
+        "none": "Nessun messaggio recente eliminabile trovato.",
+        "failed": "❌ Impossibile eliminare questi messaggi. Controlla i miei permessi.",
+        "done": "✅ {count} messaggio/i eliminato/i."
+      },
+      "rollback": {
+        "button": "Ripristina",
+        "done": "✅ Ripristino effettuato.",
+        "used": "❌ Questo ripristino è già stato usato.",
+        "missing": "❌ Questo ripristino non è stato trovato o è scaduto.",
+        "notAllowed": "⛔ Non hai il permesso di usare questo ripristino.",
+        "unsupported": "❌ Questo tipo di ripristino non è supportato.",
+        "noPermission": "❌ Non ho i permessi necessari per ripristinare questo elemento.",
+        "failed": "❌ Impossibile ripristinare questo elemento. Controlla i miei permessi e la gerarchia."
+      },
+      "sources": {
+        "invite": "invito",
+        "vanity": "URL personalizzato del server",
+        "bot": "aggiunta di un bot",
+        "unknown": "*origine sconosciuta*"
+      },
+      "invites": {
+        "uses": "{count} utilizzo/i",
+        "tally": "{total} membro/i — {present} ancora presente/i",
+        "unlimited": "illimitati",
+        "never": "mai"
+      },
+      "invitations": {
+        "description": "Vedere chi ha invitato chi su questo server.",
+        "opt": {
+          "member": "Il bilancio di un membro invece della classifica."
+        },
+        "disabled": "❌ Il tracciamento degli inviti è disattivato su questo server.",
+        "gone": "uscito",
+        "member": {
+          "title": "Inviti — {user}",
+          "invitedBy": "Arrivato tramite",
+          "invited": "Ha fatto entrare",
+          "recent": "Ultimi arrivi",
+          "untracked": "*arrivato prima del tracciamento degli inviti*"
+        },
+        "top": {
+          "title": "Classifica degli inviti",
+          "empty": "Per ora nessun arrivo tracciato.",
+          "tracked": "{count} arrivo/i tracciato/i"
+        }
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "logChannelId": {
+              "label": "Canale dei registri",
+              "help": "Dove vengono pubblicati i registri del server."
+            },
+            "messages": {
+              "label": "Registrare i messaggi"
+            },
+            "members": {
+              "label": "Registrare i membri (arrivi e uscite)"
+            },
+            "channels": {
+              "label": "Registrare i canali"
+            },
+            "roles": {
+              "label": "Registrare i ruoli"
+            },
+            "moderation": {
+              "label": "Registrare la moderazione"
+            },
+            "invites": {
+              "label": "Tracciare gli inviti (chi ha invitato chi)",
+              "help": "Collega ogni arrivo all'invito che l'ha portato e alimenta /inviti. Richiede il permesso «Gestire il server»."
+            }
+          }
+        }
+      }
+    }
+  }
+}

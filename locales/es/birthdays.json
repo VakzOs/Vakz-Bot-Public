@@ -1,0 +1,69 @@
+{
+  "modules": {
+    "birthdays": {
+      "label": "Cumpleaños",
+      "description": "Felicita los cumpleaños de los miembros (mensaje + rol del día).",
+      "noms": {
+        "annee": "anio",
+        "anniversaire": "cumpleanos",
+        "definir": "definir",
+        "jour": "dia",
+        "membre": "miembro",
+        "mois": "mes",
+        "prochains": "proximos",
+        "retirer": "quitar",
+        "voir": "ver"
+      },
+      "command": {
+        "description": "Gestiona tu fecha de cumpleaños.",
+        "set": "Registra tu fecha de cumpleaños.",
+        "remove": "Borra tu fecha de cumpleaños.",
+        "view": "Muestra el cumpleaños de un miembro.",
+        "upcoming": "Muestra los próximos cumpleaños."
+      },
+      "opt": {
+        "day": "Día (1-31).",
+        "month": "Mes (1-12).",
+        "year": "Año (opcional, para mostrar la edad).",
+        "member": "El miembro en cuestión (por defecto: tú).",
+        "targetMember": "Definir para otro miembro (admin: Gestionar el servidor)."
+      },
+      "invalidDate": "❌ Fecha no válida.",
+      "noPermission": "❌ No tienes permiso para gestionar el cumpleaños de otro miembro.",
+      "set": "🎂 ¡Tu cumpleaños queda registrado el {date}!",
+      "setOther": "🎂 ¡El cumpleaños de {user} queda registrado el {date}!",
+      "removed": "🗑️ Tu cumpleaños se ha borrado.",
+      "removedOther": "🗑️ El cumpleaños de {user} se ha borrado.",
+      "none": "ℹ️ {user} no ha registrado ningún cumpleaños.",
+      "today": "¡hoy! 🎉",
+      "inDays": "dentro de {days} día(s)",
+      "view": {
+        "title": "🎂 Cumpleaños de {user}"
+      },
+      "upcomingTitle": "🎂 Próximos cumpleaños",
+      "upcomingEmpty": "De momento no hay ningún cumpleaños registrado.",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Canal de los anuncios"
+            },
+            "roleId": {
+              "label": "Rol «cumpleaños del día»"
+            },
+            "message": {
+              "label": "Mensaje",
+              "help": "Variables: {mention}, {username}."
+            },
+            "announceHour": {
+              "label": "Hora del anuncio (0-23)"
+            },
+            "announceMinute": {
+              "label": "Minuto del anuncio (0-59)"
+            }
+          }
+        }
+      }
+    }
+  }
+}

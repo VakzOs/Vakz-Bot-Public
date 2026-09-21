@@ -3,6 +3,15 @@
     "info": {
       "label": "Commandes d'informations",
       "description": "Commandes utilitaires : infos sur un membre, le serveur, un rôle, ou l'avatar de quelqu'un.",
+      "noms": {
+        "avatar": "avatar",
+        "emoji": "emoji",
+        "infos-membre": "infos-membre",
+        "infos-role": "infos-role",
+        "infos-serveur": "infos-serveur",
+        "membre": "membre",
+        "role": "role"
+      },
       "opt": {
         "member": "Le membre concerné (par défaut : toi).",
         "role": "Le rôle concerné.",
@@ -57,6 +66,42 @@
         "animated": "🎞️ Animé",
         "static": "🖼️ Statique",
         "notEmoji": "❌ Ce n'est pas un emoji valide. Donne un emoji personnalisé, un `:nom:` du serveur, ou un emoji unicode."
+      },
+      "ui": {
+        "g0": {
+          "label": "🪪 Journal des profils",
+          "description": "Note dans un salon les changements d’identité des membres (nom, photo de profil, pseudo serveur). Les commandes /infos-membre, /infos-serveur… restent toujours disponibles.",
+          "champs": {
+            "watchEnabled": {
+              "label": "Activer le journal des profils",
+              "help": "Active le journal des changements d'identité. Les commandes d'information (`/infos-membre`…) fonctionnent indépendamment : les éteindre n'est pas l'objet de ce réglage."
+            },
+            "watchChannelId": {
+              "label": "Salon du journal",
+              "help": "Le salon où les changements sont journalisés. Vide, rien n'est écrit même si la surveillance est active. À réserver au staff : il y défile les anciens pseudos de tout le monde."
+            },
+            "watchUsername": {
+              "label": "Nom d’utilisateur (@handle)",
+              "help": "Le @identifiant Discord, unique et global. C'est celui qui compte pour reconnaître un revenant : il change rarement, et rarement sans raison."
+            },
+            "watchGlobalName": {
+              "label": "Nom affiché",
+              "help": "Le nom affiché du compte, valable sur tout Discord. Change souvent et sans conséquence — c'est la case qui remplit le plus le journal pour le moins d'information."
+            },
+            "watchAvatar": {
+              "label": "Photo de profil",
+              "help": "La photo de profil. Le journal garde un lien vers l'ancienne image : Discord la supprime de ses serveurs au bout d'un moment, et le lien finit par ne plus rien afficher."
+            },
+            "watchNickname": {
+              "label": "Pseudo serveur",
+              "help": "Le pseudo propre à CE serveur. C'est celui que la modération change elle-même pour normaliser un nom illisible — attendez-vous à voir vos propres actions dans le journal."
+            },
+            "watchRoleIds": {
+              "label": "Limiter à ces rôles (vide = tous les membres)",
+              "help": "Restreint la surveillance aux membres portant l'un de ces rôles. Vide, tout le monde est surveillé. Sur un gros serveur, s'en tenir aux rôles sensibles évite un journal illisible où le fait notable se perd."
+            }
+          }
+        }
       }
     }
   }

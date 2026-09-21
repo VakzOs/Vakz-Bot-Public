@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { streamalertsActions } from './actions.js';
 import { MODULE_NAME, streamalertsConfigSchema, streamalertsDefaultConfig } from './config.js';
 import { streamalertsTask } from './task.js';
@@ -21,40 +22,87 @@ export default defineModule({
   emoji: '\u{1F4E1}',
   configSchema: streamalertsConfigSchema,
   defaultConfig: streamalertsDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '📡 Abonnements',
-      description: 'Pour Dealabs, l’identifiant sert de mot-clé de filtre.',
+      label: t('modules.streamalerts.ui.g0.label'),
+      description: t('modules.streamalerts.ui.g0.description'),
       fields: [
         {
           key: 'subscriptions',
-          label: 'Abonnements',
+          label: t('modules.streamalerts.ui.g0.champs.subscriptions.label'),
           type: 'list',
+          help: t('modules.streamalerts.ui.g0.champs.subscriptions.help'),
           idKey: 'id',
-          addLabel: 'Ajouter un abonnement',
+          addLabel: t('modules.streamalerts.ui.g0.champs.subscriptions.addLabel'),
           item: [
             {
               key: 'platform',
-              label: 'Plateforme',
+              label: t('modules.streamalerts.ui.g0.champs.subscriptions.item.platform.label'),
               type: 'select',
+              help: t('modules.streamalerts.ui.g0.champs.subscriptions.item.platform.help'),
               options: [
-                { value: 'twitch', label: 'Twitch' },
-                { value: 'youtube', label: 'YouTube' },
-                { value: 'reddit', label: 'Reddit' },
-                { value: 'rss', label: 'Flux RSS' },
-                { value: 'dealabs', label: 'Dealabs' },
+                {
+                  value: 'twitch',
+                  label: t(
+                    'modules.streamalerts.ui.g0.champs.subscriptions.item.platform.opt.twitch.label',
+                  ),
+                },
+                {
+                  value: 'youtube',
+                  label: t(
+                    'modules.streamalerts.ui.g0.champs.subscriptions.item.platform.opt.youtube.label',
+                  ),
+                },
+                {
+                  value: 'reddit',
+                  label: t(
+                    'modules.streamalerts.ui.g0.champs.subscriptions.item.platform.opt.reddit.label',
+                  ),
+                },
+                {
+                  value: 'rss',
+                  label: t(
+                    'modules.streamalerts.ui.g0.champs.subscriptions.item.platform.opt.rss.label',
+                  ),
+                },
+                {
+                  value: 'dealabs',
+                  label: t(
+                    'modules.streamalerts.ui.g0.champs.subscriptions.item.platform.opt.dealabs.label',
+                  ),
+                },
               ],
             },
             {
               key: 'identifier',
-              label: 'Identifiant / URL',
+              label: t('modules.streamalerts.ui.g0.champs.subscriptions.item.identifier.label'),
               type: 'text',
-              help: 'Nom de chaîne, sous-reddit, URL du flux…',
+              help: t('modules.streamalerts.ui.g0.champs.subscriptions.item.identifier.help'),
             },
-            { key: 'displayName', label: 'Nom affiché', type: 'text' },
-            { key: 'channelId', label: 'Salon des annonces', type: 'channel' },
-            { key: 'roleId', label: 'Rôle à mentionner', type: 'role' },
-            { key: 'message', label: 'Message personnalisé', type: 'textarea' },
+            {
+              key: 'displayName',
+              label: t('modules.streamalerts.ui.g0.champs.subscriptions.item.displayName.label'),
+              type: 'text',
+              help: t('modules.streamalerts.ui.g0.champs.subscriptions.item.displayName.help'),
+            },
+            {
+              key: 'channelId',
+              label: t('modules.streamalerts.ui.g0.champs.subscriptions.item.channelId.label'),
+              type: 'channel',
+              help: t('modules.streamalerts.ui.g0.champs.subscriptions.item.channelId.help'),
+            },
+            {
+              key: 'roleId',
+              label: t('modules.streamalerts.ui.g0.champs.subscriptions.item.roleId.label'),
+              type: 'role',
+              help: t('modules.streamalerts.ui.g0.champs.subscriptions.item.roleId.help'),
+            },
+            {
+              key: 'message',
+              label: t('modules.streamalerts.ui.g0.champs.subscriptions.item.message.label'),
+              type: 'textarea',
+              help: t('modules.streamalerts.ui.g0.champs.subscriptions.item.message.help'),
+            },
           ],
         },
       ],

@@ -3,6 +3,19 @@
     "economy": {
       "label": "Economy",
       "description": "Virtual currency, earnings, leaderboard and role shop.",
+      "noms": {
+        "argent-admin": "money-admin",
+        "boutique-roles": "shop-roles",
+        "daily": "daily",
+        "definir": "set",
+        "donner": "give",
+        "membre": "member",
+        "montant": "amount",
+        "payer": "pay",
+        "retirer": "remove",
+        "riches": "rich",
+        "solde": "balance"
+      },
       "opt": {
         "member": "The targeted member.",
         "amount": "The amount."
@@ -53,6 +66,91 @@
         "stock": "stock: {n}",
         "switch": "Switch shop…",
         "outOfStock": "❌ This item is sold out."
+      },
+      "ui": {
+        "g0": {
+          "label": "💰 General",
+          "champs": {
+            "currencyName": {
+              "label": "Currency name",
+              "help": "The currency's name, plural, as it appears in all of the bot's messages. Purely cosmetic: changing it does not touch balances."
+            },
+            "currencySymbol": {
+              "label": "Currency symbol",
+              "help": "The symbol shown next to amounts. A server emoji is written in its full `<:name:id>` form — if it is later deleted from the server, that code shows as-is instead of the image."
+            },
+            "messageMin": {
+              "label": "Minimum earned per message",
+              "help": "The floor of the random amount paid for each counted message. The randomness stops anyone working out exactly how many messages buy a role."
+            },
+            "messageMax": {
+              "label": "Maximum earned per message",
+              "help": "The ceiling of that same roll. Weigh it against your shop prices: the ratio between the two decides how long it takes to afford anything."
+            },
+            "messageCooldown": {
+              "label": "Cooldown between gains (s)",
+              "help": "During this delay, further messages from the same member pay nothing. At 0, ten one-word messages pay ten times, and the economy rewards noise."
+            },
+            "dailyAmount": {
+              "label": "Amount of the /daily command",
+              "help": "What the daily reward pays, claimable once a day. It is the baseline income: a member who only claims it should progress, but slowly, otherwise writing stops being worth anything."
+            },
+            "voiceEnabled": {
+              "label": "Earnings in voice channels",
+              "help": "Also pays for time spent in voice channels. A member alone, deafened or muted earns nothing: otherwise leaving a tab open overnight would be enough to get rich."
+            },
+            "voicePerMinute": {
+              "label": "Earned per minute in voice",
+              "help": "What each minute spent in voice with company pays. Mind the accumulation: sixty minutes of idling in voice should not be worth a day of writing."
+            },
+            "ignoredChannelIds": {
+              "label": "Ignored channels",
+              "help": "No income is counted there, by message or in voice. Keep it for bot, test and spam channels — anywhere writing a lot means nothing."
+            },
+            "ignoredRoleIds": {
+              "label": "Ignored roles",
+              "help": "Members holding any of these roles stop earning. Useful for secondary bots, and the quietest sanction against someone inflating their balance."
+            },
+            "leaderboardChannelId": {
+              "label": "Leaderboard channel",
+              "help": "The bot keeps a single richest-members leaderboard message there, rewritten periodically rather than reposted. Empty, there is no standing leaderboard — the command still works."
+            }
+          }
+        },
+        "g1": {
+          "label": "🏪 Role shops",
+          "description": "Each shop sells roles for the server's currency.",
+          "champs": {
+            "shops": {
+              "label": "Shops",
+              "addLabel": "Add a shop",
+              "item": {
+                "name": {
+                  "label": "Shop name"
+                },
+                "bannerUrl": {
+                  "label": "Banner (URL)"
+                },
+                "items": {
+                  "label": "Roles on sale",
+                  "addLabel": "Add a role",
+                  "item": {
+                    "roleId": {
+                      "label": "Role"
+                    },
+                    "price": {
+                      "label": "Price"
+                    },
+                    "stock": {
+                      "label": "Stock (-1 = unlimited)"
+                    }
+                  }
+                }
+              },
+              "help": "One shop per row, 25 items each, where ROLES are bought with the currency. The bot must be able to grant those roles: they have to sit BELOW its own, otherwise the purchase charges the member and then fails to give them anything. A stock of -1 is unlimited, 0 shows the item as sold out."
+            }
+          }
+        }
       }
     }
   }

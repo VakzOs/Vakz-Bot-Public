@@ -1,4 +1,4 @@
-import { type Client, Events, REST, Routes } from 'discord.js';
+import { type Client, Events } from 'discord.js';
 import type { BotContext } from './core/module.js';
 import { env } from './core/env.js';
 import { logger } from './core/logger.js';
@@ -10,7 +10,6 @@ import { configureEmbedTheme } from './lib/embeds.js';
 import { db, initDatabase } from './core/db.js';
 import { scheduler } from './core/scheduler.js';
 import {
-  buildCommandPayload,
   loadModules,
   registerInteractionRouter,
   registerModuleEvents,
@@ -18,73 +17,10 @@ import {
   startModuleTasks,
   type ModuleRegistry,
 } from './core/loader.js';
+import { deployCommandsOnStart, deployToNewGuild } from './core/command-deploy.js';
 import { startWebApi } from './core/web-api.js';
 import { startUptimePush, notifyUptimeMaintenance, stopUptimePush } from './core/uptime.js';
 import { flushMetrics, startMetrics, stopMetrics } from './core/metrics.js';
-
-function rest(): REST {
-  return new REST({ version: '10' }).setToken(env.DISCORD_TOKEN);
-}
-
-/**
- * Déploie les slash commands au démarrage (si `DEPLOY_COMMANDS_ON_START=true`).
- *
- * - `DISCORD_GUILD_ID` défini → déploiement sur ce seul serveur (instantané, dev).
- * - Sinon → déploiement **par serveur** sur tous les serveurs où le bot est
- *   présent. C'est **instantané**, contrairement au déploiement global qui met
- *   jusqu'à ~1 h à se propager côté Discord. Le set global est purgé pour éviter
- *   les doublons. Les serveurs rejoints ensuite sont couverts par `guildCreate`.
- *
- * Doit être appelé une fois le client prêt (le cache des serveurs est alors rempli).
- */
-async function deployCommands(client: Client<true>, registry: ModuleRegistry): Promise<void> {
-  if (!env.DEPLOY_COMMANDS_ON_START) return;
-  const body = buildCommandPayload(registry);
-  const api = rest();
-
-  if (env.DISCORD_GUILD_ID) {
-    await api
-      .put(Routes.applicationGuildCommands(env.DISCORD_CLIENT_ID, env.DISCORD_GUILD_ID), { body })
-      .catch((err: unknown) => logger.error({ err }, 'Échec du déploiement (serveur de dev)'));
-    logger.info(
-      { count: body.length, guildId: env.DISCORD_GUILD_ID },
-      'Slash commands déployées (serveur de développement, instantané)',
-    );
-    return;
-  }
-
-  // Purge du set global (évite les doublons avec le déploiement par serveur).
-  await api
-    .put(Routes.applicationCommands(env.DISCORD_CLIENT_ID), { body: [] })
-    .catch(() => undefined);
-
-  const guildIds = [...client.guilds.cache.keys()];
-  await Promise.all(
-    guildIds.map((guildId) =>
-      api
-        .put(Routes.applicationGuildCommands(env.DISCORD_CLIENT_ID, guildId), { body })
-        .catch((err: unknown) =>
-          logger.error({ err, guildId }, 'Échec du déploiement sur un serveur'),
-        ),
-    ),
-  );
-  logger.info(
-    { count: body.length, guilds: guildIds.length },
-    'Slash commands déployées sur chaque serveur (instantané)',
-  );
-}
-
-/** Déploie les commandes sur un serveur fraîchement rejoint (instantané). */
-async function deployToGuild(guildId: string, registry: ModuleRegistry): Promise<void> {
-  if (!env.DEPLOY_COMMANDS_ON_START || env.DISCORD_GUILD_ID) return;
-  const body = buildCommandPayload(registry);
-  await rest()
-    .put(Routes.applicationGuildCommands(env.DISCORD_CLIENT_ID, guildId), { body })
-    .then(() => logger.info({ guildId }, 'Slash commands déployées sur le nouveau serveur'))
-    .catch((err: unknown) =>
-      logger.error({ err, guildId }, 'Échec du déploiement sur le nouveau serveur'),
-    );
-}
 
 /**
  * Combien de temps on s'obstine à se connecter avant de rendre la main.
@@ -149,7 +85,10 @@ async function connectClient(registry: ModuleRegistry): Promise<Client> {
     registerReadyHandler(client, ctx, registry);
 
     // Un serveur rejoint après le démarrage reçoit ses commandes immédiatement.
-    client.on(Events.GuildCreate, (guild) => void deployToGuild(guild.id, registry));
+    client.on(
+      Events.GuildCreate,
+      (guild) => void deployToNewGuild(guild.id, guild.preferredLocale),
+    );
 
     try {
       await client.login(env.DISCORD_TOKEN);
@@ -204,7 +143,7 @@ function registerReadyHandler(client: Client, ctx: BotContext, registry: ModuleR
     // en base, donc asynchrone — le reste du démarrage ne l'attend pas.
     void applyBootPresence(readyClient, logger);
     // Le cache des serveurs est prêt : on déploie les commandes par serveur (instantané).
-    void deployCommands(readyClient, registry);
+    void deployCommandsOnStart(readyClient);
     startModuleTasks(ctx, registry);
     void runOnLoadHooks(ctx, registry);
     startWebApi(ctx, registry);

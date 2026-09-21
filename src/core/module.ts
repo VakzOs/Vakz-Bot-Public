@@ -42,9 +42,25 @@ export interface CommandData {
   toJSON(): RESTPostAPIChatInputApplicationCommandsJSONBody;
 }
 
+/**
+ * D'où viennent les métadonnées d'une commande : un builder, ou une **fabrique**
+ * qui le construit.
+ *
+ * Un builder écrit tel quel est bâti à l'IMPORT du module, hors de tout
+ * `runWithLocale` : ses `t('clé')` répondent en français, et le nom comme la
+ * description partent figés dans cette langue vers Discord. Une fabrique peut
+ * au contraire être rejouée dans chaque langue — c'est ce qui permet de
+ * déployer `/rank` sur un serveur réglé en anglais et `/rang` sur son voisin.
+ *
+ * Les deux formes restent acceptées : un module qui donne un builder continue
+ * d'être déployé, en français partout, et le loader le dit une fois au
+ * démarrage plutôt que de le taire.
+ */
+export type CommandDataSource = CommandData | (() => CommandData);
+
 /** Une slash command : ses métadonnées + ses handlers. */
 export interface SlashCommand {
-  data: CommandData;
+  data: CommandDataSource;
   /** Restreint la commande aux serveurs (pas en MP) si `true`. Défaut : true. */
   guildOnly?: boolean;
   execute(interaction: ChatInputCommandInteraction, ctx: BotContext): Promise<void>;
@@ -65,12 +81,43 @@ export function defineEvent<K extends keyof ClientEvents>(
   return listener;
 }
 
+/**
+ * Ce qu'une tâche rapporte de son passage : des compteurs qu'elle nomme
+ * elle-même (`{ remis: 3, ignores: 1 }`).
+ *
+ * Une tâche à la minute passe l'essentiel de ses journées à ne rien trouver.
+ * Sans ce compte-rendu, le cœur ne sait pas distinguer le passage à vide — qui
+ * n'intéresse personne — de celui qui a livré trente rappels, et il ne lui
+ * reste qu'à annoncer les deux de la même façon : 1 440 lignes « Tâche
+ * terminée » par jour et par tâche, dans lesquelles la seule qui comptait est
+ * introuvable. Avec lui, le journal ne retient que les passages qui ont fait
+ * quelque chose, et il dit quoi.
+ *
+ * Les compteurs à zéro sont retirés ; un compte-rendu vide (ou absent) vaut
+ * « rien à faire », et la ligne descend en `debug`.
+ */
+export type TaskReport = Record<string, number>;
+
 /** Une tâche planifiée (cron). */
 export interface ScheduledTask {
   name: string;
   /** Expression cron compatible node-cron. */
   cron: string;
-  execute(ctx: BotContext): Promise<void>;
+  /**
+   * Seuil de lenteur propre à la tâche, en millisecondes. Au-delà, le cœur
+   * écrit un avertissement.
+   *
+   * À relever pour une tâche qui attend **volontairement** — un étalement
+   * aléatoire, une longue série d'appels réseau : sans cela, elle s'alerterait
+   * elle-même à chaque passage et l'avertissement ne voudrait plus rien dire.
+   */
+  slowMs?: number;
+  /**
+   * Le travail. Rendre un {@link TaskReport} quand la tâche a fait quelque
+   * chose : c'est ce qui la fait apparaître dans le journal, avec ses chiffres.
+   * Ne rien rendre équivaut à un passage à vide.
+   */
+  execute(ctx: BotContext): Promise<TaskReport | void>;
 }
 
 /** Une rangée de composants d'un message (boutons, menus, sélecteurs de salon…). */
@@ -236,6 +283,17 @@ export interface ModuleHttpRequest {
    * diverger. L'appel touche le cache Discord, d'où la promesse.
    */
   canManageGuild?(): Promise<boolean>;
+  /**
+   * L'acteur peut-il configurer LE MODULE qui sert cette route, sur ce serveur ?
+   * Routes `guild` uniquement.
+   *
+   * C'est la garde à utiliser pour une mutation de module : elle est vraie pour
+   * un administrateur du serveur comme pour un membre du staff à qui ce
+   * module-là a été délégué (voir `src/core/guild-access.ts`). `canManageGuild`
+   * reste réservé à ce qui ne se délègue pas — effacer, distribuer les droits.
+   * Le cœur sait quel module a déclaré la route : le module n'a pas à se nommer.
+   */
+  canConfigureModule?(): Promise<boolean>;
   /** Le compteur d'appels du cœur : `false` = quota dépassé, répondre 429. */
   rateLimit(key: string, max: number, windowMs: number): boolean;
 }
@@ -307,10 +365,26 @@ export interface BotModule {
   configSchema?: ZodType;
   /** Config par défaut appliquée à l'activation. */
   defaultConfig?: unknown;
-  /** Champs éditables depuis le dashboard web (optionnel). */
-  configUI?: ConfigUI;
-  /** Actions ponctuelles exposées comme boutons dans le dashboard (optionnel). */
-  actions?: ModuleAction[];
+  /**
+   * Champs éditables depuis le dashboard web (optionnel).
+   *
+   * **Se déclare avec une FABRIQUE** — `configUI: () => [...]` — pour la même
+   * raison qu'une slash command : ses libellés passent par `t()`, et un tableau
+   * posé tel quel les figerait dans la langue qui se trouvait être ambiante au
+   * chargement des modules, c'est-à-dire le français, pour tout le monde et
+   * pour toujours. La fabrique est rejouée à chaque lecture, dans la langue du
+   * dashboard qui demande. Un tableau reste accepté : un module sans aucun
+   * texte à traduire n'a pas à se compliquer.
+   */
+  configUI?: ConfigUI | (() => ConfigUI);
+  /**
+   * Actions ponctuelles exposées comme boutons dans le dashboard (optionnel).
+   *
+   * Même règle que `configUI` : fabrique, parce que `label`, `help` et
+   * `confirm` sont du texte. Ce que rend `run()` se traduit tout seul —
+   * la fonction s'exécute dans la langue de la requête.
+   */
+  actions?: ModuleAction[] | (() => ModuleAction[]);
   /** Gestionnaire d'interactions de composants (optionnel). */
   componentHandler?: ComponentHandler;
   /** Endpoints HTTP servis par ce module (optionnel). */
@@ -352,4 +426,24 @@ export interface BotModule {
 /** Helper préservant le typage au site de déclaration d'un module. */
 export function defineModule(module: BotModule): BotModule {
   return module;
+}
+
+/**
+ * Les blocs de configuration d'un module, dans la langue ambiante.
+ *
+ * Point de passage unique : le cœur ne lit jamais `module.configUI`
+ * directement, sans quoi la moitié des lecteurs oublierait d'appeler la
+ * fabrique et lirait un tableau de fonctions.
+ */
+export function moduleConfigUI(module: BotModule): ConfigUI {
+  const ui = module.configUI;
+  if (!ui) return [];
+  return typeof ui === 'function' ? ui() : ui;
+}
+
+/** Les boutons d'action d'un module, dans la langue ambiante. */
+export function moduleActions(module: BotModule): ModuleAction[] {
+  const actions = module.actions;
+  if (!actions) return [];
+  return typeof actions === 'function' ? actions() : actions;
 }

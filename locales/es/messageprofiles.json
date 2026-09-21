@@ -1,0 +1,48 @@
+{
+  "modules": {
+    "messageprofiles": {
+      "label": "Perfiles de mensajes",
+      "description": "Haz hablar al bot con un nombre y un avatar personalizados mediante /decir (personal).",
+      "noms": {
+        "dire": "decir",
+        "message": "mensaje",
+        "profil": "perfil",
+        "salon": "canal"
+      },
+      "command": {
+        "description": "Publica un mensaje con la identidad de un perfil configurado.",
+        "profileOpt": "Perfil con el que hablar",
+        "messageOpt": "Mensaje que publicar",
+        "channelOpt": "Canal donde publicar (por defecto: el canal actual)",
+        "unknownProfile": "❌ Perfil no encontrado. Configúralo en el panel → Perfiles de mensajes.",
+        "badChannel": "❌ Canal no válido.",
+        "result": {
+          "ok": "✅ Mensaje publicado en {channel} como «{name}».",
+          "noperm": "❌ Me falta el permiso «Gestionar webhooks» en este canal.",
+          "fail": "❌ Error al enviar. Inténtalo de nuevo más tarde."
+        }
+      },
+      "ui": {
+        "g0": {
+          "label": "🗨️ Perfiles de mensajes",
+          "description": "Personajes (nombre + avatar) utilizables con el comando /decir.",
+          "champs": {
+            "profiles": {
+              "label": "Perfiles",
+              "addLabel": "Añadir un perfil",
+              "item": {
+                "name": {
+                  "label": "Nombre"
+                },
+                "avatarUrl": {
+                  "label": "URL del avatar",
+                  "placeholder": "https://…"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

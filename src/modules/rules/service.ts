@@ -36,8 +36,7 @@ export function buildAcceptRow(
 }
 
 export type PublishResult =
-  | { ok: true; messageId: string }
-  | { ok: false; error: 'nochannel' | 'send' };
+  { ok: true; messageId: string } | { ok: false; error: 'nochannel' | 'send' };
 
 /** Publie (ou met à jour) le message du règlement dans le salon configuré. */
 export async function publishRules(guild: Guild, config: RulesConfig): Promise<PublishResult> {

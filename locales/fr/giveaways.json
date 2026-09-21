@@ -3,6 +3,20 @@
     "giveaways": {
       "label": "Giveaways",
       "description": "Des tirages au sort : lot, durée, gagnants, participation par bouton.",
+      "noms": {
+        "duree": "duree",
+        "gagnant": "gagnant",
+        "gagnants": "gagnants",
+        "giveaway": "giveaway",
+        "id": "id",
+        "lancer": "lancer",
+        "liste": "liste",
+        "lot": "lot",
+        "relancer": "relancer",
+        "role": "role",
+        "salon": "salon",
+        "terminer": "terminer"
+      },
       "command": {
         "description": "Lancer et gérer des tirages au sort.",
         "start": "Lancer un tirage au sort.",
@@ -65,6 +79,25 @@
       "log": {
         "title": "🎁 Tirage terminé",
         "entry": "Lot : **{prize}**\nGagnant(s) : {winners}\nOrganisé par : {host}\nID : `{id}`"
+      },
+      "ui": {
+        "g0": {
+          "description": "Les tirages se créent avec la commande /giveaway.",
+          "champs": {
+            "logChannelId": {
+              "label": "Salon des logs",
+              "help": "Un second salon où le résultat de chaque tirage est consigné, séparé du salon où le giveaway a eu lieu. Vide, le résultat n'existe que dans le salon d'origine — et disparaît avec lui s'il est purgé."
+            },
+            "winMessage": {
+              "label": "Message de gain",
+              "help": "Envoyé au(x) gagnant(s)."
+            },
+            "noWinnerMessage": {
+              "label": "Message quand aucun gagnant",
+              "help": "Ce que le bot répond quand le tirage se termine sans un seul participant. Variable : {prize} pour le lot. Un tirage sans participant n'est pas une erreur — il arrive dès qu'un giveaway est publié dans un salon que personne ne lit."
+            }
+          }
+        }
       }
     }
   }

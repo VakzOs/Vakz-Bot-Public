@@ -3,6 +3,14 @@
     "route": {
       "label": "Endless Road",
       "description": "A solo adventure: walk the road, face random events and earn coins and items.",
+      "noms": {
+        "avancer": "move",
+        "boutique": "shop",
+        "classement": "leaderboard",
+        "membre": "member",
+        "profil": "profile",
+        "route": "journey"
+      },
       "opt": {
         "member": "The target member (default: you)."
       },
@@ -12,7 +20,7 @@
         "leaderboard": "Longest-distance leaderboard.",
         "shop": "Buy a provision (instant effect on purchase)."
       },
-      "noTraveler": "🧭 {user} hasn't hit the road yet (`/route avancer`).",
+      "noTraveler": "🧭 {user} hasn't hit the road yet (`/journey move`).",
       "profileTitle": "🧭 Traveller — {user}",
       "moveTitle": "🧭 {user} walks the Endless Road",
       "leaderboardEmpty": "No one has covered any distance yet.",
@@ -138,6 +146,105 @@
         "turnsLeft": "**{turns}** more event(s) before it gets bored.",
         "gone": "🎉 It finally gets bored and waddles away!",
         "total": "Total loot since it started following you: **{coins}** coins."
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "cooldownMinutes": {
+              "label": "Cooldown (minutes)",
+              "help": "The delay between one member's moves. It is the pace of the whole game: at 0, the Route is walked in a loop and exhausted in one evening."
+            },
+            "giveCoins": {
+              "label": "Give coins",
+              "help": "Credits coins found to the Economy module's balance. Requires that module to be on: without it, winnings are announced and credited nowhere."
+            },
+            "giveItems": {
+              "label": "Give items",
+              "help": "Drops catalogue items as events unfold. Only items flagged « droppable » can fall: with not one so flagged, the events that promise a gift will never give one."
+            },
+            "energyRegenRate": {
+              "label": "Energy regeneration (per minute)",
+              "help": "Energy regained per minute doing nothing. It is what lets someone come back the next day without being stuck. 0 turns regeneration off: energy then only rises through provisions and events."
+            },
+            "energyRegenCap": {
+              "label": "Energy regeneration cap",
+              "help": "The ceiling of that passive regeneration, reached even from negative. Above it, only provisions and events raise energy — that is what gives the shop a point."
+            }
+          }
+        },
+        "g1": {
+          "label": "🎁😈 A gift promised but never given",
+          "description": "Some events announce a gift (messenger crow, merchant, fairy, hermit…) while the roll may hand over nothing: drop rates too low, no “Drops in game” item in the catalogue, or items disabled. The bot then adds a little jibe under the message so the traveller understands they will get nothing.",
+          "champs": {
+            "missedGiftTaunt": {
+              "label": "Add a jibe when the gift does not drop",
+              "help": "When an event promises a gift but the roll yields nothing, the bot makes a joke of it rather than staying silent. Silence at that point reads as a bug — when the cause is almost always a low drop table or a catalogue with no « droppable » item."
+            },
+            "missedGiftMessages": {
+              "label": "Custom jibes (one per line)",
+              "help": "One line = one jibe, picked at random. Leave empty to use the bot's own.",
+              "placeholder": "🥲 No gift for you. There. It's said.\n👁️👄👁️ STARE THIS GUY, he walked off with it."
+            }
+          }
+        },
+        "drops": {
+          "label": "🎁 Journey drops (their own rates)",
+          "description": "Drop chances per rarity, specific to the Journey and independent from the mini-games'. On a “merchant” event, the roll goes from the rarest to the most common; only “Drops in game” items can fall.",
+          "champs": {
+            "common": {
+              "label": "% drop — Common (0-100)",
+              "help": "Chance, in per cent, of finding a common item during a Route event. This table is SPECIFIC to the Route: the Items module's table does not apply here."
+            },
+            "rare": {
+              "label": "% drop — Rare (0-100)",
+              "help": "Chance of finding a rare item. The roll goes from the rarest tier down and stops at the first success."
+            },
+            "epic": {
+              "label": "% drop — Epic (0-100)",
+              "help": "Chance of finding an epic item, tested before rares."
+            },
+            "legendary": {
+              "label": "% drop — Legendary (0-100)",
+              "help": "Chance of finding a legendary item. Tested first, so it takes precedence over all the others."
+            }
+          }
+        },
+        "shopPrices": {
+          "label": "🧳 Shop prices (/journey shop)",
+          "description": "Buying prices of the provisions, paid with the Economy module's balance.",
+          "champs": {
+            "potion": {
+              "label": "🧪 Healing potion (+40 HP)",
+              "help": "PURCHASE price of a potion at the Route's shop, paid from the Economy module's balance."
+            },
+            "tonic": {
+              "label": "⚡ Energy tonic (+50 ⚡)",
+              "help": "Purchase price of a tonic at the Route's shop."
+            },
+            "ration": {
+              "label": "🍖 Travel ration (+15 HP, +20 ⚡)",
+              "help": "Purchase price of a ration at the Route's shop."
+            }
+          }
+        },
+        "peddlerPrices": {
+          "label": "🪙 Buy-back prices (travelling merchant)",
+          "description": "Prices at which the travelling merchant event buys provisions back from travellers.",
+          "champs": {
+            "potion": {
+              "label": "🧪 Healing potion",
+              "help": "RESALE price of a potion to the travelling peddler. Keep it below the purchase price: above it, buying then reselling mints money in a loop."
+            },
+            "tonic": {
+              "label": "⚡ Energy tonic",
+              "help": "Resale price of a tonic to the travelling peddler, to be kept below its purchase price."
+            },
+            "ration": {
+              "label": "🍖 Travel ration",
+              "help": "Resale price of a ration to the travelling peddler, to be kept below its purchase price."
+            }
+          }
+        }
       }
     }
   }

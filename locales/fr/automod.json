@@ -4,11 +4,16 @@
       "label": "Auto-modération",
       "description": "Filtre automatiquement le spam, les pubs, les abus et les messages pièges.",
       "actions": {
-        "delete": "Supprimer",
-        "warn": "Avertir",
-        "timeout": "Timeout",
-        "ban": "Ban",
-        "kick": "Expulser"
+        "setupHoneypot": {
+          "label": "Créer le salon piège",
+          "help": "Crée un salon visible de tous où écrire déclenche la sanction configurée.",
+          "confirm": "Créer un nouveau salon piège sur ce serveur ?",
+          "msg": {
+            "noGuild": "Serveur introuvable.",
+            "noPermission": "Création refusée : permission « Gérer les salons » manquante.",
+            "done": "Salon piège créé : #{salon}."
+          }
+        }
       },
       "rules": {
         "spam": "Spam",
@@ -52,6 +57,174 @@
         "embedDescription": "Ce salon sert à détecter les comptes compromis. Tout message envoyé ici entraînera un bannissement immédiat.",
         "banReason": "Honeypot déclenché",
         "counter": "Bans : {count}"
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ Général",
+          "description": "Le salon piège se crée avec l’action « Créer le salon piège » ci-dessous.",
+          "champs": {
+            "logChannelId": {
+              "label": "Salon des logs automod",
+              "help": "Le salon où chaque intervention de l'automod est consignée : la règle déclenchée, le membre, et le message d'origine. Sans lui, les sanctions tombent sans que personne ne puisse vérifier qu'elles étaient méritées — c'est le premier salon à ouvrir avant d'activer une règle."
+            },
+            "ignoredChannelIds": {
+              "label": "Salons ignorés",
+              "help": "L'automod n'y regarde aucun message. À réserver aux salons où les règles n'ont pas de sens : un salon de memes plein de majuscules, un salon de partage de liens, un salon de test."
+            },
+            "ignoredRoleIds": {
+              "label": "Rôles ignorés",
+              "help": "Les membres portant l'un de ces rôles sont hors de portée de TOUTES les règles. Y mettre le staff : sans cela, un modérateur qui colle trois liens d'affilée se fait sanctionner par son propre bot."
+            }
+          }
+        },
+        "spam": {
+          "label": "🚫 Anti-spam",
+          "champs": {
+            "enabled": {
+              "label": "Activer",
+              "help": "Sanctionne le membre qui envoie trop de messages en trop peu de temps. C'est la règle qui sert le plus souvent, et la seule qui arrête un raid en cours."
+            },
+            "action": {
+              "label": "Sanction",
+              "opt": {
+                "delete": {
+                  "label": "Supprimer"
+                },
+                "warn": {
+                  "label": "Avertir"
+                },
+                "timeout": {
+                  "label": "Timeout"
+                },
+                "kick": {
+                  "label": "Expulser"
+                },
+                "ban": {
+                  "label": "Bannir"
+                }
+              },
+              "help": "Ce que le bot fait quand la règle se déclenche. Contre le spam, l'exclusion temporaire est la seule qui arrête vraiment : supprimer les messages laisse l'auteur continuer, et bannir sur un faux positif coûte un membre."
+            },
+            "maxMessages": {
+              "label": "Messages max",
+              "help": "Le nombre de messages qui déclenche la règle. Descendre sous 4 attrape aussi la conversation animée : trois personnes qui s'excitent sur un match écrivent vite plus que ça."
+            },
+            "windowSeconds": {
+              "label": "Fenêtre (s)",
+              "help": "La fenêtre de temps dans laquelle ces messages sont comptés. C'est le rapport entre les deux qui compte : 5 messages en 10 secondes, c'est du spam ; 5 en 60, c'est une discussion."
+            },
+            "timeoutMinutes": {
+              "label": "Timeout (min)",
+              "help": "La durée de l'exclusion temporaire, quand c'est l'action choisie. Discord plafonne à 28 jours. Quelques minutes suffisent à casser un spam : c'est une interruption, pas une peine."
+            }
+          }
+        },
+        "invites": {
+          "label": "🔗 Anti-invitations Discord",
+          "champs": {
+            "enabled": {
+              "label": "Activer",
+              "help": "Repère les invitations vers d'AUTRES serveurs Discord collées dans les messages. Les invitations vers ce serveur-ci ne sont pas concernées."
+            },
+            "action": {
+              "label": "Sanction",
+              "opt": {
+                "delete": {
+                  "label": "Supprimer"
+                },
+                "warn": {
+                  "label": "Avertir"
+                },
+                "timeout": {
+                  "label": "Timeout"
+                },
+                "kick": {
+                  "label": "Expulser"
+                },
+                "ban": {
+                  "label": "Bannir"
+                }
+              },
+              "help": "Ce que le bot fait en trouvant une invitation. L'avertissement suffit presque toujours : la plupart des liens d'invitation sont collés par des membres de bonne foi qui partagent le serveur d'un ami."
+            }
+          }
+        },
+        "mentions": {
+          "label": "📢 Anti-mentions massives",
+          "champs": {
+            "enabled": {
+              "label": "Activer",
+              "help": "Sanctionne un message qui mentionne trop de monde d'un coup. C'est la règle contre le harcèlement par notification, celle où quelqu'un ping quinze personnes dans un seul message."
+            },
+            "action": {
+              "label": "Sanction",
+              "opt": {
+                "delete": {
+                  "label": "Supprimer"
+                },
+                "warn": {
+                  "label": "Avertir"
+                },
+                "timeout": {
+                  "label": "Timeout"
+                },
+                "kick": {
+                  "label": "Expulser"
+                },
+                "ban": {
+                  "label": "Bannir"
+                }
+              },
+              "help": "Ce que le bot fait quand le seuil est franchi. Les mentions ayant déjà été envoyées au moment où le bot réagit, supprimer le message n'annule pas les notifications : seule une exclusion empêche la suite."
+            },
+            "maxMentions": {
+              "label": "Mentions max",
+              "help": "Le nombre de mentions toléré dans un même message. Compter que @role compte pour une mention, pas pour le nombre de membres qu'il touche."
+            },
+            "timeoutMinutes": {
+              "label": "Timeout (min)",
+              "help": "La durée de l'exclusion temporaire, quand c'est l'action choisie. Discord plafonne à 28 jours."
+            }
+          }
+        },
+        "caps": {
+          "label": "🔠 Anti-majuscules",
+          "champs": {
+            "enabled": {
+              "label": "Activer",
+              "help": "Sanctionne les messages écrits majoritairement en majuscules. La règle la plus sujette aux faux positifs : sigles, noms de jeux, langues sans minuscules."
+            },
+            "action": {
+              "label": "Sanction",
+              "opt": {
+                "delete": {
+                  "label": "Supprimer"
+                },
+                "warn": {
+                  "label": "Avertir"
+                },
+                "timeout": {
+                  "label": "Timeout"
+                },
+                "kick": {
+                  "label": "Expulser"
+                },
+                "ban": {
+                  "label": "Bannir"
+                }
+              },
+              "help": "Ce que le bot fait pour un message en majuscules. La suppression suffit : crier n'est pas une infraction qui mérite une exclusion."
+            },
+            "minLength": {
+              "label": "Longueur minimale du message",
+              "help": "En dessous de cette longueur, le message est ignoré quel que soit le nombre de majuscules. C'est ce qui évite de sanctionner « OK », « LOL » ou un sigle."
+            },
+            "percent": {
+              "label": "% de majuscules déclencheur",
+              "help": "La part de majuscules à partir de laquelle le message est considéré comme crié. Descendre sous 70 % attrape les messages qui contiennent simplement un sigle."
+            }
+          }
+        }
       }
     }
   }

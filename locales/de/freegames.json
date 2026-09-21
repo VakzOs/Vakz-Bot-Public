@@ -1,0 +1,65 @@
+{
+  "modules": {
+    "freegames": {
+      "label": "Gratis-Spiele",
+      "description": "Kündigt in einem Kanal Spiele an, die gerade dauerhaft gratis werden (Steam, Epic Games, GOG).",
+      "noms": {
+        "jeux-gratuits": "gratis-spiele"
+      },
+      "embedDescription": "🎮 **Gratis zu holen** auf {store}, nur für kurze Zeit!\n[Im Shop ansehen]({url})",
+      "priceField": "Preis",
+      "free": "Gratis",
+      "command": {
+        "description": "Zeigt die derzeit gratis erhältlichen Spiele (Steam, Epic, GOG).",
+        "none": "🎮 Zurzeit gibt es kein Gratis-Spiel zum Mitnehmen.",
+        "title": "🎮 **{count}** Gratis-Spiel(e) zum Mitnehmen:"
+      },
+      "platform": {
+        "steam": "Steam",
+        "epic": "Epic Games",
+        "gog": "GOG"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Ankündigungskanal"
+            },
+            "roleId": {
+              "label": "Zu erwähnende Rolle"
+            },
+            "platforms": {
+              "label": "Verfolgte Plattformen",
+              "opt": {
+                "steam": {
+                  "label": "Steam"
+                },
+                "epic": {
+                  "label": "Epic Games"
+                },
+                "gog": {
+                  "label": "GOG"
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "announceNow": {
+          "label": "Laufende Angebote ankündigen",
+          "help": "Veröffentlicht die derzeit gratis erhältlichen Spiele der angehakten Plattformen erneut und markiert sie als angekündigt.",
+          "msg": {
+            "noChannel": "Kein Ankündigungskanal eingerichtet.",
+            "noPlatform": "Keine Plattform angehakt.",
+            "badChannel": "Kanal nicht gefunden oder kein Textkanal.",
+            "noPermission": "Fehlende Berechtigungen im Kanal.",
+            "noOffer": "Zurzeit gibt es kein Gratis-Angebot.",
+            "nothingSent": "Es konnte keine Ankündigung gesendet werden.",
+            "done": "{n} Angebot(e) angekündigt."
+          }
+        }
+      }
+    }
+  }
+}

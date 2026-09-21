@@ -10,6 +10,47 @@
         "added": "✅ Rôle {role} ajouté.",
         "removed": "➖ Rôle {role} retiré.",
         "error": "❌ Une erreur est survenue."
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ Panneau",
+          "description": "Après modification, republie le panneau avec le bouton « Publier ».",
+          "champs": {
+            "channelId": {
+              "label": "Salon du panneau",
+              "help": "Le salon où le menu de rôles est publié. Le menu n'apparaît pas tout seul : après avoir choisi le salon, il faut l'envoyer avec le bouton « Publier le panneau »."
+            },
+            "title": {
+              "label": "Titre",
+              "help": "Le titre du menu. Modifié, il ne change rien au menu déjà publié tant qu'on ne le republie pas."
+            },
+            "description": {
+              "label": "Description",
+              "help": "Le texte sous le titre. C'est là qu'on explique à quoi servent les rôles proposés — sans quoi les membres cliquent sur des boutons dont ils ignorent l'effet."
+            }
+          }
+        },
+        "g1": {
+          "label": "🎭 Rôles proposés",
+          "champs": {
+            "roles": {
+              "label": "Rôles",
+              "addLabel": "Ajouter un rôle",
+              "item": {
+                "roleId": {
+                  "label": "Rôle"
+                },
+                "label": {
+                  "label": "Libellé du bouton"
+                },
+                "emoji": {
+                  "label": "Emoji"
+                }
+              },
+              "help": "Un bouton par ligne, 25 au maximum : le clic donne le rôle, un second clic le retire. Le bot doit pouvoir attribuer ces rôles — ils doivent être SOUS son propre rôle dans la hiérarchie, sinon le clic échoue avec une erreur pour le membre. Ne pas y mettre de rôle à permissions : un bouton public donnerait la modération à qui le presse."
+            }
+          }
+        }
       }
     }
   }

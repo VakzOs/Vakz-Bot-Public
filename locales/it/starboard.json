@@ -1,0 +1,28 @@
+{
+  "modules": {
+    "starboard": {
+      "label": "Starboard",
+      "description": "Ripubblica in un canale i messaggi che ricevono abbastanza stelle ⭐.",
+      "jump": "Vai al messaggio",
+      "header": "{emoji} **{count}** · {channel}",
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Canale dello starboard"
+            },
+            "emoji": {
+              "label": "Emoji di attivazione"
+            },
+            "threshold": {
+              "label": "Reazioni necessarie"
+            },
+            "ignoreBots": {
+              "label": "Ignora i messaggi dei bot"
+            }
+          }
+        }
+      }
+    }
+  }
+}

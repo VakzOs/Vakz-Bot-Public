@@ -1,0 +1,49 @@
+{
+  "modules": {
+    "rules": {
+      "label": "Regolamento",
+      "description": "Pubblica il regolamento del server e assegna un ruolo d'accesso al momento dell'accettazione.",
+      "embed": {
+        "version": "Versione {version}"
+      },
+      "feedback": {
+        "disabled": "❌ Questo modulo è disattivato su questo server.",
+        "roleGone": "❌ Il ruolo d'accesso non esiste più. Avvisa chi amministra.",
+        "cannotAssign": "⚠️ Non posso assegnare il ruolo d'accesso (manca il permesso «Gestire i ruoli» o il ruolo è sopra il mio).",
+        "error": "❌ Si è verificato un errore. Riprova più tardi.",
+        "alreadyUpToDate": "✅ Hai già accettato la versione attuale del regolamento.",
+        "accepted": "✅ Grazie, hai accettato il regolamento! Il tuo accesso è sbloccato.",
+        "revalidated": "🔄 Grazie per aver convalidato la nuova versione del regolamento!"
+      },
+      "log": {
+        "accepted": "📜 {user} ha accettato il regolamento (versione {version})."
+      },
+      "ui": {
+        "g0": {
+          "label": "📜 Regolamento",
+          "description": "Dopo ogni modifica, ripubblica il regolamento con il pulsante «Pubblica».",
+          "champs": {
+            "channelId": {
+              "label": "Canale del regolamento"
+            },
+            "roleId": {
+              "label": "Ruolo d'accesso (all'accettazione)"
+            },
+            "title": {
+              "label": "Titolo"
+            },
+            "content": {
+              "label": "Contenuto del regolamento"
+            },
+            "buttonLabel": {
+              "label": "Etichetta del pulsante di accettazione"
+            },
+            "logChannelId": {
+              "label": "Canale dei registri di accettazione"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -39,12 +39,15 @@ function rankEmbed(
 
 /** `/rang` — affiche une carte (image) avec le niveau, l'XP et le rang d'un membre. */
 export const rang: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('rang')
-    .setDescription(t('modules.levels.commands.rang.description'))
-    .addUserOption((option) =>
-      option.setName('membre').setDescription(t('modules.levels.commands.rang.member')),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.levels.noms.rang'))
+      .setDescription(t('modules.levels.commands.rang.description'))
+      .addUserOption((option) =>
+        option
+          .setName(t('modules.levels.noms.membre'))
+          .setDescription(t('modules.levels.commands.rang.member')),
+      ),
   async execute(interaction, ctx) {
     const guildId = interaction.guildId;
     if (!guildId) return;
@@ -89,9 +92,10 @@ export const rang: SlashCommand = {
 
 /** `/classement` — affiche le top des membres par XP. */
 export const classement: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('classement')
-    .setDescription(t('modules.levels.commands.leaderboard.description')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.levels.noms.classement'))
+      .setDescription(t('modules.levels.commands.leaderboard.description')),
   async execute(interaction, ctx) {
     const guildId = interaction.guildId;
     if (!guildId) return;

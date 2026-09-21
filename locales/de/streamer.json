@@ -1,0 +1,43 @@
+{
+  "modules": {
+    "streamer": {
+      "label": "Streamer-Modus",
+      "description": "Ein Panel, über das Mitglieder sich selbst taub stellen (ohne das Mikrofon zu stummen), um Freundinnen und Freunden ein Spiel zu streamen.",
+      "button": "Ein- / Ausschalten",
+      "embed": {
+        "roleField": "{role} — {count} Mitglied(er)",
+        "noMembers": "Kein Mitglied"
+      },
+      "feedback": {
+        "disabled": "❌ Der Streamer-Modus ist auf diesem Server deaktiviert.",
+        "notConfigured": "❌ Es ist keine Streaming-Rolle eingerichtet (die Administration muss sie im Dashboard setzen).",
+        "roleGone": "❌ Die Streaming-Rolle gibt es nicht mehr.",
+        "cannot": "⚠️ Ich kann nicht: Mir fehlt „Mitglieder taub stellen“ oder „Rollen verwalten“, oder die Streaming-Rolle steht über meiner.",
+        "notInVoice": "❌ Tritt zuerst einem Sprachkanal bei.",
+        "enabledUser": "🎙️ **Streamer-Modus aktiviert.** Du hörst Discord nicht mehr, dein Mikrofon überträgt aber weiter.",
+        "disabledUser": "🔊 **Streamer-Modus deaktiviert.** Du hörst Discord wieder.",
+        "error": "❌ Ein Fehler ist aufgetreten (prüfe meine Berechtigungen)."
+      },
+      "ui": {
+        "g0": {
+          "label": "🎥 Streamer-Modus",
+          "description": "Veröffentliche das Panel nach einer Änderung mit der Schaltfläche „Veröffentlichen“ erneut.",
+          "champs": {
+            "roleId": {
+              "label": "Rolle „im Stream“"
+            },
+            "channelId": {
+              "label": "Kanal des Panels"
+            },
+            "title": {
+              "label": "Titel des Panels"
+            },
+            "description": {
+              "label": "Beschreibung des Panels"
+            }
+          }
+        }
+      }
+    }
+  }
+}

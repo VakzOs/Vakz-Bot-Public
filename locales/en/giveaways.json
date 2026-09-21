@@ -3,6 +3,20 @@
     "giveaways": {
       "label": "Giveaways",
       "description": "Random giveaways: prize, duration, winners, button entry.",
+      "noms": {
+        "duree": "duration",
+        "gagnant": "winner",
+        "gagnants": "winners",
+        "giveaway": "giveaway",
+        "id": "id",
+        "lancer": "start",
+        "liste": "list",
+        "lot": "prize",
+        "relancer": "reroll",
+        "role": "role",
+        "salon": "channel",
+        "terminer": "end"
+      },
       "command": {
         "description": "Start and manage giveaways.",
         "start": "Start a giveaway.",
@@ -65,6 +79,25 @@
       "log": {
         "title": "🎁 Giveaway ended",
         "entry": "Prize: **{prize}**\nWinner(s): {winners}\nHosted by: {host}\nID: `{id}`"
+      },
+      "ui": {
+        "g0": {
+          "description": "Giveaways are created with the /giveaway command.",
+          "champs": {
+            "logChannelId": {
+              "label": "Log channel",
+              "help": "A second channel where each draw's result is recorded, apart from the channel the giveaway ran in. Empty, the result only exists in the original channel — and disappears with it if that gets purged."
+            },
+            "winMessage": {
+              "label": "Winning message",
+              "help": "Sent to the winner(s)."
+            },
+            "noWinnerMessage": {
+              "label": "Message when there is no winner",
+              "help": "What the bot says when the draw ends with no entrants at all. Variable: {prize} for the prize. A draw with no entrants is not a failure — it happens as soon as a giveaway is posted in a channel nobody reads."
+            }
+          }
+        }
       }
     }
   }

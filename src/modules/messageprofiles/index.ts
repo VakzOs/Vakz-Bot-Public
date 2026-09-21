@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import {
   MODULE_NAME,
   messageprofilesConfigSchema,
@@ -20,24 +21,31 @@ export default defineModule({
   emoji: '\u{1F5E8}\u{FE0F}',
   configSchema: messageprofilesConfigSchema,
   defaultConfig: messageprofilesDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '🗨️ Profils de messages',
-      description: 'Personas (nom + avatar) utilisables avec la commande /dire.',
+      label: t('modules.messageprofiles.ui.g0.label'),
+      description: t('modules.messageprofiles.ui.g0.description'),
       fields: [
         {
           key: 'profiles',
-          label: 'Profils',
+          label: t('modules.messageprofiles.ui.g0.champs.profiles.label'),
           type: 'list',
+          help: t('modules.messageprofiles.ui.g0.champs.profiles.help'),
           idKey: 'id',
-          addLabel: 'Ajouter un profil',
+          addLabel: t('modules.messageprofiles.ui.g0.champs.profiles.addLabel'),
           item: [
-            { key: 'name', label: 'Nom', type: 'text' },
+            {
+              key: 'name',
+              label: t('modules.messageprofiles.ui.g0.champs.profiles.item.name.label'),
+              type: 'text',
+            },
             {
               key: 'avatarUrl',
-              label: 'URL de l’avatar',
+              label: t('modules.messageprofiles.ui.g0.champs.profiles.item.avatarUrl.label'),
               type: 'text',
-              placeholder: 'https://…',
+              placeholder: t(
+                'modules.messageprofiles.ui.g0.champs.profiles.item.avatarUrl.placeholder',
+              ),
             },
           ],
         },

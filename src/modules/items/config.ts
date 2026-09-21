@@ -50,9 +50,9 @@ export const itemsConfigSchema = z.object({
   /** Autoriser les échanges d'objets entre membres (`/donner-objet`). */
   tradingEnabled: z.boolean().default(true),
   /** Butin d'objets dans les mini-jeux. */
-  drops: dropsSchema.default({}),
+  drops: dropsSchema.prefault({}),
   /** Vente rapide au serveur (`/vendre`). */
-  sell: sellSchema.default({}),
+  sell: sellSchema.prefault({}),
 });
 
 export type ItemsConfig = z.infer<typeof itemsConfigSchema>;

@@ -1,0 +1,49 @@
+{
+  "modules": {
+    "rules": {
+      "label": "Normas",
+      "description": "Publica las normas del servidor y asigna un rol de acceso al aceptarlas.",
+      "embed": {
+        "version": "Versión {version}"
+      },
+      "feedback": {
+        "disabled": "❌ Este módulo está desactivado en este servidor.",
+        "roleGone": "❌ El rol de acceso ya no existe. Avisa a la administración.",
+        "cannotAssign": "⚠️ No puedo asignar el rol de acceso (falta el permiso «Gestionar roles» o el rol está por encima del mío).",
+        "error": "❌ Se ha producido un error. Inténtalo de nuevo más tarde.",
+        "alreadyUpToDate": "✅ Ya has aceptado la versión actual de las normas.",
+        "accepted": "✅ ¡Gracias, has aceptado las normas! Tu acceso queda desbloqueado.",
+        "revalidated": "🔄 ¡Gracias por validar la nueva versión de las normas!"
+      },
+      "log": {
+        "accepted": "📜 {user} ha aceptado las normas (versión {version})."
+      },
+      "ui": {
+        "g0": {
+          "label": "📜 Normas",
+          "description": "Tras cualquier cambio, vuelve a publicar las normas con el botón «Publicar».",
+          "champs": {
+            "channelId": {
+              "label": "Canal de las normas"
+            },
+            "roleId": {
+              "label": "Rol de acceso (al aceptar)"
+            },
+            "title": {
+              "label": "Título"
+            },
+            "content": {
+              "label": "Contenido de las normas"
+            },
+            "buttonLabel": {
+              "label": "Texto del botón de aceptación"
+            },
+            "logChannelId": {
+              "label": "Canal de los registros de aceptación"
+            }
+          }
+        }
+      }
+    }
+  }
+}

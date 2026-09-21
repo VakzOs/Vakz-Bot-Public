@@ -3,6 +3,11 @@
     "levels": {
       "label": "Levels",
       "description": "XP per message, levels, reward roles and leaderboard.",
+      "noms": {
+        "classement": "leaderboard",
+        "membre": "member",
+        "rang": "rank"
+      },
       "commands": {
         "rang": {
           "description": "Show your level, XP and rank.",
@@ -18,6 +23,95 @@
           "description": "Show the XP leaderboard.",
           "empty": "Nobody has earned XP on this server yet.",
           "title": "🏆 Leaderboard"
+        }
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ XP gain",
+          "champs": {
+            "xpMin": {
+              "label": "Minimum XP per message",
+              "help": "The floor of the roll. It sets the baseline pace: a regular member earns roughly the average of the two bounds per counted message."
+            },
+            "xpMax": {
+              "label": "Maximum XP per message",
+              "help": "The ceiling of the roll. Setting it far above the minimum makes progress erratic and discouraging; setting it equal to the minimum removes the randomness."
+            },
+            "cooldown": {
+              "label": "Cooldown between gains (s)",
+              "help": "During this delay, further messages from the same member earn nothing. This is the module's anti-spam guard: at 0, ten one-word messages pay ten times, and the leaderboard rewards noise instead of presence."
+            },
+            "maxLevel": {
+              "label": "Maximum level (0 = unlimited)",
+              "help": "Beyond it, XP keeps being counted but the level stops rising and no announcement is sent. Useful so veterans don't leave newcomers permanently behind. 0 lifts the cap."
+            },
+            "ignoredChannelIds": {
+              "label": "Ignored channels",
+              "help": "No gain is counted there, by message or in voice. Best kept for test channels, bot-command channels and spam channels — anywhere writing a lot means nothing."
+            },
+            "ignoredRoleIds": {
+              "label": "Ignored roles",
+              "help": "Members holding any of these roles stop earning anything, wherever they write. Mostly for secondary bots and service accounts; it is also the quietest sanction against someone inflating their counter."
+            },
+            "boosterRoleIds": {
+              "label": "Roles with an XP bonus",
+              "help": "Members holding any of these roles have their gain multiplied. Roles do not stack: holding two does not double twice."
+            },
+            "boosterMultiplier": {
+              "label": "Bonus multiplier",
+              "help": "How much XP is multiplied by for the roles above. Past 2, a boosted member catches up in a week what another took a month to earn, and the leaderboard stops showing who takes part."
+            },
+            "voiceEnabled": {
+              "label": "XP in voice channels",
+              "help": "Also counts time spent in voice channels. A member alone, deafened or muted earns nothing: otherwise leaving a tab open overnight would be enough."
+            },
+            "voiceXpPerMinute": {
+              "label": "XP per minute in voice",
+              "help": "Paid for each minute spent in voice with company. Weigh it against the per-message gain: an hour of voice should not be worth a week of writing, nor the other way round."
+            },
+            "leaderboardChannelId": {
+              "label": "Leaderboard channel",
+              "help": "The bot keeps a single leaderboard message there, rewritten every ten minutes rather than reposted. Leave it empty for no standing leaderboard — the command still works."
+            }
+          },
+          "description": "Every message earns a random amount between the minimum and the maximum. The randomness is there so nobody can work out the exact number of messages needed to level up — closing the gap between the two bounds makes progress mechanical."
+        },
+        "g1": {
+          "label": "🏅 Role rewards",
+          "description": "Role granted automatically when a member reaches the given level.",
+          "champs": {
+            "rewards": {
+              "label": "Roles by level",
+              "addLabel": "Add a reward",
+              "item": {
+                "level": {
+                  "label": "Level"
+                },
+                "roleId": {
+                  "label": "Role"
+                }
+              },
+              "help": "One row per tier. The bot must be able to grant these roles: they have to sit BELOW its own role in the server hierarchy, otherwise granting fails silently. A role already earned is never taken back."
+            }
+          }
+        },
+        "announce": {
+          "label": "📣 Level-up announcement",
+          "champs": {
+            "enabled": {
+              "label": "Enable the announcement",
+              "help": "Off, levels are still counted and roles still granted — nothing announces it any more."
+            },
+            "channelId": {
+              "label": "Channel (empty = the message's channel)",
+              "help": "Empty, the announcement is posted in the channel the member just wrote in: it lands where they are looking. A fixed channel avoids interrupting conversations, at the cost of being seen less."
+            },
+            "message": {
+              "label": "Message",
+              "help": "Variables replaced when sent: {mention} to address the member, {level} for their new level. A misspelt variable is shown as written."
+            }
+          },
+          "description": "One announcement per level-up, at the moment it happens. Never a batched catch-up."
         }
       }
     }

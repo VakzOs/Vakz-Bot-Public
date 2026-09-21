@@ -1,0 +1,102 @@
+{
+  "modules": {
+    "giveaways": {
+      "label": "Sorteos",
+      "description": "Sorteos: premio, duración, ganadores, participación con un botón.",
+      "noms": {
+        "duree": "duracion",
+        "gagnant": "ganador",
+        "gagnants": "ganadores",
+        "giveaway": "sorteo",
+        "id": "id",
+        "lancer": "lanzar",
+        "liste": "lista",
+        "lot": "premio",
+        "relancer": "repetir",
+        "role": "rol",
+        "salon": "canal",
+        "terminer": "terminar"
+      },
+      "command": {
+        "description": "Lanzar y gestionar sorteos.",
+        "start": "Lanzar un sorteo.",
+        "end": "Terminar un sorteo inmediatamente y sacar a quienes ganan.",
+        "reroll": "Repetir el sorteo (todas las personas ganadoras, o una concreta).",
+        "list": "Listar los sorteos en curso."
+      },
+      "opt": {
+        "prize": "El premio que ganar.",
+        "duration": "Duración del sorteo (p. ej. 1h, 2j, 30m).",
+        "winners": "Número de personas ganadoras (por defecto 1).",
+        "channel": "Canal donde publicar el sorteo (por defecto: aquí).",
+        "role": "Rol necesario para participar (opcional).",
+        "id": "El sorteo en cuestión.",
+        "winner": "La persona ganadora que sustituir (repetición dirigida)."
+      },
+      "embed": {
+        "title": "🎉 Sorteo: {prize}",
+        "intro": "¡Pulsa el botón para participar!\nAl final se sortean **{count}** persona(s) ganadora(s).",
+        "endedIntro": "Sorteo terminado.",
+        "footer": "ID {id}",
+        "host": "Organizado por",
+        "winners": "Ganadores",
+        "endsAt": "Fin",
+        "endedAt": "Terminado",
+        "participants": "Participantes",
+        "requiredRole": "Rol necesario",
+        "result": "🏆 Ganadores",
+        "noWinner": "Nadie ha participado 😢"
+      },
+      "joinButton": "🎉 Participar ({count})",
+      "announceWinners": "🎉 ¡Enhorabuena {winners}! ¡Os lleváis **{prize}**!",
+      "announceNoWinner": "😢 Nadie ha participado en el sorteo de **{prize}**.",
+      "announceReroll": "🔄 ¡Nuevo sorteo! Enhorabuena {winners}, ¡os lleváis **{prize}**!",
+      "announceRerollOne": "🔄 {old} queda sustituido: enhorabuena {new}, ¡te llevas **{prize}**!",
+      "feedback": {
+        "disabled": "❌ Este módulo está desactivado en este servidor.",
+        "ended": "❌ Este sorteo ha terminado o no se encuentra.",
+        "needRole": "⛔ Hace falta el rol {role} para participar en este sorteo.",
+        "joined": "✅ ¡Ya participas en el sorteo! Suerte 🍀",
+        "left": "➖ Ya no participas en este sorteo."
+      },
+      "reroll": {
+        "notWinner": "❌ Este miembro no es una de las personas ganadoras actuales del sorteo.",
+        "noEligible": "❌ Ya no queda ninguna persona participante que pueda sustituirla."
+      },
+      "invalidDuration": "❌ Duración no válida. Ejemplos: `1h`, `2j`, `30m`, `1h30m`.",
+      "channelInvalid": "❌ Canal no válido para publicar el sorteo.",
+      "sendError": "❌ No se ha podido publicar el sorteo (comprueba mis permisos en el canal).",
+      "launched": "✅ ¡Sorteo lanzado! {url}",
+      "notFoundActive": "❌ No hay ningún sorteo en curso con ese identificador.",
+      "endedManual": "🎉 ¡Sorteo terminado! Ganadores: {winners}",
+      "endedNoWinner": "😢 Sorteo terminado, pero sin participantes.",
+      "notFoundEnded": "❌ No hay ningún sorteo terminado con ese identificador.",
+      "rerolledOne": "🔄 {old} sustituido por {new}.",
+      "rerolledAll": "🔄 Nuevo sorteo realizado. Ganadores: {winners}",
+      "listEmpty": "No hay ningún sorteo en curso.",
+      "listTitle": "🎉 Sorteos en curso",
+      "listLine": "• **{prize}** — `{id}` — fin {ends} — {channel}",
+      "log": {
+        "title": "🎁 Sorteo terminado",
+        "entry": "Premio: **{prize}**\nGanadores: {winners}\nOrganizado por: {host}\nID: `{id}`"
+      },
+      "ui": {
+        "g0": {
+          "description": "Los sorteos se crean con el comando /sorteo.",
+          "champs": {
+            "logChannelId": {
+              "label": "Canal de los registros"
+            },
+            "winMessage": {
+              "label": "Mensaje de premio",
+              "help": "Se envía a quienes ganan."
+            },
+            "noWinnerMessage": {
+              "label": "Mensaje cuando no hay ganadores"
+            }
+          }
+        }
+      }
+    }
+  }
+}

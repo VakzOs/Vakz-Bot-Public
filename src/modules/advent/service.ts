@@ -1,5 +1,5 @@
 import type { Guild, GuildMember } from 'discord.js';
-import type { BotContext } from '../../core/module.js';
+import type { BotContext, TaskReport } from '../../core/module.js';
 import { t } from '../../core/i18n.js';
 import { addBalance } from '../economy/service.js';
 import { addToInventory, getItem } from '../items/service.js';
@@ -11,6 +11,7 @@ import {
   getAdventConfig,
   updateAdventConfig,
 } from './config.js';
+import { useGuildLocale } from '../../core/guild-locale.js';
 
 /**
  * Jour courant du calendrier (1-24), ou 0 s'il n'est pas ouvrable. En mode test,
@@ -159,11 +160,12 @@ export async function announceDay(
  * où le module est actif, avec un salon d'annonce réglé. `lastAnnouncedDay` évite
  * toute annonce en double (redémarrage, double déclenchement).
  */
-export async function announceDailyOpenings(ctx: BotContext): Promise<void> {
+export async function announceDailyOpenings(ctx: BotContext): Promise<TaskReport> {
   const rows = await ctx.db.moduleConfig
     .findMany({ where: { module: MODULE_NAME, enabled: true } })
     .catch(() => []);
 
+  let annonces = 0;
   for (const row of rows) {
     const config = await getAdventConfig(ctx, row.guildId);
     if (!config.announceChannelId || config.testMode) continue;
@@ -173,7 +175,11 @@ export async function announceDailyOpenings(ctx: BotContext): Promise<void> {
     const guild = ctx.client.guilds.cache.get(row.guildId);
     if (!guild) continue;
 
+    // La tâche parcourt les serveurs : chacun doit être annoncé dans SA langue.
+    await useGuildLocale(row.guildId);
     await announceDay(ctx, guild, config, t('modules.advent.announce', { day }));
     await updateAdventConfig(ctx, row.guildId, { lastAnnouncedDay: day });
+    annonces += 1;
   }
+  return { annonces };
 }

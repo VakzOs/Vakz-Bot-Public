@@ -64,7 +64,7 @@ function objetOption(required = true) {
     setRequired: (r: boolean) => unknown;
     setAutocomplete: (a: boolean) => unknown;
   }) => {
-    o.setName('objet');
+    o.setName(t('modules.items.noms.objet'));
     o.setDescription(t('modules.items.opt.item'));
     o.setRequired(required);
     o.setAutocomplete(true);
@@ -78,7 +78,7 @@ function quantityOption(o: {
   setMinValue: (v: number) => unknown;
   setMaxValue: (v: number) => unknown;
 }) {
-  o.setName('quantité');
+  o.setName(t('modules.items.noms.quantité'));
   o.setDescription(t('modules.items.opt.quantity'));
   o.setMinValue(1);
   o.setMaxValue(999);
@@ -87,10 +87,13 @@ function quantityOption(o: {
 
 /** `/inventaire` — affiche l'inventaire d'un membre. */
 export const inventaire: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('inventaire')
-    .setDescription(t('modules.items.commands.inventory.description'))
-    .addUserOption((o) => o.setName('membre').setDescription(t('modules.items.opt.member'))),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.items.noms.inventaire'))
+      .setDescription(t('modules.items.commands.inventory.description'))
+      .addUserOption((o) =>
+        o.setName(t('modules.items.noms.membre')).setDescription(t('modules.items.opt.member')),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
     const user = interaction.options.getUser('membre') ?? interaction.user;
@@ -120,11 +123,12 @@ export const inventaire: SlashCommand = {
 /** Nombre d'objets affichés par page du catalogue (embed lisible). */
 const CATALOG_PAGE_SIZE = 10;
 
-/** `/objets` — liste le catalogue d'objets du serveur (paginé). */
+/** `/boutique-objets` — liste le catalogue d'objets du serveur (paginé). */
 export const objets: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('objets')
-    .setDescription(t('modules.items.commands.catalog.description')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.items.noms.boutique-objets'))
+      .setDescription(t('modules.items.commands.catalog.description')),
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
     const items = await listItems(ctx, interaction.guildId);
@@ -219,11 +223,12 @@ export const objets: SlashCommand = {
 
 /** `/acheter` — achète un objet avec la monnaie du serveur. */
 export const acheter: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('acheter')
-    .setDescription(t('modules.items.commands.buy.description'))
-    .addStringOption(objetOption(true))
-    .addIntegerOption(quantityOption),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.items.noms.acheter'))
+      .setDescription(t('modules.items.commands.buy.description'))
+      .addStringOption(objetOption(true))
+      .addIntegerOption(quantityOption),
   autocomplete: itemAutocomplete((item) => item.buyable),
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
@@ -297,11 +302,12 @@ function inventoryAutocomplete() {
 
 /** `/vendre` — vente rapide au serveur : détruit l'objet contre une part de son prix. */
 export const vendre: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('vendre')
-    .setDescription(t('modules.items.commands.sell.description'))
-    .addStringOption(objetOption(true))
-    .addIntegerOption(quantityOption),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.items.noms.vendre'))
+      .setDescription(t('modules.items.commands.sell.description'))
+      .addStringOption(objetOption(true))
+      .addIntegerOption(quantityOption),
   autocomplete: inventoryAutocomplete(),
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
@@ -362,13 +368,16 @@ export const vendre: SlashCommand = {
 
 /** `/utiliser` — utilise un objet et applique ses effets configurés. */
 export const utiliser: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('utiliser')
-    .setDescription(t('modules.items.commands.use.description'))
-    .addStringOption(objetOption(true))
-    .addUserOption((o) =>
-      o.setName('cible').setDescription(t('modules.items.commands.use.optTarget')),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.items.noms.utiliser'))
+      .setDescription(t('modules.items.commands.use.description'))
+      .addStringOption(objetOption(true))
+      .addUserOption((o) =>
+        o
+          .setName(t('modules.items.noms.cible'))
+          .setDescription(t('modules.items.commands.use.optTarget')),
+      ),
   autocomplete: itemAutocomplete((item) => item.usable),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
@@ -464,14 +473,18 @@ export const utiliser: SlashCommand = {
 
 /** `/donner-objet` — échange des objets avec un autre membre. */
 export const donnerObjet: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('donner-objet')
-    .setDescription(t('modules.items.commands.give.description'))
-    .addUserOption((o) =>
-      o.setName('membre').setDescription(t('modules.items.opt.member')).setRequired(true),
-    )
-    .addStringOption(objetOption(true))
-    .addIntegerOption(quantityOption),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.items.noms.donner-objet'))
+      .setDescription(t('modules.items.commands.give.description'))
+      .addUserOption((o) =>
+        o
+          .setName(t('modules.items.noms.membre'))
+          .setDescription(t('modules.items.opt.member'))
+          .setRequired(true),
+      )
+      .addStringOption(objetOption(true))
+      .addIntegerOption(quantityOption),
   autocomplete: itemAutocomplete((item) => item.tradable),
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
@@ -546,30 +559,37 @@ export const donnerObjet: SlashCommand = {
 
 /** `/objets-admin` — attribue ou retire des objets (staff). */
 export const objetsAdmin: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('objets-admin')
-    .setDescription(t('modules.items.commands.admin.description'))
-    .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
-    .addSubcommand((s) =>
-      s
-        .setName('donner')
-        .setDescription(t('modules.items.commands.admin.give'))
-        .addUserOption((o) =>
-          o.setName('membre').setDescription(t('modules.items.opt.member')).setRequired(true),
-        )
-        .addStringOption(objetOption(true))
-        .addIntegerOption(quantityOption),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('retirer')
-        .setDescription(t('modules.items.commands.admin.take'))
-        .addUserOption((o) =>
-          o.setName('membre').setDescription(t('modules.items.opt.member')).setRequired(true),
-        )
-        .addStringOption(objetOption(true))
-        .addIntegerOption(quantityOption),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.items.noms.objets-admin'))
+      .setDescription(t('modules.items.commands.admin.description'))
+      .setDefaultMemberPermissions(PermissionFlagsBits.ManageGuild)
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.items.noms.donner'))
+          .setDescription(t('modules.items.commands.admin.give'))
+          .addUserOption((o) =>
+            o
+              .setName(t('modules.items.noms.membre'))
+              .setDescription(t('modules.items.opt.member'))
+              .setRequired(true),
+          )
+          .addStringOption(objetOption(true))
+          .addIntegerOption(quantityOption),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.items.noms.retirer'))
+          .setDescription(t('modules.items.commands.admin.take'))
+          .addUserOption((o) =>
+            o
+              .setName(t('modules.items.noms.membre'))
+              .setDescription(t('modules.items.opt.member'))
+              .setRequired(true),
+          )
+          .addStringOption(objetOption(true))
+          .addIntegerOption(quantityOption),
+      ),
   autocomplete: itemAutocomplete(),
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
@@ -619,50 +639,53 @@ export const objetsAdmin: SlashCommand = {
 
 /** `/objets-limite` — règle le plafond global d'objets (propriétaire du bot). */
 export const objetsLimite: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('objets-limite')
-    .setDescription(t('modules.items.limit.description'))
-    .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
-    .addSubcommand((s) => s.setName('voir').setDescription(t('modules.items.limit.view')))
-    .addSubcommand((s) =>
-      s
-        .setName('definir')
-        .setDescription(t('modules.items.limit.set'))
-        .addIntegerOption((o) =>
-          o
-            .setName('nombre')
-            .setDescription(t('modules.items.limit.opt.number'))
-            .setRequired(true)
-            .setMinValue(0)
-            .setMaxValue(1_000_000),
-        ),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('augmenter')
-        .setDescription(t('modules.items.limit.increase'))
-        .addIntegerOption((o) =>
-          o
-            .setName('de')
-            .setDescription(t('modules.items.limit.opt.amount'))
-            .setRequired(true)
-            .setMinValue(1)
-            .setMaxValue(1_000_000),
-        ),
-    )
-    .addSubcommand((s) =>
-      s
-        .setName('reduire')
-        .setDescription(t('modules.items.limit.reduce'))
-        .addIntegerOption((o) =>
-          o
-            .setName('de')
-            .setDescription(t('modules.items.limit.opt.amount'))
-            .setRequired(true)
-            .setMinValue(1)
-            .setMaxValue(1_000_000),
-        ),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.items.noms.objets-limite'))
+      .setDescription(t('modules.items.limit.description'))
+      .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
+      .addSubcommand((s) =>
+        s.setName(t('modules.items.noms.voir')).setDescription(t('modules.items.limit.view')),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.items.noms.definir'))
+          .setDescription(t('modules.items.limit.set'))
+          .addIntegerOption((o) =>
+            o
+              .setName(t('modules.items.noms.nombre'))
+              .setDescription(t('modules.items.limit.opt.number'))
+              .setRequired(true)
+              .setMinValue(0)
+              .setMaxValue(1_000_000),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.items.noms.augmenter'))
+          .setDescription(t('modules.items.limit.increase'))
+          .addIntegerOption((o) =>
+            o
+              .setName(t('modules.items.noms.de'))
+              .setDescription(t('modules.items.limit.opt.amount'))
+              .setRequired(true)
+              .setMinValue(1)
+              .setMaxValue(1_000_000),
+          ),
+      )
+      .addSubcommand((s) =>
+        s
+          .setName(t('modules.items.noms.reduire'))
+          .setDescription(t('modules.items.limit.reduce'))
+          .addIntegerOption((o) =>
+            o
+              .setName(t('modules.items.noms.de'))
+              .setDescription(t('modules.items.limit.opt.amount'))
+              .setRequired(true)
+              .setMinValue(1)
+              .setMaxValue(1_000_000),
+          ),
+      ),
   async execute(interaction, ctx) {
     // Réservé au propriétaire du bot (même droit que /maj).
     if (!isOwner(interaction.user.id)) {

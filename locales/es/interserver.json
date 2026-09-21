@@ -1,0 +1,51 @@
+{
+  "modules": {
+    "interserver": {
+      "label": "Entre servidores",
+      "description": "Conecta canales de servidores distintos: un mensaje publicado en un canal enlazado se retransmite (conservando nombre y avatar) a los demás canales de la misma red.",
+      "ui": {
+        "g0": {
+          "description": "Los canales se enlazan con las acciones «Enlazar / Desenlazar un canal» de abajo.",
+          "champs": {
+            "tagServer": {
+              "label": "Mostrar el nombre del servidor de origen en los mensajes retransmitidos"
+            }
+          }
+        }
+      },
+      "actions": {
+        "link": {
+          "label": "Enlazar un canal",
+          "help": "Los servidores que comparten el mismo código de red se retransmiten los mensajes entre sí.",
+          "champs": {
+            "channelId": "Canal que enlazar",
+            "network": {
+              "label": "Código de la red",
+              "placeholder": "mi-red",
+              "help": "De 3 a 32 caracteres: letras, cifras y guiones."
+            }
+          },
+          "msg": {
+            "noGuild": "Servidor no encontrado.",
+            "badChannel": "Canal no encontrado o no textual.",
+            "done": "Canal enlazado a la red «{reseau}».",
+            "badCode": "Código de red no válido (de 3 a 32 caracteres).",
+            "noPermission": "Falta el permiso «Gestionar webhooks» en este canal.",
+            "webhookFailed": "No se ha podido crear el webhook."
+          }
+        },
+        "unlink": {
+          "label": "Desenlazar un canal",
+          "confirm": "¿Retirar este canal de su red entre servidores?",
+          "champs": {
+            "channelId": "Canal enlazado"
+          },
+          "msg": {
+            "pickChannel": "Elige un canal actualmente enlazado.",
+            "done": "Canal desenlazado."
+          }
+        }
+      }
+    }
+  }
+}

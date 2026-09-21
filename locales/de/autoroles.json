@@ -1,0 +1,23 @@
+{
+  "modules": {
+    "autoroles": {
+      "label": "Automatische Rollen",
+      "description": "Vergibt Rollen, sobald ein Mitglied beitritt, und eine Rolle, solange es im Sprachkanal ist.",
+      "ui": {
+        "g0": {
+          "champs": {
+            "roleIds": {
+              "label": "Rollen für Mitglieder beim Beitritt"
+            },
+            "botRoleIds": {
+              "label": "Rollen für Bots"
+            },
+            "voiceRoleIds": {
+              "label": "Rollen während der Anwesenheit im Sprachkanal"
+            }
+          }
+        }
+      }
+    }
+  }
+}

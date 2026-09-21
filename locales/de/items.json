@@ -1,0 +1,248 @@
+{
+  "modules": {
+    "items": {
+      "label": "Gegenstände & Inventare",
+      "description": "Gegenstandskatalog pro Server: Kauf mit der Währung, Inventar, Nutzung (Belohnungsrolle) und Tausch zwischen Mitgliedern.",
+      "noms": {
+        "acheter": "kaufen",
+        "augmenter": "erhoehen",
+        "boutique-objets": "gegenstand-shop",
+        "cible": "ziel",
+        "de": "von",
+        "definir": "festlegen",
+        "donner": "geben",
+        "donner-objet": "gegenstand-geben",
+        "inventaire": "inventar",
+        "membre": "mitglied",
+        "nombre": "anzahl",
+        "objet": "gegenstand",
+        "objets-admin": "gegenstaende-admin",
+        "objets-limite": "gegenstaende-limit",
+        "quantité": "menge",
+        "reduire": "verringern",
+        "retirer": "abziehen",
+        "utiliser": "benutzen",
+        "vendre": "verkaufen",
+        "voir": "anzeigen"
+      },
+      "opt": {
+        "item": "Der betroffene Gegenstand.",
+        "quantity": "Menge (Standard: 1).",
+        "member": "Das betroffene Mitglied (Standard: du)."
+      },
+      "rarity": {
+        "common": "Gewöhnlich",
+        "rare": "Selten",
+        "epic": "Episch",
+        "legendary": "Legendär"
+      },
+      "use": {
+        "reason": "Gegenstand benutzt: {name}",
+        "effects": {
+          "role": {
+            "done": "🏷️ Rolle {role} vergeben.",
+            "fail": "⚠️ Rolle {role} kann nicht vergeben werden (Rechte/Position?)."
+          },
+          "coins": {
+            "done": "🪙 {amount} Münzen."
+          },
+          "routeSelf": {
+            "done": "🧭 Auf deiner Straße: {parts}."
+          },
+          "routeDamage": {
+            "noTarget": "⚠️ Kein Ziel für den Schaden angegeben.",
+            "notTravelling": "⚠️ {target} ist nicht auf der Straße der Unendlichkeit.",
+            "done": "🎯 {target} erleidet **{amount}** Schaden auf der Straße ({health}/{maxHealth} LP).",
+            "fainted": "💥 {target} fällt unter deinen **{amount}** Schaden auf der Straße!",
+            "backfire": {
+              "notTravelling": "🙃 Du hast auf {aimed} gezielt, aber der Gegenstand wendet sich gegen dich… und du bist nicht auf der Straße der Unendlichkeit.",
+              "done": "🙃 Daneben! Du hast auf {aimed} gezielt, aber der Gegenstand wendet sich gegen **dich**: Du erleidest **{amount}** Schaden auf der Straße ({health}/{maxHealth} LP).",
+              "fainted": "💀 Daneben! Du hast auf {aimed} gezielt, aber der Gegenstand wendet sich gegen **dich** und erledigt dich: **{amount}** Schaden auf der Straße!"
+            }
+          },
+          "grantItem": {
+            "done": "🎁 Du erhältst **{qty}× {emoji} {name}**.",
+            "missing": "⚠️ Den zu verschenkenden Gegenstand gibt es nicht mehr."
+          },
+          "privateChannel": {
+            "done": "🔒 Privater Kanal erstellt: {channel}.",
+            "fail": "⚠️ Kanal konnte nicht erstellt werden (Recht „Kanäle verwalten“?)."
+          },
+          "stealCoins": {
+            "noTarget": "⚠️ Kein Ziel für den Diebstahl angegeben.",
+            "done": "🪙 Du stiehlst {target} **{amount}** Münzen!",
+            "broke": "😐 {target} hat nicht eine Münze zu stehlen.",
+            "backfire": "🙃 Daneben! Du hast auf die Taschen von {aimed} gezielt, aber deine Hand rutscht ab: **{amount}** Münzen wandern von deinen in ihre.",
+            "backfireBroke": "🙃 Daneben! Du hast auf {aimed} gezielt, der Diebstahl wendet sich gegen dich… aber du hast nichts zu verlieren."
+          },
+          "timeout": {
+            "noTarget": "⚠️ Kein Ziel für die Stummschaltung angegeben.",
+            "done": "🤐 {target} ist für **{minutes}** Minute(n) stummgeschaltet.",
+            "backfire": "🙃 Daneben! Du hast auf {aimed} gezielt, aber **du** wirst für **{minutes}** Minute(n) stummgeschaltet.",
+            "fail": "⚠️ {target} kann nicht stummgeschaltet werden (Rechte oder zu hoher Rang)."
+          },
+          "drainEnergy": {
+            "noTarget": "⚠️ Kein Ziel für den Entzug angegeben.",
+            "done": "🥱 Du entziehst {target} **{amount}** Energie (⚡ {energy} übrig).",
+            "backfire": "🙃 Daneben! Du hast auf {aimed} gezielt, aber **deine** Energie geht weg: −**{amount}** (⚡ {energy} übrig).",
+            "notTravelling": "⚠️ {target} ist nicht auf der Straße der Unendlichkeit."
+          },
+          "healTarget": {
+            "noTarget": "⚠️ Kein Ziel für die Heilung angegeben.",
+            "done": "💚 {target} wird geheilt: {parts} ({health}/{maxHealth} LP).",
+            "notTravelling": "⚠️ {target} ist nicht auf der Straße der Unendlichkeit."
+          },
+          "nickname": {
+            "noTarget": "⚠️ Kein Ziel für die Umbenennung angegeben.",
+            "done": "🏷️ {target} heißt für **{minutes}** Minute(n) **{nickname}**.",
+            "tooHigh": "⚠️ {target} kann nicht umbenannt werden: Der Rang ist gleich oder höher als der des Bots.",
+            "fail": "⚠️ {target} kann nicht umbenannt werden (Berechtigung „Nicknames verwalten“?)."
+          },
+          "mysteryBox": {
+            "opened": "🎲 Du öffnest die Wundertüte…",
+            "labelled": "🎲 Wundertüte: **{label}**"
+          },
+          "duckling": {
+            "noTarget": "⚠️ Kein Ziel für das Entchen angegeben.",
+            "done": "🐥 Ein Entchen klebt für **{turns}** Ereignis(se) an {target}: −{steal} % Gewinne, −{distance} % Strecke, +{damage} % Schaden.",
+            "backfire": "🙃 Daneben! Du hast auf {aimed} gezielt, aber das Entchen findet dich netter: Es klebt für **{turns}** Ereignis(se) an **dir** — und {aimed} kassiert die Beute."
+          },
+          "unstickDuckling": {
+            "noTarget": "⚠️ Kein Ziel angegeben.",
+            "done": "🕊️ Das Entchen von {target} fliegt endlich davon.",
+            "none": "😐 An {target} klebt kein Entchen."
+          }
+        }
+      },
+      "limit": {
+        "description": "Stellt die globale Obergrenze an Gegenständen pro Server ein (Besitz des Bots).",
+        "view": "Zeigt die aktuelle Obergrenze.",
+        "set": "Legt die Obergrenze fest (0 = unbegrenzt).",
+        "increase": "Erhöht die Obergrenze.",
+        "reduce": "Verringert die Obergrenze.",
+        "opt": {
+          "number": "Neue Obergrenze (0 = unbegrenzt).",
+          "amount": "Anzahl hinzuzufügender / abzuziehender Gegenstände."
+        },
+        "unlimited": "unbegrenzt",
+        "notOwner": "❌ Nur für den Besitz des Bots (Recht /update).",
+        "current": "📦 Obergrenze an Gegenständen pro Server: **{value}**.",
+        "currentlyUnlimited": "ℹ️ Die Obergrenze ist derzeit **unbegrenzt**. Nutze `/gegenstaende-limit festlegen`, um einen Wert zu setzen.",
+        "updated": "✅ Obergrenze an Gegenständen pro Server aktualisiert: **{value}**."
+      },
+      "commands": {
+        "unknownItem": "❌ Diesen Gegenstand gibt es nicht (mehr).",
+        "inventory": {
+          "description": "Zeigt das Inventar eines Mitglieds.",
+          "title": "🎒 Inventar von {user}",
+          "empty": "Dieses Inventar ist leer."
+        },
+        "catalog": {
+          "description": "Zeigt den Gegenstandskatalog des Servers.",
+          "empty": "🛒 Zurzeit ist kein Gegenstand im Katalog.",
+          "title": "🛒 Gegenstandskatalog",
+          "notForSale": "nicht käuflich",
+          "footer": "✨ = benutzbar · 🔁 = handelbar · /kaufen zum Kaufen",
+          "footerPaged": "{base} • Seite {page}/{pages}"
+        },
+        "buy": {
+          "description": "Kauft einen Gegenstand mit der Währung des Servers.",
+          "notForSale": "❌ Dieser Gegenstand ist nicht im Verkauf.",
+          "insufficient": "❌ Du brauchst {cost} (du hast {balance}).",
+          "done": "🛒 Du hast **{qty}× {emoji} {name}** für {cost} gekauft. Du hast jetzt **{total}**."
+        },
+        "use": {
+          "description": "Benutzt einen Gegenstand aus deinem Inventar.",
+          "optTarget": "Anvisiertes Mitglied (für gezielte Effekte, z. B. Schaden auf der Straße).",
+          "notUsable": "❌ Dieser Gegenstand kann nicht benutzt werden.",
+          "dontHave": "❌ Du besitzt kein **{emoji} {name}**.",
+          "targetRequired": "❌ Dieser Gegenstand braucht ein Ziel: Füge die Option **ziel** hinzu.",
+          "cooldown": "⏳ Gegenstand lädt nach. Versuche es {time}.",
+          "reason": "Gegenstand benutzt: {name}",
+          "roleGranted": "🎁 Du erhältst die Rolle {role}!",
+          "title": "✨ Gegenstand benutzt",
+          "done": "{user} benutzt **{emoji} {name}**."
+        },
+        "give": {
+          "description": "Gibt einem anderen Mitglied einen Gegenstand.",
+          "disabled": "❌ Der Tausch von Gegenständen ist auf diesem Server deaktiviert.",
+          "invalidTarget": "❌ Wähle ein anderes Mitglied (keinen Bot und nicht dich selbst).",
+          "notTradable": "❌ Dieser Gegenstand ist nicht handelbar.",
+          "insufficient": "❌ Du besitzt nicht genug **{emoji} {name}**.",
+          "done": "🎁 {from} gibt **{qty}× {emoji} {name}** an {to}!"
+        },
+        "admin": {
+          "description": "Vergibt oder entzieht Gegenstände (Team).",
+          "give": "Gibt einem Mitglied einen Gegenstand.",
+          "take": "Entzieht einem Mitglied einen Gegenstand.",
+          "gave": "✅ {qty}× {emoji} {name} an {user} gegeben (insgesamt: {total}).",
+          "took": "✅ {qty}× {emoji} {name} von {user} entzogen."
+        },
+        "sell": {
+          "description": "Verkauft einen Gegenstand an den Server für einen Teil seines Preises.",
+          "disabled": "❌ Der Schnellverkauf ist auf diesem Server deaktiviert.",
+          "noValue": "❌ {emoji} {name} hat keinen Marktwert (Shop-Preis auf 0).",
+          "notOwned": "❌ Du besitzt kein {emoji} {name}.",
+          "done": "🗑️ Du hast {qty}× {emoji} **{name}** an den Server verkauft ({percent} %) → +{total}. Kontostand: {balance}."
+        }
+      },
+      "ui": {
+        "g0": {
+          "description": "Gegenstände werden im Tab „Katalog“ des Servers erstellt.",
+          "champs": {
+            "tradingEnabled": {
+              "label": "Tausch von Gegenständen zwischen Mitgliedern erlauben"
+            }
+          }
+        },
+        "drops": {
+          "label": "🎁 Beute in den Minispielen",
+          "description": "Lässt am Ende der Minispiele (SSP, Tic-Tac-Toe, Schiffeversenken) als „droppable“ markierte Gegenstände fallen, mit einem Prozentsatz pro Seltenheit. Gezogen wird von der seltensten zur gewöhnlichsten.",
+          "champs": {
+            "enabled": {
+              "label": "Drops aktivieren"
+            },
+            "on": {
+              "label": "Wann ein Drop gezogen wird",
+              "opt": {
+                "win": {
+                  "label": "Nur bei Sieg"
+                },
+                "winDraw": {
+                  "label": "Bei Sieg und Unentschieden"
+                },
+                "any": {
+                  "label": "Bei jeder Partie (egal wie sie ausgeht)"
+                }
+              }
+            },
+            "common": {
+              "label": "% Drop — Gewöhnlich (0-100)"
+            },
+            "rare": {
+              "label": "% Drop — Selten (0-100)"
+            },
+            "epic": {
+              "label": "% Drop — Episch (0-100)"
+            },
+            "legendary": {
+              "label": "% Drop — Legendär (0-100)"
+            }
+          }
+        },
+        "sell": {
+          "label": "🗑️ Schnellverkauf an den Server",
+          "description": "Erlaubt einem Mitglied, einen Gegenstand über /verkaufen an den Server zu verkaufen: Der Gegenstand wird zerstört und das Mitglied erhält einen Prozentsatz seines Shop-Preises.",
+          "champs": {
+            "enabled": {
+              "label": "Schnellverkauf aktivieren (/verkaufen)"
+            },
+            "percent": {
+              "label": "% des Preises, der beim Verkauf ausgezahlt wird (0-100)"
+            }
+          }
+        }
+      }
+    }
+  }
+}

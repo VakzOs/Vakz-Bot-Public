@@ -1,0 +1,168 @@
+{
+  "modules": {
+    "logs": {
+      "label": "Protokolle",
+      "description": "Protokolliert die wichtigen Aktionen des Servers, verfolgt die Einladungen und bringt den Befehl /aufraeumen mit.",
+      "noms": {
+        "invitations": "einladungen",
+        "membre": "mitglied",
+        "nombre": "anzahl",
+        "purger": "aufraeumen",
+        "raison": "grund"
+      },
+      "fields": {
+        "channel": "Kanal",
+        "author": "Verfasst von",
+        "member": "Mitglied",
+        "moderator": "Moderation",
+        "executor": "Aktion ausgeführt von",
+        "count": "Anzahl",
+        "target": "Ziel",
+        "reason": "Grund",
+        "role": "Rolle",
+        "content": "Inhalt",
+        "before": "Vorher",
+        "after": "Nachher",
+        "change": "Änderung",
+        "unknown": "*unbekannt*",
+        "unavailable": "*nicht verfügbar*",
+        "noReason": "*kein Grund angegeben*",
+        "everyone": "Alle",
+        "inviter": "Eingeladen von",
+        "invite": "Einladung",
+        "inviterTotal": "Konto der einladenden Person",
+        "maxUses": "Max. Nutzungen",
+        "expires": "Läuft ab",
+        "joinedAt": "Beigetreten"
+      },
+      "events": {
+        "messageDelete": {
+          "title": "Nachricht gelöscht"
+        },
+        "messageBulkDelete": {
+          "title": "Nachrichten massenhaft gelöscht"
+        },
+        "messageUpdate": {
+          "title": "Nachricht bearbeitet"
+        },
+        "memberAdd": {
+          "title": "Mitglied beigetreten"
+        },
+        "memberRemove": {
+          "title": "Mitglied gegangen"
+        },
+        "channelCreate": {
+          "title": "Kanal erstellt"
+        },
+        "channelDelete": {
+          "title": "Kanal gelöscht"
+        },
+        "channelUpdate": {
+          "title": "Kanal bearbeitet"
+        },
+        "roleCreate": {
+          "title": "Rolle erstellt"
+        },
+        "roleDelete": {
+          "title": "Rolle gelöscht"
+        },
+        "roleUpdate": {
+          "title": "Rolle bearbeitet"
+        },
+        "clear": {
+          "title": "Nachrichten aufgeräumt"
+        },
+        "inviteCreate": {
+          "title": "Einladung erstellt"
+        },
+        "inviteDelete": {
+          "title": "Einladung gelöscht"
+        }
+      },
+      "clear": {
+        "description": "Nachrichten im aktuellen Kanal schnell löschen.",
+        "opt": {
+          "count": "Anzahl der zu löschenden Nachrichten (1 bis 100).",
+          "member": "Auf die Nachrichten eines Mitglieds beschränken.",
+          "reason": "Im Protokoll angezeigter Grund."
+        },
+        "invalidChannel": "❌ Dieser Befehl muss in einem Textkanal des Servers genutzt werden.",
+        "botNoPerm": "❌ Mir fehlt die Berechtigung „Nachrichten verwalten“ in diesem Kanal.",
+        "none": "Keine löschbare aktuelle Nachricht gefunden.",
+        "failed": "❌ Diese Nachrichten konnten nicht gelöscht werden. Prüfe meine Berechtigungen.",
+        "done": "✅ {count} Nachricht(en) gelöscht."
+      },
+      "rollback": {
+        "button": "Wiederherstellen",
+        "done": "✅ Wiederherstellung durchgeführt.",
+        "used": "❌ Diese Wiederherstellung wurde schon genutzt.",
+        "missing": "❌ Diese Wiederherstellung wurde nicht gefunden oder ist abgelaufen.",
+        "notAllowed": "⛔ Du darfst diese Wiederherstellung nicht nutzen.",
+        "unsupported": "❌ Diese Art der Wiederherstellung wird nicht unterstützt.",
+        "noPermission": "❌ Mir fehlen die nötigen Berechtigungen, um dieses Element wiederherzustellen.",
+        "failed": "❌ Dieses Element konnte nicht wiederhergestellt werden. Prüfe meine Berechtigungen und die Hierarchie."
+      },
+      "sources": {
+        "invite": "Einladung",
+        "vanity": "eigene URL des Servers",
+        "bot": "Hinzufügen eines Bots",
+        "unknown": "*unbekannte Herkunft*"
+      },
+      "invites": {
+        "uses": "{count} Nutzung(en)",
+        "tally": "{total} Mitglied(er) — {present} noch da",
+        "unlimited": "unbegrenzt",
+        "never": "nie"
+      },
+      "invitations": {
+        "description": "Sehen, wer wen auf diesen Server eingeladen hat.",
+        "opt": {
+          "member": "Die Bilanz eines Mitglieds statt der Rangliste."
+        },
+        "disabled": "❌ Die Verfolgung der Einladungen ist auf diesem Server deaktiviert.",
+        "gone": "weg",
+        "member": {
+          "title": "Einladungen — {user}",
+          "invitedBy": "Gekommen über",
+          "invited": "Hat hereingeholt",
+          "recent": "Letzte Ankünfte",
+          "untracked": "*vor der Verfolgung der Einladungen gekommen*"
+        },
+        "top": {
+          "title": "Rangliste der Einladungen",
+          "empty": "Zurzeit ist keine Ankunft verfolgt.",
+          "tracked": "{count} verfolgte Ankunft/Ankünfte"
+        }
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "logChannelId": {
+              "label": "Kanal der Protokolle",
+              "help": "Wo die Protokolle des Servers veröffentlicht werden."
+            },
+            "messages": {
+              "label": "Nachrichten protokollieren"
+            },
+            "members": {
+              "label": "Mitglieder protokollieren (Ankünfte/Abgänge)"
+            },
+            "channels": {
+              "label": "Kanäle protokollieren"
+            },
+            "roles": {
+              "label": "Rollen protokollieren"
+            },
+            "moderation": {
+              "label": "Moderation protokollieren"
+            },
+            "invites": {
+              "label": "Einladungen verfolgen (wer wen eingeladen hat)",
+              "help": "Verbindet jede Ankunft mit der Einladung, die sie gebracht hat, und speist /einladungen. Braucht die Berechtigung „Server verwalten“."
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -3,6 +3,9 @@
     "deploy": {
       "label": "Update",
       "description": "Updates the bot (git pull + rebuild). Owner only.",
+      "noms": {
+        "maj": "update"
+      },
       "disabled": "❌ In-bot updates aren't configured (set `BOT_OWNER_ID`).",
       "notOwner": "❌ Only the bot owner can trigger an update.",
       "title": "🚀 Bot update",

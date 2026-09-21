@@ -3,6 +3,9 @@
     "freegames": {
       "label": "Free games",
       "description": "Announces games that become free to keep (Steam, Epic Games, GOG) in a channel.",
+      "noms": {
+        "jeux-gratuits": "free-games"
+      },
       "embedDescription": "🎮 **Free to keep** on {store} for a limited time!\n[View on the store]({url})",
       "priceField": "Price",
       "free": "Free",
@@ -15,6 +18,50 @@
         "steam": "Steam",
         "epic": "Epic Games",
         "gog": "GOG"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Announcement channel",
+              "help": "The channel where free games are announced. Empty, the module posts nothing: that is how you put it to sleep without losing the rest of the settings."
+            },
+            "roleId": {
+              "label": "Role to mention",
+              "help": "Pinged on each announcement. Best made a self-assignable role: offers land at any hour, and pinging the whole server over a free game wears thin fast."
+            },
+            "platforms": {
+              "label": "Platforms followed",
+              "opt": {
+                "steam": {
+                  "label": "Steam"
+                },
+                "epic": {
+                  "label": "Epic Games"
+                },
+                "gog": {
+                  "label": "GOG"
+                }
+              },
+              "help": "The stores being watched. Unticking them all amounts to turning the module off. Epic gives a game away weekly, Steam and GOG only now and then: keeping just those two makes announcements rare but never routine."
+            }
+          }
+        }
+      },
+      "actions": {
+        "announceNow": {
+          "label": "Announce the current offers",
+          "help": "Reposts the games currently free on the ticked platforms, and marks them as announced.",
+          "msg": {
+            "noChannel": "No announcement channel configured.",
+            "noPlatform": "No platform ticked.",
+            "badChannel": "Channel not found or not a text channel.",
+            "noPermission": "Missing permissions in the channel.",
+            "noOffer": "No free offer at the moment.",
+            "nothingSent": "No announcement could be sent.",
+            "done": "{n} offer(s) announced."
+          }
+        }
       }
     }
   }

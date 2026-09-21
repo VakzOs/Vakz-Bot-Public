@@ -1,0 +1,136 @@
+{
+  "modules": {
+    "tempvoice": {
+      "label": "Temporäre Sprachkanäle",
+      "description": "Wer einen Erzeugerkanal betritt, bekommt einen eigenen Sprachkanal, der beim Leeren gelöscht wird.",
+      "noms": {
+        "limite": "limit",
+        "membre": "mitglied",
+        "nom": "name",
+        "nombre": "anzahl",
+        "panneau": "panel",
+        "revendiquer": "uebernehmen",
+        "transferer": "uebertragen",
+        "voc": "voc"
+      },
+      "createReason": "Temporärer Sprachkanal von {user}",
+      "autoTransfer": "👑 {user} ist jetzt neue Besitzerin oder neuer Besitzer des Kanals.",
+      "command": {
+        "description": "Deinen temporären Sprachkanal verwalten.",
+        "panel": "Das Steuerpanel in deinem Kanal erneut anzeigen.",
+        "claim": "Den Kanal übernehmen, wenn die besitzende Person weg ist.",
+        "transfer": "Den Besitz an ein Mitglied übertragen.",
+        "transferMember": "Das Mitglied, das den Besitz erhält.",
+        "rename": "Deinen Kanal umbenennen.",
+        "renameValue": "Der neue Name des Kanals.",
+        "limit": "Die Mitgliederzahl begrenzen.",
+        "limitValue": "Limit (0 = unbegrenzt).",
+        "notInVoice": "❌ Du musst in einem Sprachkanal sein.",
+        "notTemp": "❌ Dieser Kanal ist kein temporärer Kanal.",
+        "claimed": "👑 Du besitzt den Kanal jetzt.",
+        "panelPosted": "✅ Steuerpanel veröffentlicht.",
+        "transferred": "👑 Besitz übertragen.",
+        "renamed": "✏️ Kanal umbenannt.",
+        "limitSet": "👥 Limit aktualisiert."
+      },
+      "control": {
+        "title": "Einstellungen des Kanals",
+        "intro": "Hier stellst du deinen temporären Sprachkanal ein. Mit den verfügbaren Optionen passt du die Berechtigungen deines Kanals nach deinen Wünschen an.",
+        "currentState": "👑 {owner} · Zugang: **{access}** · Limit: **{limit}** · 🎤 {micro} · 📹 {video} · 🎵 {soundboard}",
+        "unlimited": "unbegrenzt",
+        "none": "Keine",
+        "on": "aktiviert",
+        "off": "aus",
+        "mode_open": "🔊 Offen",
+        "mode_closed": "🔒 Geschlossen",
+        "mode_private": "🔇 Privat",
+        "tip": "💡 Mitglieder auf der Positivliste sind von den Verboten für andere Mitglieder nicht betroffen.",
+        "open": "🔊 Offen",
+        "closed": "🔒 Geschlossen",
+        "private": "🔇 Privat",
+        "whitelistBtn": "✅ Positivliste",
+        "blacklistBtn": "📋 Sperrliste",
+        "purge": "➡️ Leeren",
+        "micro": "🎤 Mikro",
+        "video": "📹 Video",
+        "soundboard": "🎵 Soundboards",
+        "status": "🏷️ Status",
+        "transfer": "👑 Übertragen",
+        "settings": "⚙️ Einstellungen",
+        "save": "💾 Speichern",
+        "claim": "🙋 Übernehmen",
+        "delete": "🗑️ Löschen",
+        "back": "◀ Zurück",
+        "media": "🎤 Mikro · 📹 Video · 🎵 Soundboard",
+        "desc_open": "Der Kanal steht allen Mitgliedern offen, außer denen auf der Sperrliste.",
+        "desc_closed": "Der Kanal ist für alle sichtbar, aber nur für die Positivliste zugänglich.",
+        "desc_private": "Der Kanal ist nur für Mitglieder der Positivliste sichtbar und zugänglich.",
+        "desc_whitelist": "Mitglieder und Rollen auf dieser Liste können den Kanal immer betreten.",
+        "desc_blacklist": "Mitglieder auf dieser Liste können den Kanal nie betreten.",
+        "desc_purge": "Alle Mitglieder aus dem Sprachkanal trennen, außer denen auf der Positivliste.",
+        "desc_transfer": "Die Verwaltung des Kanals einem Mitglied deiner Wahl übertragen.",
+        "desc_settings": "Namen und Mitgliederlimit des Kanals ändern.",
+        "desc_media": "Mikrofon, Kamera und Soundboard der Mitglieder erlauben oder abschalten. ⚠️ Ohne Wirkung auf die Administration und die Serverbesitzerin oder den Serverbesitzer (Discord-Beschränkung).",
+        "wlPlaceholder": "Mitglieder, die immer beitreten dürfen",
+        "blPlaceholder": "Mitglieder, die nicht beitreten dürfen",
+        "transferPlaceholder": "Neue besitzende Person (im Kanal anwesend)",
+        "nameField": "Name des Kanals",
+        "limitField": "Mitgliederlimit (0 = unbegrenzt)",
+        "statusTitle": "Status des Kanals",
+        "statusField": "Status (leer lassen, um ihn zu entfernen)",
+        "statusPlaceholder": "Z. B.: 🎮 Wir spielen…",
+        "settingsTitle": "Einstellungen des Kanals",
+        "notTemp": "❌ Dieser Kanal ist kein temporärer Kanal.",
+        "notOwner": "⛔ Nur die besitzende Person des Kanals kann das tun.",
+        "ownerPresent": "❌ Die besitzende Person ist noch da, du kannst den Kanal nicht übernehmen.",
+        "notInChannel": "❌ Du musst im Kanal sein, um ihn zu übernehmen.",
+        "transferAbsent": "❌ Dieses Mitglied muss im Kanal sein, um den Besitz zu erhalten.",
+        "purged": "🔌 {count} Mitglied(er) getrennt.",
+        "saved": "💾 Einstellungen gespeichert: Sie gelten wieder für deinen nächsten Kanal.",
+        "deleting": "🗑️ Kanal wird gelöscht…",
+        "ownerLine": "Besitzende Person des Kanals: {owner}",
+        "wlRolePlaceholder": "Rollen, die immer beitreten dürfen"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "showControlPanel": {
+              "label": "Steuerpanel in den erstellten Kanälen anzeigen"
+            }
+          }
+        },
+        "g1": {
+          "label": "🔊 Hubs (Erzeugerkanäle)",
+          "description": "Wer einen Hub betritt, erhält automatisch einen temporären Sprachkanal.",
+          "champs": {
+            "hubs": {
+              "label": "Hubs",
+              "addLabel": "Hub hinzufügen",
+              "item": {
+                "channelId": {
+                  "label": "Erzeugerkanal (Sprache)"
+                },
+                "categoryId": {
+                  "label": "Kategorie der erstellten Kanäle"
+                },
+                "nameTemplate": {
+                  "label": "Namensvorlage",
+                  "help": "Z. B. „Kanal von {user}“."
+                },
+                "userLimit": {
+                  "label": "Nutzerlimit (0 = keines)"
+                },
+                "lockedByDefault": {
+                  "label": "Standardmäßig gesperrt"
+                },
+                "inheritPermissions": {
+                  "label": "Berechtigungen des Hubs erben"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

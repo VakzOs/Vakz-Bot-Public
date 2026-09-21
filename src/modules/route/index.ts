@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, routeConfigSchema, routeDefaultConfig } from './config.js';
 import { routeCommands } from './commands.js';
 import { routeComponent } from './shop.js';
@@ -17,67 +18,139 @@ export default defineModule({
   emoji: '\u{1F9ED}',
   configSchema: routeConfigSchema,
   defaultConfig: routeDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
       fields: [
-        { key: 'cooldownMinutes', label: 'Cooldown (minutes)', type: 'number' },
-        { key: 'giveCoins', label: 'Donner des pièces', type: 'boolean' },
-        { key: 'giveItems', label: 'Donner des objets', type: 'boolean' },
-        { key: 'energyRegenRate', label: 'Régénération énergie (par minute)', type: 'number' },
-        { key: 'energyRegenCap', label: 'Plafond de régénération énergie', type: 'number' },
+        {
+          key: 'cooldownMinutes',
+          label: t('modules.route.ui.g0.champs.cooldownMinutes.label'),
+          type: 'number',
+          help: t('modules.route.ui.g0.champs.cooldownMinutes.help'),
+        },
+        {
+          key: 'giveCoins',
+          label: t('modules.route.ui.g0.champs.giveCoins.label'),
+          type: 'boolean',
+          help: t('modules.route.ui.g0.champs.giveCoins.help'),
+        },
+        {
+          key: 'giveItems',
+          label: t('modules.route.ui.g0.champs.giveItems.label'),
+          type: 'boolean',
+          help: t('modules.route.ui.g0.champs.giveItems.help'),
+        },
+        {
+          key: 'energyRegenRate',
+          label: t('modules.route.ui.g0.champs.energyRegenRate.label'),
+          type: 'number',
+          help: t('modules.route.ui.g0.champs.energyRegenRate.help'),
+        },
+        {
+          key: 'energyRegenCap',
+          label: t('modules.route.ui.g0.champs.energyRegenCap.label'),
+          type: 'number',
+          help: t('modules.route.ui.g0.champs.energyRegenCap.help'),
+        },
       ],
     },
     {
-      label: '🎁😈 Cadeau promis mais jamais donné',
-      description:
-        "Certains événements annoncent un cadeau (corbeau messager, marchand, fée, ermite…) alors que le tirage peut ne rien donner : barème de drop trop bas, aucun objet « Drop en jeu » au catalogue, ou objets désactivés. Dans ce cas le bot ajoute une petite pique sous le message pour que le voyageur comprenne qu'il n'aura rien.",
+      label: t('modules.route.ui.g1.label'),
+      description: t('modules.route.ui.g1.description'),
       fields: [
         {
           key: 'missedGiftTaunt',
-          label: 'Ajouter une pique quand le cadeau ne tombe pas',
+          label: t('modules.route.ui.g1.champs.missedGiftTaunt.label'),
           type: 'boolean',
+          help: t('modules.route.ui.g1.champs.missedGiftTaunt.help'),
         },
         {
           key: 'missedGiftMessages',
-          label: 'Piques personnalisées (une par ligne)',
+          label: t('modules.route.ui.g1.champs.missedGiftMessages.label'),
           type: 'textarea',
-          help: 'Une ligne = une pique, tirée au hasard. Laisser vide pour utiliser celles du bot.',
-          placeholder:
-            "🥲 T'auras pas de cadeau. Voilà. C'est dit.\n👁️👄👁️ STARE THIS GUY, il est reparti avec.",
+          help: t('modules.route.ui.g1.champs.missedGiftMessages.help'),
+          placeholder: t('modules.route.ui.g1.champs.missedGiftMessages.placeholder'),
         },
       ],
     },
     {
       key: 'drops',
-      label: '🎁 Drops de la Route (barème propre)',
-      description:
-        'Chances de drop par rareté, propres à la Route et indépendantes de celles des mini-jeux. Sur un événement « marchand », on tire de la plus rare à la plus commune ; seuls les objets « Drop en jeu » peuvent tomber.',
+      label: t('modules.route.ui.drops.label'),
+      description: t('modules.route.ui.drops.description'),
       fields: [
-        { key: 'common', label: '% drop — Commun (0-100)', type: 'number' },
-        { key: 'rare', label: '% drop — Rare (0-100)', type: 'number' },
-        { key: 'epic', label: '% drop — Épique (0-100)', type: 'number' },
-        { key: 'legendary', label: '% drop — Légendaire (0-100)', type: 'number' },
+        {
+          key: 'common',
+          label: t('modules.route.ui.drops.champs.common.label'),
+          type: 'number',
+          help: t('modules.route.ui.drops.champs.common.help'),
+        },
+        {
+          key: 'rare',
+          label: t('modules.route.ui.drops.champs.rare.label'),
+          type: 'number',
+          help: t('modules.route.ui.drops.champs.rare.help'),
+        },
+        {
+          key: 'epic',
+          label: t('modules.route.ui.drops.champs.epic.label'),
+          type: 'number',
+          help: t('modules.route.ui.drops.champs.epic.help'),
+        },
+        {
+          key: 'legendary',
+          label: t('modules.route.ui.drops.champs.legendary.label'),
+          type: 'number',
+          help: t('modules.route.ui.drops.champs.legendary.help'),
+        },
       ],
     },
     {
       key: 'shopPrices',
-      label: '🧳 Prix boutique (/route boutique)',
-      description: "Prix d'achat des provisions, payés avec le solde du module Économie.",
+      label: t('modules.route.ui.shopPrices.label'),
+      description: t('modules.route.ui.shopPrices.description'),
       fields: [
-        { key: 'potion', label: '🧪 Potion de soin (+40 PV)', type: 'number' },
-        { key: 'tonic', label: '⚡ Tonique d’énergie (+50 ⚡)', type: 'number' },
-        { key: 'ration', label: '🍖 Ration de voyage (+15 PV, +20 ⚡)', type: 'number' },
+        {
+          key: 'potion',
+          label: t('modules.route.ui.shopPrices.champs.potion.label'),
+          type: 'number',
+          help: t('modules.route.ui.shopPrices.champs.potion.help'),
+        },
+        {
+          key: 'tonic',
+          label: t('modules.route.ui.shopPrices.champs.tonic.label'),
+          type: 'number',
+          help: t('modules.route.ui.shopPrices.champs.tonic.help'),
+        },
+        {
+          key: 'ration',
+          label: t('modules.route.ui.shopPrices.champs.ration.label'),
+          type: 'number',
+          help: t('modules.route.ui.shopPrices.champs.ration.help'),
+        },
       ],
     },
     {
       key: 'peddlerPrices',
-      label: '🪙 Prix de revente (marchand ambulant)',
-      description:
-        "Prix auxquels l'événement marchand ambulant rachète les provisions des voyageurs.",
+      label: t('modules.route.ui.peddlerPrices.label'),
+      description: t('modules.route.ui.peddlerPrices.description'),
       fields: [
-        { key: 'potion', label: '🧪 Potion de soin', type: 'number' },
-        { key: 'tonic', label: '⚡ Tonique d’énergie', type: 'number' },
-        { key: 'ration', label: '🍖 Ration de voyage', type: 'number' },
+        {
+          key: 'potion',
+          label: t('modules.route.ui.peddlerPrices.champs.potion.label'),
+          type: 'number',
+          help: t('modules.route.ui.peddlerPrices.champs.potion.help'),
+        },
+        {
+          key: 'tonic',
+          label: t('modules.route.ui.peddlerPrices.champs.tonic.label'),
+          type: 'number',
+          help: t('modules.route.ui.peddlerPrices.champs.tonic.help'),
+        },
+        {
+          key: 'ration',
+          label: t('modules.route.ui.peddlerPrices.champs.ration.label'),
+          type: 'number',
+          help: t('modules.route.ui.peddlerPrices.champs.ration.help'),
+        },
       ],
     },
   ],

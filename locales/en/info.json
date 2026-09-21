@@ -3,6 +3,15 @@
     "info": {
       "label": "Info commands",
       "description": "Utility commands: info about a member, the server, a role, or someone's avatar.",
+      "noms": {
+        "avatar": "avatar",
+        "emoji": "emoji",
+        "infos-membre": "userinfo",
+        "infos-role": "roleinfo",
+        "infos-serveur": "serverinfo",
+        "membre": "member",
+        "role": "role"
+      },
       "opt": {
         "member": "The target member (default: you).",
         "role": "The target role.",
@@ -57,6 +66,42 @@
         "animated": "🎞️ Animated",
         "static": "🖼️ Static",
         "notEmoji": "❌ That's not a valid emoji. Provide a custom emoji, a server `:name:`, or a unicode emoji."
+      },
+      "ui": {
+        "g0": {
+          "label": "🪪 Profile log",
+          "description": "Records members' identity changes in a channel (name, profile picture, server nickname). The /userinfo, /serverinfo… commands stay available at all times.",
+          "champs": {
+            "watchEnabled": {
+              "label": "Enable the profile log",
+              "help": "Turns on the identity-change log. The information commands (`/infos-membre`…) work independently: this setting is not about turning those off."
+            },
+            "watchChannelId": {
+              "label": "Log channel",
+              "help": "The channel changes are logged to. Empty, nothing is written even with watching on. Keep it staff-only: everybody's former names scroll past in it."
+            },
+            "watchUsername": {
+              "label": "Username (@handle)",
+              "help": "The global, unique Discord @handle. It is the one that matters for spotting a returning account: it rarely changes, and rarely without a reason."
+            },
+            "watchGlobalName": {
+              "label": "Display name",
+              "help": "The account's display name, used across all of Discord. Changes often and harmlessly — this is the box that fills the log the most for the least information."
+            },
+            "watchAvatar": {
+              "label": "Profile picture",
+              "help": "The profile picture. The log keeps a link to the old image: Discord removes it from its servers after a while, and the link eventually shows nothing."
+            },
+            "watchNickname": {
+              "label": "Server nickname",
+              "help": "The nickname specific to THIS server. It is the one moderation itself changes to clean up an unreadable name — expect to see your own actions in the log."
+            },
+            "watchRoleIds": {
+              "label": "Limit to these roles (empty = every member)",
+              "help": "Restricts watching to members holding one of these roles. Empty, everyone is watched. On a large server, sticking to sensitive roles avoids an unreadable log where the one notable change gets lost."
+            }
+          }
+        }
       }
     }
   }

@@ -7,19 +7,31 @@
  * aux tests. C'est arrivé deux fois — une clé renommée d'un côté seulement,
  * un motif d'échec sans traduction — d'où ce contrôle.
  *
- * Trois choses vérifiées :
- *   1. toute clé littérale appelée dans `src/` existe en français ;
- *   2. les deux fichiers de langue portent exactement les mêmes clés ;
- *   3. les clés construites dynamiquement (`t(`a.b.${x}`)`) ont au moins un
- *      enfant sous leur préfixe — on ne peut pas deviner `x`, mais un préfixe
- *      entièrement absent est à coup sûr une erreur.
+ * Les langues ne sont pas énumérées ici : elles sont découvertes dans
+ * `locales/`. Deux régimes, parce que deux exigences différentes :
+ *
+ *   - les langues de RÉFÉRENCE (fr, en) sont maintenues par le dépôt et doivent
+ *     rester alignées au mot près ;
+ *   - une langue AJOUTÉE (`locales/ch/`…) a le droit d'être incomplète — `t()`
+ *     retombe sur le français, une traduction partielle est utilisable, et
+ *     exiger 2 000 clés d'un contributeur serait interdire la contribution.
+ *     On y vérifie donc autre chose : ses métadonnées (nom, drapeau), sans
+ *     lesquelles elle s'afficherait « CH 🏳️ » dans les sélecteurs, et ses clés
+ *     ORPHELINES, qui sont des fautes de frappe ou des restes d'un renommage.
  *
  * Usage : node scripts/verifier-i18n.mjs
  */
-import { readFile, readdir } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
 import { join } from 'node:path';
 
-const LOCALES = ['fr', 'en'];
+/** Langues tenues par le dépôt : alignement strict exigé entre elles. */
+const REFERENCE_LOCALES = ['fr', 'en'];
+
+/** Langue de repli : toute clé appelée dans le code doit y exister. */
+const DEFAULT_LOCALE = 'fr';
+
+/** Métadonnées qu'une langue doit déclarer pour être présentable. */
+const META_KEYS = ['langue.nom', 'langue.drapeau'];
 
 async function sources(dir) {
   const found = [];
@@ -42,30 +54,42 @@ function flatten(value, prefix = '', out = new Set()) {
 }
 
 /**
- * Charge une langue, éclatée en un fichier par module (`locales/fr/*.json`) ou
- * d'un seul tenant (`locales/fr.json`).
- *
- * Les deux dispositions sont acceptées, comme dans `src/core/i18n.ts` : ce
- * contrôle doit voir exactement ce que le bot verra, sinon il valide un
- * catalogue qui n'est pas celui qui tourne.
+ * Les langues présentes dans `locales/`, dossier (`locales/fr/*.json`) ou
+ * fichier (`locales/fr.json`). Le code d'une langue est le nom de son dossier
+ * en minuscules, comme dans `src/core/i18n.ts` : ce contrôle doit voir
+ * exactement ce que le bot verra.
  */
-async function loadLocale(locale) {
-  const keys = new Set();
-  try {
-    for (const entry of await readdir(`locales/${locale}`)) {
-      if (!entry.endsWith('.json')) continue;
-      flatten(JSON.parse(await readFile(`locales/${locale}/${entry}`, 'utf8')), '', keys);
+async function discoverLocales() {
+  const found = new Map();
+  for (const entry of await readdir('locales', { withFileTypes: true })) {
+    if (entry.isDirectory()) found.set(entry.name.toLowerCase(), join('locales', entry.name));
+    else if (entry.name.endsWith('.json')) {
+      found.set(entry.name.replace(/\.json$/, '').toLowerCase(), join('locales', entry.name));
     }
-    return keys;
-  } catch {
-    // Pas de dossier : disposition d'un seul fichier.
   }
-  return flatten(JSON.parse(await readFile(`locales/${locale}.json`, 'utf8')));
+  return found;
 }
 
+async function loadLocale(path) {
+  const keys = new Set();
+  if ((await stat(path)).isDirectory()) {
+    for (const entry of await readdir(path)) {
+      if (!entry.endsWith('.json')) continue;
+      flatten(JSON.parse(await readFile(join(path, entry), 'utf8')), '', keys);
+    }
+    return keys;
+  }
+  return flatten(JSON.parse(await readFile(path, 'utf8')));
+}
+
+const paths = await discoverLocales();
 const dictionaries = Object.fromEntries(
-  await Promise.all(LOCALES.map(async (locale) => [locale, await loadLocale(locale)])),
+  await Promise.all([...paths].map(async ([locale, path]) => [locale, await loadLocale(path)])),
 );
+
+const problems = [];
+const missingReference = REFERENCE_LOCALES.filter((locale) => !dictionaries[locale]);
+for (const locale of missingReference) problems.push(`locales : langue « ${locale} » absente`);
 
 const literals = new Map();
 const prefixes = new Map();
@@ -87,25 +111,62 @@ for (const file of await sources('src')) {
   }
 }
 
-const problems = [];
+/** Langues à contrôler au mot près : celles que le dépôt maintient. */
+const checked = REFERENCE_LOCALES.filter((locale) => dictionaries[locale]);
 
 for (const [key, file] of literals) {
-  for (const locale of LOCALES) {
-    if (!dictionaries[locale].has(key))
-      problems.push(`${file} : « ${key} » absente de ${locale}.json`);
+  for (const locale of checked) {
+    if (!dictionaries[locale].has(key)) problems.push(`${file} : « ${key} » absente de ${locale}`);
   }
 }
 
 for (const [prefix, file] of prefixes) {
-  for (const locale of LOCALES) {
+  for (const locale of checked) {
     const some = [...dictionaries[locale]].some((key) => key.startsWith(`${prefix}.`));
-    if (!some) problems.push(`${file} : préfixe « ${prefix}.* » sans aucune clé en ${locale}.json`);
+    if (!some) problems.push(`${file} : préfixe « ${prefix}.* » sans aucune clé en ${locale}`);
   }
 }
 
-const [fr, en] = [dictionaries.fr, dictionaries.en];
-for (const key of fr) if (!en.has(key)) problems.push(`locales : « ${key} » en fr mais pas en en`);
-for (const key of en) if (!fr.has(key)) problems.push(`locales : « ${key} » en en mais pas en fr`);
+// Alignement strict entre langues de référence, deux à deux.
+for (const locale of checked) {
+  for (const other of checked) {
+    if (locale === other) continue;
+    for (const key of dictionaries[locale]) {
+      if (!dictionaries[other].has(key))
+        problems.push(`locales : « ${key} » en ${locale} mais pas en ${other}`);
+    }
+  }
+}
+
+// Toute langue, référence comprise, doit se nommer et porter son drapeau :
+// c'est ce que lisent les sélecteurs du bot et du site.
+for (const [locale, keys] of Object.entries(dictionaries)) {
+  for (const meta of META_KEYS) {
+    if (!keys.has(meta)) {
+      problems.push(`locales/${locale} : « ${meta} » manquante (bloc « langue » de commun.json)`);
+    }
+  }
+}
+
+// Langues ajoutées : incomplètes par droit, mais pas inventées. Une clé qu'on
+// ne trouve nulle part en français est une faute de frappe ou le reste d'un
+// renommage — dans les deux cas, elle ne sera jamais lue.
+const extras = Object.keys(dictionaries).filter((locale) => !checked.includes(locale));
+const coverage = [];
+for (const locale of extras) {
+  const reference = dictionaries[DEFAULT_LOCALE];
+  if (!reference) break;
+  for (const key of dictionaries[locale]) {
+    if (!reference.has(key))
+      problems.push(`locales/${locale} : « ${key} » inconnue en ${DEFAULT_LOCALE}`);
+  }
+  const translated = [...reference].filter((key) => dictionaries[locale].has(key)).length;
+  coverage.push(
+    `${locale} : ${String(translated)}/${String(reference.size)} clés (${String(
+      Math.round((translated / Math.max(reference.size, 1)) * 100),
+    )} %)`,
+  );
+}
 
 if (problems.length > 0) {
   console.error(`✖ ${String(problems.length)} problème(s) de traduction :`);
@@ -114,5 +175,8 @@ if (problems.length > 0) {
 }
 
 console.log(
-  `✔ ${String(literals.size)} clé(s) littérale(s) et ${String(prefixes.size)} préfixe(s) dynamique(s) vérifiés, fr et en alignés.`,
+  `✔ ${String(literals.size)} clé(s) littérale(s) et ${String(prefixes.size)} préfixe(s) dynamique(s) vérifiés, ${checked.join(' et ')} alignés.`,
 );
+// Le reste n'est pas un défaut : une langue de la communauté a le droit d'être
+// en chemin. On l'affiche pour qu'on sache où elle en est.
+for (const line of coverage) console.log(`  langue ajoutée — ${line}`);

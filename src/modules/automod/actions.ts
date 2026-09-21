@@ -1,4 +1,5 @@
 import type { ModuleAction } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { getAutomodConfig } from './config.js';
 import { createHoneypotChannel, syncHoneypotMessage } from './service.js';
 
@@ -6,21 +7,23 @@ import { createHoneypotChannel, syncHoneypotMessage } from './service.js';
  * Crée le salon piège (« honeypot ») ouvert à tous : tout membre qui y écrit
  * est sanctionné. Le salon créé devient le salon piège du module.
  */
-const setupHoneypot: ModuleAction = {
+const setupHoneypot = (): ModuleAction => ({
   id: 'setupHoneypot',
-  label: 'Créer le salon piège',
-  help: 'Crée un salon visible de tous où écrire déclenche la sanction configurée.',
+  label: t('modules.automod.actions.setupHoneypot.label'),
+  help: t('modules.automod.actions.setupHoneypot.help'),
   style: 'primary',
-  confirm: 'Créer un nouveau salon piège sur ce serveur ?',
+  confirm: t('modules.automod.actions.setupHoneypot.confirm'),
   async run({ ctx, guildId }) {
     const guild = ctx.client.guilds.cache.get(guildId);
-    if (!guild) return { ok: false, message: 'Serveur introuvable.' };
+    const msg = (key: string, vars?: Record<string, string | number>) =>
+      t(`modules.automod.actions.setupHoneypot.msg.${key}`, vars);
+    if (!guild) return { ok: false, message: msg('noGuild') };
 
     const channel = await createHoneypotChannel(guild);
     if (!channel) {
       return {
         ok: false,
-        message: 'Création refusée : permission « Gérer les salons » manquante.',
+        message: msg('noPermission'),
       };
     }
 
@@ -29,10 +32,10 @@ const setupHoneypot: ModuleAction = {
     const messageId = await syncHoneypotMessage(ctx, guild, { ...config, honeypot });
     return {
       ok: true,
-      message: `Salon piège créé : #${channel.name}.`,
+      message: msg('done', { salon: channel.name }),
       configPatch: { honeypot: { ...honeypot, messageId } },
     };
   },
-};
+});
 
-export const automodActions: ModuleAction[] = [setupHoneypot];
+export const automodActions = (): ModuleAction[] => [setupHoneypot()];

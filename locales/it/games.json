@@ -1,0 +1,118 @@
+{
+  "modules": {
+    "games": {
+      "label": "Giochi",
+      "description": "Minigiochi divertenti: palla magica, dadi, testa o croce, sorteggio, sasso-carta-forbici, tris e battaglia navale (con statistiche). Può far cadere oggetti se il modulo «Oggetti» è configurato.",
+      "noms": {
+        "adversaire": "avversario",
+        "bataille": "battaglia-navale",
+        "boule8": "palla8",
+        "choisir": "scegli",
+        "coup": "mossa",
+        "membre": "membro",
+        "morpion": "tris",
+        "nombre": "numero",
+        "options": "opzioni",
+        "pfc": "scf",
+        "pileouface": "testa-o-croce",
+        "question": "domanda",
+        "stats-jeux": "stats-giochi"
+      },
+      "drop": {
+        "announce": "🎁 {user} ha trovato {emoji} **{name}** ({rarity})!"
+      },
+      "opt": {
+        "question": "La tua domanda per la palla magica.",
+        "count": "Numero di dadi da lanciare (predefinito: 1).",
+        "options": "Le scelte, separate da «|» o «,».",
+        "move": "La tua mossa.",
+        "member": "Il membro interessato (predefinito: tu).",
+        "opponent": "Avversario da sfidare (lascia vuoto per giocare contro il bot)."
+      },
+      "boule8": {
+        "description": "Fai una domanda alla palla magica.",
+        "title": "🎱 Palla magica",
+        "questionField": "Domanda",
+        "answerField": "Risposta",
+        "answers": "È certo.|Senza alcun dubbio.|Sì, assolutamente.|Puoi contarci.|Probabilmente.|I segni dicono di sì.|Forse sì.|Difficile a dirsi, riprova.|Nulla è meno sicuro.|Concentrati e rifai la domanda.|Non contarci.|La mia risposta è no.|Le mie fonti dicono di no.|Molto improbabile.|Ne dubito fortemente."
+      },
+      "dice": {
+        "description": "Lancia uno o più dadi da {faces} facce."
+      },
+      "coin": {
+        "description": "Tira a testa o croce.",
+        "title": "🪙 Testa o croce",
+        "heads": "**Testa!**",
+        "tails": "**Croce!**"
+      },
+      "choose": {
+        "description": "Il bot sceglie per te tra più opzioni.",
+        "title": "🤔 Scelta",
+        "result": "Scelgo… **{choice}**!",
+        "needTwo": "Dai almeno due opzioni, separate da «|» o «,»."
+      },
+      "pfc": {
+        "description": "Sasso-carta-forbici (contro il bot o un membro).",
+        "title": "✊ Sasso-Carta-Forbici",
+        "line": "Tu: {player} — Io: {bot}",
+        "win": "🎉 **Hai vinto!**",
+        "loss": "😈 **Ho vinto io!**",
+        "draw": "🤝 **Pareggio!**",
+        "recordField": "Il tuo bilancio",
+        "record": "🏆 {wins} · 💀 {losses} · 🤝 {draws}",
+        "challenge": "{challenger} sfida {opponent}! {opponent}, scegli la tua mossa 👇",
+        "duelExpired": "⌛ Questa sfida è scaduta.",
+        "notYourDuel": "❌ Questa sfida non è per te.",
+        "duel": {
+          "challengerWins": "🎉 {challenger} vince il duello!",
+          "opponentWins": "🎉 {opponent} vince il duello!",
+          "draw": "🤝 Pareggio tra {challenger} e {opponent}!"
+        }
+      },
+      "ttt": {
+        "description": "Gioca a tris contro il bot o un membro.",
+        "title": "🎮 Tris",
+        "bot": "il computer",
+        "turn": "🎯 Tocca a {user}.",
+        "botTurn": "🤖 Tocca a me…",
+        "wins": "🎉 {user} vince la partita!",
+        "botWins": "🤖 Ho vinto! 😎",
+        "draw": "🤝 Pareggio!",
+        "expired": "⌛ Questa partita è scaduta.",
+        "notYourTurn": "❌ Non tocca a te (o non è la tua partita)."
+      },
+      "bn": {
+        "description": "Gioca a battaglia navale contro il bot o un membro.",
+        "title": "🚢 Battaglia navale",
+        "bot": "il computer",
+        "fire": "Spara",
+        "coordLabel": "Coordinata (es. C7)",
+        "ownGrid": "La tua flotta",
+        "targetGrid": "I tuoi colpi",
+        "myFleet": "La mia flotta",
+        "turn": "🎯 Tocca a {user} sparare.",
+        "botTurn": "🤖 Tocca a me sparare…",
+        "wins": "🎉 {user} vince la battaglia!",
+        "botWins": "🤖 Ho affondato tutta la tua flotta! 😎",
+        "remaining": "🚢 Navi affondate: {sunk}/{total}",
+        "expired": "⌛ Questa partita è scaduta.",
+        "notYourTurn": "❌ Non tocca a te (o non è la tua partita).",
+        "notPlayer": "❌ Non partecipi a questa partita.",
+        "invalidCoord": "❌ Coordinata non valida. Una lettera (A-H) e una cifra (1-8), es. C7.",
+        "alreadyShot": "❌ Hai già sparato su questa casella.",
+        "shotMiss": "🌊 {who} spara in {coord}: acqua!",
+        "shotHit": "🎯 {who} spara in {coord}: colpito!",
+        "shotSunk": "💥 {who} spara in {coord}: affondato!"
+      },
+      "stats": {
+        "description": "Mostra le statistiche di gioco di un membro.",
+        "title": "🎮 Statistiche di gioco — {user}",
+        "none": "Per ora nessuna partita giocata.",
+        "value": "{plays} partite · 🏆 {wins} · 💀 {losses} · 🤝 {draws} · {winrate} % di vittorie",
+        "pfcField": "✊ Sasso-Carta-Forbici",
+        "morpionField": "🎮 Tris",
+        "batailleField": "🚢 Battaglia navale"
+      }
+    }
+  }
+}

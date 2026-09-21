@@ -1,0 +1,61 @@
+{
+  "modules": {
+    "verification": {
+      "label": "Verifizierung",
+      "description": "Anti-Bot-Eingang: Eine Schaltfläche oder ein Bild-Captcha vergibt die Rolle „verifiziert“, die den Server freischaltet.",
+      "feedback": {
+        "disabled": "❌ Die Verifizierung ist auf diesem Server deaktiviert.",
+        "notConfigured": "❌ Die Verifizierung ist noch nicht bereit (keine Rolle „verifiziert“ festgelegt). Sag der Administration Bescheid.",
+        "alreadyVerified": "✅ Du bist bereits verifiziert!",
+        "cannotAssign": "❌ Ich kann dir die Rolle „verifiziert“ nicht geben. Die Administration muss meine Berechtigungen prüfen (Rollen verwalten + Hierarchie).",
+        "captchaInstructions": "🔐 Tippe den Code vom Bild ab und klicke dann auf „Code eingeben“. Groß- und Kleinschreibung spielt keine Rolle.",
+        "captchaWrong": "❌ Falscher Code. Versuche es erneut über „Code eingeben“.",
+        "captchaExpired": "⌛ Das Captcha ist abgelaufen. Klicke erneut auf „Verifizieren“, um ein neues zu erzeugen.",
+        "success": "✅ Verifizierung erfolgreich, willkommen! Du hast jetzt Zugang zum Server.",
+        "openButton": "Code eingeben",
+        "answerModalTitle": "Verifizierung",
+        "answerField": "Auf dem Bild angezeigter Code"
+      },
+      "log": {
+        "verified": "✅ {user} hat die Verifizierung bestanden."
+      },
+      "ui": {
+        "g0": {
+          "label": "🔐 Verifizierung",
+          "description": "Veröffentliche das Panel nach einer Änderung mit der Schaltfläche „Veröffentlichen“ erneut.",
+          "champs": {
+            "channelId": {
+              "label": "Kanal der Verifizierung"
+            },
+            "roleId": {
+              "label": "Rolle nach erfolgreicher Verifizierung"
+            },
+            "method": {
+              "label": "Methode",
+              "opt": {
+                "button": {
+                  "label": "Einfache Schaltfläche"
+                },
+                "captcha": {
+                  "label": "Bild-Captcha"
+                }
+              }
+            },
+            "title": {
+              "label": "Titel"
+            },
+            "content": {
+              "label": "Inhalt"
+            },
+            "buttonLabel": {
+              "label": "Beschriftung der Schaltfläche"
+            },
+            "logChannelId": {
+              "label": "Kanal für Protokolle"
+            }
+          }
+        }
+      }
+    }
+  }
+}

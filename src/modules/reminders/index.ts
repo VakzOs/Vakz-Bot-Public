@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { remindersActions } from './actions.js';
 import { MODULE_NAME, remindersConfigSchema, remindersDefaultConfig } from './config.js';
 import { reminderTask } from './task.js';
@@ -15,11 +16,21 @@ export default defineModule({
   emoji: '\u{23F0}',
   configSchema: remindersConfigSchema,
   defaultConfig: remindersDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
       fields: [
-        { key: 'allowDm', label: 'Autoriser les rappels en message privé', type: 'boolean' },
-        { key: 'maxDelayDays', label: 'Délai maximum d’un rappel (jours)', type: 'number' },
+        {
+          key: 'allowDm',
+          label: t('modules.reminders.ui.g0.champs.allowDm.label'),
+          type: 'boolean',
+          help: t('modules.reminders.ui.g0.champs.allowDm.help'),
+        },
+        {
+          key: 'maxDelayDays',
+          label: t('modules.reminders.ui.g0.champs.maxDelayDays.label'),
+          type: 'number',
+          help: t('modules.reminders.ui.g0.champs.maxDelayDays.help'),
+        },
       ],
     },
   ],

@@ -3,6 +3,11 @@
     "levels": {
       "label": "Niveaux",
       "description": "Gain d'XP par message, niveaux, rôles récompense et classement.",
+      "noms": {
+        "classement": "classement",
+        "membre": "membre",
+        "rang": "rang"
+      },
       "commands": {
         "rang": {
           "description": "Affiche ton niveau, ton XP et ton rang.",
@@ -18,6 +23,95 @@
           "description": "Affiche le classement des membres par XP.",
           "empty": "Personne n'a encore gagné d'XP sur ce serveur.",
           "title": "🏆 Classement"
+        }
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ Gain d’XP",
+          "champs": {
+            "xpMin": {
+              "label": "XP minimum par message",
+              "help": "Le plancher du tirage. C'est lui qui fixe le rythme de fond : un membre régulier gagnera à peu près la moyenne des deux bornes par message retenu."
+            },
+            "xpMax": {
+              "label": "XP maximum par message",
+              "help": "Le plafond du tirage. Le mettre très au-dessus du minimum rend la progression irrégulière et décourageante ; le mettre égal au minimum supprime le hasard."
+            },
+            "cooldown": {
+              "label": "Cooldown entre gains (s)",
+              "help": "Pendant ce délai, les messages suivants d'un même membre ne rapportent rien. C'est le garde-fou anti-spam du module : à 0, dix messages d'un mot rapportent dix fois, et le classement récompense le bruit plutôt que la présence."
+            },
+            "maxLevel": {
+              "label": "Niveau maximum (0 = illimité)",
+              "help": "Au-delà, l'XP continue d'être comptée mais le niveau n'augmente plus et aucune annonce n'est envoyée. Utile pour qu'un ancien ne distance pas définitivement les arrivants. 0 lève la limite."
+            },
+            "ignoredChannelIds": {
+              "label": "Salons ignorés",
+              "help": "Aucun gain n'y est compté, ni par message ni en vocal. À réserver aux salons de test, aux commandes de bot et aux salons de spam — là où écrire beaucoup ne veut rien dire."
+            },
+            "ignoredRoleIds": {
+              "label": "Rôles ignorés",
+              "help": "Les membres qui portent l'un de ces rôles ne gagnent plus rien, où qu'ils écrivent. Sert surtout aux bots secondaires et aux comptes de service ; c'est aussi la sanction la plus discrète contre qui gonfle son compteur."
+            },
+            "boosterRoleIds": {
+              "label": "Rôles avec bonus d’XP",
+              "help": "Les membres qui portent l'un de ces rôles voient leur gain multiplié. Les rôles ne se cumulent pas : en porter deux ne double pas deux fois."
+            },
+            "boosterMultiplier": {
+              "label": "Multiplicateur du bonus",
+              "help": "Par combien l'XP est multipliée pour les rôles ci-dessus. Au-delà de 2, un boosté rattrape en une semaine ce qu'un autre a mis un mois à gagner, et le classement cesse de dire qui participe."
+            },
+            "voiceEnabled": {
+              "label": "XP en vocal",
+              "help": "Compte aussi le temps passé en salon vocal. Un membre seul, sourd ou en sourdine ne gagne rien : sans cela, il suffirait de laisser un onglet ouvert la nuit."
+            },
+            "voiceXpPerMinute": {
+              "label": "XP par minute en vocal",
+              "help": "Versé chaque minute passée en vocal accompagné. À comparer au gain par message : une heure de vocal ne devrait pas valoir une semaine d'écrit, ni l'inverse."
+            },
+            "leaderboardChannelId": {
+              "label": "Salon du classement",
+              "help": "Le bot y tient un unique message de classement, réécrit toutes les dix minutes plutôt que republié. Vide, il n'y a pas de classement permanent — la commande reste disponible."
+            }
+          },
+          "description": "Chaque message rapporte un montant tiré au hasard entre le minimum et le maximum. Le hasard est là pour qu'on ne puisse pas calculer le nombre exact de messages à écrire pour monter — retirer l'écart entre les deux bornes rend la progression mécanique."
+        },
+        "g1": {
+          "label": "🏅 Récompenses de rôle",
+          "description": "Rôle attribué automatiquement lorsqu’un membre atteint le niveau indiqué.",
+          "champs": {
+            "rewards": {
+              "label": "Rôles par niveau",
+              "addLabel": "Ajouter une récompense",
+              "item": {
+                "level": {
+                  "label": "Niveau"
+                },
+                "roleId": {
+                  "label": "Rôle"
+                }
+              },
+              "help": "Une ligne par palier. Le bot doit pouvoir attribuer ces rôles : ils doivent donc être SOUS son propre rôle dans la hiérarchie du serveur, sinon l'attribution échoue en silence. Un rôle déjà gagné n'est jamais retiré."
+            }
+          }
+        },
+        "announce": {
+          "label": "📣 Annonce de passage de niveau",
+          "champs": {
+            "enabled": {
+              "label": "Activer l’annonce",
+              "help": "Éteint, les niveaux continuent d'être comptés et les rôles d'être attribués — simplement, plus rien ne l'annonce."
+            },
+            "channelId": {
+              "label": "Salon (vide = salon du message)",
+              "help": "Vide, l'annonce est postée dans le salon où le membre vient d'écrire : elle arrive là où il regarde. Un salon fixe évite d'interrompre les conversations, au prix d'être moins vue."
+            },
+            "message": {
+              "label": "Message",
+              "help": "Variables remplacées à l'envoi : {mention} pour interpeller le membre, {level} pour son nouveau niveau. Une variable mal écrite reste affichée telle quelle."
+            }
+          },
+          "description": "Une annonce par passage de niveau, au moment où il est franchi. Jamais de rattrapage groupé."
         }
       }
     }

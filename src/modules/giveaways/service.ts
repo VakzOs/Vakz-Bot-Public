@@ -235,8 +235,7 @@ export async function rerollAll(
 }
 
 export type RerollOneResult =
-  | { ok: true; oldId: string; newId: string }
-  | { ok: false; error: 'notWinner' | 'noEligible' };
+  { ok: true; oldId: string; newId: string } | { ok: false; error: 'notWinner' | 'noEligible' };
 
 /** Relance ciblée : remplace un gagnant précis par un nouveau tiré au sort. */
 export async function rerollOne(

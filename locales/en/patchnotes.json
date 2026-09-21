@@ -6,6 +6,65 @@
       "embed": {
         "footer": "Patch Notes · {source}",
         "noDescription": "No summary available. Open the link to read the full note."
+      },
+      "categories": {
+        "riot": "Riot Games",
+        "fps": "FPS",
+        "mmo": "MMO & RPG",
+        "survie": "Survival & sandbox",
+        "strategie": "Strategy",
+        "logiciels": "Software"
+      },
+      "ui": {
+        "g0": {
+          "label": "Subscriptions",
+          "description": "One row per game or software followed: the bot publishes every new patch note in the chosen channel.",
+          "champs": {
+            "subscriptions": {
+              "label": "Sources followed",
+              "addLabel": "Add a source",
+              "item": {
+                "sourceId": {
+                  "label": "Source"
+                },
+                "channelId": {
+                  "label": "Publication channel"
+                },
+                "roleId": {
+                  "label": "Role to mention",
+                  "help": "Optional: mentioned on every new note."
+                }
+              },
+              "help": "One row per followed game: the source, the announcement channel, and a role to ping. Sources come from a built-in catalogue — a source dropped from it makes the subscription disappear from this list, without warning. Only notes published AFTER the row is added get announced: adding a game does not replay its history."
+            }
+          }
+        }
+      },
+      "actions": {
+        "publishLatest": {
+          "label": "Publish the latest note",
+          "help": "Immediately sends the latest patch note of the chosen source to its channel.",
+          "champs": {
+            "sourceId": {
+              "label": "Source",
+              "help": "Must match a subscription already saved above."
+            }
+          },
+          "raisons": {
+            "missingSource": "unknown source",
+            "missingChannel": "no channel configured",
+            "channelUnavailable": "channel not found or not a text channel",
+            "missingPermissions": "missing permissions in the channel",
+            "noNotes": "no note found on the source",
+            "unknown": "cannot send"
+          },
+          "msg": {
+            "pickSource": "Pick a valid source.",
+            "noSubscription": "This source has no saved subscription yet.",
+            "nothing": "Nothing published: {raison}.",
+            "done": "{n} note published."
+          }
+        }
       }
     }
   }

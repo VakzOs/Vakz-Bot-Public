@@ -66,3 +66,25 @@ export const logger: Logger = pino(
 export function createLogger(scope: string): Logger {
   return logger.child({ scope });
 }
+
+/** Loggers de module déjà créés — un enfant pino par `scope`, pas un par ligne. */
+const scoped = new Map<string, Logger>();
+
+/**
+ * Le logger d'un module, mémoïsé.
+ *
+ * Les gardes du cœur (`safeRun`, `handleInteractionError`) ne reçoivent pas le
+ * contexte du module, seulement son **nom**, au milieu d'un objet de champs.
+ * Elles écrivaient donc sur le logger racine : la ligne partait sans `scope`,
+ * la colonne « module » du dashboard restait vide et la recherche par module ne
+ * trouvait pas l'erreur qu'elle cherchait — précisément pour les modules qui ne
+ * parlent que par évènements, et qui n'ont donc rien d'autre à montrer.
+ */
+export function loggerFor(scope: string | undefined): Logger {
+  if (!scope) return logger;
+  const cached = scoped.get(scope);
+  if (cached) return cached;
+  const child = createLogger(scope);
+  scoped.set(scope, child);
+  return child;
+}

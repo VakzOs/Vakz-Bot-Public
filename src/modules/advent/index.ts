@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { adventActions } from './actions.js';
 import { MODULE_NAME, adventConfigSchema, adventDefaultConfig } from './config.js';
 import { advent } from './commands.js';
@@ -18,36 +19,73 @@ export default defineModule({
   emoji: '\u{1F384}',
   configSchema: adventConfigSchema,
   defaultConfig: adventDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
       fields: [
-        { key: 'announceChannelId', label: 'Salon des annonces', type: 'channel' },
-        { key: 'defaultCoins', label: 'Pièces par défaut par jour', type: 'number' },
-        { key: 'testMode', label: 'Mode test (ouvre toutes les cases)', type: 'boolean' },
+        {
+          key: 'announceChannelId',
+          label: t('modules.advent.ui.g0.champs.announceChannelId.label'),
+          type: 'channel',
+          help: t('modules.advent.ui.g0.champs.announceChannelId.help'),
+        },
+        {
+          key: 'defaultCoins',
+          label: t('modules.advent.ui.g0.champs.defaultCoins.label'),
+          type: 'number',
+          help: t('modules.advent.ui.g0.champs.defaultCoins.help'),
+        },
+        {
+          key: 'testMode',
+          label: t('modules.advent.ui.g0.champs.testMode.label'),
+          type: 'boolean',
+          help: t('modules.advent.ui.g0.champs.testMode.help'),
+        },
       ],
     },
     {
-      label: '🎁 Récompenses jour par jour',
-      description:
-        'Une ligne par porte à personnaliser. Les jours absents de la liste offrent les pièces par défaut.',
+      label: t('modules.advent.ui.g1.label'),
+      description: t('modules.advent.ui.g1.description'),
       fields: [
         {
           key: 'rewards',
-          label: 'Portes personnalisées',
+          label: t('modules.advent.ui.g1.champs.rewards.label'),
           type: 'list',
-          addLabel: 'Ajouter un jour',
+          help: t('modules.advent.ui.g1.champs.rewards.help'),
+          addLabel: t('modules.advent.ui.g1.champs.rewards.addLabel'),
           item: [
-            { key: 'day', label: 'Jour (1 à 25)', type: 'number', default: 1 },
-            { key: 'coins', label: 'Pièces offertes', type: 'number' },
+            {
+              key: 'day',
+              label: t('modules.advent.ui.g1.champs.rewards.item.day.label'),
+              type: 'number',
+              default: 1,
+            },
+            {
+              key: 'coins',
+              label: t('modules.advent.ui.g1.champs.rewards.item.coins.label'),
+              type: 'number',
+            },
             {
               key: 'items',
-              label: 'Objets offerts',
+              label: t('modules.advent.ui.g1.champs.rewards.item.items.label'),
               type: 'tags',
-              help: 'Identifiants d’objets du catalogue, un par puce.',
+              help: t('modules.advent.ui.g1.champs.rewards.item.items.help'),
             },
-            { key: 'itemQty', label: 'Quantité par objet', type: 'number', default: 1 },
-            { key: 'message', label: 'Message d’ouverture', type: 'textarea' },
-            { key: 'link', label: 'Lien offert (bouton)', type: 'text' },
+            {
+              key: 'itemQty',
+              label: t('modules.advent.ui.g1.champs.rewards.item.itemQty.label'),
+              type: 'number',
+              default: 1,
+            },
+            {
+              key: 'message',
+              label: t('modules.advent.ui.g1.champs.rewards.item.message.label'),
+              type: 'textarea',
+            },
+            {
+              key: 'link',
+              label: t('modules.advent.ui.g1.champs.rewards.item.link.label'),
+              type: 'text',
+            },
           ],
         },
       ],

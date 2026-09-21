@@ -1,4 +1,5 @@
 import { defineModule } from '../../core/module.js';
+import { t } from '../../core/i18n.js';
 import { MODULE_NAME, reactionRolesConfigSchema, reactionRolesDefaultConfig } from './config.js';
 import { onReactionAdd, onReactionRemove } from './events.js';
 import { publishMenu } from './menu.js';
@@ -19,28 +20,56 @@ export default defineModule({
   emoji: '\u{1F3AD}',
   configSchema: reactionRolesConfigSchema,
   defaultConfig: reactionRolesDefaultConfig,
-  configUI: [
+  configUI: () => [
     {
-      label: '⚙️ Panneau',
-      description: 'Après modification, republie le panneau avec le bouton « Publier ».',
+      label: t('modules.reactionroles.ui.g0.label'),
+      description: t('modules.reactionroles.ui.g0.description'),
       fields: [
-        { key: 'channelId', label: 'Salon du panneau', type: 'channel' },
-        { key: 'title', label: 'Titre', type: 'text' },
-        { key: 'description', label: 'Description', type: 'textarea' },
+        {
+          key: 'channelId',
+          label: t('modules.reactionroles.ui.g0.champs.channelId.label'),
+          type: 'channel',
+          help: t('modules.reactionroles.ui.g0.champs.channelId.help'),
+        },
+        {
+          key: 'title',
+          label: t('modules.reactionroles.ui.g0.champs.title.label'),
+          type: 'text',
+          help: t('modules.reactionroles.ui.g0.champs.title.help'),
+        },
+        {
+          key: 'description',
+          label: t('modules.reactionroles.ui.g0.champs.description.label'),
+          type: 'textarea',
+          help: t('modules.reactionroles.ui.g0.champs.description.help'),
+        },
       ],
     },
     {
-      label: '🎭 Rôles proposés',
+      label: t('modules.reactionroles.ui.g1.label'),
       fields: [
         {
           key: 'roles',
-          label: 'Rôles',
+          label: t('modules.reactionroles.ui.g1.champs.roles.label'),
           type: 'list',
-          addLabel: 'Ajouter un rôle',
+          help: t('modules.reactionroles.ui.g1.champs.roles.help'),
+          addLabel: t('modules.reactionroles.ui.g1.champs.roles.addLabel'),
           item: [
-            { key: 'roleId', label: 'Rôle', type: 'role' },
-            { key: 'label', label: 'Libellé du bouton', type: 'text' },
-            { key: 'emoji', label: 'Emoji', type: 'text' },
+            {
+              key: 'roleId',
+              label: t('modules.reactionroles.ui.g1.champs.roles.item.roleId.label'),
+              type: 'role',
+            },
+            {
+              key: 'label',
+              label: t('modules.reactionroles.ui.g1.champs.roles.item.label.label'),
+              type: 'text',
+            },
+            {
+              key: 'emoji',
+              label: t('modules.reactionroles.ui.g1.champs.roles.item.emoji.label'),
+              type: 'text',
+            },
           ],
         },
       ],

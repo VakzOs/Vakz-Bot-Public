@@ -21,12 +21,15 @@ function roleList(member: GuildMember): string {
   return roles.length > 20 ? `${shown} … (+${roles.length - 20})` : shown;
 }
 
-/** `/userinfo` — informations sur un membre (ou soi-même). */
+/** `/infos-membre` — informations sur un membre (ou soi-même). */
 export const userinfo: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('userinfo')
-    .setDescription(t('modules.info.userinfo.description'))
-    .addUserOption((o) => o.setName('membre').setDescription(t('modules.info.opt.member'))),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.info.noms.infos-membre'))
+      .setDescription(t('modules.info.userinfo.description'))
+      .addUserOption((o) =>
+        o.setName(t('modules.info.noms.membre')).setDescription(t('modules.info.opt.member')),
+      ),
   async execute(interaction) {
     if (!interaction.inCachedGuild()) return;
     const user = interaction.options.getUser('membre') ?? interaction.user;

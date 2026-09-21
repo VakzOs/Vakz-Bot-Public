@@ -1,0 +1,62 @@
+{
+  "modules": {
+    "customcommands": {
+      "label": "Comandi personalizzati",
+      "description": "Risposte automatiche attivate da parole chiave: attivatore → risposta (testo o embed), con canale, attesa ed eliminazione del messaggio.",
+      "match": {
+        "contains": "Contiene",
+        "exact": "Esatto",
+        "startsWith": "Inizia con",
+        "endsWith": "Finisce con"
+      },
+      "ui": {
+        "g0": {
+          "label": "⌨️ Comandi personalizzati",
+          "champs": {
+            "commands": {
+              "label": "Comandi",
+              "addLabel": "Aggiungi un comando",
+              "item": {
+                "trigger": {
+                  "label": "Attivatore"
+                },
+                "match": {
+                  "label": "Corrispondenza",
+                  "opt": {
+                    "contains": {
+                      "label": "Contiene"
+                    },
+                    "exact": {
+                      "label": "Esatto"
+                    },
+                    "startsWith": {
+                      "label": "Inizia con"
+                    },
+                    "endsWith": {
+                      "label": "Finisce con"
+                    }
+                  }
+                },
+                "response": {
+                  "label": "Risposta"
+                },
+                "asEmbed": {
+                  "label": "Come embed"
+                },
+                "channelId": {
+                  "label": "Canale (facoltativo)"
+                },
+                "deleteTrigger": {
+                  "label": "Elimina il messaggio che attiva"
+                },
+                "cooldown": {
+                  "label": "Attesa (s)"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

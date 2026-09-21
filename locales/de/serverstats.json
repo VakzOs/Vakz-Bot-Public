@@ -1,0 +1,75 @@
+{
+  "modules": {
+    "serverstats": {
+      "label": "Serverzähler",
+      "description": "Kanäle, deren Name eine Serverstatistik anzeigt und automatisch aktualisiert wird.",
+      "type": {
+        "members": "Mitglieder",
+        "humans": "Menschen",
+        "bots": "Bots",
+        "boosts": "Boosts",
+        "roles": "Rollen",
+        "channels": "Kanäle",
+        "role": "Mitglieder einer Rolle"
+      },
+      "default": {
+        "members": "👥 {count} Mitglieder",
+        "humans": "🧑 {count} Menschen",
+        "bots": "🤖 {count} Bots",
+        "boosts": "🚀 {count} Boosts",
+        "roles": "🏷️ {count} Rollen",
+        "channels": "📁 {count} Kanäle",
+        "role": "⭐ {count}"
+      },
+      "compteurs": {
+        "members": "Mitglieder",
+        "humans": "Menschen",
+        "bots": "Bots",
+        "boosts": "Boosts",
+        "roles": "Anzahl der Rollen",
+        "channels": "Anzahl der Kanäle",
+        "role": "Mitglieder einer Rolle"
+      },
+      "ui": {
+        "g0": {
+          "label": "📊 Zähler",
+          "description": "Jeder Zähler benennt einen Sprachkanal nach einer Serverstatistik um.",
+          "champs": {
+            "counters": {
+              "label": "Zähler",
+              "addLabel": "Zähler hinzufügen",
+              "item": {
+                "channelId": {
+                  "label": "Kanal (Sprache)"
+                },
+                "type": {
+                  "label": "Typ"
+                },
+                "roleId": {
+                  "label": "Rolle (Typ „Mitglieder einer Rolle“)"
+                },
+                "template": {
+                  "label": "Namensvorlage",
+                  "help": "{count} = Wert des Zählers."
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "refreshAll": {
+          "label": "Zähler aktualisieren",
+          "help": "Benennt jeden Zählerkanal sofort mit seinem aktuellen Wert um.",
+          "msg": {
+            "done": "{n} Zähler aktualisiert."
+          }
+        },
+        "msg": {
+          "noGuild": "Server nicht gefunden.",
+          "noCounter": "Kein Zähler eingerichtet."
+        }
+      }
+    }
+  }
+}

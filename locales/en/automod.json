@@ -4,11 +4,16 @@
       "label": "Auto-moderation",
       "description": "Automatically filters spam, ads, abuse, and honeypot messages.",
       "actions": {
-        "delete": "Delete",
-        "warn": "Warn",
-        "timeout": "Timeout",
-        "ban": "Ban",
-        "kick": "Kick"
+        "setupHoneypot": {
+          "label": "Create the trap channel",
+          "help": "Creates a channel visible to everyone where writing triggers the configured sanction.",
+          "confirm": "Create a new trap channel on this server?",
+          "msg": {
+            "noGuild": "Server not found.",
+            "noPermission": "Creation refused: the “Manage Channels” permission is missing.",
+            "done": "Trap channel created: #{salon}."
+          }
+        }
       },
       "rules": {
         "spam": "Spam",
@@ -52,6 +57,174 @@
         "embedDescription": "This channel is used to catch compromised accounts. Any messages sent here will result in an immediate ban.",
         "banReason": "Honeypot channel triggered",
         "counter": "Bans: {count}"
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ General",
+          "description": "The trap channel is created with the “Create the trap channel” action below.",
+          "champs": {
+            "logChannelId": {
+              "label": "Automod log channel",
+              "help": "The channel where every automod action is recorded: which rule fired, on whom, and the original message. Without it, sanctions land with nobody able to check they were deserved — this is the first channel to set up before enabling any rule."
+            },
+            "ignoredChannelIds": {
+              "label": "Ignored channels",
+              "help": "The automod looks at no message there. Keep it for channels where the rules make no sense: a meme channel full of capitals, a link-sharing channel, a test channel."
+            },
+            "ignoredRoleIds": {
+              "label": "Ignored roles",
+              "help": "Members holding any of these roles are out of reach of EVERY rule. Put the staff here: otherwise a moderator pasting three links in a row gets sanctioned by their own bot."
+            }
+          }
+        },
+        "spam": {
+          "label": "🚫 Anti-spam",
+          "champs": {
+            "enabled": {
+              "label": "Enable",
+              "help": "Sanctions a member sending too many messages in too little time. It is the rule that fires most often, and the only one that stops a raid in progress."
+            },
+            "action": {
+              "label": "Sanction",
+              "opt": {
+                "delete": {
+                  "label": "Delete"
+                },
+                "warn": {
+                  "label": "Warn"
+                },
+                "timeout": {
+                  "label": "Timeout"
+                },
+                "kick": {
+                  "label": "Kick"
+                },
+                "ban": {
+                  "label": "Ban"
+                }
+              },
+              "help": "What the bot does when the rule fires. Against spam, a temporary timeout is the only one that actually stops it: deleting messages lets the author carry on, and banning on a false positive costs you a member."
+            },
+            "maxMessages": {
+              "label": "Max messages",
+              "help": "The number of messages that trips the rule. Going below 4 also catches lively conversation: three people excited about a match easily write more than that."
+            },
+            "windowSeconds": {
+              "label": "Window (s)",
+              "help": "The window those messages are counted in. What matters is the ratio: 5 messages in 10 seconds is spam; 5 in 60 is a conversation."
+            },
+            "timeoutMinutes": {
+              "label": "Timeout (min)",
+              "help": "How long the timeout lasts, when that is the chosen action. Discord caps it at 28 days. A few minutes are enough to break up spam: it is an interruption, not a sentence."
+            }
+          }
+        },
+        "invites": {
+          "label": "🔗 Anti Discord invites",
+          "champs": {
+            "enabled": {
+              "label": "Enable",
+              "help": "Spots invites to OTHER Discord servers pasted in messages. Invites to this server are not affected."
+            },
+            "action": {
+              "label": "Sanction",
+              "opt": {
+                "delete": {
+                  "label": "Delete"
+                },
+                "warn": {
+                  "label": "Warn"
+                },
+                "timeout": {
+                  "label": "Timeout"
+                },
+                "kick": {
+                  "label": "Kick"
+                },
+                "ban": {
+                  "label": "Ban"
+                }
+              },
+              "help": "What the bot does on finding an invite. A warning is almost always enough: most invite links are pasted by well-meaning members sharing a friend's server."
+            }
+          }
+        },
+        "mentions": {
+          "label": "📢 Anti mass mentions",
+          "champs": {
+            "enabled": {
+              "label": "Enable",
+              "help": "Sanctions a message mentioning too many people at once. It is the rule against notification harassment, where someone pings fifteen people in a single message."
+            },
+            "action": {
+              "label": "Sanction",
+              "opt": {
+                "delete": {
+                  "label": "Delete"
+                },
+                "warn": {
+                  "label": "Warn"
+                },
+                "timeout": {
+                  "label": "Timeout"
+                },
+                "kick": {
+                  "label": "Kick"
+                },
+                "ban": {
+                  "label": "Ban"
+                }
+              },
+              "help": "What the bot does once the threshold is crossed. The mentions have already gone out by the time the bot reacts, so deleting the message does not undo the notifications: only a timeout stops it continuing."
+            },
+            "maxMentions": {
+              "label": "Max mentions",
+              "help": "How many mentions are tolerated in a single message. Note that @role counts as one mention, not as the number of members it reaches."
+            },
+            "timeoutMinutes": {
+              "label": "Timeout (min)",
+              "help": "How long the timeout lasts, when that is the chosen action. Discord caps it at 28 days."
+            }
+          }
+        },
+        "caps": {
+          "label": "🔠 Anti caps lock",
+          "champs": {
+            "enabled": {
+              "label": "Enable",
+              "help": "Sanctions messages written mostly in capitals. The rule most prone to false positives: acronyms, game titles, languages without lower case."
+            },
+            "action": {
+              "label": "Sanction",
+              "opt": {
+                "delete": {
+                  "label": "Delete"
+                },
+                "warn": {
+                  "label": "Warn"
+                },
+                "timeout": {
+                  "label": "Timeout"
+                },
+                "kick": {
+                  "label": "Kick"
+                },
+                "ban": {
+                  "label": "Ban"
+                }
+              },
+              "help": "What the bot does with an all-caps message. Deleting is enough: shouting is not an offence that warrants a timeout."
+            },
+            "minLength": {
+              "label": "Minimum message length",
+              "help": "Below this length a message is ignored however many capitals it has. This is what stops « OK », « LOL » or an acronym being sanctioned."
+            },
+            "percent": {
+              "label": "% of capitals that triggers it",
+              "help": "The share of capitals above which a message counts as shouting. Below 70% it starts catching messages that merely contain an acronym."
+            }
+          }
+        }
       }
     }
   }

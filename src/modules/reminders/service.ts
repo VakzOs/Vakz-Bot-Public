@@ -1,8 +1,9 @@
 import type { Reminder } from '@prisma/client';
-import type { BotContext } from '../../core/module.js';
+import type { BotContext, TaskReport } from '../../core/module.js';
 import { env } from '../../core/env.js';
 import { Emojis, infoEmbed } from '../../lib/embeds.js';
 import { MODULE_NAME } from './config.js';
+import { useGuildLocale } from '../../core/guild-locale.js';
 
 const DUE_BATCH_SIZE = 25;
 const WEEK_MINUTES = 7 * 24 * 60;
@@ -57,7 +58,8 @@ export function nextWeeklyOccurrence(
   return new Date(start.getTime() + WEEK_MINUTES * 60_000);
 }
 
-async function sendReminder(ctx: BotContext, reminder: Reminder): Promise<void> {
+/** Remet un rappel. Rend `false` quand il n'a atteint personne. */
+async function sendReminder(ctx: BotContext, reminder: Reminder): Promise<boolean> {
   const mention =
     reminder.targetKind === 'role' ? `<@&${reminder.targetId}>` : `<@${reminder.targetId}>`;
   // Mention hors de l'embed (pour notifier), texte dans un embed « 🔔 … ».
@@ -76,18 +78,29 @@ async function sendReminder(ctx: BotContext, reminder: Reminder): Promise<void> 
     const channel = await guild?.channels.fetch(reminder.channelId).catch(() => null);
     if (channel?.isTextBased()) {
       await channel.send({ content: mention, embeds: [embed], allowedMentions });
-      return;
+      return true;
     }
   }
 
   if (reminder.targetKind === 'user') {
     const user = await ctx.client.users.fetch(reminder.targetId).catch(() => null);
-    await user?.send({ content: mention, embeds: [embed] }).catch(() => undefined);
+    const sent = await user
+      ?.send({ content: mention, embeds: [embed] })
+      .then(() => true)
+      .catch(() => false);
+    return sent ?? false;
   }
+
+  // Un rappel de rôle dont le salon a disparu n'a nulle part où aller : il est
+  // déjà marqué remis en base, et sans cette ligne personne — ni le membre qui
+  // l'attendait, ni l'administrateur — n'apprendrait qu'il s'est perdu.
+  return false;
 }
 
-export async function deliverDueReminders(ctx: BotContext): Promise<void> {
+export async function deliverDueReminders(ctx: BotContext): Promise<TaskReport> {
   const now = new Date();
+  let remis = 0;
+  let perdus = 0;
   const reminders = await ctx.db.reminder.findMany({
     where: { dueAt: { lte: now }, deliveredAt: null },
     orderBy: { dueAt: 'asc' },
@@ -97,6 +110,7 @@ export async function deliverDueReminders(ctx: BotContext): Promise<void> {
   for (const reminder of reminders) {
     const enabled = await ctx.config.isEnabled(reminder.guildId, MODULE_NAME);
     if (!enabled) continue;
+    await useGuildLocale(reminder.guildId);
 
     if (
       reminder.repeatKind === 'weekly' &&
@@ -122,6 +136,21 @@ export async function deliverDueReminders(ctx: BotContext): Promise<void> {
         data: { deliveredAt: now },
       });
     }
-    await sendReminder(ctx, reminder);
+    if (await sendReminder(ctx, reminder)) {
+      remis += 1;
+    } else {
+      perdus += 1;
+      ctx.logger.warn(
+        {
+          guildId: reminder.guildId,
+          reminderId: reminder.id,
+          channelId: reminder.channelId,
+          cible: reminder.targetKind,
+        },
+        'Rappel non remis : destination injoignable',
+      );
+    }
   }
+
+  return { remis, perdus };
 }

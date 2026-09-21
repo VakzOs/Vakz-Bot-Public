@@ -1,0 +1,23 @@
+{
+  "modules": {
+    "autoroles": {
+      "label": "Ruoli automatici",
+      "description": "Assegna ruoli all'arrivo di un membro e un ruolo finché resta in vocale.",
+      "ui": {
+        "g0": {
+          "champs": {
+            "roleIds": {
+              "label": "Ruoli assegnati ai membri all'arrivo"
+            },
+            "botRoleIds": {
+              "label": "Ruoli assegnati ai bot"
+            },
+            "voiceRoleIds": {
+              "label": "Ruoli durante la presenza in vocale"
+            }
+          }
+        }
+      }
+    }
+  }
+}

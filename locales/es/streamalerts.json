@@ -1,0 +1,94 @@
+{
+  "modules": {
+    "streamalerts": {
+      "label": "Avisos de directos y fuentes",
+      "description": "Anuncia en un canal los directos, vídeos y novedades de fuentes (Twitch, YouTube, Reddit, RSS, Dealabs).",
+      "platform": {
+        "twitch": "Twitch",
+        "youtube": "YouTube",
+        "reddit": "Reddit",
+        "rss": "Fuente RSS",
+        "dealabs": "Dealabs"
+      },
+      "embed": {
+        "twitchTitle": "🔴 ¡{name} está en directo!",
+        "youtubeTitle": "📺 ¡Nuevo vídeo de {name}!",
+        "game": "Categoría",
+        "redditTitle": "🟠 ¡Nueva publicación en {name}!",
+        "rssTitle": "📰 Nuevo artículo — {name}",
+        "dealabsTitle": "🏷️ Nueva oferta — {name}",
+        "price": "🏷️ Precio",
+        "temperature": "🌡️ Temperatura",
+        "merchant": "🏪 Comercio"
+      },
+      "announceTwitch": "🔴 ¡**{name}** está en directo en Twitch! {url}",
+      "announceYoutube": "📺 ¡**{name}** acaba de publicar un vídeo! {url}",
+      "ui": {
+        "g0": {
+          "label": "📡 Suscripciones",
+          "description": "Para Dealabs, el identificador sirve de palabra clave de filtro.",
+          "champs": {
+            "subscriptions": {
+              "label": "Suscripciones",
+              "addLabel": "Añadir una suscripción",
+              "item": {
+                "platform": {
+                  "label": "Plataforma",
+                  "opt": {
+                    "twitch": {
+                      "label": "Twitch"
+                    },
+                    "youtube": {
+                      "label": "YouTube"
+                    },
+                    "reddit": {
+                      "label": "Reddit"
+                    },
+                    "rss": {
+                      "label": "Fuente RSS"
+                    },
+                    "dealabs": {
+                      "label": "Dealabs"
+                    }
+                  }
+                },
+                "identifier": {
+                  "label": "Identificador / URL",
+                  "help": "Nombre de canal, subreddit, URL de la fuente…"
+                },
+                "displayName": {
+                  "label": "Nombre mostrado"
+                },
+                "channelId": {
+                  "label": "Canal de los anuncios"
+                },
+                "roleId": {
+                  "label": "Rol que mencionar"
+                },
+                "message": {
+                  "label": "Mensaje personalizado"
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "test": {
+          "label": "Probar una suscripción",
+          "help": "Publica el último elemento de la fuente en su canal, sin esperar a la siguiente comprobación.",
+          "champs": {
+            "id": "Suscripción"
+          },
+          "msg": {
+            "pickSubscription": "Elige una suscripción registrada.",
+            "done": "Anuncio de prueba enviado.",
+            "noChannel": "Esta suscripción no tiene canal.",
+            "unreachable": "Fuente inaccesible (URL o bloqueo de red).",
+            "noItem": "No se ha encontrado ningún elemento en la fuente."
+          }
+        }
+      }
+    }
+  }
+}

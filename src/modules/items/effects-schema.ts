@@ -154,7 +154,7 @@ export const itemEffectsSchema = z.array(itemEffectSchema).max(15);
 
 /** Parse/valide une chaîne JSON d'effets ; renvoie `[]` si invalide. */
 export function parseEffectsJson(raw: string): ItemEffect[] {
-  let value: unknown = [];
+  let value: unknown;
   try {
     value = JSON.parse(raw || '[]');
   } catch {

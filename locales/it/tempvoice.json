@@ -1,0 +1,136 @@
+{
+  "modules": {
+    "tempvoice": {
+      "label": "Canali vocali temporanei",
+      "description": "Entrare in un canale generatore crea un canale vocale personale, eliminato quando si svuota.",
+      "noms": {
+        "limite": "limite",
+        "membre": "membro",
+        "nom": "nome",
+        "nombre": "numero",
+        "panneau": "pannello",
+        "revendiquer": "rivendica",
+        "transferer": "trasferisci",
+        "voc": "vocale"
+      },
+      "createReason": "Canale vocale temporaneo di {user}",
+      "autoTransfer": "👑 {user} diventa il nuovo proprietario del canale.",
+      "command": {
+        "description": "Gestire il tuo canale vocale temporaneo.",
+        "panel": "Rimostrare il pannello di controllo nel tuo canale.",
+        "claim": "Diventare proprietario del canale se quello attuale se n'è andato.",
+        "transfer": "Trasferire la proprietà a un membro.",
+        "transferMember": "Il membro che riceverà la proprietà.",
+        "rename": "Rinominare il tuo canale.",
+        "renameValue": "Il nuovo nome del canale.",
+        "limit": "Definire il limite di membri.",
+        "limitValue": "Limite (0 = illimitato).",
+        "notInVoice": "❌ Devi essere in un canale vocale.",
+        "notTemp": "❌ Questo canale non è un canale temporaneo.",
+        "claimed": "👑 Ora sei proprietario del canale.",
+        "panelPosted": "✅ Pannello di controllo pubblicato.",
+        "transferred": "👑 Proprietà trasferita.",
+        "renamed": "✏️ Canale rinominato.",
+        "limitSet": "👥 Limite aggiornato."
+      },
+      "control": {
+        "title": "Configurazione del canale",
+        "intro": "Ecco lo spazio di configurazione del tuo canale vocale temporaneo. Le opzioni disponibili ti permettono di personalizzare i permessi del canale come preferisci.",
+        "currentState": "👑 {owner} · Accesso: **{access}** · Limite: **{limit}** · 🎤 {micro} · 📹 {video} · 🎵 {soundboard}",
+        "unlimited": "illimitato",
+        "none": "Nessuno",
+        "on": "attivo",
+        "off": "spento",
+        "mode_open": "🔊 Aperto",
+        "mode_closed": "🔒 Chiuso",
+        "mode_private": "🔇 Privato",
+        "tip": "💡 I membri della lista bianca non sono toccati dai permessi negati agli altri.",
+        "open": "🔊 Aperto",
+        "closed": "🔒 Chiuso",
+        "private": "🔇 Privato",
+        "whitelistBtn": "✅ Lista bianca",
+        "blacklistBtn": "📋 Lista nera",
+        "purge": "➡️ Svuota",
+        "micro": "🎤 Microfono",
+        "video": "📹 Video",
+        "soundboard": "🎵 Soundboard",
+        "status": "🏷️ Stato",
+        "transfer": "👑 Trasferisci",
+        "settings": "⚙️ Impostazioni",
+        "save": "💾 Salva",
+        "claim": "🙋 Rivendica",
+        "delete": "🗑️ Elimina",
+        "back": "◀ Indietro",
+        "media": "🎤 Microfono · 📹 Video · 🎵 Soundboard",
+        "desc_open": "Il canale sarà aperto a tutti i membri, tranne a quelli della lista nera.",
+        "desc_closed": "Il canale sarà visibile a tutti, ma accessibile solo alla lista bianca.",
+        "desc_private": "Il canale sarà visibile e accessibile solo ai membri della lista bianca.",
+        "desc_whitelist": "I membri e i ruoli di questa lista potranno sempre entrare nel canale.",
+        "desc_blacklist": "I membri di questa lista non potranno mai entrare nel canale.",
+        "desc_purge": "Disconnettere dal canale vocale tutti i membri tranne quelli della lista bianca.",
+        "desc_transfer": "Trasferire la gestione del canale al membro che preferisci.",
+        "desc_settings": "Modificare il nome e il limite di membri del canale.",
+        "desc_media": "Consentire o spegnere microfono, videocamera e soundboard dei membri. ⚠️ Nessun effetto su chi amministra e su chi possiede il server (limite di Discord).",
+        "wlPlaceholder": "Membri sempre autorizzati a entrare",
+        "blPlaceholder": "Membri a cui è vietato entrare",
+        "transferPlaceholder": "Nuovo proprietario (presente nel canale)",
+        "nameField": "Nome del canale",
+        "limitField": "Limite di membri (0 = illimitato)",
+        "statusTitle": "Stato del canale",
+        "statusField": "Stato (lascia vuoto per rimuoverlo)",
+        "statusPlaceholder": "Es.: 🎮 Stiamo giocando a…",
+        "settingsTitle": "Impostazioni del canale",
+        "notTemp": "❌ Questo canale non è un canale temporaneo.",
+        "notOwner": "⛔ Solo il proprietario del canale può farlo.",
+        "ownerPresent": "❌ Il proprietario è ancora presente, non puoi rivendicare il canale.",
+        "notInChannel": "❌ Devi essere nel canale per rivendicarlo.",
+        "transferAbsent": "❌ Questo membro deve essere nel canale per ricevere la proprietà.",
+        "purged": "🔌 {count} membro/i disconnesso/i.",
+        "saved": "💾 Impostazioni salvate: verranno riapplicate al tuo prossimo canale.",
+        "deleting": "🗑️ Eliminazione del canale…",
+        "ownerLine": "Proprietario del canale: {owner}",
+        "wlRolePlaceholder": "Ruoli sempre autorizzati a entrare"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "showControlPanel": {
+              "label": "Mostrare il pannello di controllo nei canali creati"
+            }
+          }
+        },
+        "g1": {
+          "label": "🔊 Hub (canali creatori)",
+          "description": "Entrare in un hub crea automaticamente un canale vocale temporaneo.",
+          "champs": {
+            "hubs": {
+              "label": "Hub",
+              "addLabel": "Aggiungi un hub",
+              "item": {
+                "channelId": {
+                  "label": "Canale creatore (vocale)"
+                },
+                "categoryId": {
+                  "label": "Categoria dei canali creati"
+                },
+                "nameTemplate": {
+                  "label": "Modello di nome",
+                  "help": "Es. «Canale di {user}»."
+                },
+                "userLimit": {
+                  "label": "Limite di utenti (0 = nessuno)"
+                },
+                "lockedByDefault": {
+                  "label": "Bloccato in modo predefinito"
+                },
+                "inheritPermissions": {
+                  "label": "Ereditare i permessi dell'hub"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

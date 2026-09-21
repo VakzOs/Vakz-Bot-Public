@@ -1,0 +1,87 @@
+{
+  "modules": {
+    "welcome": {
+      "label": "Ankünfte & Abgänge",
+      "description": "Anpassbare Willkommens- und Abschiedsnachrichten.",
+      "state": {
+        "statusLabel": "Status",
+        "statusOn": "✅ Aktiv",
+        "statusOff": "⛔ Pausiert",
+        "embedLabel": "Embed",
+        "yes": "Ja",
+        "no": "Nein",
+        "channelLabel": "Kanal",
+        "channelNone": "*nicht festgelegt*",
+        "messageLabel": "Nachricht",
+        "footerLabel": "Fußzeile",
+        "placeholders": "Variablen: {mention} · {username} · {server} · {count}",
+        "cardLabel": "Karte",
+        "cardCustom": "✅ aktiviert (eigener Hintergrund)",
+        "cardDefault": "✅ aktiviert (Standardhintergrund)"
+      },
+      "card": {
+        "welcomeTitle": "Willkommen!",
+        "leaveTitle": "Auf Wiedersehen",
+        "memberCount": "{count}. Mitglied"
+      },
+      "ui": {
+        "welcome": {
+          "label": "👋 Willkommensnachricht",
+          "description": "Variablen: {mention}, {username}, {server}, {count}. Wird beim Beitritt eines Mitglieds gesendet.",
+          "champs": {
+            "enabled": {
+              "label": "Willkommensnachricht aktivieren"
+            },
+            "channelId": {
+              "label": "Kanal"
+            },
+            "message": {
+              "label": "Nachricht"
+            },
+            "embed": {
+              "label": "Als Embed anzeigen"
+            },
+            "footer": {
+              "label": "Fußzeile (Embed)"
+            },
+            "card": {
+              "label": "Bildkarte (Avatar + Name)"
+            },
+            "cardBackground": {
+              "label": "Hintergrundbild der Karte (URL)",
+              "placeholder": "https://…"
+            }
+          }
+        },
+        "leave": {
+          "label": "🚪 Abschiedsnachricht",
+          "description": "Variablen: {username}, {server}. Wird beim Verlassen eines Mitglieds gesendet.",
+          "champs": {
+            "enabled": {
+              "label": "Abschiedsnachricht aktivieren"
+            },
+            "channelId": {
+              "label": "Kanal"
+            },
+            "message": {
+              "label": "Nachricht"
+            },
+            "embed": {
+              "label": "Als Embed anzeigen"
+            },
+            "footer": {
+              "label": "Fußzeile (Embed)"
+            },
+            "card": {
+              "label": "Bildkarte (Avatar + Name)"
+            },
+            "cardBackground": {
+              "label": "Hintergrundbild der Karte (URL)",
+              "placeholder": "https://…"
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "modules": {
+    "interserver": {
+      "label": "Serverübergreifend",
+      "description": "Verbindet Kanäle verschiedener Server: Eine Nachricht in einem verbundenen Kanal wird (mit Name und Avatar) in die anderen Kanäle desselben Netzwerks weitergeleitet.",
+      "ui": {
+        "g0": {
+          "description": "Kanäle werden über die Aktionen „Kanal verbinden / trennen“ weiter unten verbunden.",
+          "champs": {
+            "tagServer": {
+              "label": "Namen des Ursprungsservers auf weitergeleiteten Nachrichten anzeigen"
+            }
+          }
+        }
+      },
+      "actions": {
+        "link": {
+          "label": "Kanal verbinden",
+          "help": "Server mit demselben Netzwerkcode leiten ihre Nachrichten gegenseitig weiter.",
+          "champs": {
+            "channelId": "Zu verbindender Kanal",
+            "network": {
+              "label": "Netzwerkcode",
+              "placeholder": "mein-netzwerk",
+              "help": "3 bis 32 Zeichen: Buchstaben, Ziffern und Bindestriche."
+            }
+          },
+          "msg": {
+            "noGuild": "Server nicht gefunden.",
+            "badChannel": "Kanal nicht gefunden oder kein Textkanal.",
+            "done": "Kanal mit dem Netzwerk „{reseau}“ verbunden.",
+            "badCode": "Ungültiger Netzwerkcode (3 bis 32 Zeichen).",
+            "noPermission": "Die Berechtigung „Webhooks verwalten“ fehlt in diesem Kanal.",
+            "webhookFailed": "Webhook konnte nicht erstellt werden."
+          }
+        },
+        "unlink": {
+          "label": "Kanal trennen",
+          "confirm": "Diesen Kanal aus seinem serverübergreifenden Netzwerk entfernen?",
+          "champs": {
+            "channelId": "Verbundener Kanal"
+          },
+          "msg": {
+            "pickChannel": "Wähle einen derzeit verbundenen Kanal.",
+            "done": "Kanal getrennt."
+          }
+        }
+      }
+    }
+  }
+}

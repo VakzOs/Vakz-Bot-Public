@@ -3,6 +3,15 @@
     "market": {
       "label": "Hôtel des ventes",
       "description": "Marché entre membres : mets des objets en vente, achète ceux des autres.",
+      "noms": {
+        "hdv": "hdv",
+        "mes-annonces": "mes-annonces",
+        "objet": "objet",
+        "parcourir": "parcourir",
+        "prix": "prix",
+        "quantité": "quantité",
+        "vendre": "vendre"
+      },
       "command": {
         "description": "Hôtel des ventes : achète et vends des objets entre membres.",
         "browse": "Parcourir les annonces et acheter.",
@@ -49,6 +58,29 @@
         "tooCheap": "❌ Prix trop bas : minimum {min} par objet.",
         "tooMany": "❌ Tu as atteint la limite d'annonces actives ({max}).",
         "notOwned": "❌ Tu ne possèdes pas assez de {emoji} {name}."
+      },
+      "ui": {
+        "g0": {
+          "description": "Marché entre membres via /hdv. La mise en vente séquestre les objets jusqu’à l’achat ou l’annulation.",
+          "champs": {
+            "taxPercent": {
+              "label": "Taxe serveur prélevée au vendeur (0-100 %)",
+              "help": "Part du prix prélevée au VENDEUR à chaque vente, et retirée de la circulation. C'est le seul robinet de sortie de la monnaie : sans taxe, la masse en circulation ne fait que croître et les prix suivent."
+            },
+            "maxListingsPerUser": {
+              "label": "Annonces actives max par membre",
+              "help": "Combien d'annonces actives un même membre peut tenir. Empêche un joueur de préempter le marché en listant tout son inventaire d'un coup."
+            },
+            "minPrice": {
+              "label": "Prix unitaire minimum absolu d’une annonce",
+              "help": "Plancher absolu, en pièces, quel que soit l'objet. Sert surtout à interdire les annonces à 0 qui servent à se transférer des objets entre comptes sans que cela ressemble à un don."
+            },
+            "minPricePercent": {
+              "label": "Prix minimum en % du prix boutique de l’objet (0-100)",
+              "help": "Second plancher, exprimé en pourcentage du prix BOUTIQUE de l'objet. Le plancher réellement appliqué est le plus élevé des deux. Sans lui, un objet rare peut être bradé au prix d'un objet commun. 0 le désactive."
+            }
+          }
+        }
       }
     }
   }

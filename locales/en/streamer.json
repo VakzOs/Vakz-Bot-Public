@@ -17,6 +17,30 @@
         "enabledUser": "🎙️ **Streamer mode enabled.** You no longer hear Discord, but your mic keeps broadcasting.",
         "disabledUser": "🔊 **Streamer mode disabled.** You can hear Discord again.",
         "error": "❌ An error occurred (check my permissions)."
+      },
+      "ui": {
+        "g0": {
+          "label": "🎥 Streamer mode",
+          "description": "After any change, republish the panel with the “Publish” button.",
+          "champs": {
+            "roleId": {
+              "label": "“Live” role",
+              "help": "Worn by members who have turned streamer mode on, and removed when they turn it off. It acts as a visible marker in the member list, and shows who is currently broadcasting."
+            },
+            "channelId": {
+              "label": "Panel channel",
+              "help": "The channel the button panel is posted in. The panel does not appear on its own: once the channel is chosen, send it with the « Publish panel » button."
+            },
+            "title": {
+              "label": "Panel title",
+              "help": "The panel's title. Changing it does not update an already published panel: republish it for the existing message to be rewritten."
+            },
+            "description": {
+              "label": "Panel description",
+              "help": "The panel's body text, under the title. This is where you explain what streamer mode does — deafening you to others while still broadcasting your mic — before somebody clicks without knowing."
+            }
+          }
+        }
       }
     }
   }

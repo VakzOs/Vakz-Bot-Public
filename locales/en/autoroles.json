@@ -2,7 +2,25 @@
   "modules": {
     "autoroles": {
       "label": "Auto roles",
-      "description": "Assigns roles when a member joins, and a role while connected to voice."
+      "description": "Assigns roles when a member joins, and a role while connected to voice.",
+      "ui": {
+        "g0": {
+          "champs": {
+            "roleIds": {
+              "label": "Roles given to members on arrival",
+              "help": "Granted to every human who joins the server, straight away. The bot must be able to give them: they have to sit BELOW its own role in the hierarchy, otherwise nothing is granted and nothing says so. Also needs the privileged « Server Members » intent."
+            },
+            "botRoleIds": {
+              "label": "Roles given to bots",
+              "help": "Granted instead of the ones above when the arriving account is a bot. Useful to file bots under their own heading in the member list, and to keep human-only access away from them."
+            },
+            "voiceRoleIds": {
+              "label": "Roles held while in a voice channel",
+              "help": "Granted while a member is connected to a voice channel, and removed as soon as they leave. Mostly used to open a text channel reserved for whoever is in voice."
+            }
+          }
+        }
+      }
     }
   }
 }

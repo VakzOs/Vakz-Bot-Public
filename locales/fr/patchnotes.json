@@ -6,6 +6,65 @@
       "embed": {
         "footer": "Patch Notes · {source}",
         "noDescription": "Aucun résumé disponible. Ouvre le lien pour lire la note complète."
+      },
+      "categories": {
+        "riot": "Riot Games",
+        "fps": "FPS",
+        "mmo": "MMO & RPG",
+        "survie": "Survie & sandbox",
+        "strategie": "Stratégie",
+        "logiciels": "Logiciels"
+      },
+      "ui": {
+        "g0": {
+          "label": "Abonnements",
+          "description": "Une ligne par jeu ou logiciel suivi : le bot publie chaque nouvelle note de patch dans le salon choisi.",
+          "champs": {
+            "subscriptions": {
+              "label": "Sources suivies",
+              "addLabel": "Ajouter une source",
+              "item": {
+                "sourceId": {
+                  "label": "Source"
+                },
+                "channelId": {
+                  "label": "Salon de publication"
+                },
+                "roleId": {
+                  "label": "Rôle à mentionner",
+                  "help": "Optionnel : mentionné à chaque nouvelle note."
+                }
+              },
+              "help": "Une ligne par jeu suivi : la source, le salon d'annonce, et un rôle à mentionner. Les sources viennent d'un catalogue interne — une source retirée du catalogue fait disparaître l'abonnement de cette liste, sans prévenir. Seules les notes publiées APRÈS l'ajout sont annoncées : ajouter un jeu ne rejoue pas son historique."
+            }
+          }
+        }
+      },
+      "actions": {
+        "publishLatest": {
+          "label": "Publier la dernière note",
+          "help": "Envoie immédiatement la dernière note de patch de la source choisie dans son salon.",
+          "champs": {
+            "sourceId": {
+              "label": "Source",
+              "help": "Doit correspondre à un abonnement déjà enregistré ci-dessus."
+            }
+          },
+          "raisons": {
+            "missingSource": "source inconnue",
+            "missingChannel": "aucun salon configuré",
+            "channelUnavailable": "salon introuvable ou non textuel",
+            "missingPermissions": "permissions manquantes dans le salon",
+            "noNotes": "aucune note trouvée sur la source",
+            "unknown": "envoi impossible"
+          },
+          "msg": {
+            "pickSource": "Choisis une source valide.",
+            "noSubscription": "Cette source n’a pas encore d’abonnement enregistré.",
+            "nothing": "Rien publié : {raison}.",
+            "done": "{n} note publiée."
+          }
+        }
       }
     }
   }

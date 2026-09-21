@@ -2,7 +2,46 @@
   "modules": {
     "stickymessages": {
       "label": "Sticky messages",
-      "description": "Keeps a message always at the bottom of a channel: it is re-posted on every new discussion."
+      "description": "Keeps a message always at the bottom of a channel: it is re-posted on every new discussion.",
+      "ui": {
+        "g0": {
+          "label": "📌 Sticky messages",
+          "description": "A message re-posted automatically at the bottom of the channel as people talk.",
+          "champs": {
+            "stickies": {
+              "label": "Messages",
+              "addLabel": "Add a message",
+              "item": {
+                "channelId": {
+                  "label": "Channel"
+                },
+                "content": {
+                  "label": "Content"
+                },
+                "embed": {
+                  "label": "As an embed"
+                }
+              },
+              "help": "One row per channel: a message the bot keeps at the bottom. On each new message it deletes its own and reposts it below — so a busy channel makes it churn constantly, and every repost costs the channel's followers another notification. Best kept for quiet channels where one instruction must stay in view."
+            }
+          }
+        }
+      },
+      "actions": {
+        "repost": {
+          "label": "Repost a message",
+          "help": "Deletes the old sticky message and reposts it at the bottom of the channel.",
+          "champs": {
+            "channelId": "Channel"
+          },
+          "msg": {
+            "done": "Sticky message reposted."
+          }
+        },
+        "msg": {
+          "pickChannel": "Pick a channel that has a sticky message."
+        }
+      }
     }
   }
 }

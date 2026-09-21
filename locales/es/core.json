@@ -1,0 +1,20 @@
+{
+  "modules": {
+    "core": {
+      "label": "Núcleo",
+      "description": "Comandos esenciales del sistema (ping, configuración).",
+      "noms": {
+        "ping": "ping"
+      },
+      "ping": {
+        "description": "Muestra la latencia del bot.",
+        "title": "🏓 ¡Pong!",
+        "computing": "Midiendo la latencia…",
+        "websocket": "Pasarela (WebSocket)",
+        "roundtrip": "Ida y vuelta",
+        "build": "Compilación",
+        "refresh": "Actualizar"
+      }
+    }
+  }
+}

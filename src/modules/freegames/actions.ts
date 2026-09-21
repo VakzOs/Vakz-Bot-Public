@@ -1,4 +1,5 @@
 import { PermissionFlagsBits } from 'discord.js';
+import { t } from '../../core/i18n.js';
 import type { ModuleAction } from '../../core/module.js';
 import { getFreegamesConfig } from './config.js';
 import { buildFreeGameEmbed, fetchFreeGames } from './service.js';
@@ -12,19 +13,21 @@ import { buildFreeGameEmbed, fetchFreeGames } from './service.js';
  * ça, la tâche des 30 minutes réannoncerait derrière une offre qu'elle n'avait
  * pas encore vue, et l'admin recevrait le même jeu deux fois.
  */
-const announceNow: ModuleAction = {
+const announceNow = (): ModuleAction => ({
   id: 'announceNow',
-  label: 'Annoncer les offres en cours',
-  help: 'Republie les jeux actuellement gratuits sur les plateformes cochées, et les marque comme annoncés.',
+  label: t('modules.freegames.actions.announceNow.label'),
+  help: t('modules.freegames.actions.announceNow.help'),
   style: 'primary',
   async run({ ctx, guildId }) {
     const config = await getFreegamesConfig(ctx, guildId);
-    if (!config.channelId) return { ok: false, message: 'Aucun salon d’annonces configuré.' };
-    if (config.platforms.length === 0) return { ok: false, message: 'Aucune plateforme cochée.' };
+    const msg = (key: string, vars?: Record<string, string | number>) =>
+      t(`modules.freegames.actions.announceNow.msg.${key}`, vars);
+    if (!config.channelId) return { ok: false, message: msg('noChannel') };
+    if (config.platforms.length === 0) return { ok: false, message: msg('noPlatform') };
 
     const channel = await ctx.client.channels.fetch(config.channelId).catch(() => null);
     if (!channel?.isTextBased() || !('send' in channel)) {
-      return { ok: false, message: 'Salon introuvable ou non textuel.' };
+      return { ok: false, message: msg('badChannel') };
     }
     const selfId = ctx.client.user?.id;
     if (selfId && 'permissionsFor' in channel) {
@@ -33,12 +36,12 @@ const announceNow: ModuleAction = {
         !permissions?.has(PermissionFlagsBits.SendMessages) ||
         !permissions.has(PermissionFlagsBits.EmbedLinks)
       ) {
-        return { ok: false, message: 'Permissions manquantes dans le salon.' };
+        return { ok: false, message: msg('noPermission') };
       }
     }
 
     const games = await fetchFreeGames(config.platforms);
-    if (games.length === 0) return { ok: false, message: 'Aucune offre gratuite en ce moment.' };
+    if (games.length === 0) return { ok: false, message: msg('noOffer') };
 
     const mention = config.roleId ? `<@&${config.roleId}>` : undefined;
     let sent = 0;
@@ -62,9 +65,9 @@ const announceNow: ModuleAction = {
         .create({ data: { guildId, source: game.platform, gameId: game.gameId } })
         .catch(() => undefined);
     }
-    if (sent === 0) return { ok: false, message: 'Aucune annonce n’a pu être envoyée.' };
-    return { ok: true, message: `${sent} offre(s) annoncée(s).` };
+    if (sent === 0) return { ok: false, message: msg('nothingSent') };
+    return { ok: true, message: msg('done', { n: sent }) };
   },
-};
+});
 
-export const freegamesActions: ModuleAction[] = [announceNow];
+export const freegamesActions = (): ModuleAction[] => [announceNow()];

@@ -1,0 +1,125 @@
+{
+  "modules": {
+    "music": {
+      "label": "Musik",
+      "description": "Musik in den Sprachkanälen hören (YouTube, SoundCloud, Spotify…) über einen Lavalink-Server.",
+      "noms": {
+        "disconnect": "disconnect",
+        "loop": "loop",
+        "mode": "modus",
+        "niveau": "stufe",
+        "nowplaying": "nowplaying",
+        "numero": "nummer",
+        "pause": "pause",
+        "play": "play",
+        "position": "position",
+        "queue": "queue",
+        "recherche": "suche",
+        "remove": "remove",
+        "resume": "resume",
+        "seek": "seek",
+        "shuffle": "shuffle",
+        "skip": "skip",
+        "source": "quelle",
+        "stop": "stop",
+        "volume": "volume"
+      },
+      "notConfigured": "❌ Die Musik ist auf diesem Hosting nicht eingerichtet (kein Lavalink-Server).",
+      "nodeDown": "❌ Der Lavalink-Server ist nicht erreichbar. Prüfe, ob er läuft (`docker compose ps`) und ob LAVALINK_HOST / LAVALINK_PASSWORD stimmen.",
+      "joinFailed": "❌ Ich kann deinen Sprachkanal nicht betreten (fehlen die Berechtigungen „Verbinden“ / „Sprechen“?).",
+      "playError": "❌ Bei der Wiedergabe ist ein Fehler aufgetreten. Versuche es gleich noch einmal.",
+      "notInVoice": "❌ Tritt zuerst einem Sprachkanal bei.",
+      "notSameChannel": "❌ Du musst im selben Sprachkanal wie der Bot sein.",
+      "nothingPlaying": "❌ Es läuft gerade nichts.",
+      "noPermission": "❌ Nur für die DJ-Rolle (oder „Server verwalten“).",
+      "noResults": "❌ Kein Ergebnis für diese Suche.",
+      "addedTitle": "➕ Zur Warteschlange hinzugefügt",
+      "addedPlaylist": "➕ **{count}** Titel zur Warteschlange hinzugefügt (Playlist „{name}“).",
+      "skipped": "⏭️ Titel übersprungen.",
+      "skippedEnd": "⏭️ Letzter Titel übersprungen, Ende der Warteschlange.",
+      "stopped": "⏹️ Wiedergabe gestoppt und Warteschlange geleert.",
+      "alreadyPaused": "⏸️ Die Wiedergabe ist schon pausiert.",
+      "paused": "⏸️ Wiedergabe pausiert.",
+      "notPaused": "▶️ Die Wiedergabe ist nicht pausiert.",
+      "resumed": "▶️ Wiedergabe fortgesetzt.",
+      "volumeSet": "🔊 Lautstärke auf {volume} % gestellt.",
+      "loopSet": "🔁 Wiederholung: {mode}.",
+      "queueTooShort": "❌ Nicht genug Titel in der Warteschlange zum Mischen.",
+      "shuffled": "🔀 Warteschlange gemischt.",
+      "cannotSeek": "❌ In diesem Titel lässt sich nicht springen (live oder nicht vorhanden).",
+      "badPosition": "❌ Ungültige Position. Z. B. `1:30`, `90` oder `1m30s`.",
+      "seeked": "⏩ Position: {time}.",
+      "badIndex": "❌ Ungültige Titelnummer.",
+      "removed": "🗑️ Aus der Warteschlange entfernt: {title}.",
+      "left": "👋 Vom Sprachkanal getrennt.",
+      "queueEmpty": "*Warteschlange leer.*",
+      "queueEnded": "✅ Warteschlange beendet.",
+      "loopState": {
+        "off": "aus",
+        "track": "Titel",
+        "queue": "Warteschlange"
+      },
+      "field": {
+        "author": "👤 Interpret:",
+        "requestedBy": "🙋 Gewünscht von:",
+        "nowPlaying": "Läuft gerade",
+        "upNext": "Als Nächstes",
+        "andMore": "…und {count} weitere.",
+        "queueTitle": "🎶 Warteschlange",
+        "playlist": "Playlist"
+      },
+      "command": {
+        "play": "Spielt Musik ab oder fügt sie der Warteschlange hinzu (Suche oder Link).",
+        "playQuery": "Zu suchender Titel oder Link (YouTube, SoundCloud…).",
+        "playSource": "Suchplattform (falls es kein Link ist).",
+        "skip": "Springt zum nächsten Titel.",
+        "stop": "Stoppt die Wiedergabe und leert die Warteschlange.",
+        "pause": "Pausiert die Wiedergabe.",
+        "resume": "Setzt die Wiedergabe fort.",
+        "volume": "Stellt die Lautstärke der Wiedergabe ein.",
+        "volumeValue": "Lautstärke in Prozent (0-150).",
+        "loop": "Ändert den Wiederholungsmodus.",
+        "loopValue": "Wiederholungsmodus.",
+        "shuffle": "Mischt die Warteschlange.",
+        "seek": "Springt zu einer Position im Titel.",
+        "seekValue": "Position, z. B. 1:30, 90 (s) oder 1m30s.",
+        "remove": "Entfernt einen Titel aus der Warteschlange.",
+        "removeValue": "Nummer des Titels in der Warteschlange.",
+        "disconnect": "Trennt den Bot vom Sprachkanal.",
+        "queue": "Zeigt die Warteschlange.",
+        "nowplaying": "Zeigt den gerade laufenden Titel."
+      },
+      "plateformes": {
+        "ytsearch": "YouTube",
+        "ytmsearch": "YouTube Music",
+        "scsearch": "SoundCloud",
+        "spsearch": "Spotify (LavaSrc — Zugangsdaten nötig)",
+        "dzsearch": "Deezer (LavaSrc)"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "djRoleId": {
+              "label": "DJ-Rolle (Steuerung vorbehalten — leer = alle)"
+            },
+            "defaultSearch": {
+              "label": "Standard-Suchplattform"
+            },
+            "defaultVolume": {
+              "label": "Standardlautstärke (1-100)"
+            },
+            "maxVolume": {
+              "label": "Maximale Lautstärke (1-150)"
+            },
+            "requireSameChannel": {
+              "label": "Zum Steuern denselben Sprachkanal verlangen"
+            },
+            "autoLeave": {
+              "label": "Am Ende der Warteschlange automatisch gehen"
+            }
+          }
+        }
+      }
+    }
+  }
+}

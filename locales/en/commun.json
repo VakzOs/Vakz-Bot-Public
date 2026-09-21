@@ -1,4 +1,10 @@
 {
+  "langue": {
+    "nom": "English",
+    "drapeau": "🇬🇧",
+    "format": "en-GB",
+    "discord": "en-US|en-GB"
+  },
   "errors": {
     "generic": "❌ An error occurred. Please try again later.",
     "guildOnly": "❌ This command can only be used in a server.",

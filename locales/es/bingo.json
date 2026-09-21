@@ -1,0 +1,59 @@
+{
+  "modules": {
+    "bingo": {
+      "label": "Bingo",
+      "description": "Bingo de servidor: cartones 5×5, sorteos, detección de línea o cartón lleno.",
+      "noms": {
+        "bingo": "bingo",
+        "carte": "carton",
+        "demarrer": "iniciar",
+        "mode": "modo",
+        "rejoindre": "unirse",
+        "terminer": "terminar",
+        "tirer": "sacar"
+      },
+      "opt": {
+        "mode": "Condición de victoria (por defecto: una línea)."
+      },
+      "modeLine": "Una línea",
+      "modeFull": "Cartón lleno",
+      "commands": {
+        "start": "Inicia una nueva partida de Bingo (personal).",
+        "join": "Recibe tu cartón de Bingo.",
+        "card": "Muestra tu cartón.",
+        "draw": "Saca el siguiente número (personal).",
+        "stop": "Termina la partida en curso (personal)."
+      },
+      "staffOnly": "❌ Reservado al personal (permiso Gestionar el servidor).",
+      "noGame": "❌ No hay ninguna partida en curso. El personal puede lanzarla con `/bingo iniciar`.",
+      "startedTitle": "🎲 ¡Bingo lanzado!",
+      "startedBody": "Modo: **{mode}**. Coged vuestro cartón con `/bingo unirse`, y después el personal saca los números con `/bingo sacar`.",
+      "joined": "🎫 Aquí tienes tu cartón (casilla ★ = libre):",
+      "yourCard": "🎫 Tu cartón:",
+      "noCard": "❌ No tienes cartón. Únete con `/bingo unirse`.",
+      "stopped": "🛑 Partida de Bingo terminada.",
+      "allDrawn": "¡Ya se han sacado todos los números!",
+      "drawTitle": "🎱 Sorteo",
+      "drawBody": "Número sacado: **{number}** ({count}/75). ¡Comprobad vuestros cartones!",
+      "winnersField": "🎉 ¡BINGO!",
+      "myCardButton": "Mi cartón",
+      "ui": {
+        "g0": {
+          "champs": {
+            "defaultMode": {
+              "label": "Modo de victoria por defecto",
+              "opt": {
+                "line": {
+                  "label": "Una línea"
+                },
+                "full": {
+                  "label": "Cuadrícula completa"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -38,16 +38,17 @@ function pick<T>(items: readonly T[]): T {
 /** `/boule8` — la boule magique répond à une question. */
 export const boule8: SlashCommand = {
   guildOnly: false,
-  data: new SlashCommandBuilder()
-    .setName('boule8')
-    .setDescription(t('modules.games.boule8.description'))
-    .addStringOption((o) =>
-      o
-        .setName('question')
-        .setDescription(t('modules.games.opt.question'))
-        .setRequired(true)
-        .setMaxLength(256),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.games.noms.boule8'))
+      .setDescription(t('modules.games.boule8.description'))
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.games.noms.question'))
+          .setDescription(t('modules.games.opt.question'))
+          .setRequired(true)
+          .setMaxLength(256),
+      ),
   async execute(interaction) {
     const question = interaction.options.getString('question', true);
     const answers = t('modules.games.boule8.answers').split('|');
@@ -69,16 +70,17 @@ const DICE_FACES = [4, 6, 8, 10, 12, 20, 100];
 function makeDice(faces: number): SlashCommand {
   return {
     guildOnly: false,
-    data: new SlashCommandBuilder()
-      .setName(`d${faces}`)
-      .setDescription(t('modules.games.dice.description', { faces }))
-      .addIntegerOption((o) =>
-        o
-          .setName('nombre')
-          .setDescription(t('modules.games.opt.count'))
-          .setMinValue(1)
-          .setMaxValue(20),
-      ),
+    data: () =>
+      new SlashCommandBuilder()
+        .setName(`d${faces}`)
+        .setDescription(t('modules.games.dice.description', { faces }))
+        .addIntegerOption((o) =>
+          o
+            .setName(t('modules.games.noms.nombre'))
+            .setDescription(t('modules.games.opt.count'))
+            .setMinValue(1)
+            .setMaxValue(20),
+        ),
     async execute(interaction) {
       const count = interaction.options.getInteger('nombre') ?? 1;
       const rolls = Array.from({ length: count }, () => rollDie(faces));
@@ -94,9 +96,10 @@ const diceCommands = DICE_FACES.map(makeDice);
 /** `/pileouface` — tire à pile ou face. */
 export const pileouface: SlashCommand = {
   guildOnly: false,
-  data: new SlashCommandBuilder()
-    .setName('pileouface')
-    .setDescription(t('modules.games.coin.description')),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.games.noms.pileouface'))
+      .setDescription(t('modules.games.coin.description')),
   async execute(interaction) {
     const heads = randomInt(2) === 0;
     const embed = infoEmbed({
@@ -111,16 +114,17 @@ export const pileouface: SlashCommand = {
 /** `/choisir` — le bot choisit parmi plusieurs options. */
 export const choisir: SlashCommand = {
   guildOnly: false,
-  data: new SlashCommandBuilder()
-    .setName('choisir')
-    .setDescription(t('modules.games.choose.description'))
-    .addStringOption((o) =>
-      o
-        .setName('options')
-        .setDescription(t('modules.games.opt.options'))
-        .setRequired(true)
-        .setMaxLength(500),
-    ),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.games.noms.choisir'))
+      .setDescription(t('modules.games.choose.description'))
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.games.noms.options'))
+          .setDescription(t('modules.games.opt.options'))
+          .setRequired(true)
+          .setMaxLength(500),
+      ),
   async execute(interaction) {
     const raw = interaction.options.getString('options', true);
     const separator = raw.includes('|') ? '|' : ',';
@@ -173,21 +177,26 @@ function pfcButtons(duelId: string): ActionRowBuilder<MessageActionRowComponentB
 
 /** `/pfc` — pierre-feuille-ciseaux contre le bot ou en défiant un membre. */
 export const pfc: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('pfc')
-    .setDescription(t('modules.games.pfc.description'))
-    .addStringOption((o) =>
-      o
-        .setName('coup')
-        .setDescription(t('modules.games.opt.move'))
-        .setRequired(true)
-        .addChoices(
-          { name: '🪨 Pierre', value: 'pierre' },
-          { name: '📄 Feuille', value: 'feuille' },
-          { name: '✂️ Ciseaux', value: 'ciseaux' },
-        ),
-    )
-    .addUserOption((o) => o.setName('adversaire').setDescription(t('modules.games.opt.opponent'))),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.games.noms.pfc'))
+      .setDescription(t('modules.games.pfc.description'))
+      .addStringOption((o) =>
+        o
+          .setName(t('modules.games.noms.coup'))
+          .setDescription(t('modules.games.opt.move'))
+          .setRequired(true)
+          .addChoices(
+            { name: '🪨 Pierre', value: 'pierre' },
+            { name: '📄 Feuille', value: 'feuille' },
+            { name: '✂️ Ciseaux', value: 'ciseaux' },
+          ),
+      )
+      .addUserOption((o) =>
+        o
+          .setName(t('modules.games.noms.adversaire'))
+          .setDescription(t('modules.games.opt.opponent')),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
     const player = interaction.options.getString('coup', true) as PfcChoice;
@@ -259,10 +268,15 @@ export const pfc: SlashCommand = {
 
 /** `/morpion` — morpion contre le bot ou en défiant un membre. */
 export const morpion: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('morpion')
-    .setDescription(t('modules.games.ttt.description'))
-    .addUserOption((o) => o.setName('adversaire').setDescription(t('modules.games.opt.opponent'))),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.games.noms.morpion'))
+      .setDescription(t('modules.games.ttt.description'))
+      .addUserOption((o) =>
+        o
+          .setName(t('modules.games.noms.adversaire'))
+          .setDescription(t('modules.games.opt.opponent')),
+      ),
   async execute(interaction) {
     if (!interaction.inCachedGuild()) return;
     const opponent = interaction.options.getUser('adversaire');
@@ -281,10 +295,15 @@ export const morpion: SlashCommand = {
 
 /** `/bataille` — bataille navale contre le bot ou en défiant un membre. */
 export const bataille: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('bataille')
-    .setDescription(t('modules.games.bn.description'))
-    .addUserOption((o) => o.setName('adversaire').setDescription(t('modules.games.opt.opponent'))),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.games.noms.bataille'))
+      .setDescription(t('modules.games.bn.description'))
+      .addUserOption((o) =>
+        o
+          .setName(t('modules.games.noms.adversaire'))
+          .setDescription(t('modules.games.opt.opponent')),
+      ),
   async execute(interaction) {
     if (!interaction.inCachedGuild()) return;
     const opponent = interaction.options.getUser('adversaire');
@@ -305,12 +324,15 @@ export const bataille: SlashCommand = {
   },
 };
 
-/** `/statsjeux` — affiche les statistiques de jeu d'un membre. */
+/** `/stats-jeux` — affiche les statistiques de jeu d'un membre. */
 export const statsjeux: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('statsjeux')
-    .setDescription(t('modules.games.stats.description'))
-    .addUserOption((o) => o.setName('membre').setDescription(t('modules.games.opt.member'))),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.games.noms.stats-jeux'))
+      .setDescription(t('modules.games.stats.description'))
+      .addUserOption((o) =>
+        o.setName(t('modules.games.noms.membre')).setDescription(t('modules.games.opt.member')),
+      ),
   async execute(interaction, ctx) {
     if (!interaction.inCachedGuild()) return;
     const user = interaction.options.getUser('membre') ?? interaction.user;

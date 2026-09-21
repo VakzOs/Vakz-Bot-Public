@@ -1,0 +1,59 @@
+{
+  "modules": {
+    "bingo": {
+      "label": "Bingo",
+      "description": "Bingo di server: cartelle 5×5, estrazioni, rilevamento di riga o cartella piena.",
+      "noms": {
+        "bingo": "bingo",
+        "carte": "cartella",
+        "demarrer": "avvia",
+        "mode": "modalita",
+        "rejoindre": "partecipa",
+        "terminer": "termina",
+        "tirer": "estrai"
+      },
+      "opt": {
+        "mode": "Condizione di vittoria (predefinita: una riga)."
+      },
+      "modeLine": "Una riga",
+      "modeFull": "Cartella piena",
+      "commands": {
+        "start": "Avvia una nuova partita di Bingo (staff).",
+        "join": "Ricevi la tua cartella del Bingo.",
+        "card": "Mostra la tua cartella.",
+        "draw": "Estrae il numero successivo (staff).",
+        "stop": "Termina la partita in corso (staff)."
+      },
+      "staffOnly": "❌ Riservato allo staff (permesso Gestire il server).",
+      "noGame": "❌ Nessuna partita in corso. Lo staff può avviarla con `/bingo avvia`.",
+      "startedTitle": "🎲 Bingo avviato!",
+      "startedBody": "Modalità: **{mode}**. Prendete la vostra cartella con `/bingo partecipa`, poi lo staff estrae i numeri con `/bingo estrai`.",
+      "joined": "🎫 Ecco la tua cartella (casella ★ = libera):",
+      "yourCard": "🎫 La tua cartella:",
+      "noCard": "❌ Non hai una cartella. Partecipa con `/bingo partecipa`.",
+      "stopped": "🛑 Partita di Bingo terminata.",
+      "allDrawn": "Tutti i numeri sono già stati estratti!",
+      "drawTitle": "🎱 Estrazione",
+      "drawBody": "Numero estratto: **{number}** ({count}/75). Controllate le vostre cartelle!",
+      "winnersField": "🎉 TOMBOLA!",
+      "myCardButton": "La mia cartella",
+      "ui": {
+        "g0": {
+          "champs": {
+            "defaultMode": {
+              "label": "Modalità di vittoria predefinita",
+              "opt": {
+                "line": {
+                  "label": "Una riga"
+                },
+                "full": {
+                  "label": "Griglia completa"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

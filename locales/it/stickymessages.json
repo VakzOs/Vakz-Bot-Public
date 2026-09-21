@@ -1,0 +1,46 @@
+{
+  "modules": {
+    "stickymessages": {
+      "label": "Messaggi fissi",
+      "description": "Tiene un messaggio sempre in fondo a un canale: viene ripubblicato a ogni nuova discussione.",
+      "ui": {
+        "g0": {
+          "label": "📌 Messaggi fissi",
+          "description": "Un messaggio ripubblicato automaticamente in fondo al canale man mano che si parla.",
+          "champs": {
+            "stickies": {
+              "label": "Messaggi",
+              "addLabel": "Aggiungi un messaggio",
+              "item": {
+                "channelId": {
+                  "label": "Canale"
+                },
+                "content": {
+                  "label": "Contenuto"
+                },
+                "embed": {
+                  "label": "Come embed"
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "repost": {
+          "label": "Ripubblica un messaggio",
+          "help": "Elimina il vecchio messaggio fisso e lo ripubblica in fondo al canale.",
+          "champs": {
+            "channelId": "Canale"
+          },
+          "msg": {
+            "done": "Messaggio fisso ripubblicato."
+          }
+        },
+        "msg": {
+          "pickChannel": "Scegli un canale che abbia un messaggio fisso."
+        }
+      }
+    }
+  }
+}

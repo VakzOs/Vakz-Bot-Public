@@ -137,23 +137,31 @@ function statsField(traveler: Traveler): { name: string; value: string } {
 }
 
 const avancer: SlashCommand = {
-  data: (() => {
+  data: () => {
     const b = new SlashCommandBuilder()
-      .setName('route')
+      .setName(t('modules.route.noms.route'))
       .setDescription(t('modules.route.description'));
-    b.addSubcommand((s) => s.setName('avancer').setDescription(t('modules.route.commands.move')));
+    b.addSubcommand((s) =>
+      s.setName(t('modules.route.noms.avancer')).setDescription(t('modules.route.commands.move')),
+    );
     b.addSubcommand((s) =>
       s
-        .setName('profil')
+        .setName(t('modules.route.noms.profil'))
         .setDescription(t('modules.route.commands.profile'))
-        .addUserOption((o) => o.setName('membre').setDescription(t('modules.route.opt.member'))),
+        .addUserOption((o) =>
+          o.setName(t('modules.route.noms.membre')).setDescription(t('modules.route.opt.member')),
+        ),
     );
     b.addSubcommand((s) =>
-      s.setName('classement').setDescription(t('modules.route.commands.leaderboard')),
+      s
+        .setName(t('modules.route.noms.classement'))
+        .setDescription(t('modules.route.commands.leaderboard')),
     );
-    b.addSubcommand((s) => s.setName('boutique').setDescription(t('modules.route.commands.shop')));
+    b.addSubcommand((s) =>
+      s.setName(t('modules.route.noms.boutique')).setDescription(t('modules.route.commands.shop')),
+    );
     return b;
-  })(),
+  },
   async execute(interaction, ctx) {
     if (!interaction.inGuild()) return;
     const sub = interaction.options.getSubcommand();

@@ -1,0 +1,55 @@
+{
+  "modules": {
+    "configbackup": {
+      "label": "Serversicherung",
+      "description": "Sichert alles, was der Bot vom Server hält — Konfiguration, Struktur und Daten (Geld, Gegenstände, Straße der Unendlichkeit, Level…) — auf Wunsch oder automatisch.",
+      "noms": {
+        "donnees": "daten",
+        "exporter": "exportieren",
+        "fichier": "datei",
+        "importer": "importieren",
+        "recreer": "neuerstellen",
+        "sauvegarde": "sicherung"
+      },
+      "command": {
+        "description": "Exportiert oder stellt die vollständige Sicherung des Servers wieder her.",
+        "export": "Lädt eine vollständige Sicherung des Servers herunter (Konfiguration + Daten).",
+        "import": "Stellt den Server aus einer Sicherungsdatei wieder her."
+      },
+      "opt": {
+        "file": "Die zu importierende Sicherungsdatei (.json oder .json.gz).",
+        "recreate": "Fehlende Kanäle/Rollen auf diesem Server neu erstellen (Standard: ja).",
+        "data": "Daten der Mitglieder einschließen: Geld, Gegenstände, Straße… (Standard: ja).",
+        "restoreData": "Auch die Daten der Mitglieder wiederherstellen — überschreibt die des Servers (Standard: ja)."
+      },
+      "export": {
+        "title": "💾 Serversicherung",
+        "done": "Hier ist die Sicherung von **{count}** Modul(en). Bewahre diese Datei gut auf: Du kannst sie mit `/sicherung importieren` wieder einspielen.",
+        "structure": "🏗️ Enthaltene Struktur: **{channels}** Kanal/Kanäle und **{roles}** Rolle(n) referenziert — sie können beim Import auf einem anderen Server neu erstellt werden.",
+        "data": "📦 Enthaltene Daten: **{rows}** Zeile(n) in **{tables}** Tabelle(n) — Geld, Gegenstände und Inventare, Straße der Unendlichkeit, Level, Sanktionen…",
+        "noData": "ℹ️ Daten der Mitglieder **nicht enthalten**: Diese Datei enthält nur die Konfiguration.",
+        "shared": "🔗 Geteilte Abhängigkeiten: **{rows}** Zeile(n) eines gemeinsamen Katalogs (Gacha…), auf die diese Daten verweisen — damit die Wiederherstellung auch auf einer anderen Instanz des Bots hält."
+      },
+      "import": {
+        "title": "✅ Server wiederhergestellt",
+        "applied": "**{count}** Modul(e) wiederhergestellt: {list}",
+        "data": "📦 Wiederhergestellte Daten: **{rows}** Zeile(n) in **{tables}** Tabelle(n).",
+        "dataSkipped": "ℹ️ Die Datei enthielt Daten von Mitgliedern: Sie wurden **nicht** wiederhergestellt (Option deaktiviert).",
+        "structure": "🏗️ Struktur: **{channelsCreated}** Kanal/Kanäle erstellt · {channelsReused} wiederverwendet — **{rolesCreated}** Rolle(n) erstellt · {rolesReused} wiederverwendet.",
+        "structureFailed": "⚠️ **{failed}** Element(e) konnten nicht erstellt werden — der Bot braucht die Berechtigungen **Rollen verwalten** und **Kanäle verwalten** (und muss hoch genug in der Hierarchie stehen).",
+        "structureMissing": "ℹ️ Diese Sicherung enthält die Struktur (Kanäle/Rollen) nicht. Exportiere sie mit der neuesten Version des Bots erneut, damit sie automatisch neu erstellt werden kann.",
+        "skippedUnknown": "⚠️ Unbekannte Module übersprungen: {list}",
+        "skippedInvalid": "⚠️ Ungültige Konfiguration übersprungen: {list}",
+        "otherGuild": "ℹ️ Diese Sicherung stammt von einem anderen Server — prüfe die Einstellungen danach.",
+        "tooLarge": "❌ Die Datei ist zu groß. Das ist wahrscheinlich keine gültige Sicherung.",
+        "downloadFailed": "❌ Die angehängte Datei konnte nicht heruntergeladen werden. Versuche es erneut.",
+        "invalidJson": "❌ Die Datei ist kein gültiges JSON.",
+        "invalidShape": "❌ Diese Datei ist keine gültige Vakz-Bot-Sicherung.",
+        "shared": "🔗 Geteilter Katalog: **{added}** Zeile(n) hinzugefügt, **{matched}** bereits vorhanden und neu zugeordnet."
+      },
+      "delivery": {
+        "content": "💾 Automatische Sicherung von **{guild}** — {rows} Datenzeile(n)."
+      }
+    }
+  }
+}

@@ -1,0 +1,102 @@
+{
+  "modules": {
+    "giveaways": {
+      "label": "Giveaway",
+      "description": "Estrazioni a sorte: premio, durata, vincitori, partecipazione con un pulsante.",
+      "noms": {
+        "duree": "durata",
+        "gagnant": "vincitore",
+        "gagnants": "vincitori",
+        "giveaway": "giveaway",
+        "id": "id",
+        "lancer": "avvia",
+        "liste": "elenco",
+        "lot": "premio",
+        "relancer": "riestrai",
+        "role": "ruolo",
+        "salon": "canale",
+        "terminer": "termina"
+      },
+      "command": {
+        "description": "Avviare e gestire estrazioni a sorte.",
+        "start": "Avviare un'estrazione a sorte.",
+        "end": "Terminare subito un'estrazione ed estrarre i vincitori.",
+        "reroll": "Rifare l'estrazione (tutti i vincitori, o uno preciso).",
+        "list": "Elencare le estrazioni in corso."
+      },
+      "opt": {
+        "prize": "Il premio da vincere.",
+        "duration": "Durata dell'estrazione (es. 1h, 2j, 30m).",
+        "winners": "Numero di vincitori (predefinito 1).",
+        "channel": "Canale dove pubblicare l'estrazione (predefinito: qui).",
+        "role": "Ruolo necessario per partecipare (facoltativo).",
+        "id": "L'estrazione interessata.",
+        "winner": "Il vincitore da sostituire (riestrazione mirata)."
+      },
+      "embed": {
+        "title": "🎉 Giveaway: {prize}",
+        "intro": "Premi il pulsante per partecipare!\nAlla fine verranno estratti **{count}** vincitori.",
+        "endedIntro": "Estrazione terminata.",
+        "footer": "ID {id}",
+        "host": "Organizzato da",
+        "winners": "Vincitori",
+        "endsAt": "Fine",
+        "endedAt": "Terminata",
+        "participants": "Partecipanti",
+        "requiredRole": "Ruolo necessario",
+        "result": "🏆 Vincitori",
+        "noWinner": "Nessun partecipante 😢"
+      },
+      "joinButton": "🎉 Partecipa ({count})",
+      "announceWinners": "🎉 Complimenti {winners}! Vincete **{prize}**!",
+      "announceNoWinner": "😢 Nessuno ha partecipato all'estrazione per **{prize}**.",
+      "announceReroll": "🔄 Nuova estrazione! Complimenti {winners}, vincete **{prize}**!",
+      "announceRerollOne": "🔄 {old} viene sostituito: complimenti {new}, vinci **{prize}**!",
+      "feedback": {
+        "disabled": "❌ Questo modulo è disattivato su questo server.",
+        "ended": "❌ Questa estrazione è terminata o non è stata trovata.",
+        "needRole": "⛔ Serve il ruolo {role} per partecipare a questa estrazione.",
+        "joined": "✅ Stai partecipando all'estrazione! In bocca al lupo 🍀",
+        "left": "➖ Non partecipi più a questa estrazione."
+      },
+      "reroll": {
+        "notWinner": "❌ Questo membro non è tra i vincitori attuali dell'estrazione.",
+        "noEligible": "❌ Non resta nessun partecipante idoneo a sostituirlo."
+      },
+      "invalidDuration": "❌ Durata non valida. Esempi: `1h`, `2j`, `30m`, `1h30m`.",
+      "channelInvalid": "❌ Canale non valido per pubblicare l'estrazione.",
+      "sendError": "❌ Impossibile pubblicare l'estrazione (controlla i miei permessi nel canale).",
+      "launched": "✅ Estrazione avviata! {url}",
+      "notFoundActive": "❌ Nessuna estrazione in corso con questo identificatore.",
+      "endedManual": "🎉 Estrazione terminata! Vincitori: {winners}",
+      "endedNoWinner": "😢 Estrazione terminata, ma senza partecipanti.",
+      "notFoundEnded": "❌ Nessuna estrazione terminata con questo identificatore.",
+      "rerolledOne": "🔄 {old} sostituito da {new}.",
+      "rerolledAll": "🔄 Nuova estrazione effettuata. Vincitori: {winners}",
+      "listEmpty": "Nessuna estrazione in corso.",
+      "listTitle": "🎉 Estrazioni in corso",
+      "listLine": "• **{prize}** — `{id}` — fine {ends} — {channel}",
+      "log": {
+        "title": "🎁 Estrazione terminata",
+        "entry": "Premio: **{prize}**\nVincitori: {winners}\nOrganizzato da: {host}\nID: `{id}`"
+      },
+      "ui": {
+        "g0": {
+          "description": "Le estrazioni si creano con il comando /giveaway.",
+          "champs": {
+            "logChannelId": {
+              "label": "Canale dei registri"
+            },
+            "winMessage": {
+              "label": "Messaggio di vincita",
+              "help": "Inviato ai vincitori."
+            },
+            "noWinnerMessage": {
+              "label": "Messaggio quando non c'è nessun vincitore"
+            }
+          }
+        }
+      }
+    }
+  }
+}

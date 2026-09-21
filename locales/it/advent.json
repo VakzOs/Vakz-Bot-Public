@@ -1,0 +1,100 @@
+{
+  "modules": {
+    "advent": {
+      "label": "Calendario dell'Avvento",
+      "description": "Dal 1° al 24 dicembre ogni membro apre una casella al giorno e vince monete e/o un oggetto.",
+      "noms": {
+        "avent": "avvento",
+        "calendrier": "calendario",
+        "jour": "giorno",
+        "ouvrir": "apri"
+      },
+      "announce": "🎄 La casella del **giorno {day}** del calendario dell'Avvento è aperta! Usa `/avvento apri` per scoprire la tua ricompensa.",
+      "command": {
+        "description": "Calendario dell'Avvento: apri la tua casella del giorno.",
+        "open": "Apre la casella del giorno (o di un giorno preciso).",
+        "dayOption": "Giorno da aprire (1-24). Predefinito: oggi.",
+        "calendar": "Mostra i tuoi progressi nel calendario."
+      },
+      "feedback": {
+        "disabled": "❌ Il calendario dell'Avvento è disattivato su questo server.",
+        "closed": "🎄 Il calendario non è aperto (solo dal 1° al 24 dicembre).",
+        "locked": "🔒 La casella del giorno {day} non è ancora apribile.",
+        "already": "🎁 Hai già aperto la casella del giorno {day}."
+      },
+      "calendar": {
+        "title": "🎄 Calendario dell'Avvento",
+        "footerOpen": "Giorno {day} · {opened}/24 caselle aperte",
+        "footerClosed": "Torna dal 1° al 24 dicembre!",
+        "testBadge": "🧪 **Modalità test attiva** — tutte le caselle sono apribili (anche fuori dicembre)."
+      },
+      "reward": {
+        "title": "🎁 Casella {day} aperta!",
+        "coins": "💰 +{coins} monete",
+        "item": "🎁 +{qty}× {item}",
+        "nothing": "…ma questa volta la casella era vuota.",
+        "balance": "Saldo: {balance} monete",
+        "linkButton": "🔗 Apri il link"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "announceChannelId": {
+              "label": "Canale degli annunci"
+            },
+            "defaultCoins": {
+              "label": "Monete predefinite al giorno"
+            },
+            "testMode": {
+              "label": "Modalità test (apre tutte le caselle)"
+            }
+          }
+        },
+        "g1": {
+          "label": "🎁 Ricompense giorno per giorno",
+          "description": "Una riga per casella da personalizzare. I giorni assenti dall'elenco danno le monete predefinite.",
+          "champs": {
+            "rewards": {
+              "label": "Caselle personalizzate",
+              "addLabel": "Aggiungi un giorno",
+              "item": {
+                "day": {
+                  "label": "Giorno (da 1 a 25)"
+                },
+                "coins": {
+                  "label": "Monete regalate"
+                },
+                "items": {
+                  "label": "Oggetti regalati",
+                  "help": "Identificatori di oggetti del catalogo, uno per punto."
+                },
+                "itemQty": {
+                  "label": "Quantità per oggetto"
+                },
+                "message": {
+                  "label": "Messaggio di apertura"
+                },
+                "link": {
+                  "label": "Link regalato (pulsante)"
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "resetMyClaims": {
+          "label": "Reimposta le mie aperture",
+          "help": "Elimina soltanto LE TUE aperture di caselle, per riprovare il calendario.",
+          "confirm": "Cancellare le tue aperture di caselle su questo server?",
+          "msg": {
+            "done": "{n} apertura/e cancellata/e."
+          }
+        },
+        "msg": {
+          "noActor": "Autore sconosciuto."
+        }
+      }
+    }
+  }
+}

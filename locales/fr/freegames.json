@@ -3,6 +3,9 @@
     "freegames": {
       "label": "Jeux gratuits",
       "description": "Annonce les jeux qui deviennent gratuits à garder (Steam, Epic Games, GOG) dans un salon.",
+      "noms": {
+        "jeux-gratuits": "jeux-gratuits"
+      },
       "embedDescription": "🎮 **Gratuit à récupérer** sur {store} pour une durée limitée !\n[Voir sur la boutique]({url})",
       "priceField": "Prix",
       "free": "Gratuit",
@@ -15,6 +18,50 @@
         "steam": "Steam",
         "epic": "Epic Games",
         "gog": "GOG"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Salon des annonces",
+              "help": "Le salon où les jeux offerts sont annoncés. Vide, le module ne publie rien : c'est la façon de le mettre en veille sans perdre le reste du réglage."
+            },
+            "roleId": {
+              "label": "Rôle à mentionner",
+              "help": "Mentionné à chaque annonce. Mieux vaut un rôle que les membres s'attribuent eux-mêmes : les offres tombent à n'importe quelle heure, et notifier tout le serveur pour un jeu gratuit lasse vite."
+            },
+            "platforms": {
+              "label": "Plateformes suivies",
+              "opt": {
+                "steam": {
+                  "label": "Steam"
+                },
+                "epic": {
+                  "label": "Epic Games"
+                },
+                "gog": {
+                  "label": "GOG"
+                }
+              },
+              "help": "Les boutiques surveillées. Tout décocher revient à éteindre le module. Epic offre un jeu par semaine, Steam et GOG au coup par coup : ne garder que les deux dernières rend les annonces rares mais jamais routinières."
+            }
+          }
+        }
+      },
+      "actions": {
+        "announceNow": {
+          "label": "Annoncer les offres en cours",
+          "help": "Republie les jeux actuellement gratuits sur les plateformes cochées, et les marque comme annoncés.",
+          "msg": {
+            "noChannel": "Aucun salon d’annonces configuré.",
+            "noPlatform": "Aucune plateforme cochée.",
+            "badChannel": "Salon introuvable ou non textuel.",
+            "noPermission": "Permissions manquantes dans le salon.",
+            "noOffer": "Aucune offre gratuite en ce moment.",
+            "nothingSent": "Aucune annonce n’a pu être envoyée.",
+            "done": "{n} offre(s) annoncée(s)."
+          }
+        }
       }
     }
   }

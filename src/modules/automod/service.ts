@@ -285,6 +285,7 @@ export async function applyViolation(
       userId: member.id,
       moderatorId: message.client.user.id,
       reason: violation.reason,
+      rule: violation.rule,
     });
   }
 
@@ -297,6 +298,7 @@ export async function applyViolation(
       moderatorId: message.client.user.id,
       reason: violation.reason,
       expiresAt: new Date(Date.now() + duration),
+      rule: violation.rule,
     });
   }
 
@@ -307,6 +309,7 @@ export async function applyViolation(
       userId: member.id,
       moderatorId: message.client.user.id,
       reason: violation.reason,
+      rule: violation.rule,
     });
   }
 
@@ -317,6 +320,7 @@ export async function applyViolation(
       userId: member.id,
       moderatorId: message.client.user.id,
       reason: violation.reason,
+      rule: violation.rule,
     });
   }
 
@@ -329,6 +333,25 @@ export async function applyViolation(
     reason: violation.reason,
     detail: violation.detail,
   });
+
+  // L'automod agit sur des évènements, pas sur des commandes : le cœur ne voit
+  // rien passer, et le salon de logs du serveur — quand il est réglé — ne se lit
+  // pas depuis le dashboard. Sans cette ligne, « le bot a supprimé mon message »
+  // n'a aucune trace consultable côté propriétaire. Les violations qui appellent
+  // une sanction sont déjà journalisées par `recordSanction`, avec leur règle :
+  // on ne parle donc ici que de la suppression sèche. Le contenu incriminé reste
+  // dehors — c'est une donnée de membre, pas d'exploitation.
+  if (violation.action === 'delete') {
+    ctx.logger.info(
+      {
+        guildId: message.guildId,
+        userId: member.id,
+        channelId: message.channelId,
+        regle: violation.rule,
+      },
+      'Automod : message supprimé',
+    );
+  }
 }
 
 export async function handleHoneypotMessage(
@@ -350,6 +373,7 @@ export async function handleHoneypotMessage(
       userId: member.id,
       moderatorId: message.client.user.id,
       reason,
+      rule: 'honeypot',
     });
   }
 

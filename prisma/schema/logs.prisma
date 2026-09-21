@@ -42,3 +42,36 @@ model LogRollback {
   @@index([guildId, kind])
   @@index([createdAt])
 }
+
+/// Une arrivée, rattachée à l'invitation qui l'a amenée.
+///
+/// Discord ne dit JAMAIS par quelle invitation un membre est entré : la seule
+/// façon de le savoir est de comparer les compteurs d'utilisation d'avant et
+/// d'après (voir `src/modules/logs/invites.ts`). Ce qui s'en déduit ne se
+/// retrouve plus ensuite — l'invitation peut être supprimée, son auteur peut
+/// partir — d'où une ligne écrite au moment même de l'arrivée.
+///
+/// Une ligne par arrivée et non par membre : quelqu'un qui part et revient a
+/// pu être invité par deux personnes différentes, et effacer la première
+/// réponse pour garder la seconde perdrait justement ce qu'on voulait suivre.
+model LogInviteJoin {
+  id        String    @id @default(cuid())
+  guildId   String
+  /// Membre arrivé.
+  userId    String
+  /// Auteur de l'invitation empruntée (ou membre ayant ajouté le bot).
+  /// Null quand l'origine n'a pas pu être établie.
+  inviterId String?
+  /// Code emprunté. Vide pour une origine sans code (URL personnalisée, bot).
+  code      String    @default("")
+  /// Comment l'origine a été établie : invite | vanity | bot | unknown.
+  source    String    @default("unknown")
+  joinedAt  DateTime  @default(now())
+  /// Renseigné au départ du membre. C'est ce qui sépare « a fait entrer 12
+  /// membres » de « 12 sont restés » — sans quoi un classement récompenserait
+  /// celui qui invite des comptes qui repartent aussitôt.
+  leftAt    DateTime?
+
+  @@index([guildId, inviterId])
+  @@index([guildId, userId])
+}

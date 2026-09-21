@@ -1,0 +1,20 @@
+{
+  "modules": {
+    "core": {
+      "label": "Kern",
+      "description": "Wesentliche Systembefehle (Ping, Konfiguration).",
+      "noms": {
+        "ping": "ping"
+      },
+      "ping": {
+        "description": "Zeigt die Latenz des Bots an.",
+        "title": "🏓 Pong!",
+        "computing": "Latenz wird gemessen…",
+        "websocket": "Gateway (WebSocket)",
+        "roundtrip": "Hin und zurück",
+        "build": "Build",
+        "refresh": "Aktualisieren"
+      }
+    }
+  }
+}

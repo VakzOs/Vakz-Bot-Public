@@ -1,7 +1,12 @@
 import { config as loadDotenv } from 'dotenv';
 import { z } from 'zod';
 
-loadDotenv();
+// `quiet` : depuis dotenv 17, le chargement s'annonce de lui-même en tête des
+// logs du conteneur — « injected env (N) from .env », suivi d'un conseil de
+// débogage. Une ligne de publicité au-dessus des messages qu'on veut lire,
+// dans la lignée de celles que npm et Prisma affichaient déjà et qu'on a fait
+// taire. Le reste se journalise par `ctx.logger`, pas par une dépendance.
+loadDotenv({ quiet: true });
 
 /**
  * Booléen lu depuis une variable d'environnement. La casse et les espaces sont

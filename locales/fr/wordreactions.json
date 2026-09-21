@@ -9,6 +9,50 @@
         "exact": "Exact",
         "startsWith": "Commence par",
         "endsWith": "Finit par"
+      },
+      "ui": {
+        "g0": {
+          "label": "💬 Réactions automatiques",
+          "champs": {
+            "rules": {
+              "label": "Règles",
+              "addLabel": "Ajouter une règle",
+              "item": {
+                "trigger": {
+                  "label": "Déclencheur"
+                },
+                "match": {
+                  "label": "Correspondance",
+                  "opt": {
+                    "contains": {
+                      "label": "Contient"
+                    },
+                    "word": {
+                      "label": "Mot entier"
+                    },
+                    "exact": {
+                      "label": "Exact"
+                    },
+                    "startsWith": {
+                      "label": "Commence par"
+                    },
+                    "endsWith": {
+                      "label": "Finit par"
+                    }
+                  }
+                },
+                "emojis": {
+                  "label": "Emojis à ajouter",
+                  "placeholder": "Un emoji puis Entrée"
+                },
+                "channelId": {
+                  "label": "Salon (optionnel)"
+                }
+              },
+              "help": "Une ligne par règle : un mot guetté, et jusqu'à trois emojis que le bot ajoute en réaction. Un emoji du serveur doit être écrit sous sa forme complète `<:nom:id>` ; un emoji supprimé du serveur fait échouer la réaction en silence. « Mot entier » évite que « chat » réagisse à « chaton »."
+            }
+          }
+        }
       }
     }
   }

@@ -1,0 +1,109 @@
+{
+  "modules": {
+    "interactivemessages": {
+      "label": "Messaggi interattivi",
+      "description": "Componi embed riutilizzabili (titolo, descrizione, colore) pubblicati in un canale, con pulsanti di ruolo (clic = aggiunta/rimozione) e pulsanti link.",
+      "feedback": {
+        "disabled": "❌ Questo modulo è disattivato su questo server.",
+        "roleGone": "❌ Questo ruolo non esiste più.",
+        "cannotAssign": "⚠️ Non posso gestire questo ruolo (manca il permesso «Gestire i ruoli» o il ruolo è sopra il mio).",
+        "added": "✅ Ruolo {role} aggiunto.",
+        "removed": "➖ Ruolo {role} rimosso.",
+        "error": "❌ Si è verificato un errore."
+      },
+      "ui": {
+        "g0": {
+          "label": "🧩 Messaggi interattivi",
+          "description": "Dopo ogni modifica, ripubblica il messaggio con l'azione «Pubblica un messaggio».",
+          "champs": {
+            "panels": {
+              "label": "Messaggi",
+              "addLabel": "Aggiungi un messaggio",
+              "item": {
+                "name": {
+                  "label": "Nome (interno)"
+                },
+                "channelId": {
+                  "label": "Canale di pubblicazione"
+                },
+                "title": {
+                  "label": "Titolo dell'embed"
+                },
+                "description": {
+                  "label": "Descrizione dell'embed"
+                },
+                "buttons": {
+                  "label": "Pulsanti",
+                  "addLabel": "Aggiungi un pulsante",
+                  "item": {
+                    "type": {
+                      "label": "Tipo",
+                      "opt": {
+                        "role": {
+                          "label": "Ruolo (aggiunge/rimuove al clic)"
+                        },
+                        "link": {
+                          "label": "Link (apre un URL)"
+                        }
+                      }
+                    },
+                    "label": {
+                      "label": "Testo del pulsante"
+                    },
+                    "emoji": {
+                      "label": "Emoji"
+                    },
+                    "roleId": {
+                      "label": "Ruolo (se tipo «Ruolo»)"
+                    },
+                    "url": {
+                      "label": "URL (se tipo «Link»)",
+                      "placeholder": "https://…"
+                    },
+                    "style": {
+                      "label": "Stile",
+                      "opt": {
+                        "primary": {
+                          "label": "Blu"
+                        },
+                        "secondary": {
+                          "label": "Grigio"
+                        },
+                        "success": {
+                          "label": "Verde"
+                        },
+                        "danger": {
+                          "label": "Rosso"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "publish": {
+          "label": "Pubblica un messaggio",
+          "help": "Pubblica il messaggio scelto, o aggiorna quello già inviato.",
+          "champs": {
+            "id": "Messaggio"
+          },
+          "msg": {
+            "noGuild": "Server non trovato.",
+            "pickPanel": "Scegli un messaggio registrato.",
+            "reason": {
+              "nochannel": "canale mancante o non trovato",
+              "empty": "titolo e descrizione vuoti",
+              "refused": "invio rifiutato da Discord"
+            },
+            "failed": "Pubblicazione impossibile: {raison}.",
+            "done": "Messaggio pubblicato."
+          }
+        }
+      }
+    }
+  }
+}

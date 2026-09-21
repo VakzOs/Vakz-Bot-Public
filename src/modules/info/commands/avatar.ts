@@ -5,10 +5,13 @@ import { Emojis, infoEmbed } from '../../../lib/embeds.js';
 
 /** `/avatar` — affiche l'avatar (en grand) d'un membre ou de soi-même. */
 export const avatar: SlashCommand = {
-  data: new SlashCommandBuilder()
-    .setName('avatar')
-    .setDescription(t('modules.info.avatar.description'))
-    .addUserOption((o) => o.setName('membre').setDescription(t('modules.info.opt.member'))),
+  data: () =>
+    new SlashCommandBuilder()
+      .setName(t('modules.info.noms.avatar'))
+      .setDescription(t('modules.info.avatar.description'))
+      .addUserOption((o) =>
+        o.setName(t('modules.info.noms.membre')).setDescription(t('modules.info.opt.member')),
+      ),
   async execute(interaction) {
     const user = interaction.options.getUser('membre') ?? interaction.user;
     const globalUrl = user.displayAvatarURL({ size: 1024 });

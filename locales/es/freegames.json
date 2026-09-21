@@ -1,0 +1,65 @@
+{
+  "modules": {
+    "freegames": {
+      "label": "Juegos gratis",
+      "description": "Anuncia en un canal los juegos que pasan a ser gratis para quedárselos (Steam, Epic Games, GOG).",
+      "noms": {
+        "jeux-gratuits": "juegos-gratis"
+      },
+      "embedDescription": "🎮 **Gratis para quedártelo** en {store} por tiempo limitado.\n[Ver en la tienda]({url})",
+      "priceField": "Precio",
+      "free": "Gratis",
+      "command": {
+        "description": "Muestra los juegos gratis en este momento (Steam, Epic, GOG).",
+        "none": "🎮 De momento no hay ningún juego gratis que recoger.",
+        "title": "🎮 **{count}** juego(s) gratis que recoger:"
+      },
+      "platform": {
+        "steam": "Steam",
+        "epic": "Epic Games",
+        "gog": "GOG"
+      },
+      "ui": {
+        "g0": {
+          "champs": {
+            "channelId": {
+              "label": "Canal de los anuncios"
+            },
+            "roleId": {
+              "label": "Rol que mencionar"
+            },
+            "platforms": {
+              "label": "Plataformas seguidas",
+              "opt": {
+                "steam": {
+                  "label": "Steam"
+                },
+                "epic": {
+                  "label": "Epic Games"
+                },
+                "gog": {
+                  "label": "GOG"
+                }
+              }
+            }
+          }
+        }
+      },
+      "actions": {
+        "announceNow": {
+          "label": "Anunciar las ofertas en curso",
+          "help": "Vuelve a publicar los juegos gratis en este momento en las plataformas marcadas y los marca como anunciados.",
+          "msg": {
+            "noChannel": "No hay ningún canal de anuncios configurado.",
+            "noPlatform": "No hay ninguna plataforma marcada.",
+            "badChannel": "Canal no encontrado o no textual.",
+            "noPermission": "Faltan permisos en el canal.",
+            "noOffer": "No hay ninguna oferta gratis en este momento.",
+            "nothingSent": "No se ha podido enviar ningún anuncio.",
+            "done": "{n} oferta(s) anunciada(s)."
+          }
+        }
+      }
+    }
+  }
+}

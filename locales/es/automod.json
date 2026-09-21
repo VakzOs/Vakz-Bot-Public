@@ -1,0 +1,213 @@
+{
+  "modules": {
+    "automod": {
+      "label": "Automoderación",
+      "description": "Filtra automáticamente el spam, la publicidad, los abusos y los mensajes trampa.",
+      "actions": {
+        "setupHoneypot": {
+          "label": "Crear el canal trampa",
+          "help": "Crea un canal visible para todos donde escribir desencadena la sanción configurada.",
+          "confirm": "¿Crear un nuevo canal trampa en este servidor?",
+          "msg": {
+            "noGuild": "Servidor no encontrado.",
+            "noPermission": "Creación rechazada: falta el permiso «Gestionar canales».",
+            "done": "Canal trampa creado: #{salon}."
+          }
+        }
+      },
+      "rules": {
+        "spam": "Spam",
+        "invites": "Invitaciones",
+        "links": "Enlaces",
+        "badWords": "Palabras prohibidas",
+        "mentions": "Menciones",
+        "caps": "Mayúsculas",
+        "honeypot": "Honeypot"
+      },
+      "reason": {
+        "spam": "Automoderación: spam ({count} mensajes en {seconds} s).",
+        "invites": "Automoderación: invitación de Discord no autorizada.",
+        "links": "Automoderación: enlace no autorizado.",
+        "badWords": "Automoderación: palabra prohibida.",
+        "mentions": "Automoderación: abuso de menciones.",
+        "caps": "Automoderación: abuso de mayúsculas."
+      },
+      "detail": {
+        "spam": "{count} mensajes en la ventana de {seconds} s.",
+        "badWords": "Palabra detectada: `{word}`",
+        "mentions": "{count} menciones en el mensaje.",
+        "caps": "{percent} % de letras en mayúsculas."
+      },
+      "log": {
+        "title": "Automoderación",
+        "member": "Miembro",
+        "rule": "Regla",
+        "action": "Acción",
+        "channel": "Canal",
+        "reason": "Motivo",
+        "detail": "Detalle",
+        "empty": "*contenido vacío*"
+      },
+      "honeypot": {
+        "bans": "Baneos",
+        "action": "Baneo por honeypot",
+        "topic": "Honeypot contra cuentas comprometidas: no enviar mensajes aquí.",
+        "createReason": "Creación del canal honeypot de Vakz-Bot",
+        "embedTitle": "NO ENVIAR MENSAJES EN ESTE CANAL",
+        "embedDescription": "Este canal sirve para detectar cuentas comprometidas. Cualquier mensaje enviado aquí conllevará un baneo inmediato.",
+        "banReason": "Honeypot desencadenado",
+        "counter": "Baneos: {count}"
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ General",
+          "description": "El canal trampa se crea con la acción «Crear el canal trampa» de abajo.",
+          "champs": {
+            "logChannelId": {
+              "label": "Canal de los registros de automoderación"
+            },
+            "ignoredChannelIds": {
+              "label": "Canales ignorados"
+            },
+            "ignoredRoleIds": {
+              "label": "Roles ignorados"
+            }
+          }
+        },
+        "spam": {
+          "label": "🚫 Antispam",
+          "champs": {
+            "enabled": {
+              "label": "Activar"
+            },
+            "action": {
+              "label": "Sanción",
+              "opt": {
+                "delete": {
+                  "label": "Borrar"
+                },
+                "warn": {
+                  "label": "Advertir"
+                },
+                "timeout": {
+                  "label": "Silenciar"
+                },
+                "kick": {
+                  "label": "Expulsar"
+                },
+                "ban": {
+                  "label": "Banear"
+                }
+              }
+            },
+            "maxMessages": {
+              "label": "Mensajes máx."
+            },
+            "windowSeconds": {
+              "label": "Ventana (s)"
+            },
+            "timeoutMinutes": {
+              "label": "Silencio (min)"
+            }
+          }
+        },
+        "invites": {
+          "label": "🔗 Anti-invitaciones de Discord",
+          "champs": {
+            "enabled": {
+              "label": "Activar"
+            },
+            "action": {
+              "label": "Sanción",
+              "opt": {
+                "delete": {
+                  "label": "Borrar"
+                },
+                "warn": {
+                  "label": "Advertir"
+                },
+                "timeout": {
+                  "label": "Silenciar"
+                },
+                "kick": {
+                  "label": "Expulsar"
+                },
+                "ban": {
+                  "label": "Banear"
+                }
+              }
+            }
+          }
+        },
+        "mentions": {
+          "label": "📢 Anti-menciones masivas",
+          "champs": {
+            "enabled": {
+              "label": "Activar"
+            },
+            "action": {
+              "label": "Sanción",
+              "opt": {
+                "delete": {
+                  "label": "Borrar"
+                },
+                "warn": {
+                  "label": "Advertir"
+                },
+                "timeout": {
+                  "label": "Silenciar"
+                },
+                "kick": {
+                  "label": "Expulsar"
+                },
+                "ban": {
+                  "label": "Banear"
+                }
+              }
+            },
+            "maxMentions": {
+              "label": "Menciones máx."
+            },
+            "timeoutMinutes": {
+              "label": "Silencio (min)"
+            }
+          }
+        },
+        "caps": {
+          "label": "🔠 Antimayúsculas",
+          "champs": {
+            "enabled": {
+              "label": "Activar"
+            },
+            "action": {
+              "label": "Sanción",
+              "opt": {
+                "delete": {
+                  "label": "Borrar"
+                },
+                "warn": {
+                  "label": "Advertir"
+                },
+                "timeout": {
+                  "label": "Silenciar"
+                },
+                "kick": {
+                  "label": "Expulsar"
+                },
+                "ban": {
+                  "label": "Banear"
+                }
+              }
+            },
+            "minLength": {
+              "label": "Longitud mínima del mensaje"
+            },
+            "percent": {
+              "label": "% de mayúsculas que desencadena"
+            }
+          }
+        }
+      }
+    }
+  }
+}

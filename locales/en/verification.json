@@ -18,6 +18,50 @@
       },
       "log": {
         "verified": "✅ {user} passed verification."
+      },
+      "ui": {
+        "g0": {
+          "label": "🔐 Verification",
+          "description": "After any change, republish the panel with the “Publish” button.",
+          "champs": {
+            "channelId": {
+              "label": "Verification channel",
+              "help": "The welcome channel the verification panel is posted in. It should be the only one an unverified newcomer can see, otherwise verification protects nothing."
+            },
+            "roleId": {
+              "label": "Role granted once verified",
+              "help": "The role granted after verification, the one that opens the server. Without it, verification succeeds and changes nothing. It must sit below the bot's role to be grantable."
+            },
+            "method": {
+              "label": "Method",
+              "opt": {
+                "button": {
+                  "label": "Plain button"
+                },
+                "captcha": {
+                  "label": "Image captcha"
+                }
+              },
+              "help": "« Button » is enough against the simplest bots and asks nothing of the member. « Captcha » shows an image to type back: it also stops automated accounts, at the cost of roughly one newcomer in ten needing a second try."
+            },
+            "title": {
+              "label": "Title",
+              "help": "The verification panel's title."
+            },
+            "content": {
+              "label": "Content",
+              "help": "The panel's body text. Say why this step exists: a newcomer asked to copy an image with no explanation often leaves instead."
+            },
+            "buttonLabel": {
+              "label": "Button label",
+              "help": "The text of the button that starts verification."
+            },
+            "logChannelId": {
+              "label": "Log channel",
+              "help": "A channel recording each verification, passed or failed. Repeated failures seconds apart are the signature of a bot wave — this is where you see it. Empty, nothing is kept."
+            }
+          }
+        }
       }
     }
   }

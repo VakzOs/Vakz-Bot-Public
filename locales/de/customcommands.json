@@ -1,0 +1,62 @@
+{
+  "modules": {
+    "customcommands": {
+      "label": "Eigene Befehle",
+      "description": "Automatische Antworten auf Schlüsselwörter: Auslöser → Antwort (Text oder Embed), mit Kanal, Abklingzeit und Löschen der Nachricht.",
+      "match": {
+        "contains": "Enthält",
+        "exact": "Genau",
+        "startsWith": "Beginnt mit",
+        "endsWith": "Endet auf"
+      },
+      "ui": {
+        "g0": {
+          "label": "⌨️ Eigene Befehle",
+          "champs": {
+            "commands": {
+              "label": "Befehle",
+              "addLabel": "Befehl hinzufügen",
+              "item": {
+                "trigger": {
+                  "label": "Auslöser"
+                },
+                "match": {
+                  "label": "Übereinstimmung",
+                  "opt": {
+                    "contains": {
+                      "label": "Enthält"
+                    },
+                    "exact": {
+                      "label": "Genau"
+                    },
+                    "startsWith": {
+                      "label": "Beginnt mit"
+                    },
+                    "endsWith": {
+                      "label": "Endet auf"
+                    }
+                  }
+                },
+                "response": {
+                  "label": "Antwort"
+                },
+                "asEmbed": {
+                  "label": "Als Embed"
+                },
+                "channelId": {
+                  "label": "Kanal (optional)"
+                },
+                "deleteTrigger": {
+                  "label": "Auslösende Nachricht löschen"
+                },
+                "cooldown": {
+                  "label": "Abklingzeit (s)"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

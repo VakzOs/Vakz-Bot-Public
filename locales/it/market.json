@@ -1,0 +1,83 @@
+{
+  "modules": {
+    "market": {
+      "label": "Casa d'aste",
+      "description": "Mercato tra membri: metti oggetti in vendita, compra quelli degli altri.",
+      "noms": {
+        "hdv": "mercato",
+        "mes-annonces": "miei-annunci",
+        "objet": "oggetto",
+        "parcourir": "sfoglia",
+        "prix": "prezzo",
+        "quantité": "quantita",
+        "vendre": "vendi"
+      },
+      "command": {
+        "description": "Casa d'aste: compra e vendi oggetti tra membri.",
+        "browse": "Sfogliare gli annunci e comprare.",
+        "sell": "Mettere un oggetto in vendita.",
+        "optItem": "L'oggetto da mettere in vendita.",
+        "optPrice": "Prezzo unitario (per oggetto).",
+        "optQty": "Quantità da vendere (predefinito: 1).",
+        "mine": "Vedere e annullare i tuoi annunci."
+      },
+      "browse": {
+        "title": "🏪 Casa d'aste",
+        "intro": "Seleziona un annuncio per comprarne un esemplare.",
+        "empty": "Per ora nessun annuncio. Sii il primo con `/mercato vendi`!",
+        "line": "**{n}.** {emoji} **{name}** ×{qty} — {unit}/u — {seller}",
+        "footer": "Pagina {page}/{pages} · {total} annuncio/i",
+        "buyPlaceholder": "Comprare un esemplare…",
+        "buyOption": "Compra — {unit}/u",
+        "mine": "📦 I miei annunci"
+      },
+      "mine": {
+        "title": "📦 I miei annunci",
+        "intro": "Seleziona un annuncio per annullarlo (gli oggetti tornano a te).",
+        "empty": "Non hai nessun annuncio attivo.",
+        "line": "**{n}.** {emoji} **{name}** ×{qty} — {unit}/u",
+        "cancelPlaceholder": "Annullare un annuncio…",
+        "back": "◀ Torna agli annunci"
+      },
+      "buy": {
+        "done": "🛒 Hai comprato {qty}× {emoji} **{name}** da {seller} per {cost}. Saldo: {balance}.",
+        "gone": "❌ Questo annuncio non è più disponibile.",
+        "ownListing": "❌ Non puoi comprare il tuo annuncio (usa «I miei annunci» per annullarlo).",
+        "insufficient": "❌ Saldo insufficiente per questo acquisto.",
+        "sellerNotice": "💰 **Vendita su {guild}** — {buyer} ha comprato {qty}× {emoji} **{name}** per {total}. Ricevi {gain}.{tax}",
+        "taxNote": " (di cui {tax} di tassa del server)"
+      },
+      "cancel": {
+        "done": "↩️ Annuncio annullato: {qty}× {emoji} **{name}** tornati nel tuo inventario.",
+        "gone": "❌ Questo annuncio non esiste più.",
+        "notYours": "❌ Questo annuncio non è tuo."
+      },
+      "sell": {
+        "done": "🏷️ In vendita: {qty}× {emoji} **{name}** a {unit}/u. Guardalo con `/mercato sfoglia`.",
+        "notTradable": "❌ {emoji} {name} non è scambiabile, non può essere venduto qui.",
+        "tooCheap": "❌ Prezzo troppo basso: minimo {min} per oggetto.",
+        "tooMany": "❌ Hai raggiunto il limite di annunci attivi ({max}).",
+        "notOwned": "❌ Non possiedi abbastanza {emoji} {name}."
+      },
+      "ui": {
+        "g0": {
+          "description": "Mercato tra membri tramite /mercato. La messa in vendita trattiene gli oggetti fino all'acquisto o all'annullamento.",
+          "champs": {
+            "taxPercent": {
+              "label": "Tassa del server prelevata a chi vende (0-100 %)"
+            },
+            "maxListingsPerUser": {
+              "label": "Annunci attivi max per membro"
+            },
+            "minPrice": {
+              "label": "Prezzo unitario minimo assoluto di un annuncio"
+            },
+            "minPricePercent": {
+              "label": "Prezzo minimo in % del prezzo di negozio dell'oggetto (0-100)"
+            }
+          }
+        }
+      }
+    }
+  }
+}

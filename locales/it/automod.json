@@ -1,0 +1,213 @@
+{
+  "modules": {
+    "automod": {
+      "label": "Automoderazione",
+      "description": "Filtra automaticamente spam, pubblicità, abusi e messaggi trappola.",
+      "actions": {
+        "setupHoneypot": {
+          "label": "Crea il canale trappola",
+          "help": "Crea un canale visibile a tutti dove scrivere fa scattare la sanzione configurata.",
+          "confirm": "Creare un nuovo canale trappola su questo server?",
+          "msg": {
+            "noGuild": "Server non trovato.",
+            "noPermission": "Creazione rifiutata: manca il permesso «Gestire i canali».",
+            "done": "Canale trappola creato: #{salon}."
+          }
+        }
+      },
+      "rules": {
+        "spam": "Spam",
+        "invites": "Inviti",
+        "links": "Link",
+        "badWords": "Parole vietate",
+        "mentions": "Menzioni",
+        "caps": "Maiuscole",
+        "honeypot": "Honeypot"
+      },
+      "reason": {
+        "spam": "Automoderazione: spam ({count} messaggi in {seconds} s).",
+        "invites": "Automoderazione: invito Discord non autorizzato.",
+        "links": "Automoderazione: link non autorizzato.",
+        "badWords": "Automoderazione: parola vietata.",
+        "mentions": "Automoderazione: abuso di menzioni.",
+        "caps": "Automoderazione: abuso di maiuscole."
+      },
+      "detail": {
+        "spam": "{count} messaggi nella finestra di {seconds} s.",
+        "badWords": "Parola rilevata: `{word}`",
+        "mentions": "{count} menzioni nel messaggio.",
+        "caps": "{percent} % di lettere maiuscole."
+      },
+      "log": {
+        "title": "Automoderazione",
+        "member": "Membro",
+        "rule": "Regola",
+        "action": "Azione",
+        "channel": "Canale",
+        "reason": "Motivo",
+        "detail": "Dettaglio",
+        "empty": "*contenuto vuoto*"
+      },
+      "honeypot": {
+        "bans": "Ban",
+        "action": "Ban honeypot",
+        "topic": "Honeypot anti-account compromessi: non scrivere qui.",
+        "createReason": "Creazione del canale honeypot di Vakz-Bot",
+        "embedTitle": "NON INVIARE MESSAGGI IN QUESTO CANALE",
+        "embedDescription": "Questo canale serve a rilevare gli account compromessi. Qualsiasi messaggio inviato qui comporterà un ban immediato.",
+        "banReason": "Honeypot attivato",
+        "counter": "Ban: {count}"
+      },
+      "ui": {
+        "g0": {
+          "label": "⚙️ Generale",
+          "description": "Il canale trappola si crea con l'azione «Crea il canale trappola» qui sotto.",
+          "champs": {
+            "logChannelId": {
+              "label": "Canale dei registri di automoderazione"
+            },
+            "ignoredChannelIds": {
+              "label": "Canali ignorati"
+            },
+            "ignoredRoleIds": {
+              "label": "Ruoli ignorati"
+            }
+          }
+        },
+        "spam": {
+          "label": "🚫 Antispam",
+          "champs": {
+            "enabled": {
+              "label": "Attivare"
+            },
+            "action": {
+              "label": "Sanzione",
+              "opt": {
+                "delete": {
+                  "label": "Elimina"
+                },
+                "warn": {
+                  "label": "Avverti"
+                },
+                "timeout": {
+                  "label": "Silenzia"
+                },
+                "kick": {
+                  "label": "Espelli"
+                },
+                "ban": {
+                  "label": "Banna"
+                }
+              }
+            },
+            "maxMessages": {
+              "label": "Messaggi max"
+            },
+            "windowSeconds": {
+              "label": "Finestra (s)"
+            },
+            "timeoutMinutes": {
+              "label": "Silenziamento (min)"
+            }
+          }
+        },
+        "invites": {
+          "label": "🔗 Anti-inviti Discord",
+          "champs": {
+            "enabled": {
+              "label": "Attivare"
+            },
+            "action": {
+              "label": "Sanzione",
+              "opt": {
+                "delete": {
+                  "label": "Elimina"
+                },
+                "warn": {
+                  "label": "Avverti"
+                },
+                "timeout": {
+                  "label": "Silenzia"
+                },
+                "kick": {
+                  "label": "Espelli"
+                },
+                "ban": {
+                  "label": "Banna"
+                }
+              }
+            }
+          }
+        },
+        "mentions": {
+          "label": "📢 Anti-menzioni di massa",
+          "champs": {
+            "enabled": {
+              "label": "Attivare"
+            },
+            "action": {
+              "label": "Sanzione",
+              "opt": {
+                "delete": {
+                  "label": "Elimina"
+                },
+                "warn": {
+                  "label": "Avverti"
+                },
+                "timeout": {
+                  "label": "Silenzia"
+                },
+                "kick": {
+                  "label": "Espelli"
+                },
+                "ban": {
+                  "label": "Banna"
+                }
+              }
+            },
+            "maxMentions": {
+              "label": "Menzioni max"
+            },
+            "timeoutMinutes": {
+              "label": "Silenziamento (min)"
+            }
+          }
+        },
+        "caps": {
+          "label": "🔠 Anti-maiuscole",
+          "champs": {
+            "enabled": {
+              "label": "Attivare"
+            },
+            "action": {
+              "label": "Sanzione",
+              "opt": {
+                "delete": {
+                  "label": "Elimina"
+                },
+                "warn": {
+                  "label": "Avverti"
+                },
+                "timeout": {
+                  "label": "Silenzia"
+                },
+                "kick": {
+                  "label": "Espelli"
+                },
+                "ban": {
+                  "label": "Banna"
+                }
+              }
+            },
+            "minLength": {
+              "label": "Lunghezza minima del messaggio"
+            },
+            "percent": {
+              "label": "% di maiuscole che fa scattare"
+            }
+          }
+        }
+      }
+    }
+  }
+}
