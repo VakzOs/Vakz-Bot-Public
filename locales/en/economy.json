@@ -1,0 +1,59 @@
+{
+  "modules": {
+    "economy": {
+      "label": "Economy",
+      "description": "Virtual currency, earnings, leaderboard and role shop.",
+      "opt": {
+        "member": "The targeted member.",
+        "amount": "The amount."
+      },
+      "commands": {
+        "balance": {
+          "description": "Show a member's balance.",
+          "title": "{user}'s balance",
+          "line": "Balance"
+        },
+        "daily": {
+          "description": "Claim your daily reward.",
+          "claimed": "🎁 You received {amount}! New balance: {balance}.",
+          "cooldown": "⏳ You already claimed your reward. Come back {time}."
+        },
+        "pay": {
+          "description": "Transfer currency to another member.",
+          "invalidTarget": "❌ Invalid recipient.",
+          "insufficient": "❌ Not enough balance.",
+          "done": "✅ You sent {amount} to {user}."
+        },
+        "leaderboard": {
+          "description": "Show the richest members.",
+          "empty": "Nobody has any {currency} yet.",
+          "title": "💰 Richest members"
+        },
+        "admin": {
+          "description": "Manage member balances (admin).",
+          "give": "Add currency to a member.",
+          "take": "Remove currency from a member.",
+          "set": "Set a member's balance.",
+          "done": "✅ {user}'s balance: {balance}."
+        },
+        "shop": {
+          "description": "Show the role shop."
+        }
+      },
+      "shop": {
+        "title": "🛒 Role shop",
+        "empty": "*The shop is empty.*",
+        "disabled": "❌ The Economy module is disabled.",
+        "unavailable": "❌ This item is no longer available.",
+        "alreadyOwned": "❌ You already own this role.",
+        "cannotAssign": "⚠️ I can't assign this role (permission or hierarchy).",
+        "tooPoor": "❌ Too expensive: {price} but you only have {balance}.",
+        "bought": "✅ You bought {role} for {price}.",
+        "soldOut": "sold out",
+        "stock": "stock: {n}",
+        "switch": "Switch shop…",
+        "outOfStock": "❌ This item is sold out."
+      }
+    }
+  }
+}

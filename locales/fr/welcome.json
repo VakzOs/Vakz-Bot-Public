@@ -1,0 +1,29 @@
+{
+  "modules": {
+    "welcome": {
+      "label": "Arrivées & départs",
+      "description": "Messages de bienvenue et d'au revoir personnalisables.",
+      "state": {
+        "statusLabel": "Statut",
+        "statusOn": "✅ Actif",
+        "statusOff": "⛔ En pause",
+        "embedLabel": "Embed",
+        "yes": "Oui",
+        "no": "Non",
+        "channelLabel": "Salon",
+        "channelNone": "*non défini*",
+        "messageLabel": "Message",
+        "footerLabel": "Pied de page",
+        "placeholders": "Variables : {mention} · {username} · {server} · {count}",
+        "cardLabel": "Carte",
+        "cardCustom": "✅ activée (fond perso)",
+        "cardDefault": "✅ activée (fond par défaut)"
+      },
+      "card": {
+        "welcomeTitle": "Bienvenue !",
+        "leaveTitle": "Au revoir",
+        "memberCount": "{count}ᵉ membre"
+      }
+    }
+  }
+}

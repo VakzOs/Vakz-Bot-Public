@@ -1,0 +1,17 @@
+{
+  "modules": {
+    "core": {
+      "label": "Cœur",
+      "description": "Commandes système essentielles (ping, configuration).",
+      "ping": {
+        "description": "Affiche la latence du bot.",
+        "title": "🏓 Pong !",
+        "computing": "Calcul de la latence…",
+        "websocket": "Passerelle (WebSocket)",
+        "roundtrip": "Aller-retour",
+        "build": "Build",
+        "refresh": "Actualiser"
+      }
+    }
+  }
+}

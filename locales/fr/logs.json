@@ -1,0 +1,88 @@
+{
+  "modules": {
+    "logs": {
+      "label": "Logs",
+      "description": "Journalise les actions importantes du serveur et ajoute la commande /clear.",
+      "fields": {
+        "channel": "Salon",
+        "author": "Auteur",
+        "member": "Membre",
+        "moderator": "Modérateur",
+        "executor": "Action faite par",
+        "count": "Nombre",
+        "target": "Cible",
+        "reason": "Raison",
+        "role": "Rôle",
+        "content": "Contenu",
+        "before": "Avant",
+        "after": "Après",
+        "change": "Changement",
+        "unknown": "*inconnu*",
+        "unavailable": "*indisponible*",
+        "noReason": "*aucune raison fournie*",
+        "everyone": "Tous"
+      },
+      "events": {
+        "messageDelete": {
+          "title": "Message supprimé"
+        },
+        "messageBulkDelete": {
+          "title": "Messages supprimés en masse"
+        },
+        "messageUpdate": {
+          "title": "Message modifié"
+        },
+        "memberAdd": {
+          "title": "Membre arrivé"
+        },
+        "memberRemove": {
+          "title": "Membre parti"
+        },
+        "channelCreate": {
+          "title": "Salon créé"
+        },
+        "channelDelete": {
+          "title": "Salon supprimé"
+        },
+        "channelUpdate": {
+          "title": "Salon modifié"
+        },
+        "roleCreate": {
+          "title": "Rôle créé"
+        },
+        "roleDelete": {
+          "title": "Rôle supprimé"
+        },
+        "roleUpdate": {
+          "title": "Rôle modifié"
+        },
+        "clear": {
+          "title": "Messages nettoyés"
+        }
+      },
+      "clear": {
+        "description": "Supprimer rapidement des messages dans le salon courant.",
+        "opt": {
+          "count": "Nombre de messages à supprimer (1 à 100).",
+          "member": "Limiter aux messages d’un membre.",
+          "reason": "Raison affichée dans les logs."
+        },
+        "invalidChannel": "❌ Cette commande doit être utilisée dans un salon texte du serveur.",
+        "botNoPerm": "❌ Je n’ai pas la permission « Gérer les messages » dans ce salon.",
+        "none": "Aucun message récent supprimable trouvé.",
+        "failed": "❌ Impossible de supprimer ces messages. Vérifie mes permissions.",
+        "done": "✅ {count} message(s) supprimé(s)."
+      },
+      "rollback": {
+        "button": "Restaurer",
+        "done": "✅ Rollback effectué.",
+        "used": "❌ Ce rollback a déjà été utilisé.",
+        "missing": "❌ Ce rollback est introuvable ou a expiré.",
+        "notAllowed": "⛔ Tu n’as pas la permission d’utiliser ce rollback.",
+        "unsupported": "❌ Ce type de rollback n’est pas supporté.",
+        "noPermission": "❌ Je n’ai pas les permissions nécessaires pour restaurer cet élément.",
+        "failed": "❌ Impossible de restaurer cet élément. Vérifie mes permissions et la hiérarchie."
+      }
+    }
+  }
+}

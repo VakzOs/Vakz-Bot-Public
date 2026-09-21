@@ -1,0 +1,8 @@
+{
+  "modules": {
+    "stickymessages": {
+      "label": "Messages épinglés",
+      "description": "Garde un message toujours en bas d'un salon : il est re-posté à chaque nouvelle discussion."
+    }
+  }
+}

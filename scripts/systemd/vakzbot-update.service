@@ -1,0 +1,16 @@
+[Unit]
+Description=Met à jour Vakz-Bot (git pull + docker compose up -d --build)
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# Adapter les chemins à ton installation.
+Environment=REPO_DIR=/opt/vakzbot
+Environment=DATA_DIR=/opt/vakzbot/data
+# BRANCH est optionnel : par défaut l'updater met à jour la branche extraite
+# dans REPO_DIR. Décommente pour forcer une branche précise :
+# Environment=BRANCH=main
+ExecStart=/opt/vakzbot/scripts/vakzbot-updater.sh once
+# L'updater manipule Docker : lancer en tant qu'utilisateur membre du groupe docker (ou root).
+User=root

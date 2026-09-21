@@ -1,0 +1,25 @@
+// Schéma du module « streamalerts », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/streamalerts/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// État de suivi d'un flux (module « Alertes Twitch/YouTube »), pour éviter
+/// d'annoncer deux fois le même live / la même vidéo. Une ligne par
+/// (serveur, plateforme, chaîne suivie).
+model StreamAlert {
+  id          String   @id @default(cuid())
+  guildId     String
+  /// Plateforme : twitch | youtube.
+  platform    String
+  /// Identifiant suivi : login Twitch ou identifiant de chaîne YouTube (UC…).
+  identifier  String
+  /// Twitch : le flux était-il en live au dernier contrôle ?
+  live        Boolean  @default(false)
+  /// YouTube : identifiant de la dernière vidéo déjà annoncée.
+  lastVideoId String?
+  updatedAt   DateTime @updatedAt
+
+  @@unique([guildId, platform, identifier])
+  @@index([guildId])
+}

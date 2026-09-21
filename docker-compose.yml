@@ -1,0 +1,132 @@
+# Docker Compose — Vakz-Bot
+# Les secrets sont lus depuis `.env` (env_file) : aucun secret en clair ici.
+services:
+  bot:
+    build: .
+    image: vakz-bot:latest
+    container_name: vakz-bot
+    restart: unless-stopped
+    # Variables sensibles (DISCORD_TOKEN, DISCORD_CLIENT_ID, etc.) depuis .env
+    env_file:
+      - .env
+    # On force ici les chemins qui doivent pointer vers le volume persistant,
+    # en surchargeant d'éventuelles valeurs locales du .env.
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: 'file:/app/data/prod.db'
+      # Résolveur Cloudflare interne (service flaresolverr ci-dessous), utilisé
+      # par le module d'alertes pour les sources protégées (Dealabs).
+      FLARESOLVERR_URL: 'http://flaresolverr:8191'
+    depends_on:
+      - flaresolverr
+    # API web (dashboard). N'expose le port que si WEB_API_TOKEN est défini côté
+    # hôte ; l'accès reste protégé par ce token secret. Adapte 3210 au besoin.
+    ports:
+      - '${WEB_API_PORT:-3210}:${WEB_API_PORT:-3210}'
+    volumes:
+      # Base SQLite + fichiers /maj partages avec l hote.
+      - ./data:/app/data
+      # Assets générés (cartes de niveau, transcripts de tickets…).
+      - vakzbot-assets:/app/assets/generated
+
+  # Reverse-proxy HTTPS (opt-in) devant l'API web, pour chiffrer le token entre
+  # Vercel et le VPS. Activé uniquement avec le profil « proxy » :
+  #   docker compose --profile proxy up -d
+  # Nécessite dans .env : CADDY_DOMAIN (sous-domaine pointant vers le VPS) et
+  # CADDY_EMAIL (contact Let's Encrypt). Une fois en place, on peut fermer le
+  # port 3210 sur le pare-feu : seuls 80/443 (Caddy) restent exposés.
+  caddy:
+    image: caddy:2-alpine
+    container_name: vakz-caddy
+    restart: unless-stopped
+    profiles: ['proxy']
+    env_file:
+      - .env
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    depends_on:
+      - bot
+
+  # Résolveur Cloudflare (Chrome headless) : contourne le challenge « Just a
+  # moment… » pour les sources protégées comme Dealabs. Non exposé à l'hôte,
+  # accessible uniquement en interne via le réseau Compose (http://flaresolverr:8191).
+  flaresolverr:
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: vakz-flaresolverr
+    restart: unless-stopped
+    environment:
+      LOG_LEVEL: warning
+      TZ: Europe/Paris
+
+  # Serveur audio Lavalink (opt-in) pour le module « Musique ». Activé avec le
+  # profil « music » :
+  #   docker compose --profile music up -d
+  # Pense à mettre `LAVALINK_HOST=lavalink` dans .env pour que le bot l'utilise.
+  # Non exposé à l'hôte : le bot y accède en interne (http://lavalink:2333).
+  lavalink:
+    image: ghcr.io/lavalink-devs/lavalink:4
+    container_name: vakz-lavalink
+    restart: unless-stopped
+    profiles: ['music']
+    environment:
+      _JAVA_OPTIONS: '-Xmx512m'
+      SERVER_PORT: '2333'
+      # Mot de passe partagé avec le bot (LAVALINK_PASSWORD dans .env).
+      LAVALINK_SERVER_PASSWORD: '${LAVALINK_PASSWORD:-youshallnotpass}'
+      # OAuth YouTube (débloque la lecture sur IP de datacenter). Opt-in.
+      YOUTUBE_OAUTH: '${YOUTUBE_OAUTH:-false}'
+      YOUTUBE_OAUTH_REFRESH_TOKEN: '${YOUTUBE_OAUTH_REFRESH_TOKEN:-}'
+      # Plugin LavaSrc (Spotify/Deezer) — désactivés par défaut. Active-les via
+      # LAVASRC_SPOTIFY / LAVASRC_DEEZER (=true) + les identifiants ci-dessous.
+      # Deezer EXIGE une master key, sinon Lavalink refuse de démarrer.
+      LAVASRC_SPOTIFY: '${LAVASRC_SPOTIFY:-false}'
+      LAVASRC_DEEZER: '${LAVASRC_DEEZER:-false}'
+      SPOTIFY_CLIENT_ID: '${SPOTIFY_CLIENT_ID:-}'
+      SPOTIFY_CLIENT_SECRET: '${SPOTIFY_CLIENT_SECRET:-}'
+      DEEZER_MASTER_KEY: '${DEEZER_MASTER_KEY:-}'
+    volumes:
+      # Config en lecture seule. On NE monte PAS de volume sur /opt/Lavalink/plugins :
+      # le conteneur tourne en utilisateur non-root et un volume nommé (créé root)
+      # provoque « Permission denied » au téléchargement des plugins. Sans volume,
+      # Lavalink écrit dans son dossier interne (bon propriétaire) ; les plugins se
+      # re-téléchargent en quelques secondes au (re)démarrage.
+      - ./deploy/lavalink/application.yml:/opt/Lavalink/application.yml:ro
+    expose:
+      - '2333'
+    # Rend visible ce que « running » cache : au démarrage, Lavalink met une
+    # bonne minute à écouter (JVM puis téléchargement des plugins), et un
+    # plugin mal configuré le fait planter en boucle. Dans les deux cas le
+    # conteneur est « running » alors que le bot se prend des ECONNREFUSED ;
+    # `docker compose ps` distingue enfin « starting », « healthy » et
+    # « unhealthy ». Note : Docker NE redémarre PAS un conteneur unhealthy —
+    # c'est un voyant, pas un filet.
+    healthcheck:
+      # `/version` exige le mot de passe en v4 : sans l'en-tête, la sonde est
+      # refusée (donc unhealthy à vie) et Lavalink journalise un avertissement
+      # à chaque passage. Les `$$` laissent le shell DU CONTENEUR lire la
+      # variable, pour que le mot de passe n'apparaisse ni ici ni dans
+      # `docker inspect`. curl est présent dans l'image officielle (base
+      # eclipse-temurin ... -jre-jammy) ; le repli wget couvre la variante
+      # `:4-alpine`, où busybox fournit wget mais pas curl.
+      test:
+        [
+          'CMD-SHELL',
+          'curl -fsS -o /dev/null -H "Authorization: $$LAVALINK_SERVER_PASSWORD" http://localhost:$$SERVER_PORT/version || wget -q -O /dev/null --header="Authorization: $$LAVALINK_SERVER_PASSWORD" http://localhost:$$SERVER_PORT/version',
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      # Large exprès : tant que ce délai court, un échec ne compte pas et le
+      # conteneur reste « starting ». Un succès, lui, bascule en « healthy »
+      # tout de suite — une valeur généreuse ne coûte donc rien.
+      start_period: 180s
+
+volumes:
+  vakzbot-assets:
+  caddy-data:
+  caddy-config:

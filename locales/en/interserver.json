@@ -1,0 +1,8 @@
+{
+  "modules": {
+    "interserver": {
+      "label": "Cross-server",
+      "description": "Links channels from different servers: a message posted in a linked channel is relayed (name + avatar preserved) to the other channels of the same network."
+    }
+  }
+}

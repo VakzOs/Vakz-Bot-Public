@@ -1,0 +1,8 @@
+{
+  "modules": {
+    "autoroles": {
+      "label": "Rôles automatiques",
+      "description": "Attribue des rôles à l'arrivée d'un membre, et un rôle tant qu'on est en vocal."
+    }
+  }
+}

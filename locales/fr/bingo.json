@@ -1,0 +1,33 @@
+{
+  "modules": {
+    "bingo": {
+      "label": "Bingo",
+      "description": "Bingo de serveur : cartons 5×5, tirages, détection de ligne ou de carton plein.",
+      "opt": {
+        "mode": "Condition de victoire (défaut : une ligne)."
+      },
+      "modeLine": "Une ligne",
+      "modeFull": "Carton plein",
+      "commands": {
+        "start": "Démarre une nouvelle partie de Bingo (staff).",
+        "join": "Reçois ton carton de Bingo.",
+        "card": "Affiche ton carton.",
+        "draw": "Tire le prochain numéro (staff).",
+        "stop": "Termine la partie en cours (staff)."
+      },
+      "staffOnly": "❌ Réservé au staff (permission Gérer le serveur).",
+      "noGame": "❌ Aucune partie en cours. Le staff peut la lancer avec `/bingo demarrer`.",
+      "startedTitle": "🎲 Bingo lancé !",
+      "startedBody": "Mode : **{mode}**. Prenez votre carton avec `/bingo rejoindre`, puis le staff tire les numéros avec `/bingo tirer`.",
+      "joined": "🎫 Voici ton carton (case ★ = libre) :",
+      "yourCard": "🎫 Ton carton :",
+      "noCard": "❌ Tu n'as pas de carton. Rejoins avec `/bingo rejoindre`.",
+      "stopped": "🛑 Partie de Bingo terminée.",
+      "allDrawn": "Tous les numéros ont déjà été tirés !",
+      "drawTitle": "🎱 Tirage",
+      "drawBody": "Numéro tiré : **{number}** ({count}/75). Vérifiez vos cartons !",
+      "winnersField": "🎉 BINGO !",
+      "myCardButton": "Mon carton"
+    }
+  }
+}

@@ -1,0 +1,95 @@
+// Schéma du module « items », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/items/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Exemplaires d'un objet possédés par un membre. Une ligne par
+/// (serveur, membre, objet).
+model InventoryItem {
+  id        String    @id @default(cuid())
+  guildId   String
+  userId    String
+  itemId    String
+  quantity  Int       @default(0)
+  /// Dernier usage (`/utiliser`) — base du cooldown des objets réutilisables.
+  usedAt    DateTime?
+  updatedAt DateTime  @updatedAt
+  item      Item      @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@unique([guildId, userId, itemId])
+  @@index([guildId, userId])
+  @@index([itemId])
+}
+
+/// Objet du catalogue d'un serveur (module « Objets & inventaires »). Les
+/// membres en possèdent des exemplaires via InventoryItem.
+model Item {
+  id              String          @id @default(cuid())
+  guildId         String
+  name            String
+  emoji           String          @default("📦")
+  description     String          @default("")
+  /// Rareté : common | rare | epic | legendary.
+  rarity          String          @default("common")
+  /// Prix d'achat en monnaie du serveur (0 = non achetable).
+  price           Int             @default(0)
+  /// Achetable en boutique par les membres.
+  buyable         Boolean         @default(true)
+  /// Échangeable entre membres (`/donner-objet`).
+  tradable        Boolean         @default(true)
+  /// Peut tomber en butin dans les mini-jeux (module « Jeux »).
+  droppable       Boolean         @default(true)
+  /// Utilisable (`/utiliser`).
+  usable          Boolean         @default(false)
+  /// Rôle accordé à l'utilisation (héritage ; désormais couvert par `effects`).
+  roleReward      String?
+  /// Effets déclenchés à l'utilisation (JSON, validé par zod). Voir items/effects.ts.
+  effects         String          @default("[]")
+  /// À l'usage : true = l'objet est consommé (supprimé) ; false = réutilisable
+  /// (voir `cooldownSeconds`).
+  consumable      Boolean         @default(true)
+  /// Si NON consommable : délai (en secondes) entre deux usages par un même
+  /// membre. 0 = aucun cooldown.
+  cooldownSeconds Int             @default(0)
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  inventory       InventoryItem[]
+  listings        MarketListing[]
+
+  @@index([guildId])
+}
+
+/// Annonce de l'hôtel des ventes (module « Marché ») : un membre met en vente
+/// `quantity` exemplaires d'un objet à `unitPrice` chacun. Les objets sont
+/// retirés de son inventaire (séquestre) tant que l'annonce est active ; ils
+/// reviennent à l'annulation, ou passent à l'acheteur à l'achat.
+model MarketListing {
+  id        String   @id @default(cuid())
+  guildId   String
+  sellerId  String
+  itemId    String
+  quantity  Int
+  unitPrice Int
+  createdAt DateTime @default(now())
+  item      Item     @relation(fields: [itemId], references: [id], onDelete: Cascade)
+
+  @@index([guildId, createdAt])
+  @@index([guildId, sellerId])
+}
+
+/// Renommage temporaire posé par un objet (effet `nickname`) : le pseudo
+/// d'origine est mémorisé ici et restauré à `expiresAt` par une tâche
+/// planifiée (donc le renommage survit à un redémarrage du bot).
+model TempNickname {
+  id           String   @id @default(cuid())
+  guildId      String
+  userId       String
+  /// Pseudo de serveur avant le renommage (null = aucun surnom d'origine).
+  previousNick String?
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+
+  @@unique([guildId, userId])
+  @@index([expiresAt])
+}

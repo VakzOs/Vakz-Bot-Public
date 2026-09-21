@@ -1,0 +1,169 @@
+{
+  "modules": {
+    "items": {
+      "label": "Objets & inventaires",
+      "description": "Catalogue d'objets par serveur : achat avec la monnaie, inventaire, utilisation (rôle-récompense) et échange entre membres.",
+      "opt": {
+        "item": "L'objet concerné.",
+        "quantity": "Quantité (défaut : 1).",
+        "member": "Le membre concerné (par défaut : toi)."
+      },
+      "rarity": {
+        "common": "Commun",
+        "rare": "Rare",
+        "epic": "Épique",
+        "legendary": "Légendaire"
+      },
+      "use": {
+        "reason": "Objet utilisé : {name}",
+        "effects": {
+          "role": {
+            "done": "🏷️ Rôle {role} accordé.",
+            "fail": "⚠️ Impossible d'accorder le rôle {role} (droits/position ?)."
+          },
+          "coins": {
+            "done": "🪙 {amount} pièces."
+          },
+          "routeSelf": {
+            "done": "🧭 Sur ta Route : {parts}."
+          },
+          "routeDamage": {
+            "noTarget": "⚠️ Aucune cible indiquée pour les dégâts.",
+            "notTravelling": "⚠️ {target} n'est pas sur la Route de l'Infini.",
+            "done": "🎯 {target} subit **{amount}** dégâts sur la Route ({health}/{maxHealth} PV).",
+            "fainted": "💥 {target} tombe sous tes **{amount}** dégâts sur la Route !",
+            "backfire": {
+              "notTravelling": "🙃 Tu visais {aimed}, mais l'objet se retourne contre toi… et tu n'es pas sur la Route de l'Infini.",
+              "done": "🙃 Raté ! Tu visais {aimed}, mais l'objet se retourne contre **toi** : tu subis **{amount}** dégâts sur la Route ({health}/{maxHealth} PV).",
+              "fainted": "💀 Raté ! Tu visais {aimed}, mais l'objet se retourne contre **toi** et t'achève : **{amount}** dégâts sur la Route !"
+            }
+          },
+          "grantItem": {
+            "done": "🎁 Tu reçois **{qty}× {emoji} {name}**.",
+            "missing": "⚠️ L'objet à offrir n'existe plus."
+          },
+          "privateChannel": {
+            "done": "🔒 Salon privé créé : {channel}.",
+            "fail": "⚠️ Impossible de créer le salon (droits « Gérer les salons » ?)."
+          },
+          "stealCoins": {
+            "noTarget": "⚠️ Aucune cible indiquée pour le vol.",
+            "done": "🪙 Tu dérobes **{amount}** pièces à {target} !",
+            "broke": "😐 {target} n'a pas la moindre pièce à voler.",
+            "backfire": "🙃 Raté ! Tu visais les poches de {aimed}, mais ta main glisse : **{amount}** pièces passent des tiennes aux siennes.",
+            "backfireBroke": "🙃 Raté ! Tu visais {aimed}, le vol se retourne contre toi… mais tu n'as rien à perdre."
+          },
+          "timeout": {
+            "noTarget": "⚠️ Aucune cible indiquée pour le silence.",
+            "done": "🤐 {target} est réduit au silence pendant **{minutes}** minute(s).",
+            "backfire": "🙃 Raté ! Tu visais {aimed}, mais c'est **toi** qui es réduit au silence pendant **{minutes}** minute(s).",
+            "fail": "⚠️ Impossible de réduire {target} au silence (droits ou rang trop élevé)."
+          },
+          "drainEnergy": {
+            "noTarget": "⚠️ Aucune cible indiquée pour le drain.",
+            "done": "🥱 Tu draines **{amount}** d'énergie à {target} (⚡ {energy} restants).",
+            "backfire": "🙃 Raté ! Tu visais {aimed}, mais c'est **ton** énergie qui part : −**{amount}** (⚡ {energy} restants).",
+            "notTravelling": "⚠️ {target} n'est pas sur la Route de l'Infini."
+          },
+          "healTarget": {
+            "noTarget": "⚠️ Aucune cible indiquée pour le soin.",
+            "done": "💚 {target} est soigné : {parts} ({health}/{maxHealth} PV).",
+            "notTravelling": "⚠️ {target} n'est pas sur la Route de l'Infini."
+          },
+          "nickname": {
+            "noTarget": "⚠️ Aucune cible indiquée pour le renommage.",
+            "done": "🏷️ {target} devient **{nickname}** pendant **{minutes}** minute(s).",
+            "tooHigh": "⚠️ Impossible de renommer {target} : son rang est égal ou supérieur à celui du bot.",
+            "fail": "⚠️ Impossible de renommer {target} (permission « Gérer les pseudos » ?)."
+          },
+          "mysteryBox": {
+            "opened": "🎲 Tu ouvres la boîte mystère…",
+            "labelled": "🎲 Boîte mystère : **{label}**"
+          },
+          "duckling": {
+            "noTarget": "⚠️ Aucune cible indiquée pour le canneton.",
+            "done": "🐥 Un canneton se colle à {target} pour **{turns}** événement(s) : −{steal} % de gains, −{distance} % de distance, +{damage} % de dégâts.",
+            "backfire": "🙃 Raté ! Tu visais {aimed}, mais le canneton te trouve plus sympathique : il colle à **toi** pour **{turns}** événement(s) — et c'est {aimed} qui touche le butin."
+          },
+          "unstickDuckling": {
+            "noTarget": "⚠️ Aucune cible indiquée.",
+            "done": "🕊️ Le canneton de {target} s'envole enfin.",
+            "none": "😐 Aucun canneton ne colle à {target}."
+          }
+        }
+      },
+      "limit": {
+        "description": "Règle le plafond global d'objets par serveur (propriétaire du bot).",
+        "view": "Affiche le plafond actuel.",
+        "set": "Fixe le plafond (0 = illimité).",
+        "increase": "Augmente le plafond.",
+        "reduce": "Réduit le plafond.",
+        "opt": {
+          "number": "Nouveau plafond (0 = illimité).",
+          "amount": "Nombre d'objets à ajouter / retirer."
+        },
+        "unlimited": "illimité",
+        "notOwner": "❌ Réservé au propriétaire du bot (droit /maj).",
+        "current": "📦 Plafond d'objets par serveur : **{value}**.",
+        "currentlyUnlimited": "ℹ️ Le plafond est actuellement **illimité**. Utilise `/objets-limite definir` pour fixer une valeur.",
+        "updated": "✅ Plafond d'objets par serveur mis à jour : **{value}**."
+      },
+      "commands": {
+        "unknownItem": "❌ Cet objet n'existe pas (ou plus).",
+        "inventory": {
+          "description": "Affiche l'inventaire d'un membre.",
+          "title": "🎒 Inventaire de {user}",
+          "empty": "Cet inventaire est vide."
+        },
+        "catalog": {
+          "description": "Affiche le catalogue d'objets du serveur.",
+          "empty": "🛒 Aucun objet dans le catalogue pour le moment.",
+          "title": "🛒 Catalogue d'objets",
+          "notForSale": "non achetable",
+          "footer": "✨ = utilisable · 🔁 = échangeable · /acheter pour acheter",
+          "footerPaged": "{base} • Page {page}/{pages}"
+        },
+        "buy": {
+          "description": "Achète un objet avec la monnaie du serveur.",
+          "notForSale": "❌ Cet objet n'est pas en vente.",
+          "insufficient": "❌ Il te faut {cost} (tu as {balance}).",
+          "done": "🛒 Tu as acheté **{qty}× {emoji} {name}** pour {cost}. Tu en as maintenant **{total}**."
+        },
+        "use": {
+          "description": "Utilise un objet de ton inventaire.",
+          "optTarget": "Membre visé (pour les effets ciblés, ex. dégâts sur la Route).",
+          "notUsable": "❌ Cet objet ne peut pas être utilisé.",
+          "dontHave": "❌ Tu ne possèdes aucun **{emoji} {name}**.",
+          "targetRequired": "❌ Cet objet nécessite une cible : ajoute l'option **cible**.",
+          "cooldown": "⏳ Objet en rechargement. Réessaie {time}.",
+          "reason": "Objet utilisé : {name}",
+          "roleGranted": "🎁 Tu reçois le rôle {role} !",
+          "title": "✨ Objet utilisé",
+          "done": "{user} utilise **{emoji} {name}**."
+        },
+        "give": {
+          "description": "Donne un objet à un autre membre.",
+          "disabled": "❌ Les échanges d'objets sont désactivés sur ce serveur.",
+          "invalidTarget": "❌ Choisis un autre membre (pas un bot, ni toi-même).",
+          "notTradable": "❌ Cet objet n'est pas échangeable.",
+          "insufficient": "❌ Tu ne possèdes pas assez de **{emoji} {name}**.",
+          "done": "🎁 {from} donne **{qty}× {emoji} {name}** à {to} !"
+        },
+        "admin": {
+          "description": "Attribue ou retire des objets (staff).",
+          "give": "Donne un objet à un membre.",
+          "take": "Retire un objet à un membre.",
+          "gave": "✅ {qty}× {emoji} {name} donné(s) à {user} (total : {total}).",
+          "took": "✅ {qty}× {emoji} {name} retiré(s) à {user}."
+        },
+        "sell": {
+          "description": "Vends un objet au serveur contre une partie de son prix.",
+          "disabled": "❌ La vente rapide est désactivée sur ce serveur.",
+          "noValue": "❌ {emoji} {name} n'a pas de valeur marchande (prix boutique à 0).",
+          "notOwned": "❌ Tu ne possèdes pas {emoji} {name}.",
+          "done": "🗑️ Tu as vendu {qty}× {emoji} **{name}** au serveur ({percent} %) → +{total}. Solde : {balance}."
+        }
+      }
+    }
+  }
+}

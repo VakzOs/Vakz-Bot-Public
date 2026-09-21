@@ -1,0 +1,20 @@
+// Schéma du module « rules », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/rules/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Acceptation du règlement d'un serveur par un membre (module « Règlement »).
+/// Une ligne par membre ; `version` permet de demander une re-validation quand
+/// le règlement évolue (membre à jour si version acceptée >= version courante).
+model RuleAcceptance {
+  id         String   @id @default(cuid())
+  guildId    String
+  userId     String
+  /// Version du règlement acceptée (voir la config du module « Règlement »).
+  version    Int      @default(1)
+  acceptedAt DateTime @default(now())
+
+  @@unique([guildId, userId])
+  @@index([guildId, version])
+}

@@ -1,0 +1,25 @@
+// Schéma du module « automod », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/automod/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Incident détecté automatiquement par le module « Auto-modération ».
+model AutomodIncident {
+  id        String   @id @default(cuid())
+  guildId   String
+  userId    String
+  channelId String
+  messageId String?
+  /// Règle : spam | invites | links | badWords | mentions | caps | honeypot.
+  rule      String
+  /// Action : delete | warn | timeout | ban | honeypot.
+  action    String
+  reason    String
+  detail    String   @default("")
+  createdAt DateTime @default(now())
+
+  @@index([guildId, userId])
+  @@index([guildId, rule])
+  @@index([createdAt])
+}

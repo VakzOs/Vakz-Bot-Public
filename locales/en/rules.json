@@ -1,0 +1,23 @@
+{
+  "modules": {
+    "rules": {
+      "label": "Rules",
+      "description": "Posts the server rules and grants an access role on acceptance.",
+      "embed": {
+        "version": "Version {version}"
+      },
+      "feedback": {
+        "disabled": "❌ This module is disabled on this server.",
+        "roleGone": "❌ The access role no longer exists. Please tell an administrator.",
+        "cannotAssign": "⚠️ I cannot assign the access role (missing “Manage Roles” permission or the role is above mine).",
+        "error": "❌ Something went wrong. Please try again later.",
+        "alreadyUpToDate": "✅ You have already accepted the current version of the rules.",
+        "accepted": "✅ Thanks, you accepted the rules! Your access is unlocked.",
+        "revalidated": "🔄 Thanks for accepting the new version of the rules!"
+      },
+      "log": {
+        "accepted": "📜 {user} accepted the rules (version {version})."
+      }
+    }
+  }
+}

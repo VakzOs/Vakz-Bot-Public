@@ -1,0 +1,52 @@
+{
+  "modules": {
+    "reports": {
+      "label": "Reports",
+      "description": "Lets members report behavior to the staff.",
+      "command": {
+        "description": "Report a member to the staff.",
+        "member": "The member to report.",
+        "reason": "The reason for the report.",
+        "message": "Discord link to the related message (optional)."
+      },
+      "status": {
+        "open": "Open",
+        "taken": "Taken",
+        "resolved": "Resolved",
+        "ignored": "Ignored"
+      },
+      "button": {
+        "take": "Take",
+        "resolve": "Resolve",
+        "ignore": "Ignore"
+      },
+      "embed": {
+        "title": "Report",
+        "target": "Reported member",
+        "reporter": "Reported by",
+        "status": "Status",
+        "source": "Source",
+        "assignee": "Taken by",
+        "resolvedBy": "Handled by",
+        "jump": "View message",
+        "none": "*not provided*",
+        "footer": "Report {id}"
+      },
+      "feedback": {
+        "staffOnly": "⛔ Only staff can handle this report.",
+        "gone": "❌ This report cannot be found.",
+        "closed": "ℹ️ This report is already closed."
+      },
+      "notConfigured": "❌ No reports channel is configured. An admin must set one on the dashboard.",
+      "channelGone": "❌ The reports channel cannot be found. Please tell an administrator.",
+      "selfReport": "❌ You cannot report yourself.",
+      "submitted": "✅ Report sent to the staff.",
+      "sendError": "❌ Could not send the report. Check my permissions in the configured channel (View Channel, Send Messages, Create Private Threads, Manage Threads).",
+      "threadName": "Report {id}",
+      "invalidMessageLink": "❌ The message link is invalid or does not belong to this server.",
+      "submittedWithThread": "✅ Report sent to the staff. You can access the private thread {thread}.",
+      "threadIntro": "{reporter}, your report about {target} is open here. Only authorized staff can follow this thread with you.",
+      "staffThreadLine": "Private reporter/staff thread: {thread}"
+    }
+  }
+}

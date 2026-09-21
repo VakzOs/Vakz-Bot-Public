@@ -1,0 +1,12 @@
+{
+  "modules": {
+    "patchnotes": {
+      "label": "Patch Notes",
+      "description": "Surveille les notes de patch de jeux et logiciels, puis les publie dans les salons choisis.",
+      "embed": {
+        "footer": "Patch Notes · {source}",
+        "noDescription": "Aucun résumé disponible. Ouvre le lien pour lire la note complète."
+      }
+    }
+  }
+}

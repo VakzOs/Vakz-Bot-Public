@@ -1,0 +1,36 @@
+{
+  "modules": {
+    "birthdays": {
+      "label": "Anniversaires",
+      "description": "Souhaite les anniversaires des membres (message + rôle du jour).",
+      "command": {
+        "description": "Gère ta date d'anniversaire.",
+        "set": "Enregistre ta date d'anniversaire.",
+        "remove": "Supprime ta date d'anniversaire.",
+        "view": "Affiche l'anniversaire d'un membre.",
+        "upcoming": "Affiche les prochains anniversaires."
+      },
+      "opt": {
+        "day": "Jour (1-31).",
+        "month": "Mois (1-12).",
+        "year": "Année (optionnel, pour afficher l'âge).",
+        "member": "Le membre concerné (par défaut : toi).",
+        "targetMember": "Définir pour un autre membre (admin : Gérer le serveur)."
+      },
+      "invalidDate": "❌ Date invalide.",
+      "noPermission": "❌ Tu n'as pas la permission de gérer l'anniversaire d'un autre membre.",
+      "set": "🎂 Ton anniversaire est enregistré au {date} !",
+      "setOther": "🎂 L'anniversaire de {user} est enregistré au {date} !",
+      "removed": "🗑️ Ton anniversaire a été supprimé.",
+      "removedOther": "🗑️ L'anniversaire de {user} a été supprimé.",
+      "none": "ℹ️ {user} n'a pas enregistré d'anniversaire.",
+      "today": "aujourd'hui ! 🎉",
+      "inDays": "dans {days} jour(s)",
+      "view": {
+        "title": "🎂 Anniversaire de {user}"
+      },
+      "upcomingTitle": "🎂 Prochains anniversaires",
+      "upcomingEmpty": "Aucun anniversaire enregistré pour le moment."
+    }
+  }
+}

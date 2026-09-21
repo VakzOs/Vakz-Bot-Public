@@ -1,0 +1,27 @@
+{
+  "modules": {
+    "scheduledmessages": {
+      "label": "Recurring messages",
+      "description": "Automatically posts messages to a channel on a schedule (daily, weekly or every N hours).",
+      "type": {
+        "daily": "Daily",
+        "weekly": "Weekly",
+        "interval": "Interval"
+      },
+      "weekday": {
+        "0": "Sunday",
+        "1": "Monday",
+        "2": "Tuesday",
+        "3": "Wednesday",
+        "4": "Thursday",
+        "5": "Friday",
+        "6": "Saturday"
+      },
+      "describe": {
+        "daily": "Every day at {time}",
+        "weekly": "Every {day} at {time}",
+        "interval": "Every {hours}h"
+      }
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "errors": {
+    "generic": "❌ Une erreur est survenue. Merci de réessayer plus tard.",
+    "guildOnly": "❌ Cette commande n'est utilisable que sur un serveur.",
+    "moduleDisabled": "❌ Ce module est désactivé sur ce serveur. Un administrateur peut l'activer depuis le tableau de bord."
+  }
+}

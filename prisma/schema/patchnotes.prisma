@@ -1,0 +1,18 @@
+// Schéma du module « patchnotes », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/patchnotes/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Patchnote deja annoncee sur un serveur (module « Patch Notes »). Une ligne
+/// par (serveur, source, note) pour eviter les doublons.
+model PatchNoteAnnouncement {
+  id          String   @id @default(cuid())
+  guildId     String
+  sourceId    String
+  noteId      String
+  announcedAt DateTime @default(now())
+
+  @@unique([guildId, sourceId, noteId])
+  @@index([guildId, sourceId])
+}

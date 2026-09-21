@@ -1,0 +1,23 @@
+{
+  "modules": {
+    "streamer": {
+      "label": "Mode streameur",
+      "description": "Un panneau où les membres se rendent sourds (sans couper leur micro) pour streamer un jeu à des amis.",
+      "button": "Activer / Désactiver",
+      "embed": {
+        "roleField": "{role} — {count} membre(s)",
+        "noMembers": "Aucun membre"
+      },
+      "feedback": {
+        "disabled": "❌ Le mode streameur est désactivé sur ce serveur.",
+        "notConfigured": "❌ Aucun rôle Streaming n'est configuré (un admin doit le régler sur le tableau de bord).",
+        "roleGone": "❌ Le rôle Streaming n'existe plus.",
+        "cannot": "⚠️ Je ne peux pas : il me manque « Rendre sourds les membres » ou « Gérer les rôles », ou le rôle Streaming est au-dessus du mien.",
+        "notInVoice": "❌ Rejoins d'abord un salon vocal.",
+        "enabledUser": "🎙️ **Mode streameur activé.** Tu n'entends plus Discord, mais ton micro continue de diffuser.",
+        "disabledUser": "🔊 **Mode streameur désactivé.** Tu entends de nouveau Discord.",
+        "error": "❌ Une erreur est survenue (vérifie mes permissions)."
+      }
+    }
+  }
+}

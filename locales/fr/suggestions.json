@@ -1,0 +1,78 @@
+{
+  "modules": {
+    "suggestions": {
+      "label": "Suggestions",
+      "description": "Les membres proposent des idées (avec lien Steam), votées 👍/👎 et arbitrées par le staff.",
+      "command": {
+        "description": "Proposer une suggestion au serveur.",
+        "textOpt": "Le texte de ta suggestion.",
+        "steamOpt": "Lien Steam du jeu à proposer (optionnel)."
+      },
+      "notConfigured": "❌ Aucun salon de suggestions n'est configuré. Un admin doit en définir sur le tableau de bord.",
+      "channelGone": "❌ Le salon des suggestions est introuvable. Préviens un administrateur.",
+      "wrongChannel": "❌ Lance `/suggestion` dans un salon de suggestions : {channels}",
+      "invalidSteam": "❌ Lien Steam invalide. Exemple : https://store.steampowered.com/app/730",
+      "steamFetchFailed": "❌ Impossible de récupérer les infos du jeu sur Steam. Réessaie plus tard.",
+      "submitted": "✅ Ta suggestion a été publiée ! {url}",
+      "sendError": "❌ Impossible de publier la suggestion (vérifie mes permissions dans le salon).",
+      "threadName": "Suggestion {id}",
+      "status": {
+        "pending": "⏳ En attente",
+        "approved": "✅ Approuvée",
+        "rejected": "❌ Refusée",
+        "considered": "🤔 À l’étude"
+      },
+      "button": {
+        "approve": "✅ Approuver",
+        "reject": "❌ Refuser",
+        "consider": "🤔 À l’étude"
+      },
+      "modal": {
+        "approve": "Approuver la suggestion",
+        "reject": "Refuser la suggestion",
+        "consider": "Mettre à l’étude",
+        "reasonField": "Raison (optionnelle)"
+      },
+      "feedback": {
+        "disabled": "❌ Ce module est désactivé sur ce serveur.",
+        "gone": "❌ Cette suggestion n’existe plus.",
+        "staffOnly": "⛔ Seul le staff peut statuer sur les suggestions.",
+        "decided": "✅ Décision enregistrée : {status}."
+      },
+      "steam": {
+        "gameField": "🎮 Jeu",
+        "aboutField": "📝 À propos",
+        "free": "Gratuit",
+        "unknownPrice": "Prix non disponible"
+      },
+      "embed": {
+        "title": "💡 Suggestion",
+        "author": "Proposée par",
+        "status": "Statut",
+        "votes": "Votes",
+        "votesFor": "👍 Pour ({count})",
+        "votesAgainst": "👎 Contre ({count})",
+        "footer": "ID {id}",
+        "decision": "Décision du staff",
+        "decisionValue": "Par {moderator}\n{reason}",
+        "noReason": "*aucune raison fournie*"
+      },
+      "limitReached": "❌ Tu as atteint ta limite de {max} suggestion(s) en attente.",
+      "reward": {
+        "coins": "💰 {coins} pièces",
+        "item": "🎁 {item}",
+        "granted": "🎉 Récompense envoyée à l'auteur : {reward}"
+      },
+      "list": {
+        "description": "Classement et recherche des suggestions.",
+        "rankingDescription": "Affiche les suggestions les mieux notées.",
+        "searchDescription": "Recherche des suggestions par mot-clé.",
+        "keywordOpt": "Mot-clé à rechercher.",
+        "empty": "Aucune suggestion pour le moment.",
+        "rankingTitle": "🏆 Suggestions les mieux notées",
+        "noMatch": "Aucune suggestion ne correspond à « {keyword} ».",
+        "searchTitle": "🔎 Résultats pour « {keyword} »"
+      }
+    }
+  }
+}

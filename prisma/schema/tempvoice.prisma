@@ -1,0 +1,20 @@
+// Schéma du module « tempvoice », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/tempvoice/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Préférences enregistrées d'un membre pour ses salons vocaux temporaires
+/// (bouton « Sauvegarder »). Réappliquées à la création de son prochain salon.
+model TempVoicePreference {
+  id        String   @id @default(cuid())
+  guildId   String
+  userId    String
+  /// Réglages sérialisés en JSON (nom, limite, mode, micro/vidéo/soundboard, listes).
+  data      String   @default("{}")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([guildId, userId])
+  @@index([guildId])
+}

@@ -1,0 +1,8 @@
+{
+  "modules": {
+    "autoroles": {
+      "label": "Auto roles",
+      "description": "Assigns roles when a member joins, and a role while connected to voice."
+    }
+  }
+}

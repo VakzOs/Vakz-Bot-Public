@@ -1,0 +1,70 @@
+import { defineModule } from '../../core/module.js';
+import { MODULE_NAME, suggestionsConfigSchema, suggestionsDefaultConfig } from './config.js';
+import { suggestion, suggestionsList } from './commands.js';
+import { suggestionsComponent } from './component.js';
+
+/**
+ * Module « Suggestions » : les membres soumettent une suggestion via
+ * `/suggestion` ; le bot la poste dans un salon dédié avec un vote 👍/👎 par
+ * boutons. Le staff peut approuver / refuser / mettre à l'étude avec une raison.
+ * Suggestions et votes sont persistés (tables `Suggestion` / `SuggestionVote`).
+ */
+export default defineModule({
+  name: MODULE_NAME,
+  labelKey: 'modules.suggestions.label',
+  descriptionKey: 'modules.suggestions.description',
+  category: 'community',
+  emoji: '\u{1F4A1}',
+  configSchema: suggestionsConfigSchema,
+  defaultConfig: suggestionsDefaultConfig,
+  configUI: [
+    {
+      fields: [
+        {
+          key: 'channelIds',
+          label: 'Salons de suggestions',
+          type: 'channels',
+          help: 'Salons où les suggestions sont publiées.',
+        },
+        { key: 'staffRoleId', label: 'Rôle staff', type: 'role' },
+        { key: 'createThread', label: 'Créer un fil par suggestion', type: 'boolean' },
+        {
+          key: 'maxPending',
+          label: 'Limite de suggestions en attente / membre',
+          type: 'number',
+          help: '0 = illimité.',
+        },
+        {
+          key: 'rewardCoins',
+          label: 'Pièces offertes à l’approbation',
+          type: 'number',
+          help: '0 = aucune récompense.',
+        },
+        {
+          key: 'rewardItemId',
+          label: 'Objet offert à l’approbation',
+          type: 'text',
+          help: 'Identifiant d’un objet du catalogue. Vide = aucun objet offert.',
+        },
+        {
+          key: 'dynamicColor',
+          label: 'Couleur d’embed dynamique (selon les votes)',
+          type: 'boolean',
+        },
+        {
+          key: 'roleLimits',
+          label: 'Limites par rôle',
+          type: 'list',
+          help: 'Priment sur la limite par défaut. Limite 0 = illimité.',
+          addLabel: 'Ajouter un rôle',
+          item: [
+            { key: 'roleId', label: 'Rôle', type: 'role' },
+            { key: 'limit', label: 'Limite', type: 'number' },
+          ],
+        },
+      ],
+    },
+  ],
+  componentHandler: suggestionsComponent,
+  commands: [suggestion, suggestionsList],
+});

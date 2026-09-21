@@ -1,0 +1,102 @@
+[Unit]
+Description=Publie Vakz-Bot vers son miroir public (snapshot en un commit)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+# Adapter les chemins à ton installation.
+Environment=REPO_DIR=/opt/vakzbot
+Environment=DATA_DIR=/opt/vakzbot/data
+# Dépôts visés. Par défaut, ceux codés dans sync-public.sh (le bot).
+# Environment=SOURCE_REPO=https://github.com/VakzOs/Vakz-Bot.git
+# Environment=PUBLIC_REPO=https://github.com/VakzOs/Vakz-Bot-Public.git
+#
+# Le DASHBOARD est un dépôt séparé, avec son propre miroir. Sans ces deux
+# variables, une publication visant le site est REFUSÉE — publier le bot en
+# croyant publier le site serait bien pire qu'un échec.
+# On LIT la source en HTTPS et on ÉCRIT le miroir en SSH, via un alias — voir
+# le bloc sur les deploy keys plus bas, qui explique pourquoi l'alias n'est pas
+# un détail de confort.
+# Environment=SITE_SOURCE_REPO=https://github.com/VakzOs/VakzBot-Web.git
+# Environment=SITE_PUBLIC_REPO=git@github-web:VakzOs/VakzBot-Web-Public.git
+#
+# Auteur des commits publiés. Sans ces variables, le script prend l'identité
+# git de l'utilisateur qui l'exécute — ici root, qui n'en a probablement pas,
+# et la publication échouerait franchement plutôt que de créer un contributeur
+# fantôme. Utiliser l'adresse GitHub « noreply » pour ne pas exposer un email
+# personnel sur un dépôt public.
+# Environment=GIT_AUTHOR_NAME=Vakz
+# Environment=GIT_AUTHOR_EMAIL=0000000+vakzos@users.noreply.github.com
+#
+# IDENTIFIANTS : ce service doit pouvoir LIRE le dépôt privé et ÉCRIRE sur le
+# miroir public. Fournir un credential git restreint au strict nécessaire (une
+# deploy key par dépôt, ou un jeton à portée limitée), jamais un jeton de
+# compte complet : il vit en permanence sur l'hôte.
+#
+# UNE DEPLOY KEY PAR DÉPÔT, ET UN ALIAS SSH PAR CLÉ.
+#
+# Une deploy key ne vaut que pour le dépôt où elle est posée — c'est justement
+# ce qui la rend sûre. Mais ssh, lui, s'authentifie avec la PREMIÈRE clé que le
+# serveur accepte : proposer les deux sur la même connexion (`-i cle1 -i cle2`)
+# fait authentifier avec la clé du mauvais dépôt, et GitHub répond
+# « Permission denied to deploy key » — l'authentification a réussi, c'est
+# l'autorisation qui échoue. Le message ne dit pas laquelle a servi.
+#
+# La parade est un alias par dépôt, chacun ne proposant qu'une clé :
+#
+#   sudo ssh-keygen -t ed25519 -f /root/.ssh/vakzbot-public     -N '' -C 'sync-bot'
+#   sudo ssh-keygen -t ed25519 -f /root/.ssh/vakzbot-web-public -N '' -C 'sync-web'
+#   sudo cat /root/.ssh/vakzbot-public.pub      # → dépôt public du bot
+#   sudo cat /root/.ssh/vakzbot-web-public.pub  # → dépôt public du site
+#   → GitHub : Settings → Deploy keys → Add, ✅ « Allow write access »
+#
+#   sudo mkdir -p /root/.ssh && sudo chmod 700 /root/.ssh
+#   sudo sh -c 'ssh-keyscan -t ed25519 github.com >> /root/.ssh/known_hosts'
+#
+#   sudo tee /root/.ssh/config >/dev/null <<'SSHCFG'
+#   Host github-bot
+#     HostName github.com
+#     User git
+#     IdentityFile /root/.ssh/vakzbot-public
+#     IdentitiesOnly yes
+#
+#   Host github-web
+#     HostName github.com
+#     User git
+#     IdentityFile /root/.ssh/vakzbot-web-public
+#     IdentitiesOnly yes
+#   SSHCFG
+#   sudo chmod 600 /root/.ssh/config
+#
+# Les URLs utilisent alors l'alias, et aucun GIT_SSH_COMMAND n'est nécessaire :
+#
+# Environment=PUBLIC_REPO=git@github-bot:VakzOs/Vakz-Bot-Public.git
+# Environment=SITE_PUBLIC_REPO=git@github-web:VakzOs/VakzBot-Web-Public.git
+#
+# On LIT la source en HTTPS (le credential git de l'hôte, celui de l'updater,
+# couvre déjà les dépôts privés) et on ÉCRIT le miroir en SSH : la deploy key
+# ne sert qu'à pousser, et ne donne accès à rien d'autre.
+#
+# Vérifier — les deux doivent nommer des dépôts DIFFÉRENTS. La mention « but
+# GitHub does not provide shell access » est normale : une deploy key ne donne
+# jamais de shell.
+#
+#   sudo ssh -T git@github-bot   # → Hi VakzOs/Vakz-Bot-Public!
+#   sudo ssh -T git@github-web   # → Hi VakzOs/VakzBot-Web-Public!
+#
+# ⚠️ Ne PAS tester avec `GIT_SSH_COMMAND=... ssh …` : cette variable est lue par
+# GIT, pas par ssh. Le test partirait sans clé désignée et répondrait
+# « Permission denied » — un faux négatif qui accuse une clé valide.
+#
+# ⚠️ Un `ls-remote` qui réussit ne prouve que la LECTURE. Le droit d'écriture ne
+# se vérifie qu'au premier push, donc après plusieurs minutes de construction.
+# Autant contrôler la case « Allow write access » sur GitHub plutôt que de le
+# découvrir là.
+#
+# Si un jour une valeur d'`Environment=` contient des espaces, il faut la
+# GUILLEMETER en entier : systemd découpe sur les espaces, et lit sinon chaque
+# morceau comme une assignation qu'il rejette une à une — la variable n'existe
+# alors tout simplement pas, sans autre signe qu'une ligne dans le journal.
+ExecStart=/opt/vakzbot/scripts/vakzbot-sync.sh once
+User=root

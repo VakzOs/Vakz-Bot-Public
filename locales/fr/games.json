@@ -1,0 +1,103 @@
+{
+  "modules": {
+    "games": {
+      "label": "Jeux",
+      "description": "Des mini-jeux fun : boule magique, dés, pile ou face, tirage, pierre-feuille-ciseaux, morpion et bataille navale (avec stats). Peut faire tomber des objets (drops) si le module « Objets » est configuré.",
+      "drop": {
+        "announce": "🎁 {user} a trouvé {emoji} **{name}** ({rarity}) !"
+      },
+      "opt": {
+        "question": "Ta question pour la boule magique.",
+        "count": "Nombre de dés à lancer (défaut : 1).",
+        "options": "Les choix, séparés par « | » ou « , ».",
+        "move": "Ton coup.",
+        "member": "Le membre concerné (par défaut : toi).",
+        "opponent": "Adversaire à défier (laisse vide pour jouer contre le bot)."
+      },
+      "boule8": {
+        "description": "Pose une question à la boule magique.",
+        "title": "🎱 Boule magique",
+        "questionField": "Question",
+        "answerField": "Réponse",
+        "answers": "C'est certain.|Sans aucun doute.|Oui, absolument.|Tu peux compter dessus.|Probablement.|Les signes pointent vers oui.|Peut-être bien.|Difficile à dire, réessaie.|Rien n'est moins sûr.|Concentre-toi et repose la question.|Ne compte pas dessus.|Ma réponse est non.|Mes sources disent non.|Très peu probable.|J'en doute fortement."
+      },
+      "dice": {
+        "description": "Lance un ou plusieurs dés à {faces} faces."
+      },
+      "coin": {
+        "description": "Tire à pile ou face.",
+        "title": "🪙 Pile ou face",
+        "heads": "**Pile !**",
+        "tails": "**Face !**"
+      },
+      "choose": {
+        "description": "Le bot choisit pour toi parmi plusieurs options.",
+        "title": "🤔 Choix",
+        "result": "Je choisis… **{choice}** !",
+        "needTwo": "Donne au moins deux options, séparées par « | » ou « , »."
+      },
+      "pfc": {
+        "description": "Pierre-feuille-ciseaux (contre le bot ou un membre).",
+        "title": "✊ Pierre-Feuille-Ciseaux",
+        "line": "Toi : {player} — Moi : {bot}",
+        "win": "🎉 **Tu gagnes !**",
+        "loss": "😈 **J'ai gagné !**",
+        "draw": "🤝 **Égalité !**",
+        "recordField": "Ton bilan",
+        "record": "🏆 {wins} · 💀 {losses} · 🤝 {draws}",
+        "challenge": "{challenger} défie {opponent} ! {opponent}, choisis ton coup 👇",
+        "duelExpired": "⌛ Ce défi a expiré.",
+        "notYourDuel": "❌ Ce défi ne t'est pas destiné.",
+        "duel": {
+          "challengerWins": "🎉 {challenger} remporte le duel !",
+          "opponentWins": "🎉 {opponent} remporte le duel !",
+          "draw": "🤝 Égalité entre {challenger} et {opponent} !"
+        }
+      },
+      "ttt": {
+        "description": "Joue au morpion contre le bot ou un membre.",
+        "title": "🎮 Morpion",
+        "bot": "l'ordinateur",
+        "turn": "🎯 Au tour de {user}.",
+        "botTurn": "🤖 À moi de jouer…",
+        "wins": "🎉 {user} remporte la partie !",
+        "botWins": "🤖 J'ai gagné ! 😎",
+        "draw": "🤝 Match nul !",
+        "expired": "⌛ Cette partie a expiré.",
+        "notYourTurn": "❌ Ce n'est pas ton tour (ou pas ta partie)."
+      },
+      "bn": {
+        "description": "Joue à la bataille navale contre le bot ou un membre.",
+        "title": "🚢 Bataille navale",
+        "bot": "l'ordinateur",
+        "fire": "Tirer",
+        "coordLabel": "Coordonnée (ex. C7)",
+        "ownGrid": "Ta flotte",
+        "targetGrid": "Tes tirs",
+        "myFleet": "Ma flotte",
+        "turn": "🎯 Au tour de {user} de tirer.",
+        "botTurn": "🤖 À moi de tirer…",
+        "wins": "🎉 {user} remporte la bataille !",
+        "botWins": "🤖 J'ai coulé toute ta flotte ! 😎",
+        "remaining": "🚢 Navires coulés : {sunk}/{total}",
+        "expired": "⌛ Cette partie a expiré.",
+        "notYourTurn": "❌ Ce n'est pas ton tour (ou pas ta partie).",
+        "notPlayer": "❌ Tu ne participes pas à cette partie.",
+        "invalidCoord": "❌ Coordonnée invalide. Une lettre (A-H) et un chiffre (1-8), ex. C7.",
+        "alreadyShot": "❌ Tu as déjà tiré sur cette case.",
+        "shotMiss": "🌊 {who} tire en {coord} : à l'eau !",
+        "shotHit": "🎯 {who} tire en {coord} : touché !",
+        "shotSunk": "💥 {who} tire en {coord} : coulé !"
+      },
+      "stats": {
+        "description": "Affiche les statistiques de jeu d'un membre.",
+        "title": "🎮 Stats de jeu — {user}",
+        "none": "Aucune partie jouée pour le moment.",
+        "value": "{plays} parties · 🏆 {wins} · 💀 {losses} · 🤝 {draws} · {winrate}% de victoires",
+        "pfcField": "✊ Pierre-Feuille-Ciseaux",
+        "morpionField": "🎮 Morpion",
+        "batailleField": "🚢 Bataille navale"
+      }
+    }
+  }
+}

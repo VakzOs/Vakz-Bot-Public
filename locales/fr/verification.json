@@ -1,0 +1,24 @@
+{
+  "modules": {
+    "verification": {
+      "label": "Vérification",
+      "description": "Porte d'entrée anti-bot : un bouton ou un captcha image attribue le rôle vérifié qui débloque le serveur.",
+      "feedback": {
+        "disabled": "❌ La vérification est désactivée sur ce serveur.",
+        "notConfigured": "❌ La vérification n'est pas encore prête (aucun rôle vérifié défini). Préviens un administrateur.",
+        "alreadyVerified": "✅ Tu es déjà vérifié !",
+        "cannotAssign": "❌ Je ne peux pas t'attribuer le rôle vérifié. Un administrateur doit vérifier mes permissions (Gérer les rôles + hiérarchie).",
+        "captchaInstructions": "🔐 Recopie le code affiché sur l'image, puis clique sur « Saisir le code ». La casse n'a pas d'importance.",
+        "captchaWrong": "❌ Code incorrect. Réessaie en cliquant sur « Saisir le code ».",
+        "captchaExpired": "⌛ Le captcha a expiré. Reclique sur « Se vérifier » pour en générer un nouveau.",
+        "success": "✅ Vérification réussie, bienvenue ! Tu as désormais accès au serveur.",
+        "openButton": "Saisir le code",
+        "answerModalTitle": "Vérification",
+        "answerField": "Code affiché sur l'image"
+      },
+      "log": {
+        "verified": "✅ {user} a réussi la vérification."
+      }
+    }
+  }
+}

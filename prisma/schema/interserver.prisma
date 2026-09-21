@@ -1,0 +1,22 @@
+// Schéma du module « interserver », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/interserver/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Salon lié à un réseau interserveurs (module « Interserveurs »). Un message
+/// posté dans un salon lié est relayé (via webhook) vers tous les autres salons
+/// du même `network`. Le webhook est réutilisé (id + token) pour chaque relais.
+model InterserverLink {
+  id           String   @id @default(cuid())
+  guildId      String
+  channelId    String   @unique
+  /// Code de réseau partagé entre serveurs (identifiant du salon interserveur).
+  network      String
+  webhookId    String
+  webhookToken String
+  createdAt    DateTime @default(now())
+
+  @@index([network])
+  @@index([guildId])
+}

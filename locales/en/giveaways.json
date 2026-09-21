@@ -1,0 +1,71 @@
+{
+  "modules": {
+    "giveaways": {
+      "label": "Giveaways",
+      "description": "Random giveaways: prize, duration, winners, button entry.",
+      "command": {
+        "description": "Start and manage giveaways.",
+        "start": "Start a giveaway.",
+        "end": "End a giveaway now and draw the winners.",
+        "reroll": "Reroll the giveaway (all winners, or one specific winner).",
+        "list": "List active giveaways."
+      },
+      "opt": {
+        "prize": "The prize to win.",
+        "duration": "Giveaway duration (e.g. 1h, 2d, 30m).",
+        "winners": "Number of winners (default 1).",
+        "channel": "Channel to post the giveaway (default: here).",
+        "role": "Role required to enter (optional).",
+        "id": "The target giveaway.",
+        "winner": "The winner to replace (targeted reroll)."
+      },
+      "embed": {
+        "title": "🎉 Giveaway: {prize}",
+        "intro": "Click the button to enter!\n**{count}** winner(s) drawn at the end.",
+        "endedIntro": "Giveaway ended.",
+        "footer": "ID {id}",
+        "host": "Hosted by",
+        "winners": "Winners",
+        "endsAt": "Ends",
+        "endedAt": "Ended",
+        "participants": "Participants",
+        "requiredRole": "Required role",
+        "result": "🏆 Winner(s)",
+        "noWinner": "No participants 😢"
+      },
+      "joinButton": "🎉 Enter ({count})",
+      "announceWinners": "🎉 Congratulations {winners}! You win **{prize}**!",
+      "announceNoWinner": "😢 Nobody entered the giveaway for **{prize}**.",
+      "announceReroll": "🔄 New draw! Congratulations {winners}, you win **{prize}**!",
+      "announceRerollOne": "🔄 {old} is replaced: congratulations {new}, you win **{prize}**!",
+      "feedback": {
+        "disabled": "❌ This module is disabled on this server.",
+        "ended": "❌ This giveaway is over or cannot be found.",
+        "needRole": "⛔ You need the {role} role to enter this giveaway.",
+        "joined": "✅ You entered the giveaway! Good luck 🍀",
+        "left": "➖ You are no longer entered in this giveaway."
+      },
+      "reroll": {
+        "notWinner": "❌ This member is not a current winner of this giveaway.",
+        "noEligible": "❌ No eligible participant left to replace this winner."
+      },
+      "invalidDuration": "❌ Invalid duration. Examples: `1h`, `2d`, `30m`, `1h30m`.",
+      "channelInvalid": "❌ Invalid channel to post the giveaway.",
+      "sendError": "❌ Could not post the giveaway (check my permissions in the channel).",
+      "launched": "✅ Giveaway started! {url}",
+      "notFoundActive": "❌ No active giveaway with that id.",
+      "endedManual": "🎉 Giveaway ended! Winner(s): {winners}",
+      "endedNoWinner": "😢 Giveaway ended, but nobody entered.",
+      "notFoundEnded": "❌ No ended giveaway with that id.",
+      "rerolledOne": "🔄 {old} replaced by {new}.",
+      "rerolledAll": "🔄 New draw done. Winner(s): {winners}",
+      "listEmpty": "No active giveaway.",
+      "listTitle": "🎉 Active giveaways",
+      "listLine": "• **{prize}** — `{id}` — ends {ends} — {channel}",
+      "log": {
+        "title": "🎁 Giveaway ended",
+        "entry": "Prize: **{prize}**\nWinner(s): {winners}\nHosted by: {host}\nID: `{id}`"
+      }
+    }
+  }
+}

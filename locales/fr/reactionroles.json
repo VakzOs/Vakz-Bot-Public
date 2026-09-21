@@ -1,0 +1,16 @@
+{
+  "modules": {
+    "reactionroles": {
+      "label": "Rôles-réactions",
+      "description": "Attribue des rôles quand les membres réagissent à un message. Le bot pose une réaction par rôle façon DraftBot.",
+      "feedback": {
+        "disabled": "❌ Ce module est désactivé sur ce serveur.",
+        "roleGone": "❌ Ce rôle n'existe plus.",
+        "cannotAssign": "⚠️ Je ne peux pas gérer ce rôle (permission « Gérer les rôles » manquante ou rôle au-dessus du mien).",
+        "added": "✅ Rôle {role} ajouté.",
+        "removed": "➖ Rôle {role} retiré.",
+        "error": "❌ Une erreur est survenue."
+      }
+    }
+  }
+}

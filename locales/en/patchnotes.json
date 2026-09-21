@@ -1,0 +1,12 @@
+{
+  "modules": {
+    "patchnotes": {
+      "label": "Patch Notes",
+      "description": "Watch game and software patch notes, then publish them in selected channels.",
+      "embed": {
+        "footer": "Patch Notes · {source}",
+        "noDescription": "No summary available. Open the link to read the full note."
+      }
+    }
+  }
+}

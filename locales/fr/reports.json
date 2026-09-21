@@ -1,0 +1,52 @@
+{
+  "modules": {
+    "reports": {
+      "label": "Signalements",
+      "description": "Permet aux membres de signaler un comportement au staff.",
+      "command": {
+        "description": "Signaler un membre au staff.",
+        "member": "Le membre à signaler.",
+        "reason": "La raison du signalement.",
+        "message": "Lien Discord vers le message concerné (optionnel)."
+      },
+      "status": {
+        "open": "Ouvert",
+        "taken": "Pris en charge",
+        "resolved": "Résolu",
+        "ignored": "Ignoré"
+      },
+      "button": {
+        "take": "Prendre",
+        "resolve": "Résolu",
+        "ignore": "Ignorer"
+      },
+      "embed": {
+        "title": "Signalement",
+        "target": "Membre signalé",
+        "reporter": "Signalé par",
+        "status": "Statut",
+        "source": "Source",
+        "assignee": "Pris par",
+        "resolvedBy": "Traité par",
+        "jump": "Voir le message",
+        "none": "*non renseignée*",
+        "footer": "Signalement {id}"
+      },
+      "feedback": {
+        "staffOnly": "⛔ Seul le staff peut traiter ce signalement.",
+        "gone": "❌ Ce signalement est introuvable.",
+        "closed": "ℹ️ Ce signalement est déjà fermé."
+      },
+      "notConfigured": "❌ Aucun salon de signalements n’est configuré. Un admin doit le définir sur le tableau de bord.",
+      "channelGone": "❌ Le salon de signalements est introuvable. Préviens un administrateur.",
+      "selfReport": "❌ Tu ne peux pas te signaler toi-même.",
+      "submitted": "✅ Signalement envoyé au staff.",
+      "sendError": "❌ Impossible d’envoyer le signalement. Vérifie mes permissions dans le salon configuré (Voir le salon, Envoyer des messages, Créer des fils privés, Gérer les fils).",
+      "threadName": "Signalement {id}",
+      "invalidMessageLink": "❌ Le lien du message est invalide ou ne vient pas de ce serveur.",
+      "submittedWithThread": "✅ Signalement envoyé au staff. Tu as accès au fil privé {thread}.",
+      "threadIntro": "{reporter}, ton signalement concernant {target} est ouvert ici. Seul le staff autorisé peut suivre ce fil avec toi.",
+      "staffThreadLine": "Fil privé reporter/staff : {thread}"
+    }
+  }
+}

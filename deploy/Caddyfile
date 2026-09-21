@@ -1,0 +1,12 @@
+# Reverse-proxy HTTPS pour l'API web du bot (dashboard Vercel).
+#
+# Caddy obtient et renouvelle automatiquement un certificat Let's Encrypt pour
+# CADDY_DOMAIN, puis chiffre tout le trafic jusqu'au bot. Le token de l'API ne
+# transite ainsi plus jamais en clair.
+#
+# Prérequis : un enregistrement DNS A (ou AAAA) CADDY_DOMAIN -> IP du VPS, et
+# les ports 80 + 443 ouverts sur le pare-feu.
+{$CADDY_DOMAIN} {
+	tls {$CADDY_EMAIL}
+	reverse_proxy bot:{$WEB_API_PORT:3210}
+}

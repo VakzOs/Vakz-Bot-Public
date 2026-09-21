@@ -1,0 +1,22 @@
+// Schéma du module « economy », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/economy/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Compte d'économie d'un membre sur un serveur (module « Économie »).
+model MemberEconomy {
+  id          String    @id @default(cuid())
+  guildId     String
+  userId      String
+  balance     Int       @default(0)
+  /// Dernière récompense quotidienne réclamée.
+  lastDailyAt DateTime?
+  /// Dernier gain par message (cooldown anti-spam).
+  lastEarnAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@unique([guildId, userId])
+  @@index([guildId, balance])
+}

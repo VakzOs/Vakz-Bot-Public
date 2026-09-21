@@ -1,0 +1,59 @@
+{
+  "modules": {
+    "economy": {
+      "label": "Économie",
+      "description": "Monnaie virtuelle, gains, classement et boutique de rôles.",
+      "opt": {
+        "member": "Le membre concerné.",
+        "amount": "Le montant."
+      },
+      "commands": {
+        "balance": {
+          "description": "Affiche le solde d'un membre.",
+          "title": "Solde de {user}",
+          "line": "Solde"
+        },
+        "daily": {
+          "description": "Réclame ta récompense quotidienne.",
+          "claimed": "🎁 Tu as reçu {amount} ! Nouveau solde : {balance}.",
+          "cooldown": "⏳ Tu as déjà réclamé ta récompense. Reviens {time}."
+        },
+        "pay": {
+          "description": "Transfère de la monnaie à un autre membre.",
+          "invalidTarget": "❌ Destinataire invalide.",
+          "insufficient": "❌ Solde insuffisant.",
+          "done": "✅ Tu as envoyé {amount} à {user}."
+        },
+        "leaderboard": {
+          "description": "Affiche le classement des plus riches.",
+          "empty": "Personne n'a encore de {currency}.",
+          "title": "💰 Les plus riches"
+        },
+        "admin": {
+          "description": "Gère les soldes des membres (admin).",
+          "give": "Ajoute de la monnaie à un membre.",
+          "take": "Retire de la monnaie à un membre.",
+          "set": "Définit le solde d'un membre.",
+          "done": "✅ Solde de {user} : {balance}."
+        },
+        "shop": {
+          "description": "Affiche la boutique de rôles."
+        }
+      },
+      "shop": {
+        "title": "🛒 Boutique de rôles",
+        "empty": "*La boutique est vide.*",
+        "disabled": "❌ Le module Économie est désactivé.",
+        "unavailable": "❌ Cet article n'est plus disponible.",
+        "alreadyOwned": "❌ Tu possèdes déjà ce rôle.",
+        "cannotAssign": "⚠️ Je ne peux pas attribuer ce rôle (permission ou hiérarchie).",
+        "tooPoor": "❌ Trop cher : {price} alors que tu as {balance}.",
+        "bought": "✅ Tu as acheté {role} pour {price}.",
+        "soldOut": "épuisé",
+        "stock": "stock : {n}",
+        "switch": "Changer de boutique…",
+        "outOfStock": "❌ Cet article est épuisé."
+      }
+    }
+  }
+}

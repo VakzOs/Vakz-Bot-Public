@@ -1,0 +1,25 @@
+{
+  "modules": {
+    "levels": {
+      "label": "Levels",
+      "description": "XP per message, levels, reward roles and leaderboard.",
+      "commands": {
+        "rang": {
+          "description": "Show your level, XP and rank.",
+          "member": "The member whose rank to show (default: you).",
+          "noXp": "This member hasn't earned any XP yet.",
+          "title": "{user}'s level",
+          "level": "Level",
+          "rank": "Rank",
+          "xp": "XP",
+          "progress": "Progress"
+        },
+        "leaderboard": {
+          "description": "Show the XP leaderboard.",
+          "empty": "Nobody has earned XP on this server yet.",
+          "title": "🏆 Leaderboard"
+        }
+      }
+    }
+  }
+}

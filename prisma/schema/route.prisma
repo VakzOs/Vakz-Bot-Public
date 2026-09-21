@@ -1,0 +1,59 @@
+// Schéma du module « route », dans son propre fichier pour pouvoir ne pas être
+// publié — comme `src/modules/route/` et ses migrations.
+//
+// Prisma fusionne tous les `.prisma` de ce dossier : le découpage ne change
+// rien au schéma, il fait seulement de chaque module une unité retirable.
+
+/// Canneton collé à un voyageur (module « Route de l'Infini »). Tant qu'il est
+/// là, il prélève une part des pièces gagnées (au profit de celui qui l'a
+/// collé), rogne la distance parcourue et amplifie les dégâts subis. Il se
+/// détache après `turnsLeft` événements.
+model Duckling {
+  id              String   @id @default(cuid())
+  guildId         String
+  userId          String
+  /// Membre qui l'a collé (reçoit le butin). Null = personne.
+  ownerId         String?
+  /// Événements restants avant qu'il se détache.
+  turnsLeft       Int
+  /// Part des pièces gagnées prélevée (%).
+  stealPercent    Int      @default(10)
+  /// Part de la distance gagnée en moins (%).
+  distancePercent Int      @default(10)
+  /// Dégâts subis en plus (%).
+  damagePercent   Int      @default(10)
+  /// Cumul des pièces volées depuis qu'il colle (affichage).
+  stolenCoins     Int      @default(0)
+  createdAt       DateTime @default(now())
+
+  @@unique([guildId, userId])
+  @@index([guildId])
+}
+
+/// Voyageur d'un membre sur la « Route de l'Infini » (aventure solo). Une
+/// ligne par (serveur, membre).
+model Traveler {
+  id         String    @id @default(cuid())
+  guildId    String
+  userId     String
+  health     Int       @default(100)
+  maxHealth  Int       @default(100)
+  energy     Int       @default(100)
+  /// Distance parcourue (= score).
+  distance   Int       @default(0)
+  /// Total de pièces gagnées via la route.
+  coins      Int       @default(0)
+  /// Nombre d'événements vécus.
+  events     Int       @default(0)
+  /// Nombre de fois tombé à court de forces (morts).
+  deaths     Int       @default(0)
+  /// Dernier déplacement (cooldown).
+  lastMoveAt DateTime?
+  /// Dernier changement d'énergie (base du calcul de la régénération passive).
+  energyAt   DateTime  @default(now())
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  @@unique([guildId, userId])
+  @@index([guildId, distance])
+}

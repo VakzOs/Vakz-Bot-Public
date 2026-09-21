@@ -1,0 +1,47 @@
+{
+  "modules": {
+    "configbackup": {
+      "label": "Sauvegarde du serveur",
+      "description": "Sauvegarde tout ce que le bot détient du serveur — configuration, structure et données (argent, objets, Route de l'Infini, niveaux…) — à la demande ou automatiquement.",
+      "command": {
+        "description": "Exporte ou restaure la sauvegarde complète du serveur.",
+        "export": "Télécharge une sauvegarde complète du serveur (config + données).",
+        "import": "Restaure le serveur depuis un fichier de sauvegarde."
+      },
+      "opt": {
+        "file": "Le fichier de sauvegarde à importer (.json ou .json.gz).",
+        "recreate": "Recréer les salons/rôles manquants sur ce serveur (par défaut : oui).",
+        "data": "Inclure les données des membres : argent, objets, Route… (par défaut : oui).",
+        "restoreData": "Restaurer aussi les données des membres — écrase celles du serveur (par défaut : oui)."
+      },
+      "export": {
+        "title": "💾 Sauvegarde du serveur",
+        "done": "Voici la sauvegarde de **{count}** module(s). Garde ce fichier précieusement : tu pourras le réimporter avec `/sauvegarde importer`.",
+        "structure": "🏗️ Structure incluse : **{channels}** salon(s) et **{roles}** rôle(s) référencés — ils pourront être recréés à l'import sur un autre serveur.",
+        "data": "📦 Données incluses : **{rows}** ligne(s) sur **{tables}** table(s) — argent, objets et inventaires, Route de l'Infini, niveaux, sanctions…",
+        "noData": "ℹ️ Données des membres **non incluses** : ce fichier ne contient que la configuration.",
+        "shared": "🔗 Dépendances partagées : **{rows}** ligne(s) d'un catalogue commun (gacha…) que ces données référencent — pour que la restauration tienne sur une autre instance du bot."
+      },
+      "import": {
+        "title": "✅ Serveur restauré",
+        "applied": "**{count}** module(s) restauré(s) : {list}",
+        "data": "📦 Données restaurées : **{rows}** ligne(s) sur **{tables}** table(s).",
+        "dataSkipped": "ℹ️ Le fichier contenait des données de membres : elles n'ont **pas** été restaurées (option désactivée).",
+        "structure": "🏗️ Structure : **{channelsCreated}** salon(s) créé(s) · {channelsReused} réutilisé(s) — **{rolesCreated}** rôle(s) créé(s) · {rolesReused} réutilisé(s).",
+        "structureFailed": "⚠️ **{failed}** élément(s) n'ont pas pu être créés — le bot a besoin des permissions **Gérer les rôles** et **Gérer les salons** (et d'être assez haut dans la hiérarchie).",
+        "structureMissing": "ℹ️ Cette sauvegarde ne contient pas la structure (salons/rôles). Ré-exporte-la depuis la dernière version du bot pour permettre la recréation automatique.",
+        "skippedUnknown": "⚠️ Modules inconnus ignorés : {list}",
+        "skippedInvalid": "⚠️ Config invalide ignorée : {list}",
+        "otherGuild": "ℹ️ Cette sauvegarde provient d'un autre serveur — vérifie les réglages après coup.",
+        "tooLarge": "❌ Le fichier est trop volumineux. Ce n'est probablement pas une sauvegarde valide.",
+        "downloadFailed": "❌ Impossible de télécharger le fichier joint. Réessaie.",
+        "invalidJson": "❌ Le fichier n'est pas un JSON valide.",
+        "invalidShape": "❌ Ce fichier n'est pas une sauvegarde Vakz-Bot valide.",
+        "shared": "🔗 Catalogue partagé : **{added}** ligne(s) ajoutée(s), **{matched}** déjà présente(s) et ré-appariée(s)."
+      },
+      "delivery": {
+        "content": "💾 Sauvegarde automatique de **{guild}** — {rows} ligne(s) de données."
+      }
+    }
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "modules": {
+    "info": {
+      "label": "Info commands",
+      "description": "Utility commands: info about a member, the server, a role, or someone's avatar.",
+      "opt": {
+        "member": "The target member (default: you).",
+        "role": "The target role.",
+        "emoji": "The emoji to enlarge (custom, :name: or unicode)."
+      },
+      "yes": "✅ Yes",
+      "no": "⛔ No",
+      "field": {
+        "id": "ID",
+        "bot": "Bot",
+        "created": "Account created",
+        "joined": "Joined",
+        "roles": "Roles ({count})",
+        "boosting": "Boosting since",
+        "owner": "Owner",
+        "members": "Members",
+        "boosts": "Boosts",
+        "channels": "Channels",
+        "emojis": "Emojis",
+        "color": "Color",
+        "position": "Position"
+      },
+      "boostValue": "**{count}** (tier {tier})",
+      "channelValue": "💬 {text} · 🔊 {voice} · 📁 {categories}",
+      "userinfo": {
+        "description": "Show a member's information.",
+        "title": "Info about {user}"
+      },
+      "serverinfo": {
+        "description": "Show the server's information.",
+        "title": "Info about {server}"
+      },
+      "avatar": {
+        "description": "Show a member's avatar in full size.",
+        "title": "{user}'s avatar",
+        "link": "Link",
+        "serverLink": "Server avatar"
+      },
+      "roleinfo": {
+        "description": "Show a role's information.",
+        "title": "Info about {role}",
+        "hoisted": "Displayed separately",
+        "mentionable": "Mentionable",
+        "managed": "Managed (bot/integration)",
+        "permissions": "Permissions",
+        "admin": "👑 Administrator",
+        "permCount": "{count} permission(s)"
+      },
+      "emoji": {
+        "description": "Show an emoji in full size (downloadable).",
+        "download": "Download",
+        "animated": "🎞️ Animated",
+        "static": "🖼️ Static",
+        "notEmoji": "❌ That's not a valid emoji. Provide a custom emoji, a server `:name:`, or a unicode emoji."
+      }
+    }
+  }
+}

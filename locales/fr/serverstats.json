@@ -1,0 +1,26 @@
+{
+  "modules": {
+    "serverstats": {
+      "label": "Compteurs de serveur",
+      "description": "Des salons dont le nom affiche une statistique du serveur, mise à jour automatiquement.",
+      "type": {
+        "members": "Membres",
+        "humans": "Humains",
+        "bots": "Bots",
+        "boosts": "Boosts",
+        "roles": "Rôles",
+        "channels": "Salons",
+        "role": "Membres d'un rôle"
+      },
+      "default": {
+        "members": "👥 {count} membres",
+        "humans": "🧑 {count} humains",
+        "bots": "🤖 {count} bots",
+        "boosts": "🚀 {count} boosts",
+        "roles": "🏷️ {count} rôles",
+        "channels": "📁 {count} salons",
+        "role": "⭐ {count}"
+      }
+    }
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "modules": {
+    "route": {
+      "label": "Route de l'Infini",
+      "description": "Aventure solo : avance sur la route, affronte des événements aléatoires et gagne pièces et objets.",
+      "opt": {
+        "member": "Le membre concerné (par défaut : toi)."
+      },
+      "commands": {
+        "move": "Avance d'un pas sur la Route de l'Infini.",
+        "profile": "Affiche le profil d'un voyageur.",
+        "leaderboard": "Classement des plus grandes distances.",
+        "shop": "Achète une provision (effet immédiat à l'achat)."
+      },
+      "noTraveler": "🧭 {user} n'a pas encore pris la route (`/route avancer`).",
+      "profileTitle": "🧭 Voyageur — {user}",
+      "moveTitle": "🧭 {user} avance sur la Route de l'Infini",
+      "leaderboardEmpty": "Personne n'a encore parcouru de distance.",
+      "leaderboardTitle": "🏆 Route de l'Infini — plus grandes distances",
+      "cooldown": "😮‍💨 Tu es fatigué. Tu pourras repartir {time}.",
+      "itemFound": "🎁 Tu obtiens **{emoji} {name}** !",
+      "missedGift": {
+        "lines": "🕳️ …sauf que non. Rien. Le néant. Tu repars les poches vides.|👁️👄👁️ STARE THIS GUY — il t'a promis un cadeau et il est reparti avec.|🎁➡️💨 Le cadeau a existé environ deux secondes. Pas pour toi, mais il a existé.|📦 Colis perdu. Le service client de la Route ne répond plus depuis 400 ans.|🤡 Tu tends les mains. Tu récupères de l'air. De l'air de très bonne qualité, cela dit.|🎲 Le hasard t'a regardé droit dans les yeux et a dit non.|🧾 Rupture de stock. Repasse dans une autre vie.|😐 Techniquement, il y avait un cadeau. Techniquement, tu ne l'as pas.|🚪 Il t'a montré le paquet, il a souri, il a refermé son sac. Grand classique.|🏆 Tu remportes une belle leçon de vie. Valeur marchande : 0 pièce.|🐌 Ton cadeau est en route. Il n'arrivera probablement jamais.|👏 Pas de cadeau, mais des applaudissements moqueurs au loin.|🧦 Il a fouillé, fouillé, et n'a trouvé qu'une chaussette. Il l'a gardée.|📉 Ton inventaire reste exactement aussi vide qu'avant. Impressionnant.|🙃 Bonne nouvelle : tu n'as rien perdu. Mauvaise nouvelle : tu n'as rien gagné.|🥲 T'auras pas de cadeau. Voilà. C'est dit.|🪄 Le cadeau s'est changé en poussière. Personne n'avait vu venir ça.|💀 Il a trébuché et le paquet est tombé dans un ravin. Tu as tout vu."
+      },
+      "fainted": "💀 Tu es tombé à court de forces… tu te réveilles au dernier campement (distance divisée par deux).",
+      "stats": {
+        "title": "État du voyageur",
+        "body": "❤️ {bar} {health}/{maxHealth}\n⚡ Énergie : {energy}/100\n📏 Distance : {distance}\n🪙 Pièces gagnées : {coins}\n🎲 Événements : {events}\n💀 Morts : {deaths}"
+      },
+      "events": {
+        "path": "🥾 Tu marches sur un sentier paisible et progresses tranquillement.",
+        "treasure": "💰 Tu déterres un coffre oublié rempli de pièces !",
+        "monster": "⚔️ Une créature surgit ! Tu la combats et poursuis ta route, marqué par le combat.",
+        "trap": "🪤 Un piège se referme sur toi ! Tu t'en dégages tant bien que mal.",
+        "merchant": "🧺 Un marchand ambulant croise ta route.",
+        "rest": "🏕️ Tu montes le camp et récupères des forces.",
+        "shortcut": "🧭 Tu découvres un raccourci et avances à grands pas !",
+        "storm": "🌩️ Une tempête violente te ralentit et t'épuise.",
+        "friend": "🤝 Un compagnon de route partage vivres et pièces avec toi.",
+        "abyss": "🕳️ Tu chutes dans un gouffre… tu remontes de justesse, couvert de blessures mais les poches pleines.",
+        "oasis": "🌴 Tu tombes sur une oasis cachée et te ressources à l'ombre des palmiers.",
+        "ruins": "🏛️ Tu explores des ruines antiques et y déniches quelques trésors.",
+        "wolves": "🐺 Une meute de loups te prend en chasse ! Tu leur échappes, non sans dommages.",
+        "river": "🌊 Tu traverses une rivière tumultueuse : épuisant, mais tu gagnes du terrain.",
+        "shrine": "⛩️ Tu pries devant un sanctuaire mystérieux et te sens revigoré.",
+        "mirage": "🏜️ Un mirage t'égare dans le désert et te fait perdre du temps et des forces.",
+        "bandits": "🗡️ Des bandits t'attaquent ! Tu les repousses et récupères leur butin.",
+        "volcano": "🌋 Tu longes un volcan en éruption : la chaleur te brûle, mais l'or fondu vaut le détour.",
+        "quicksand": "🏜️ Tu t'enfonces dans des sables mouvants ! Tu t'en sors épuisé, et tu as perdu du terrain.",
+        "landslide": "⛰️ Un glissement de terrain te fait dévaler la pente ! Tu dois refaire tout le chemin à pied.",
+        "lost": "🌫️ Un brouillard épais t'égare complètement… tu rebrousses chemin sans t'en rendre compte.",
+        "bog": "🐸 Tu t'embourbes dans un marécage nauséabond et perds un temps fou à t'en extraire.",
+        "ravine": "🧗 Tu glisses dans une ravine et remontes péniblement, blessé et découragé.",
+        "curse": "💀 Une malédiction ancestrale te frappe et te renvoie violemment en arrière !",
+        "echo": "⏳ Un écho temporel te ramène loin en arrière… mais tu te sens étrangement reposé.",
+        "thief": "🦹 Un voleur à la tire te déleste de quelques pièces avant de filer !",
+        "gambler": "🎲 Un parieur te défie au jeu de dés : gagne ou perds, c'est le destin qui tranche.",
+        "sphinx": "🦁 Une sphinx te pose une énigme. Bonne réponse ou humiliation ? Le suspense est total.",
+        "ambush": "🏹 Des gobelins te tendent une embuscade ! Tu les repousses et gardes leur maigre butin.",
+        "bridge": "🌉 Le pont suspendu s'effondre sous ton poids… parfois tu sautes à temps, parfois non.",
+        "golem": "🗿 Un golem de pierre bloque le passage ! Tu le terrasses et pilles son trésor.",
+        "meteor": "☄️ Une météorite s'écrase à côté de toi ! Le cratère regorge de métaux précieux.",
+        "dragon": "🐉 UN DRAGON ! Tu survis à son souffle et rafles une partie de son trésor.",
+        "caravan": "🐪 Tu rejoins une caravane de marchands : sécurité, vivres et bonne compagnie.",
+        "herbalist": "🌿 Une herboriste te concocte un remède qui apaise tes blessures.",
+        "waterfall": "⛲ Tu te baignes sous une cascade glaciale et en ressors revigoré.",
+        "fireflies": "✨ Des lucioles magiques éclairent ton chemin et te portent en avant.",
+        "well": "🪙 Tu jetes une pièce dans un puits aux souhaits… et le puits te la rend au centuple !",
+        "hermit": "🧙 Un ermite sage partage sa soupe et t'offre un objet de sa collection.",
+        "eagle": "🦅 Un aigle géant te saisit et te dépose des kilomètres plus loin !",
+        "fairy": "🧚 Une fée taquine saupoudre ta route de poussière magique.",
+        "portal": "🌀 Un portail instable t'avale et te recrache bien plus loin sur la route !",
+        "fountain": "⛲✨ ULTRA RARE — La Fontaine de Jouvence ! Tu y plonges et en ressors complètement régénéré. ❤️ FULL VIE !",
+        "elixir": "🌟 ULTRA RARE — Tu découvres l'Élixir Céleste : corps et esprit entièrement restaurés. ❤️⚡ FULL TOUT !",
+        "goldenvault": "🏆 ULTRA RARE — Tu perces la Chambre Forte Dorée : une montagne de pièces s'offre à toi !",
+        "phoenix": "🔥 ULTRA RARE — Un phénix renaît sous tes yeux et t'offre ses flammes : vie presque entièrement restaurée, et un présent en plus !",
+        "witch": "🧙‍♀️ Une sorcière te tend une potion fumante… effet surprise : remède ou poison ?",
+        "mimic": "🎁👅 Un coffre au trésor ! …C'est une MIMIQUE ! Tu la combats et pilles ses entrailles.",
+        "ogre": "👹 Un ogre bloque le chemin ! Il te rosse et te fait les poches avant de te laisser passer.",
+        "skeletons": "💀 Des squelettes sortent du sol dans un vieux cimetière ! Tu les réduis en poussière.",
+        "harpy": "🦅 Une harpie fond sur toi en hurlant et s'envole avec ta bourse !",
+        "fog": "🌫️ Un brouillard épais s'abat sur la route. Tu tournes en rond et perds du terrain.",
+        "willowisp": "🔥 Un feu follet t'attire hors du sentier… Tu le poursuis comme un idiot et te perds.",
+        "mermaid": "🧜‍♀️ Le chant d'une sirène t'ensorcelle. Tu te réveilles sur la berge, en arrière du chemin.",
+        "toll": "🌉 Un troll garde le pont : « Péage ! » Tu paies, mais tu avances vite de l'autre côté.",
+        "smith": "⚒️ Un forgeron itinérant te soigne et te ravitaillent contre quelques pièces.",
+        "altar": "🩸 Un autel ancien réclame une offrande de sang… en échange, il crache de l'or.",
+        "mushrooms": "🍄 Tu grignotes des champignons inconnus. Énergie assurée… mais est-ce que c'était comestible ?",
+        "wizard": "🧙 Un mage errant te téléporte d'un claquement de doigts. Direction ? Lui-même n'en sait rien.",
+        "raven": "🐦‍⬛ Un corbeau messager te suit un moment et laisse tomber un petit cadeau.",
+        "giant": "🗿 Un GÉANT se dresse devant toi ! Tu le combats de toutes tes forces et pilles sa cachette.",
+        "griffin": "🦅✨ Un griffon t'attrape par l'épaule et te dépose bien plus loin sur la route !",
+        "timeloop": "⏳✨ ULTRA RARE — Une boucle temporelle t'aspire ! Tu revis les mêmes lieux… mais tu en ressors plein d'énergie.",
+        "wishingstar": "🌠✨ ULTRA RARE — Une étoile filante exauce ton vœu : fortune, vigueur et fougue retrouvées !",
+        "peddler": "🧳 Un marchand ambulant te hèle ! Il propose ses provisions à prix cassés — une occasion à saisir, c'est lui ou la boutique.",
+        "tavern": "🍺 Tu fais halte dans une taverne animée : tu bois, manges et repars requinqué (mais la note allège ta bourse).",
+        "market": "🛒 Un marché coloré s'étend sur ta route : tu y déniches un objet utile.",
+        "bear": "🐻 Un ours surgit des fourrés ! Tu t'en sors, griffé mais vivant, et poursuis ta route.",
+        "festival": "🎉 Tu tombes sur une fête de village : danses, festin et quelques pièces offertes !",
+        "serpent": "🐍 Un serpent géant se dresse sur ton chemin. Le combat est rude, mais ses écailles valent de l'or.",
+        "frost": "❄️ Un froid mordant s'installe : tu grelottes, épuisé, et peines à avancer.",
+        "oracle": "🔮 Un oracle te révèle un raccourci caché : tu gagnes énormément de terrain.",
+        "knight": "⚔️ Tu découvres le repaire d'un chevalier tombé : sa cache contient des pièces et un objet.",
+        "ghost": "👻 Un spectre te hante et te fait rebrousser chemin, glacé jusqu'aux os."
+      },
+      "goods": {
+        "potion": {
+          "name": "🧪 Potion de soin",
+          "desc": "+40 PV immédiats. Le goût est immonde, mais ça marche."
+        },
+        "tonic": {
+          "name": "⚗️ Tonique d'énergie",
+          "desc": "+50 ⚡ immédiats. Idéal contre l'épuisement."
+        },
+        "ration": {
+          "name": "🍖 Ration de voyage",
+          "desc": "+15 PV et +20 ⚡ immédiats. Le repas du marcheur."
+        }
+      },
+      "shop": {
+        "title": "🧳 Boutique de la Route",
+        "buyButton": "Acheter {name}",
+        "bought": "✅ Tu achètes et utilises aussitôt **{name}** ({effect}) pour 🪙 **{price}**. Nouveau solde : 🪙 {balance}.",
+        "tooPoor": "❌ Il te faut 🪙 **{price}** (solde actuel : {balance})."
+      },
+      "peddler": {
+        "notYours": "🛑 Ce marchand s'adresse à un autre voyageur.",
+        "buyButton": "Acheter {name} • {price} 🪙"
+      },
+      "exhausted": "🥵 **Épuisé !** Ton énergie est négative : progression réduite de moitié et dégâts amplifiés (×1.5). Attends de récupérer ou utilise une provision.",
+      "duckling": {
+        "title": "🐥 Un canneton te colle !",
+        "rates": "Il prélève **{steal} %** de tes gains, te ralentit de **{distance} %** et te fait encaisser **{damage} %** de dégâts en plus.",
+        "stole": "🪙 −{coins} volées",
+        "slowed": "📏 −{distance} distance",
+        "bit": "❤️ −{damage} dégâts en plus",
+        "nothing": "Cette fois, il n'a rien pu te prendre.",
+        "turnsLeft": "Encore **{turns}** événement(s) avant qu'il se lasse.",
+        "gone": "🎉 Il se lasse et s'en va enfin !",
+        "total": "Butin total depuis qu'il te suit : **{coins}** pièces."
+      }
+    }
+  }
+}

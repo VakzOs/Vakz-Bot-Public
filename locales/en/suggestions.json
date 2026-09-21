@@ -1,0 +1,78 @@
+{
+  "modules": {
+    "suggestions": {
+      "label": "Suggestions",
+      "description": "Members propose ideas (with a Steam link), voted 👍/👎 and decided on by staff.",
+      "command": {
+        "description": "Submit a suggestion to the server.",
+        "textOpt": "The text of your suggestion.",
+        "steamOpt": "Steam link of the game to suggest (optional)."
+      },
+      "notConfigured": "❌ No suggestions channel is configured. An admin must set one on the dashboard.",
+      "channelGone": "❌ The suggestions channel cannot be found. Please tell an administrator.",
+      "wrongChannel": "❌ Run `/suggestion` in a suggestions channel: {channels}",
+      "invalidSteam": "❌ Invalid Steam link. Example: https://store.steampowered.com/app/730",
+      "steamFetchFailed": "❌ Could not fetch the game info from Steam. Please try again later.",
+      "submitted": "✅ Your suggestion has been posted! {url}",
+      "sendError": "❌ Could not post the suggestion (check my permissions in the channel).",
+      "threadName": "Suggestion {id}",
+      "status": {
+        "pending": "⏳ Pending",
+        "approved": "✅ Approved",
+        "rejected": "❌ Rejected",
+        "considered": "🤔 Under review"
+      },
+      "button": {
+        "approve": "✅ Approve",
+        "reject": "❌ Reject",
+        "consider": "🤔 Under review"
+      },
+      "modal": {
+        "approve": "Approve the suggestion",
+        "reject": "Reject the suggestion",
+        "consider": "Mark under review",
+        "reasonField": "Reason (optional)"
+      },
+      "feedback": {
+        "disabled": "❌ This module is disabled on this server.",
+        "gone": "❌ This suggestion no longer exists.",
+        "staffOnly": "⛔ Only staff can decide on suggestions.",
+        "decided": "✅ Decision saved: {status}."
+      },
+      "steam": {
+        "gameField": "🎮 Game",
+        "aboutField": "📝 About",
+        "free": "Free",
+        "unknownPrice": "Price unavailable"
+      },
+      "embed": {
+        "title": "💡 Suggestion",
+        "author": "Suggested by",
+        "status": "Status",
+        "votes": "Votes",
+        "votesFor": "👍 For ({count})",
+        "votesAgainst": "👎 Against ({count})",
+        "footer": "ID {id}",
+        "decision": "Staff decision",
+        "decisionValue": "By {moderator}\n{reason}",
+        "noReason": "*no reason provided*"
+      },
+      "limitReached": "❌ You reached your limit of {max} pending suggestion(s).",
+      "reward": {
+        "coins": "💰 {coins} coins",
+        "item": "🎁 {item}",
+        "granted": "🎉 Reward sent to the author: {reward}"
+      },
+      "list": {
+        "description": "Ranking and search of suggestions.",
+        "rankingDescription": "Show the top-rated suggestions.",
+        "searchDescription": "Search suggestions by keyword.",
+        "keywordOpt": "Keyword to search.",
+        "empty": "No suggestion yet.",
+        "rankingTitle": "🏆 Top-rated suggestions",
+        "noMatch": "No suggestion matches “{keyword}”.",
+        "searchTitle": "🔎 Results for “{keyword}”"
+      }
+    }
+  }
+}

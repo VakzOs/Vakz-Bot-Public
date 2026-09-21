@@ -1,0 +1,21 @@
+{
+  "modules": {
+    "messageprofiles": {
+      "label": "Profils de messages",
+      "description": "Fais parler le bot sous un pseudo et un avatar personnalisés via /dire (staff).",
+      "command": {
+        "description": "Publie un message sous l'identité d'un profil configuré.",
+        "profileOpt": "Profil sous lequel parler",
+        "messageOpt": "Message à publier",
+        "channelOpt": "Salon où publier (par défaut : le salon actuel)",
+        "unknownProfile": "❌ Profil introuvable. Configure-le sur le tableau de bord → Profils de messages.",
+        "badChannel": "❌ Salon invalide.",
+        "result": {
+          "ok": "✅ Message publié dans {channel} sous « {name} ».",
+          "noperm": "❌ Il me manque la permission « Gérer les webhooks » dans ce salon.",
+          "fail": "❌ Échec de l'envoi. Réessaie plus tard."
+        }
+      }
+    }
+  }
+}

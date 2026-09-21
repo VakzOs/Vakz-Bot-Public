@@ -1,0 +1,88 @@
+{
+  "modules": {
+    "logs": {
+      "label": "Logs",
+      "description": "Logs important server actions and adds the /clear command.",
+      "fields": {
+        "channel": "Channel",
+        "author": "Author",
+        "member": "Member",
+        "moderator": "Moderator",
+        "executor": "Action by",
+        "count": "Count",
+        "target": "Target",
+        "reason": "Reason",
+        "role": "Role",
+        "content": "Content",
+        "before": "Before",
+        "after": "After",
+        "change": "Change",
+        "unknown": "*unknown*",
+        "unavailable": "*unavailable*",
+        "noReason": "*no reason provided*",
+        "everyone": "Everyone"
+      },
+      "events": {
+        "messageDelete": {
+          "title": "Message deleted"
+        },
+        "messageBulkDelete": {
+          "title": "Bulk message delete"
+        },
+        "messageUpdate": {
+          "title": "Message edited"
+        },
+        "memberAdd": {
+          "title": "Member joined"
+        },
+        "memberRemove": {
+          "title": "Member left"
+        },
+        "channelCreate": {
+          "title": "Channel created"
+        },
+        "channelDelete": {
+          "title": "Channel deleted"
+        },
+        "channelUpdate": {
+          "title": "Channel updated"
+        },
+        "roleCreate": {
+          "title": "Role created"
+        },
+        "roleDelete": {
+          "title": "Role deleted"
+        },
+        "roleUpdate": {
+          "title": "Role updated"
+        },
+        "clear": {
+          "title": "Messages cleared"
+        }
+      },
+      "clear": {
+        "description": "Quickly delete messages in the current channel.",
+        "opt": {
+          "count": "Number of messages to delete (1 to 100).",
+          "member": "Only delete messages from one member.",
+          "reason": "Reason shown in logs."
+        },
+        "invalidChannel": "❌ This command must be used in a server text channel.",
+        "botNoPerm": "❌ I do not have the “Manage Messages” permission in this channel.",
+        "none": "No recent deletable message found.",
+        "failed": "❌ Could not delete these messages. Check my permissions.",
+        "done": "✅ Deleted {count} message(s)."
+      },
+      "rollback": {
+        "button": "Restore",
+        "done": "✅ Rollback completed.",
+        "used": "❌ This rollback was already used.",
+        "missing": "❌ This rollback cannot be found or has expired.",
+        "notAllowed": "⛔ You are not allowed to use this rollback.",
+        "unsupported": "❌ This rollback type is not supported.",
+        "noPermission": "❌ I do not have the required permissions to restore this item.",
+        "failed": "❌ Could not restore this item. Check my permissions and hierarchy."
+      }
+    }
+  }
+}

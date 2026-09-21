@@ -1,0 +1,24 @@
+{
+  "modules": {
+    "verification": {
+      "label": "Verification",
+      "description": "Anti-bot gate: a button or image captcha grants the verified role that unlocks the server.",
+      "feedback": {
+        "disabled": "❌ Verification is disabled on this server.",
+        "notConfigured": "❌ Verification isn't ready yet (no verified role set). Please tell an administrator.",
+        "alreadyVerified": "✅ You are already verified!",
+        "cannotAssign": "❌ I can't grant you the verified role. An administrator must check my permissions (Manage Roles + hierarchy).",
+        "captchaInstructions": "🔐 Copy the code shown on the image, then click “Enter code”. Case does not matter.",
+        "captchaWrong": "❌ Wrong code. Try again by clicking “Enter code”.",
+        "captchaExpired": "⌛ The captcha expired. Click “Verify” again to get a new one.",
+        "success": "✅ Verified, welcome! You now have access to the server.",
+        "openButton": "Enter code",
+        "answerModalTitle": "Verification",
+        "answerField": "Code shown on the image"
+      },
+      "log": {
+        "verified": "✅ {user} passed verification."
+      }
+    }
+  }
+}
